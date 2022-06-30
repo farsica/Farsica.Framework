@@ -1,0 +1,19 @@
+﻿@*@using Farsica.Framework.Powershell
+    @using Farsica.Framework.Powershell.Pages
+    @using Farsica.Framework.Resources
+    @inherits RazorPage
+    @{
+        Layout = new LayoutPage(Queue);
+    }*@
+
+@page
+@*@model LoginModel
+    @using Farsica.Payman.UI.Web.Pages.Account
+    @using Microsoft.AspNetCore.Mvc.Localization
+    @inject IViewLocalizer viewLocalizer
+    @{
+        Layout = "_LayoutLogin";
+        ViewData["Title"] = viewLocalizer["Title"];
+    }
+
+    <frb-input frb-type="text" frb-for="Input.UserName" frb-suppress-label="true" class="form-control-lg" />*@

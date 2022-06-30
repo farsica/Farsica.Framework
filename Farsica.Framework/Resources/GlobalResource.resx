@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Validation_Required" xml:space="preserve">
+    <value>{0} Is Required</value>
+  </data>
+  <data name="Validation_MinValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Validation_EmailAddress" xml:space="preserve">
+    <value>Input Value For {0} Is Not A Valid Email Address</value>
+  </data>
+  <data name="Validation_Culture" xml:space="preserve">
+    <value>Input Value For {0} Is Not A Valid Culture Code</value>
+  </data>
+  <data name="Validation_Compare" xml:space="preserve">
+    <value>Input Value For {0} Must be {2} {1}</value>
+  </data>
+  <data name="Validation_Compare_UnknownProperty" xml:space="preserve">
+    <value>Could not find a property named {0}.</value>
+  </data>
+  <data name="Validation_DaysDistance" xml:space="preserve">
+    <value>Maximum Distance of Input Value For {0} and {1} Must be {2} Days</value>
+  </data>
+  <data name="Validation_FileExtensions" xml:space="preserve">
+    <value>Valid Extensions for The {0} Are: {1}</value>
+  </data>
+  <data name="Validation_Range" xml:space="preserve">
+    <value>Valid Entry For The {0} Must Be Between {1} and {2}</value>
+  </data>
+  <data name="Validation_StringLength" xml:space="preserve">
+    <value>Valid Entry For The {0} Must Has Between {1} and {2}</value>
+  </data>
+  <data name="Validation_Captcha" xml:space="preserve">
+    <value>Input Value For Security Image Is Not a Valid Value</value>
+  </data>
+  <data name="Validation_DataType" xml:space="preserve">
+    <value>Input Value for The {0} is Invalid</value>
+  </data>
+  <data name="Validation_Expression" xml:space="preserve">
+    <value>Input Value for The {0} is Invalid</value>
+  </data>
+  <data name="Validation_RequiredAnother" xml:space="preserve">
+    <value>You must Entry for the {0} </value>
+  </data>
+  <data name="Validation_RequiredAnotherList" xml:space="preserve">
+    <value>Entering field value {0} requires entering field value {1}. (Minimum {2} and maximum {3} select)</value>
+  </data>
+  <data name="OperandType_Equals" xml:space="preserve">
+    <value>Equals With</value>
+  </data>
+  <data name="OperandType_GreaterThan" xml:space="preserve">
+    <value>Greater Than</value>
+  </data>
+  <data name="OperandType_LessThan" xml:space="preserve">
+    <value>Less Than</value>
+  </data>
+  <data name="OperandType_GreaterThanOrEqual" xml:space="preserve">
+    <value>Greater Than Or Equal</value>
+  </data>
+  <data name="OperandType_LessThanOrEqual" xml:space="preserve">
+    <value>Less Than Or Equal</value>
+  </data>
+  <data name="OperandType_Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="OperandType_StartsWith" xml:space="preserve">
+    <value>Starts With</value>
+  </data>
+  <data name="OperandType_EndsWith" xml:space="preserve">
+    <value>Ends With</value>
+  </data>
+  <data name="OperandType_NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ConcurrencyFailure" xml:space="preserve">
+    <value>Optimistic concurrency failure, object has been modified.</value>
+  </data>
+  <data name="DefaultIdentityError" xml:space="preserve">
+    <value>An unknown failure has occurred.</value>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>Email '{0}' is already taken.</value>
+  </data>
+  <data name="DuplicateRoleName" xml:space="preserve">
+    <value>Role name '{0}' is already taken.</value>
+  </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>User name '{0}' is already taken.</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Email '{0}' is invalid.</value>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>Role name '{0}' is invalid.</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Invalid token.</value>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>User name '{0}' is invalid, can only contain english letters or digits.</value>
+  </data>
+  <data name="LoginAlreadyAssociated" xml:space="preserve">
+    <value>A user with this login already exists.</value>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Incorrect password.</value>
+  </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>Passwords must have at least one digit ('0'-'9').</value>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>Passwords must have at least one lowercase ('a'-'z').</value>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>Passwords must have at least one non alphanumeric character.</value>
+  </data>
+  <data name="PasswordRequiresUniqueChars" xml:space="preserve">
+    <value>Passwords must use at least {0} different characters.</value>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>Passwords must have at least one uppercase ('A'-'Z').</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Passwords must be at least {0} characters.</value>
+  </data>
+  <data name="RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>Recovery code redemption failed.</value>
+  </data>
+  <data name="UserAlreadyHasPassword" xml:space="preserve">
+    <value>User already has a password set.</value>
+  </data>
+  <data name="UserAlreadyInRole" xml:space="preserve">
+    <value>User already in role '{0}'.</value>
+  </data>
+  <data name="UserLockoutNotEnabled" xml:space="preserve">
+    <value>Lockout is not enabled for this user.</value>
+  </data>
+  <data name="UserNotInRole" xml:space="preserve">
+    <value>User is not in role '{0}'.</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="InvariantCulture" xml:space="preserve">
+    <value>Invariant Culture</value>
+  </data>
+  <data name="Status_Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Status_Succeed" xml:space="preserve">
+    <value>Succeed</value>
+  </data>
+  <data name="Validation_MissingBindRequiredValueAccessor" xml:space="preserve">
+    <value>A value for the '{0}' parameter or property was not provided.</value>
+  </data>
+  <data name="Validation_MissingKeyOrValueAccessor" xml:space="preserve">
+    <value>A value is required.</value>
+  </data>
+  <data name="Validation_MissingRequestBodyRequiredValueAccessor" xml:space="preserve">
+    <value>A non-empty request body is required.</value>
+  </data>
+  <data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
+    <value>The value '{0}' is invalid.</value>
+  </data>
+	<data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
+    <value>The value '{0}' is not valid for {1}.</value>
+  </data>
+	<data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
+    <value>The value '{0}' is not valid.</value>
+  </data>
+	<data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
+    <value>The supplied value is invalid for {0}.</value>
+  </data>
+	<data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
+    <value>The supplied value is invalid.</value>
+  </data>
+	<data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
+    <value>The value '{0}' is invalid.</value>
+  </data>
+	<data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
+    <value>The field {0} must be a number.</value>
+  </data>
+	<data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
+    <value>The field must be a number.</value>
+  </data>
+</root>

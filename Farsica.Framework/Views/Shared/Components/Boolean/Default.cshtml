@@ -1,0 +1,37 @@
+﻿@model bool?
+
+@{
+    string css;
+    if (!ViewData.ContainsKey("class"))
+    {
+        css = "form-check-input styled";
+    }
+    else
+    {
+        css = ViewData["class"] + " form-check-input styled";
+    }
+    string onChange = "";
+    if (ViewData.ContainsKey("onChange"))
+    {
+        onChange = "onChange=" + ViewData["onChange"].ToString() + "";
+    }
+    var id = Html.IdForModel();
+    var name = Html.NameForModel();
+}
+
+<div class="form-check abc-checkbox abc-checkbox-success">
+    <input class="@css" id="@id" name="@name" type="checkbox" value="true" @(Model.GetValueOrDefault() ? "checked=checked" : "") @(ViewData.ModelMetadata.IsNullableValueType ? "data-triple=triple" : "") @(ViewData.ModelMetadata.IsNullableValueType && Model.HasValue && !Model.Value ? "readonly=readonly" : "") @(!string.IsNullOrEmpty(onChange) ? onChange : "" ) />
+    <i>&nbsp;</i>
+    @if (Model == false)
+    {
+        <input name="@name" type="hidden" value="false" data-rel="@id" />
+    }
+    @if (ViewData.ContainsKey("additionalLabel"))
+    {
+        @Html.Raw(ViewData["additionalLabel"])
+    }
+    @if (ViewData.ContainsKey("label"))
+    {
+        @Html.LabelForModel()
+    }
+</div>
