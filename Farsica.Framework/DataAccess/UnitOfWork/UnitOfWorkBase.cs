@@ -125,7 +125,7 @@
                 throw new RepositoryNotFoundException(repositoryType.Name, $"Repository {repositoryType.Name} not found in the IOC container. Check if it is registered during startup.");
             }
 
-            (repository as IRepositoryInjection).SetContext(Context);
+            (repository as IRepositoryInjection)?.SetContext(Context);
             return repository;
         }
 
@@ -133,13 +133,12 @@
         {
             CheckDisposed();
             var repositoryType = typeof(TRepository);
-            var repository = (TRepository)ServiceProvider.GetService(repositoryType);
-            if (repository == null)
+            if (ServiceProvider.GetService(repositoryType) is not TRepository repository)
             {
                 throw new RepositoryNotFoundException(repositoryType.Name, string.Format("Repository {0} not found in the IOC container. Check if it is registered during startup.", repositoryType.Name));
             }
 
-            (repository as IRepositoryInjection).SetContext(Context);
+            (repository as IRepositoryInjection)?.SetContext(Context);
             return repository;
         }
 

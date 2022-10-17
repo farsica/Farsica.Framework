@@ -85,7 +85,7 @@
         private static IList<TagHelperAttribute> GetTabAttributesByPrefix(TagHelperAttributeList attributes, string prefix)
         {
             return attributes.Where(a => a.Name.StartsWith(prefix))
-                .Select(a => new TagHelperAttribute(a.Name.Substring(prefix.Length), a.Value)).ToList();
+                .Select(a => new TagHelperAttribute(a.Name[prefix.Length..], a.Value)).ToList();
         }
     }
 }

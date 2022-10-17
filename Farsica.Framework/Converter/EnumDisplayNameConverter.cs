@@ -44,11 +44,12 @@
                 return default;
             }
 
-            foreach (var item in Enum.GetNames(typeToConvert))
+            var lst = System.Enum.GetNames(typeToConvert);
+            foreach (var item in lst)
             {
                 if (EnumHelper.LocalizeEnum(item) == value)
                 {
-                    return (T)Enum.Parse(underlyingType, item, ignoreCase: false);
+                    return (T)System.Enum.Parse(underlyingType, item, ignoreCase: false);
                 }
             }
 

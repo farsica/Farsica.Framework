@@ -166,7 +166,7 @@
         {
             if (name.StartsWith(prefix, StringComparison.Ordinal))
             {
-                return name.Substring(prefix.Length);
+                return name[prefix.Length..];
             }
 
             return name;

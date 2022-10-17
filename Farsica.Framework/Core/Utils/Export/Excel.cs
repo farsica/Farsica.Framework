@@ -339,11 +339,11 @@
             Stylesheet styleSheet = null;
 
             Fonts fonts = new(
-                    new DocumentFormat.OpenXml.Spreadsheet.Font(// Index 0 - default
-                            new DocumentFormat.OpenXml.Spreadsheet.FontSize() { Val = 10 }),
-                    new DocumentFormat.OpenXml.Spreadsheet.Font(// Index 1 - header
-                            new DocumentFormat.OpenXml.Spreadsheet.FontSize() { Val = 10 },
-                            new DocumentFormat.OpenXml.Spreadsheet.Bold(),
+                    new Font(// Index 0 - default
+                            new FontSize() { Val = 10 }),
+                    new Font(// Index 1 - header
+                            new FontSize() { Val = 10 },
+                            new Bold(),
                             new Color() { Rgb = "000000" }));
 
             Fills fills = new Fills(
@@ -355,10 +355,10 @@
             Borders borders = new Borders(
                             new Border(), // index 0 default
                             new Border(// index 1 black border
-                                    new DocumentFormat.OpenXml.Spreadsheet.LeftBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                                    new DocumentFormat.OpenXml.Spreadsheet.RightBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                                    new DocumentFormat.OpenXml.Spreadsheet.TopBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                                    new DocumentFormat.OpenXml.Spreadsheet.BottomBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                                    new LeftBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                                    new RightBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                                    new TopBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                                    new BottomBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
                                     new DiagonalBorder()));
 
             CellFormats cellFormats = new CellFormats(

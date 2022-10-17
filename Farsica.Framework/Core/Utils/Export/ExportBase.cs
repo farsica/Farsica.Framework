@@ -245,10 +245,7 @@
                                     var exportInfo = info.GetCustomAttribute<ExportInfoAttribute>();
                                     if (exportInfo != null && !exportInfo.TrueResourceKey.IsNullOrEmpty())
                                     {
-                                        if (exportInfo.ResourceType is null)
-                                        {
-                                            exportInfo.ResourceType = typeof(GlobalResource);
-                                        }
+                                        exportInfo.ResourceType ??= typeof(GlobalResource);
 
                                         var resourceManager = new System.Resources.ResourceManager(exportInfo.ResourceType);
                                         pureValue = (bool)pureValue ? resourceManager.GetString(exportInfo.TrueResourceKey) : resourceManager.GetString(exportInfo.FalseResourceKey);

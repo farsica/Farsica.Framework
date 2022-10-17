@@ -569,7 +569,7 @@
         {
             if (suffixToRemove != null && input.EndsWith(suffixToRemove, comparisonType))
             {
-                return input.Substring(0, input.Length - suffixToRemove.Length);
+                return input[..^suffixToRemove.Length];
             }
 
             return input;
@@ -604,7 +604,7 @@
 
         public static bool ValidateIban(this string iban)
         {
-            if (iban.Length != 26 || !iban.Substring(0, 2).ToCharArray().All(t => char.IsLetter(t)))
+            if (iban.Length != 26 || !iban[..2].ToCharArray().All(t => char.IsLetter(t)))
             {
                 return false;
             }

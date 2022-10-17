@@ -1,6 +1,7 @@
 ﻿namespace Farsica.Framework.Core.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Security.Cryptography;
     using System.Text;
@@ -57,7 +58,7 @@
                 throw new ArgumentException("len argument can not be bigger than given string's length!");
             }
 
-            return str.Substring(0, len);
+            return str[..len];
         }
 
         /// <summary>
@@ -74,6 +75,7 @@
         /// <param name="str">source string to be searched</param>
         /// <param name="c">Char to search in <see cref="str"/></param>
         /// <param name="n">Count of the occurrence</param>
+        /// <returns></returns>
         public static int NthIndexOf(this string str, char c, int n)
         {
             var count = 0;
@@ -183,7 +185,7 @@
                 return str;
             }
 
-            return str.Substring(0, pos) + replace + str.Substring(pos + search.Length);
+            return str[..pos] + replace + str[(pos + search.Length)..];
         }
 
         /// <summary>
@@ -204,17 +206,48 @@
         /// <summary>
         /// Uses string.Split method to split given string by given separator.
         /// </summary>
-        public static string[] Split(this string str, string separator)
+        /// <returns></returns>
+        public static string[]? Split(this string? str, string separator)
         {
-            return str.Split(new[] { separator }, StringSplitOptions.None);
+            return str?.Split(new[] { separator }, StringSplitOptions.None);
         }
 
         /// <summary>
         /// Uses string.Split method to split given string by given separator.
         /// </summary>
-        public static string[] Split(this string str, string separator, StringSplitOptions options)
+        public static string[]? Split(this string? str, string? separator, StringSplitOptions options)
         {
             return str.Split(new[] { separator }, options);
+        }
+
+        public static IEnumerable<ReadOnlyMemory<char>> Split(this ReadOnlyMemory<char> chars, char separator, StringSplitOptions options = StringSplitOptions.None)
+        {
+            int index;
+            while ((index = chars.Span.IndexOf(separator)) >= 0)
+            {
+                var slice = chars[..index];
+                if ((options & StringSplitOptions.TrimEntries) == StringSplitOptions.TrimEntries)
+                {
+                    slice = slice.Trim();
+                }
+
+                if ((options & StringSplitOptions.RemoveEmptyEntries) == 0 || slice.Length > 0)
+                {
+                    yield return slice;
+                }
+
+                chars = chars[(index + 1)..];
+            }
+
+            if ((options & StringSplitOptions.TrimEntries) == StringSplitOptions.TrimEntries)
+            {
+                chars = chars.Trim();
+            }
+
+            if ((options & StringSplitOptions.RemoveEmptyEntries) == 0 || chars.Length > 0)
+            {
+                yield return chars;
+            }
         }
 
         /// <summary>
@@ -251,7 +284,7 @@
                 return useCurrentCulture ? str.ToLower() : str.ToLowerInvariant();
             }
 
-            return (useCurrentCulture ? char.ToLower(str[0]) : char.ToLowerInvariant(str[0])) + str.Substring(1);
+            return (useCurrentCulture ? char.ToLower(str[0]) : char.ToLowerInvariant(str[0])) + str[1..];
         }
 
         /// <summary>
@@ -330,7 +363,7 @@
                 return useCurrentCulture ? str.ToUpper() : str.ToUpperInvariant();
             }
 
-            return (useCurrentCulture ? char.ToUpper(str[0]) : char.ToUpperInvariant(str[0])) + str.Substring(1);
+            return (useCurrentCulture ? char.ToUpper(str[0]) : char.ToUpperInvariant(str[0])) + str[1..];
         }
 
         /// <summary>

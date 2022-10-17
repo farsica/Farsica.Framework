@@ -29,7 +29,7 @@
             return typeof(T).IsAssignableFrom(typeToConvert);
         }
 
-        public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (converter != null)
             {
@@ -44,8 +44,8 @@
             }
 
             // for performance, parse with ignoreCase:false first.
-            if (!Enum.TryParse(underlyingType, value, ignoreCase: false, out object result)
-                && !Enum.TryParse(underlyingType, value, ignoreCase: true, out result))
+            if (!System.Enum.TryParse(underlyingType, value, ignoreCase: false, out object result)
+                && !System.Enum.TryParse(underlyingType, value, ignoreCase: true, out result))
             {
                 throw new JsonException($"Unable to convert \"{value}\" to Enum \"{underlyingType}\".");
             }

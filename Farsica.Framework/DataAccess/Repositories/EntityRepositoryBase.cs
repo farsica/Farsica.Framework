@@ -45,10 +45,7 @@
 
         public IEnumerable<TEntity> GetPage(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
         {
-            if (orderBy == null)
-            {
-                orderBy = defaultOrderBy.Expression;
-            }
+            orderBy ??= defaultOrderBy.Expression;
 
             var result = QueryDb(null, orderBy, includes, tracking);
             return result.Skip(startRow).Take(pageLength).AsEnumerable();
@@ -56,10 +53,7 @@
 
         public async Task<IEnumerable<TEntity>> GetPageAsync(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
         {
-            if (orderBy == null)
-            {
-                orderBy = defaultOrderBy.Expression;
-            }
+            orderBy ??= defaultOrderBy.Expression;
 
             var result = QueryDb(null, orderBy, includes, tracking);
             return await result.Skip(startRow).Take(pageLength).ToListAsync();
@@ -112,10 +106,7 @@
 
         public IEnumerable<TEntity> QueryPage(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
         {
-            if (orderBy == null)
-            {
-                orderBy = defaultOrderBy.Expression;
-            }
+            orderBy ??= defaultOrderBy.Expression;
 
             var result = QueryDb(predicate, orderBy, includes, tracking);
             return result.Skip(startRow).Take(pageLength).AsEnumerable();
@@ -123,10 +114,7 @@
 
         public async Task<IEnumerable<TEntity>> QueryPageAsync(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
         {
-            if (orderBy == null)
-            {
-                orderBy = defaultOrderBy.Expression;
-            }
+            orderBy ??= defaultOrderBy.Expression;
 
             var result = QueryDb(predicate, orderBy, includes, tracking);
             return await result.Skip(startRow).Take(pageLength).ToListAsync();

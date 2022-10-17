@@ -310,7 +310,7 @@
 
             foreach (var tagHelperAttribute in tagHelperAttributes)
             {
-                var nameWithoutPrefix = tagHelperAttribute.Name.Substring(groupPrefix.Length);
+                var nameWithoutPrefix = tagHelperAttribute.Name[groupPrefix.Length..];
                 var newAttritube = new TagHelperAttribute(nameWithoutPrefix, tagHelperAttribute.Value);
                 output.Attributes.Add(newAttritube);
             }

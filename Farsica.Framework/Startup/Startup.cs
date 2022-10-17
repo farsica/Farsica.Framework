@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
@@ -37,7 +38,7 @@
 
     public abstract class Startup : Startup<Startup, Startup>
     {
-        protected Startup(IConfiguration configuration, string defaultNamespace = null, ExceptionHandlerOptions exceptionHandlerOptions = null, bool localization = true, bool authentication = true, bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true)
+        protected Startup(IConfiguration configuration, string? defaultNamespace = null, ExceptionHandlerOptions? exceptionHandlerOptions = null, bool localization = true, bool authentication = true, bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true)
             : base(configuration, defaultNamespace, exceptionHandlerOptions, localization, authentication, razorPages, antiforgery, https, views, false)
         {
         }
@@ -47,7 +48,7 @@
         where TUser : class
         where TRole : class
     {
-        private readonly ExceptionHandlerOptions exceptionHandlerOptions;
+        private readonly ExceptionHandlerOptions? exceptionHandlerOptions;
         private readonly bool localization;
         private readonly bool authentication;
         private readonly bool razorPages;
@@ -55,9 +56,9 @@
         private readonly bool https;
         private readonly bool views;
         private readonly bool identity;
-        private readonly string defaultNamespace;
+        private readonly string? defaultNamespace;
 
-        protected Startup(IConfiguration configuration, string defaultNamespace = null, ExceptionHandlerOptions exceptionHandlerOptions = null, bool localization = true, bool authentication = true,
+        protected Startup(IConfiguration configuration, string? defaultNamespace = null, ExceptionHandlerOptions? exceptionHandlerOptions = null, bool localization = true, bool authentication = true,
             bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true)
         {
             Configuration = configuration;
@@ -234,7 +235,7 @@
             }
         }
 
-        private static TypeInfo FindGenericBaseType(Type currentType, Type genericBaseType)
+        private static TypeInfo? FindGenericBaseType([NotNull] Type currentType, [NotNull] Type genericBaseType)
         {
             var type = currentType;
             while (type != null)
@@ -251,7 +252,7 @@
             return null;
         }
 
-        private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, string dir, string applicationName)
+        private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, string? dir, string applicationName)
         {
             services.AddTransient(typeof(Lazy<>));
 
@@ -365,10 +366,7 @@
                 foreach (var implementationType in implementationTypes)
                 {
                     var serviceLifetimeAttribute = implementationType.GetCustomAttribute<ServiceLifetimeAttribute>();
-                    if (serviceLifetimeAttribute == null)
-                    {
-                        serviceLifetimeAttribute = new ServiceLifetimeAttribute(ServiceLifetime.Transient);
-                    }
+                    serviceLifetimeAttribute ??= new ServiceLifetimeAttribute(ServiceLifetime.Transient);
 
                     if (serviceLifetimeAttribute.Parameters?.Any() == true)
                     {

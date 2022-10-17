@@ -106,6 +106,13 @@
                         }
 
                         break;
+                    case Constants.OperandType.GreaterThanOrEqual:
+                        if (compareValue < 0)
+                        {
+                            result = new ValidationResult(error);
+                        }
+
+                        break;
                     case Constants.OperandType.LessThan:
                         if (compareValue >= 0)
                         {
@@ -113,8 +120,22 @@
                         }
 
                         break;
+                    case Constants.OperandType.LessThanOrEqual:
+                        if (compareValue > 0)
+                        {
+                            result = new ValidationResult(error);
+                        }
+
+                        break;
                     case Constants.OperandType.Equals:
                         if (compareValue != 0)
+                        {
+                            result = new ValidationResult(error);
+                        }
+
+                        break;
+                    case Constants.OperandType.NotEquals:
+                        if (compareValue == 0)
                         {
                             result = new ValidationResult(error);
                         }

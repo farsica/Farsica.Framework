@@ -14,15 +14,7 @@
 
         public void AddExpression(Expression<Func<TEntity, bool>> newExpression)
         {
-            if (newExpression == null)
-            {
-                throw new ArgumentNullException(nameof(newExpression), $"{nameof(newExpression)} is null.");
-            }
-
-            if (Expression == null)
-            {
-                Expression = newExpression;
-            }
+            Expression ??= newExpression ?? throw new ArgumentNullException(nameof(newExpression));
 
             var parameter = System.Linq.Expressions.Expression.Parameter(typeof(TEntity));
 
