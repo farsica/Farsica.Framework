@@ -4,6 +4,11 @@
 
     public class ResultData<T>
     {
+        public ResultData(OperationResult operationResult)
+        {
+            OperationResult = operationResult;
+        }
+
         public T? Data { get; set; }
 
         public OperationResult OperationResult { get; set; }
