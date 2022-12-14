@@ -2,7 +2,7 @@
 {
     using static Farsica.Framework.Core.Constants;
 
-    public class ResultData<T>
+    public struct ResultData<T>
     {
         public ResultData(OperationResult operationResult)
         {
