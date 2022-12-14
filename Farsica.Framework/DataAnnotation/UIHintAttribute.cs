@@ -5,7 +5,7 @@
     public sealed class UIHintAttribute : System.ComponentModel.DataAnnotations.UIHintAttribute
     {
         public UIHintAttribute()
-            : base(null)
+            : base(string.Empty)
         {
         }
 

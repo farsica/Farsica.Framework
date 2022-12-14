@@ -27,7 +27,9 @@
             this.serviceProvider = serviceProvider;
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             NormalizeTagMode(context, output);
 
@@ -40,7 +42,7 @@
             output.TagName = "div";
         }
 
-        protected virtual IReadOnlyList<ModelExpression> GetModel(TagHelperContext context, TagHelperOutput output)
+        protected virtual IReadOnlyList<ModelExpression>? GetModel(TagHelperContext context, TagHelperOutput output)
         {
             var type = TagHelper.For.ModelExplorer.ModelType;
             if (typeof(IGridView<,>) != type)

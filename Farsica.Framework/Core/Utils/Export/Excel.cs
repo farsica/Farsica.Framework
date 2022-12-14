@@ -25,9 +25,9 @@
     {
         public override Constants.ExportType ProviderType => Constants.ExportType.Excel;
 
-        protected override string Extension => ".xlsx";
+        protected override string? Extension => ".xlsx";
 
-        protected override string ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        protected override string? ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         protected override byte[] GenerateFile(DataSet dataSet, bool hasSearchItem)
         {
@@ -93,7 +93,7 @@
                 WriteDataTableToExcelWorksheet(dt, newWorksheetPart, hasSearchItem, isFirstTable, ref rowIndex);
                 newWorksheetPart.Worksheet.Save();
 
-                string drawingID = "IdDrawingsPart";
+                string? drawingID = "IdDrawingsPart";
 
                 if (newWorksheetPart.DrawingsPart != null
                 && newWorksheetPart.DrawingsPart.WorksheetDrawing != null)
@@ -108,7 +108,7 @@
 
             foreach (var worksheetPart in spreadsheet.WorkbookPart.WorksheetParts)
             {
-                string hexConvertedPassword = HashPassword(Key);
+                string? hexConvertedPassword = HashPassword(Key);
                 SheetProtection sheetProt = new()
                 {
                     Sheet = true,
@@ -124,7 +124,7 @@
             // workbookPart.Workbook.Save();
         }
 
-        private static string HashPassword(string password)
+        private static string? HashPassword(string password)
         {
             byte[] passwordCharacters = System.Text.Encoding.ASCII.GetBytes(password);
             int hash = 0;
@@ -204,7 +204,7 @@
             rowIndexTemp = rowIndex;
         }
 
-        private static void AppendCell(string cellReference, string cellStringValue, Row excelRow, bool isHeaderRow, CellValues dataType, WorksheetPart worksheetPart, int colInx, int rowIndex)
+        private static void AppendCell(string cellReference, string? cellStringValue, Row excelRow, bool isHeaderRow, CellValues dataType, WorksheetPart worksheetPart, int colInx, int rowIndex)
         {
             var isImage = false;
             var appendCell = true;
@@ -371,7 +371,7 @@
             return styleSheet;
         }
 
-        private static Xdr.TwoCellAnchor AddTwoCellAnchor(int startRow, int startColumn, int endRow, int endColumn, string imageId)
+        private static Xdr.TwoCellAnchor AddTwoCellAnchor(int startRow, int startColumn, int endRow, int endColumn, string? imageId)
         {
             Xdr.TwoCellAnchor twoCellAnchor1 = new Xdr.TwoCellAnchor() { EditAs = Xdr.EditAsValues.OneCell };
 
@@ -497,7 +497,7 @@
             return twoCellAnchor1;
         }
 
-        private static string GetExcelColumnName(int columnIndex)
+        private static string? GetExcelColumnName(int columnIndex)
         {
             // Convert a zero-based column index into an Excel column reference  (A, B, C.. Y, Y, AA, AB, AC... AY, AZ, B1, B2..)
             //

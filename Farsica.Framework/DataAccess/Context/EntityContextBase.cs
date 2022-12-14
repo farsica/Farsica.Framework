@@ -37,9 +37,9 @@
             LoggerFactory = ServiceProvider.GetRequiredService<ILoggerFactory>();
         }
 
-        protected string ConnectionName { get; }
+        protected string? ConnectionName { get; }
 
-        protected string DefaultSchema { get; }
+        protected string? DefaultSchema { get; }
 
         protected bool SensitiveDataLoggingEnabled { get; }
 
@@ -53,7 +53,7 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            if (!string.IsNullOrWhiteSpace(DefaultSchema))
+            if (!string.IsNullOrEmpty(DefaultSchema))
             {
                 builder.HasDefaultSchema(DefaultSchema);
             }

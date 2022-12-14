@@ -16,7 +16,7 @@
             output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
             output.Attributes.AddClass("accordion");
-            output.Attributes.Add("id", TagHelper.Id);
+            output.Attributes.Add("id", TagHelper?.Id);
 
             var items = InitilizeFormGroupContentsContext(context, output);
 
@@ -34,12 +34,12 @@
             return items;
         }
 
-        protected virtual string GetContent(IReadOnlyList<string> items)
+        protected virtual string? GetContent(IReadOnlyList<string> items)
         {
             var html = new StringBuilder(string.Empty);
             foreach (var item in items)
             {
-                var content = item.Replace(AccordionParentIdPlaceholder, TagHelper.Id);
+                var content = item.Replace(AccordionParentIdPlaceholder, TagHelper?.Id);
 
                 html.AppendLine(
                     "<div class=\"card\">" + Environment.NewLine +
@@ -52,7 +52,7 @@
 
         protected virtual void SetRandomIdIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Id))
+            if (TagHelper is not null && string.IsNullOrEmpty(TagHelper.Id))
             {
                 TagHelper.Id = "A" + Guid.NewGuid().ToString("N");
             }

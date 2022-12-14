@@ -10,14 +10,18 @@
     {
         private const int Iterations = 1024;
 
-        public static string Base64EncryptAES(string plainText, string password, string salt)
+        public static string? Base64EncryptAES(string plainText, string password, string salt)
         {
             return Convert.ToBase64String(EncryptAES(Encoding.UTF8.GetBytes(plainText), password, salt));
         }
 
         public static byte[] EncryptAES(byte[] plainText, string password, string salt)
         {
-            using var aesProvider = new AesCryptoServiceProvider { KeySize = 256, Padding = PaddingMode.PKCS7, Mode = CipherMode.CBC };
+            var aesProvider = Aes.Create();
+            aesProvider.KeySize = 256;
+            aesProvider.Padding = PaddingMode.PKCS7;
+            aesProvider.Mode = CipherMode.CBC;
+
             var saltBytes = Encoding.ASCII.GetBytes(salt);
             var derivedBytes = new Rfc2898DeriveBytes(password, saltBytes, Iterations);
             var derivedKey = derivedBytes.GetBytes(32); // 256 bits
@@ -36,24 +40,29 @@
             return cipherTextBytes;
         }
 
-        public static string Base64DecryptAES(string base64EncryptedText, string password, string salt)
+        public static string? Base64DecryptAES(string? base64EncryptedText, string password, string salt)
         {
-            if (string.IsNullOrWhiteSpace(base64EncryptedText))
+            if (string.IsNullOrEmpty(base64EncryptedText))
             {
                 return base64EncryptedText;
             }
 
-            return Encoding.UTF8.GetString(DecryptAES(Convert.FromBase64String(base64EncryptedText), password, salt));
+            var val = DecryptAES(Convert.FromBase64String(base64EncryptedText), password, salt);
+            return val is not null ? Encoding.UTF8.GetString(val) : string.Empty;
         }
 
-        public static byte[] DecryptAES(byte[] encryptedText, string password, string salt)
+        public static byte[]? DecryptAES(byte[]? encryptedText, string password, string salt)
         {
             if (encryptedText == null)
             {
                 return encryptedText;
             }
 
-            using var aesProvider = new AesCryptoServiceProvider { KeySize = 256, Padding = PaddingMode.PKCS7, Mode = CipherMode.CBC };
+            var aesProvider = Aes.Create();
+            aesProvider.KeySize = 256;
+            aesProvider.Padding = PaddingMode.PKCS7;
+            aesProvider.Mode = CipherMode.CBC;
+
             var saltBytes = Encoding.ASCII.GetBytes(salt);
             var derivedBytes = new Rfc2898DeriveBytes(password, saltBytes, Iterations);
             var derivedKey = derivedBytes.GetBytes(32); // 256 bits

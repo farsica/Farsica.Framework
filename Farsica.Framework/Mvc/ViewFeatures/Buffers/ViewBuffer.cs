@@ -19,18 +19,12 @@
         public static readonly int ViewPageSize = 256;
 
         private readonly IViewBufferScope bufferScope;
-        private readonly string name;
+        private readonly string? name;
         private readonly int pageSize;
         private ViewBufferPage currentPage;         // Limits allocation if the ViewBuffer has only one page (frequent case).
         private List<ViewBufferPage> multiplePages; // Allocated only if necessary
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="ViewBuffer"/>.
-        /// </summary>
-        /// <param name="bufferScope">The <see cref="IViewBufferScope"/>.</param>
-        /// <param name="name">A name to identify this instance.</param>
-        /// <param name="pageSize">The size of buffer pages.</param>
-        public ViewBuffer(IViewBufferScope bufferScope, string name, int pageSize)
+        public ViewBuffer(IViewBufferScope bufferScope, string? name, int pageSize)
         {
             if (pageSize <= 0)
             {
@@ -42,9 +36,6 @@
             this.pageSize = pageSize;
         }
 
-        /// <summary>
-        /// Get the <see cref="ViewBufferPage"/> count.
-        /// </summary>
         public int Count
         {
             get
@@ -63,9 +54,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets a <see cref="ViewBufferPage"/>.
-        /// </summary>
         public ViewBufferPage this[int index]
         {
             get
@@ -377,7 +365,7 @@
 
         private class EncodingWrapper : IHtmlContent
         {
-            private readonly string unencoded;
+            private readonly string? unencoded;
 
             public EncodingWrapper(string unencoded)
             {

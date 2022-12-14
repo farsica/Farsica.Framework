@@ -6,23 +6,16 @@
     {
         public static string ToHtmlTag(this HtmlHeadingType heading)
         {
-            switch (heading)
+            return heading switch
             {
-                case HtmlHeadingType.H1:
-                    return "h1";
-                case HtmlHeadingType.H2:
-                    return "h2";
-                case HtmlHeadingType.H3:
-                    return "h3";
-                case HtmlHeadingType.H4:
-                    return "h4";
-                case HtmlHeadingType.H5:
-                    return "h5";
-                case HtmlHeadingType.H6:
-                    return "h6";
-                default:
-                    throw new ArgumentOutOfRangeException("Unknown HtmlHeadingType: " + heading);
-            }
+                HtmlHeadingType.H1 => "h1",
+                HtmlHeadingType.H2 => "h2",
+                HtmlHeadingType.H3 => "h3",
+                HtmlHeadingType.H4 => "h4",
+                HtmlHeadingType.H5 => "h5",
+                HtmlHeadingType.H6 => "h6",
+                _ => throw new ArgumentOutOfRangeException("Unknown HtmlHeadingType: " + heading),
+            };
         }
     }
 }

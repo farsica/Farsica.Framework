@@ -27,10 +27,10 @@
         /// <summary>
         /// Filters a <see cref="IQueryable{T}"/> by given predicate if given condition is true.
         /// </summary>
-        /// <param name="query">Queryable to apply filtering</param>
-        /// <param name="condition">A boolean value</param>
-        /// <param name="predicate">Predicate to filter the query</param>
-        /// <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
+        /// <param name="query">Queryable to apply filtering.</param>
+        /// <param name="condition">A boolean value.</param>
+        /// <param name="predicate">Predicate to filter the query.</param>
+        /// <returns>Filtered or not filtered query based on <paramref name="condition"/>.</returns>
         public static IQueryable<T> WhereIf<T>([NotNull] this IQueryable<T> query, bool condition, Expression<Func<T, bool>> predicate)
         {
             return condition
@@ -41,10 +41,10 @@
         /// <summary>
         /// Filters a <see cref="IQueryable{T}"/> by given predicate if given condition is true.
         /// </summary>
-        /// <param name="query">Queryable to apply filtering</param>
-        /// <param name="condition">A boolean value</param>
-        /// <param name="predicate">Predicate to filter the query</param>
-        /// <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
+        /// <param name="query">Queryable to apply filtering.</param>
+        /// <param name="condition">A boolean value.</param>
+        /// <param name="predicate">Predicate to filter the query.</param>
+        /// <returns>Filtered or not filtered query based on <paramref name="condition"/>.</returns>
         public static TQueryable WhereIf<T, TQueryable>([NotNull] this TQueryable query, bool condition, Expression<Func<T, bool>> predicate)
             where TQueryable : IQueryable<T>
         {
@@ -56,10 +56,10 @@
         /// <summary>
         /// Filters a <see cref="IQueryable{T}"/> by given predicate if given condition is true.
         /// </summary>
-        /// <param name="query">Queryable to apply filtering</param>
-        /// <param name="condition">A boolean value</param>
-        /// <param name="predicate">Predicate to filter the query</param>
-        /// <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
+        /// <param name="query">Queryable to apply filtering.</param>
+        /// <param name="condition">A boolean value.</param>
+        /// <param name="predicate">Predicate to filter the query.</param>
+        /// <returns>Filtered or not filtered query based on <paramref name="condition"/>.</returns>
         public static IQueryable<T> WhereIf<T>([NotNull] this IQueryable<T> query, bool condition, Expression<Func<T, int, bool>> predicate)
         {
             return condition
@@ -70,10 +70,10 @@
         /// <summary>
         /// Filters a <see cref="IQueryable{T}"/> by given predicate if given condition is true.
         /// </summary>
-        /// <param name="query">Queryable to apply filtering</param>
-        /// <param name="condition">A boolean value</param>
-        /// <param name="predicate">Predicate to filter the query</param>
-        /// <returns>Filtered or not filtered query based on <paramref name="condition"/></returns>
+        /// <param name="query">Queryable to apply filtering.</param>
+        /// <param name="condition">A boolean value.</param>
+        /// <param name="predicate">Predicate to filter the query.</param>
+        /// <returns>Filtered or not filtered query based on <paramref name="condition"/>.</returns>
         public static TQueryable WhereIf<T, TQueryable>([NotNull] this TQueryable query, bool condition, Expression<Func<T, int, bool>> predicate)
             where TQueryable : IQueryable<T>
         {

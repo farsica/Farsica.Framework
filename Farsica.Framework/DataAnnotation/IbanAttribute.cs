@@ -10,23 +10,23 @@
     {
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
 
             if (value is List<string> lst)
             {
-                return lst.All(t => string.IsNullOrWhiteSpace(t) || t.ValidateIban());
+                return lst.All(t => string.IsNullOrEmpty(t) || t.ValidateIban());
             }
 
-            return string.IsNullOrWhiteSpace(value.ToString()) || value.ToString().ValidateIban();
+            return string.IsNullOrEmpty(value.ToString()) || value.ToString().ValidateIban();
         }
 
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-iban", FormatErrorMessage(Core.Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-iban", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
         }
     }
 }

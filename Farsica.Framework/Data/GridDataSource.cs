@@ -15,18 +15,18 @@
         public int? TotalRecords { get; set; } = Constants.TotalRecords;
 
         [JsonPropertyName("rows")]
-        public IList Data { get; set; }
+        public IList? Data { get; set; }
 
         [JsonPropertyName("columns")]
-        public Dictionary<string, string> Captions { get; set; }
+        public Dictionary<string, string>? Captions { get; set; }
 
         [JsonIgnore]
-        public DataTable DataTable { get; set; }
+        public DataTable? DataTable { get; set; }
 
         [JsonPropertyName("rowCount")]
         public int PageItemCount { get; set; }
 
         [JsonPropertyName("sort")]
-        public SortFilter SortFilter { get; set; }
+        public SortFilter? SortFilter { get; set; }
     }
 }

@@ -47,7 +47,7 @@
 
         protected virtual void AddCaption(TagHelperContext context, TagHelperOutput output)
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Caption) && string.IsNullOrWhiteSpace(TagHelper.CaptionTitle))
+            if (string.IsNullOrEmpty(TagHelper.Caption) && string.IsNullOrEmpty(TagHelper.CaptionTitle))
             {
                 return;
             }
@@ -68,7 +68,7 @@
 
             var itemList = context.GetValue<List<CarouselItem>>(CarouselItemsContent);
 
-            itemList.Add(new CarouselItem(getOutputAsHtml, TagHelper.Active ?? false));
+            itemList?.Add(new CarouselItem(getOutputAsHtml, TagHelper.Active ?? false));
         }
     }
 }

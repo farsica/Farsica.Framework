@@ -26,9 +26,9 @@
             { DataType.File, "varbinary(max)" },
         };
 
-        protected override string GetObjectNameInternal(string name, string prefix = null)
+        protected override string? GetObjectNameInternal(string name, string? prefix = null)
         {
-            if (!string.IsNullOrWhiteSpace(prefix))
+            if (!string.IsNullOrEmpty(prefix))
             {
                 name = $"{prefix}.{name}";
             }

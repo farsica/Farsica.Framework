@@ -250,7 +250,7 @@
         }
 
         // Neither uriString nor linkedText need be encoded prior to calling this method.
-        private static IHtmlContent HyperlinkTemplate(string uriString, string linkedText)
+        private static IHtmlContent HyperlinkTemplate(string uriString, string? linkedText)
         {
             var hyperlinkTag = new TagBuilder("a");
             hyperlinkTag.MergeAttribute("href", uriString);

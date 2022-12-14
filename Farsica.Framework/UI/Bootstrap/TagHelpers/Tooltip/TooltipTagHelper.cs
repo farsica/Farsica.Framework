@@ -23,21 +23,21 @@
         }
 
         [HtmlAttributeName("frb-tooltip")]
-        public string Tooltip { get; set; }
+        public string? Tooltip { get; set; }
 
         [HtmlAttributeName("frb-tooltip-right")]
-        public string TooltipRight { get; set; }
+        public string? TooltipRight { get; set; }
 
         [HtmlAttributeName("frb-tooltip-left")]
-        public string TooltipLeft { get; set; }
+        public string? TooltipLeft { get; set; }
 
         [HtmlAttributeName("frb-tooltip-top")]
-        public string TooltipTop { get; set; }
+        public string? TooltipTop { get; set; }
 
         [HtmlAttributeName("frb-tooltip-bottom")]
-        public string TooltipBottom { get; set; }
+        public string? TooltipBottom { get; set; }
 
         [HtmlAttributeName("frb-title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
     }
 }

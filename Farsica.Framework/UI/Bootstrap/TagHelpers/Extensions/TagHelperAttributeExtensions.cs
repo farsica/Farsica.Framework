@@ -6,12 +6,12 @@
 
     public static class TagHelperAttributeExtensions
     {
-        public static string ToHtmlAttributeAsString(this TagHelperAttribute attribute)
+        public static string? ToHtmlAttributeAsString(this TagHelperAttribute attribute)
         {
             return attribute.Name + "=\"" + attribute.Value + "\"";
         }
 
-        public static string ToHtmlAttributesAsString(this List<TagHelperAttribute> attributes)
+        public static string? ToHtmlAttributesAsString(this List<TagHelperAttribute> attributes)
         {
             StringBuilder sb = new();
             for (int i = 0; i < attributes.Count; i++)

@@ -13,10 +13,10 @@
             Message = $"Entity of type '{entityName}' and key {EntityKey} not found in the current context.";
         }
 
-        public string EntityName { get; set; }
+        public string? EntityName { get; set; }
 
         public int EntityKey { get; set; }
 
-        public override string Message { get; }
+        public override string? Message { get; }
     }
 }

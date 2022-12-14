@@ -4,11 +4,11 @@
 
     public class LocalizableString
     {
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         public IReadOnlyList<LocalizedValue> LocalizedValues { get; set; }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return Value;
         }
@@ -17,9 +17,9 @@
         {
             public short Id { get; set; }
 
-            public string Code { get; set; }
+            public string? Code { get; set; }
 
-            public string Value { get; set; }
+            public string? Value { get; set; }
         }
     }
 }

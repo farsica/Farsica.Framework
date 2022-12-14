@@ -26,24 +26,24 @@
         {
         }
 
-        public IQueryable<TEntity> GetManyQueryable(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public IQueryable<TEntity> GetManyQueryable(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             return QueryDb(predicate, orderBy, includes, tracking);
         }
 
-        public IEnumerable<TEntity> GetAll(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public IEnumerable<TEntity> GetAll(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             var result = QueryDb(null, orderBy, includes, tracking);
             return result.AsEnumerable();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             var result = QueryDb(null, orderBy, includes, tracking);
             return await result.ToListAsync();
         }
 
-        public IEnumerable<TEntity> GetPage(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public IEnumerable<TEntity> GetPage(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
 
@@ -51,7 +51,7 @@
             return result.Skip(startRow).Take(pageLength).AsEnumerable();
         }
 
-        public async Task<IEnumerable<TEntity>> GetPageAsync(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public async Task<IEnumerable<TEntity>> GetPageAsync(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
 
@@ -59,7 +59,7 @@
             return await result.Skip(startRow).Take(pageLength).ToListAsync();
         }
 
-        public TEntity Get(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = true)
+        public TEntity Get(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
             if (includes != null)
@@ -75,7 +75,7 @@
             return query.FirstOrDefault(t => t.Id.Equals(id));
         }
 
-        public async Task<TEntity> GetAsync(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = true)
+        public async Task<TEntity> GetAsync(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
@@ -92,19 +92,19 @@
             return await query.FirstOrDefaultAsync(t => t.Id.Equals(id));
         }
 
-        public IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             var result = QueryDb(predicate, orderBy, includes, tracking);
             return result.AsEnumerable();
         }
 
-        public async Task<IEnumerable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public async Task<IEnumerable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             var result = QueryDb(predicate, orderBy, includes, tracking);
             return await result.ToListAsync();
         }
 
-        public IEnumerable<TEntity> QueryPage(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public IEnumerable<TEntity> QueryPage(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
 
@@ -112,7 +112,7 @@
             return result.Skip(startRow).Take(pageLength).AsEnumerable();
         }
 
-        public async Task<IEnumerable<TEntity>> QueryPageAsync(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null, bool tracking = false)
+        public async Task<IEnumerable<TEntity>> QueryPageAsync(int startRow, int pageLength, Expression<Func<TEntity, bool>>? predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
 
@@ -173,7 +173,7 @@
             await Context.BulkDeleteAsync(entities, bulkConfig, progress, type, cancellationToken);
         }
 
-        public bool Any(Expression<Func<TEntity, bool>> filter = null)
+        public bool Any(Expression<Func<TEntity, bool>>? filter = null)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
@@ -185,7 +185,7 @@
             return query.Any();
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? filter = null)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
@@ -197,7 +197,7 @@
             return await query.AnyAsync();
         }
 
-        public int Count(Expression<Func<TEntity, bool>> filter = null)
+        public int Count(Expression<Func<TEntity, bool>>? filter = null)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
@@ -209,7 +209,7 @@
             return query.Count();
         }
 
-        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null)
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>>? filter = null)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
@@ -226,7 +226,7 @@
             Context.Entry(entitieit).State = EntityState.Unchanged;
         }
 
-        protected IQueryable<TEntity> QueryDb(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes, bool tracking)
+        protected IQueryable<TEntity> QueryDb(Expression<Func<TEntity, bool>>? predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes, bool tracking)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 

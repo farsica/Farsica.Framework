@@ -20,7 +20,7 @@
 
         public string? ValidatorPrefix { get; set; }
 
-        public new string OtherPropertyDisplayName { get; internal set; }
+        public new string? OtherPropertyDisplayName { get; internal set; }
 
         public Constants.OperandType OperandType { get; set; } = Constants.OperandType.Equals;
 
@@ -31,21 +31,21 @@
             private set => base.ErrorMessageResourceType = value;
         }
 
-        public new string ErrorMessageResourceName
+        public new string? ErrorMessageResourceName
         {
             get => base.ErrorMessageResourceName;
 
             private set => base.ErrorMessageResourceName = value;
         }
 
-        public new string ErrorMessage
+        public new string? ErrorMessage
         {
             get => base.ErrorMessage;
 
             internal set => base.ErrorMessage = value;
         }
 
-        public override string FormatErrorMessage(string name)
+        public override string? FormatErrorMessage(string name)
         {
             return FormatErrorMessage(name, null);
         }
@@ -147,7 +147,7 @@
             return result;
         }
 
-        private string FormatErrorMessage(string modelDisplayName, string? otherDisplayName)
+        private string? FormatErrorMessage(string modelDisplayName, string? otherDisplayName)
         {
             return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, otherDisplayName ?? OtherPropertyDisplayName ?? OtherProperty, EnumHelper.LocalizeEnum(OperandType));
         }

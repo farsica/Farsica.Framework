@@ -6,7 +6,7 @@
     {
         protected abstract IReadOnlyDictionary<DataType, string> Mapper { get; }
 
-        public string GetObjectName(string name, string prefix = null, bool pluralize = true)
+        public string? GetObjectName(string name, string? prefix = null, bool pluralize = true)
         {
             if (pluralize)
             {
@@ -16,11 +16,11 @@
             return GetObjectNameInternal(name, prefix);
         }
 
-        public string GetColumnTypeName(DataType dataType)
+        public string? GetColumnTypeName(DataType dataType)
         {
             return Mapper[dataType];
         }
 
-        protected abstract string GetObjectNameInternal(string name, string prefix = null);
+        protected abstract string? GetObjectNameInternal(string name, string? prefix = null);
     }
 }

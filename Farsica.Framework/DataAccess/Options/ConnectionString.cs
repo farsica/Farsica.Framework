@@ -8,7 +8,7 @@
 
     public class ConnectionString
     {
-        public ConnectionString(ProviderType providerType, string host, string dbIdentifier, string user, string password, ushort? port = null, Dictionary<string, string> parameters = null)
+        public ConnectionString(ProviderType providerType, string? host, string? dbIdentifier, string? user, string? password, ushort? port = null, Dictionary<string, string>? parameters = null)
         {
             ProviderType = providerType;
             Host = host;
@@ -21,19 +21,19 @@
 
         public ProviderType ProviderType { get; set; }
 
-        public string Host { get; set; }
+        public string? Host { get; set; }
 
         public ushort? Port { get; set; }
 
-        public string DbIdentifier { get; set; }
+        public string? DbIdentifier { get; set; }
 
-        public string User { get; set; }
+        public string? User { get; set; }
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         public Dictionary<string, string> Parameters { get; set; }
 
-        public override string ToString()
+        public override string? ToString()
         {
             var sb = new StringBuilder();
             switch (ProviderType)

@@ -20,23 +20,23 @@
 
         protected virtual void SetResponsiveness(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Responsive ?? false)
+            if (TagHelper?.Responsive ?? false)
             {
                 output.PreElement.SetHtmlContent("<div class=\"table-responsive\">");
             }
-            else if (TagHelper.ResponsiveSm ?? false)
+            else if (TagHelper?.ResponsiveSm ?? false)
             {
                 output.PreElement.SetHtmlContent("<div class=\"table-responsive-sm\">");
             }
-            else if (TagHelper.ResponsiveMd ?? false)
+            else if (TagHelper?.ResponsiveMd ?? false)
             {
                 output.PreElement.SetHtmlContent("<div class=\"table-responsive-md\">");
             }
-            else if (TagHelper.ResponsiveLg ?? false)
+            else if (TagHelper?.ResponsiveLg ?? false)
             {
                 output.PreElement.SetHtmlContent("<div class=\"table-responsive-lg\">");
             }
-            else if (TagHelper.ResponsiveXl ?? false)
+            else if (TagHelper?.ResponsiveXl ?? false)
             {
                 output.PreElement.SetHtmlContent("<div class=\"table-responsive-xl\">");
             }
@@ -50,7 +50,7 @@
 
         protected virtual void SetTheme(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.DarkTheme ?? false)
+            if (TagHelper?.DarkTheme ?? false)
             {
                 output.Attributes.AddClass("table-dark");
             }
@@ -58,7 +58,7 @@
 
         protected virtual void SetStripedRows(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.StripedRows ?? false)
+            if (TagHelper?.StripedRows ?? false)
             {
                 output.Attributes.AddClass("table-striped");
             }
@@ -66,7 +66,7 @@
 
         protected virtual void SetHoverableRows(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.HoverableRows ?? false)
+            if (TagHelper?.HoverableRows ?? false)
             {
                 output.Attributes.AddClass("table-hover");
             }
@@ -74,7 +74,7 @@
 
         protected virtual void SetSmall(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Small ?? false)
+            if (TagHelper?.Small ?? false)
             {
                 output.Attributes.AddClass("table-sm");
             }
@@ -82,7 +82,7 @@
 
         protected virtual void SetBorderStyle(TagHelperContext context, TagHelperOutput output)
         {
-            switch (TagHelper.BorderStyle)
+            switch (TagHelper?.BorderStyle)
             {
                 case TableBorderStyle.Default:
                     return;

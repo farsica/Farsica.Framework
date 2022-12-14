@@ -9,7 +9,7 @@
     {
         private const int MaxItemsCountToShowAllPages = 4;
 
-        public PagerModel(long totalCount, int shownItemsCount, int currentPage, int pageSize, string pageUrl, string sort = null)
+        public PagerModel(long totalCount, int shownItemsCount, int currentPage, int pageSize, string? pageUrl, string? sort = null)
         {
             TotalItemsCount = totalCount;
             ShownItemsCount = shownItemsCount;
@@ -59,9 +59,9 @@
 
         public int NextPage { get; set; }
 
-        public string Sort { get; set; }
+        public string? Sort { get; set; }
 
-        public string PageUrl { get; set; }
+        public string? PageUrl { get; set; }
 
         private static void AddGaps(IList<PageItem> pages)
         {
@@ -90,7 +90,7 @@
         }
 
         /// <summary>
-        /// Gets first two, previous & current & next, last two pages
+        /// Gets first two, previous & current & next, last two pages.
         /// </summary>
         private List<PageItem> GetPagesWithGaps()
         {

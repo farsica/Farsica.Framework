@@ -9,9 +9,9 @@
     {
         public override Constants.ExportType ProviderType => Constants.ExportType.Csv;
 
-        protected override string Extension => ".csv";
+        protected override string? Extension => ".csv";
 
-        protected override string ContentType => "text/csv";
+        protected override string? ContentType => "text/csv";
 
         protected override byte[] GenerateFile(DataSet dataSet, bool hasSearchItem)
         {

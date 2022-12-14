@@ -17,6 +17,6 @@
         #endregion
 
         [HtmlAttributeName("frb-entity-type")]
-        public string EntityType { get; set; }
+        public string? EntityType { get; set; }
     }
 }

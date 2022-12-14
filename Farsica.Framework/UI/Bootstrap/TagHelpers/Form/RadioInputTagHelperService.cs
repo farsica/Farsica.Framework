@@ -43,30 +43,33 @@
             }
         }
 
-        protected virtual string GetHtml(TagHelperContext context, TagHelperOutput output, IList<SelectListItem> selectItems)
+        protected virtual string? GetHtml(TagHelperContext context, TagHelperOutput output, IList<SelectListItem>? selectItems)
         {
             var html = new StringBuilder(string.Empty);
 
-            foreach (var selectItem in selectItems)
+            if (selectItems != null)
             {
-                var inlineClass = (TagHelper.Inline ?? false) ? " custom-control-inline" : string.Empty;
-                var id = TagHelper.For.Name + "Radio" + selectItem.Value;
-                var name = TagHelper.For.Name;
-                var selected = selectItem.Selected ? " checked=\"checked\"" : string.Empty;
-                var disabled = (TagHelper.Disabled ?? false) ? " disabled" : string.Empty;
+                foreach (var selectItem in selectItems)
+                {
+                    var inlineClass = (TagHelper.Inline ?? false) ? " custom-control-inline" : string.Empty;
+                    var id = TagHelper.For.Name + "Radio" + selectItem.Value;
+                    var name = TagHelper.For.Name;
+                    var selected = selectItem.Selected ? " checked=\"checked\"" : string.Empty;
+                    var disabled = (TagHelper.Disabled ?? false) ? " disabled" : string.Empty;
 
-                var htmlPart = "<div class=\"custom-control custom-radio" + inlineClass + "\">\r\n" +
-                               "  <input type=\"radio\" id=\"" + id + "\" name=\"" + name + "\" value=\"" + selectItem.Value + "\"" + selected + " class=\"custom-control-input\"" + disabled + ">\r\n" +
-                               "  <label class=\"custom-control-label\" for=\"" + id + "\">" + selectItem.Text + "</label>\r\n" +
-                               "</div>";
+                    var htmlPart = "<div class=\"custom-control custom-radio" + inlineClass + "\">\r\n" +
+                                   "  <input type=\"radio\" id=\"" + id + "\" name=\"" + name + "\" value=\"" + selectItem.Value + "\"" + selected + " class=\"custom-control-input\"" + disabled + ">\r\n" +
+                                   "  <label class=\"custom-control-label\" for=\"" + id + "\">" + selectItem.Text + "</label>\r\n" +
+                                   "</div>";
 
-                html.AppendLine(htmlPart);
+                    html.AppendLine(htmlPart);
+                }
             }
 
             return html.ToString();
         }
 
-        protected virtual IList<SelectListItem> GetSelectItems(TagHelperContext context, TagHelperOutput output)
+        protected virtual IList<SelectListItem>? GetSelectItems(TagHelperContext context, TagHelperOutput output)
         {
             if (TagHelper.Items != null)
             {
@@ -87,12 +90,10 @@
             throw new Exception("No items provided for select attribute.");
         }
 
-        protected virtual IList<SelectListItem> GetSelectItemsFromEnum(TagHelperContext context, TagHelperOutput output, ModelExplorer explorer)
+        protected virtual IList<SelectListItem>? GetSelectItemsFromEnum(TagHelperContext context, TagHelperOutput output, ModelExplorer explorer)
         {
-            var selectItems = explorer.Metadata.IsEnum ? explorer.ModelType.GetTypeInfo().GetMembers(BindingFlags.Public | BindingFlags.Static)
+            return explorer.Metadata.IsEnum ? explorer.ModelType.GetTypeInfo().GetMembers(BindingFlags.Public | BindingFlags.Static)
                 .Select((t, i) => new SelectListItem { Value = i.ToString(), Text = t.Name }).ToList() : null;
-
-            return selectItems;
         }
 
         protected virtual IList<SelectListItem> GetSelectItemsFromAttribute(
@@ -109,11 +110,11 @@
             return selectItems;
         }
 
-        protected virtual void SetSelectedValue(TagHelperContext context, TagHelperOutput output, IList<SelectListItem> selectItems)
+        protected virtual void SetSelectedValue(TagHelperContext context, TagHelperOutput output, IList<SelectListItem>? selectItems)
         {
             var selectedValue = GetSelectedValue(context, output);
 
-            if (!selectItems.Any(si => si.Selected))
+            if (selectItems is not null && !selectItems.Any(si => si.Selected))
             {
                 var itemToBeSelected = selectItems.FirstOrDefault(si => si.Value == selectedValue);
 
@@ -124,7 +125,7 @@
             }
         }
 
-        protected virtual string GetSelectedValue(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetSelectedValue(TagHelperContext context, TagHelperOutput output)
         {
             if (TagHelper.For.ModelExplorer.Metadata.IsEnum)
             {
@@ -142,12 +143,12 @@
             return TagHelper.For.ModelExplorer.Model?.ToString();
         }
 
-        protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string propertyName, string html, int order, out bool suppress)
+        protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
             suppress = list == null;
 
-            if (list != null && !list.Any(igc => igc.HtmlContent.Contains("id=\"" + propertyName.Replace('.', '_') + "\"")))
+            if (list is not null && propertyName is not null && !list.Any(t => t.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
             {
                 list.Add(new FormGroupItem
                 {

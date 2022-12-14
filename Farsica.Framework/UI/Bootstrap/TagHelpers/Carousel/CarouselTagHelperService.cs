@@ -96,9 +96,9 @@
 
         protected virtual void SetOneItemAsActive(TagHelperContext context, TagHelperOutput output, IList<CarouselItem> itemList)
         {
-            if (!itemList.Any(it => it.Active) && itemList.Count > 0)
+            if (!itemList.Any(t => t.Active) && itemList.Count > 0)
             {
-                itemList.FirstOrDefault().Active = true;
+                itemList.First().Active = true;
             }
         }
 
@@ -126,7 +126,7 @@
 
         protected virtual void SetRandomIdIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Id))
+            if (string.IsNullOrEmpty(TagHelper.Id))
             {
                 TagHelper.Id = "C" + Guid.NewGuid().ToString("N");
             }
@@ -134,7 +134,7 @@
 
         protected virtual void SetActiveIfActive(CarouselItem item)
         {
-            item.Html = item.Html.Replace(CarouselItemActivePlaceholder, item.Active ? "active" : string.Empty);
+            item.Html = item?.Html?.Replace(CarouselItemActivePlaceholder, item.Active ? "active" : string.Empty);
         }
     }
 }

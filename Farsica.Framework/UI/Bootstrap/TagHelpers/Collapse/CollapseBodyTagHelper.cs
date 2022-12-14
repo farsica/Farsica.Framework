@@ -14,7 +14,7 @@
         }
 
         [HtmlAttributeName("frb-id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [HtmlAttributeName("frb-multi")]
         public bool? Multi { get; set; }

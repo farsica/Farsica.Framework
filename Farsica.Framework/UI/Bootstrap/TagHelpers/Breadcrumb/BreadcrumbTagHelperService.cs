@@ -59,11 +59,11 @@
             }
         }
 
-        protected virtual string SetActiveClassIfActiveAndGetHtml(BreadcrumbItem item)
+        protected virtual string? SetActiveClassIfActiveAndGetHtml(BreadcrumbItem item)
         {
             return item.Active ?
-                item.Html.Replace(BreadcrumbItemActivePlaceholder, " active") :
-                item.Html.Replace(BreadcrumbItemActivePlaceholder, string.Empty);
+                item.Html?.Replace(BreadcrumbItemActivePlaceholder, " active") :
+                item.Html?.Replace(BreadcrumbItemActivePlaceholder, string.Empty);
         }
     }
 }

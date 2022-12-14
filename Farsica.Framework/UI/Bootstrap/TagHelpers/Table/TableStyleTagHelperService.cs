@@ -12,9 +12,9 @@
 
         protected virtual void SetStyle(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.TableStyle != TableStyle.Default)
+            if (TagHelper?.TableStyle != TableStyle.Default)
             {
-                output.Attributes.AddClass("table-" + TagHelper.TableStyle.ToString().ToLowerInvariant());
+                output.Attributes.AddClass("table-" + TagHelper?.TableStyle.ToString().ToLowerInvariant());
             }
         }
     }

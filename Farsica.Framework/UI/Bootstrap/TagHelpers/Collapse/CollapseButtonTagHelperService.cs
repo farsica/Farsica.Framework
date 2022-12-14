@@ -28,24 +28,24 @@
 
         protected virtual void AddButtonAttributes(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.BodyId.Trim().Split(' ').Length > 1)
+            if (TagHelper?.BodyId?.Trim().Split(' ').Length > 1)
             {
                 output.Attributes.Add("data-target", ".multi-collapse");
                 return;
             }
 
-            output.Attributes.Add("data-target", "#" + TagHelper.BodyId);
+            output.Attributes.Add("data-target", "#" + TagHelper?.BodyId);
         }
 
         protected virtual void AddLinkAttributes(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.BodyId.Trim().Split(' ').Length > 1)
+            if (TagHelper?.BodyId?.Trim().Split(' ').Length > 1)
             {
                 output.Attributes.Add("href", ".multi-collapse");
                 return;
             }
 
-            output.Attributes.Add("href", "#" + TagHelper.BodyId);
+            output.Attributes.Add("href", "#" + TagHelper?.BodyId);
         }
     }
 }

@@ -14,7 +14,7 @@
         }
 
         [HtmlAttributeName("frb-id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [HtmlAttributeName("frb-crossfade")]
         public bool? Crossfade { get; set; }

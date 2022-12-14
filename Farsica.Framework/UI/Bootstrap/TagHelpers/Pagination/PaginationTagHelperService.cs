@@ -26,7 +26,7 @@
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.For.ShownItemsCount <= 0)
+            if (TagHelper?.For?.ShownItemsCount <= 0)
             {
                 output.SuppressOutput();
             }
@@ -56,7 +56,7 @@
             output.Attributes.AddClass("mt-3");
         }
 
-        protected virtual async Task<string> GetPagesAsync(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<string?> GetPagesAsync(TagHelperContext context, TagHelperOutput output)
         {
             var pagesHtml = new StringBuilder(string.Empty);
 
@@ -68,7 +68,7 @@
             return pagesHtml.ToString();
         }
 
-        protected virtual async Task<string> GetPageAsync(TagHelperContext context, TagHelperOutput output, PageItem page)
+        protected virtual async Task<string?> GetPageAsync(TagHelperContext context, TagHelperOutput output, PageItem page)
         {
             var pageHtml = new StringBuilder(string.Empty);
 
@@ -95,7 +95,7 @@
             return pageHtml.ToString();
         }
 
-        protected virtual async Task<string> GetPreviousButtonAsync(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<string?> GetPreviousButtonAsync(TagHelperContext context, TagHelperOutput output)
         {
             var localizationKey = "PagerPrevious";
             var currentPage = TagHelper.For.CurrentPage == 1
@@ -106,7 +106,7 @@
                 (await RenderAnchorTagHelperLinkHtmlAsync(context, output, currentPage, localizationKey)) + "                </li>";
         }
 
-        protected virtual async Task<string> GetNextButton(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<string?> GetNextButton(TagHelperContext context, TagHelperOutput output)
         {
             var localizationKey = "PagerNext";
             var currentPage = (TagHelper.For.CurrentPage + 1).ToString();
@@ -116,7 +116,7 @@
                 "                </li>";
         }
 
-        protected virtual async Task<string> RenderAnchorTagHelperLinkHtmlAsync(TagHelperContext context, TagHelperOutput output, string currentPage, string localizationKey)
+        protected virtual async Task<string?> RenderAnchorTagHelperLinkHtmlAsync(TagHelperContext context, TagHelperOutput output, string? currentPage, string? localizationKey)
         {
             var anchorTagHelper = GetAnchorTagHelper(currentPage, out var attributeList);
 
@@ -124,14 +124,14 @@
 
             SetHrefAttribute(currentPage, attributeList);
 
-            tagHelperOutput.Content.SetHtmlContent(UIResource.ResourceManager.GetString(localizationKey) ?? localizationKey);
+            tagHelperOutput.Content.SetHtmlContent(localizationKey is null ? string.Empty : UIResource.ResourceManager?.GetString(localizationKey) ?? localizationKey);
 
             var renderedHtml = tagHelperOutput.Render(encoder);
 
             return renderedHtml;
         }
 
-        protected virtual string GetOpeningTags(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetOpeningTags(TagHelperContext context, TagHelperOutput output)
         {
             var pagerInfo = (TagHelper.ShowInfo ?? false) ?
                 "    <div class=\"col-sm-12 col-md-5\"> " + string.Format(UIResource.PagerInfo, TagHelper.For.ShowingFrom, TagHelper.For.ShowingTo, TagHelper.For.TotalItemsCount) + "</div>\r\n"
@@ -144,7 +144,7 @@
                 "            <ul class=\"pagination justify-content-end\">";
         }
 
-        protected virtual string GetClosingTags(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetClosingTags(TagHelperContext context, TagHelperOutput output)
         {
             return
                 "            </ul>\r\n" +
@@ -152,22 +152,25 @@
                 "    </div>\r\n";
         }
 
-        protected virtual void SetHrefAttribute(string currentPage, TagHelperAttributeList attributeList)
+        protected virtual void SetHrefAttribute(string? currentPage, TagHelperAttributeList attributeList)
         {
             var hrefAttribute = attributeList.FirstOrDefault(x => x.Name.Equals("href", StringComparison.OrdinalIgnoreCase));
 
             if (hrefAttribute != null)
             {
                 var pageUrl = TagHelper.For.PageUrl;
-                var routeValue = $"currentPage={currentPage}{(TagHelper.For.Sort.IsNullOrWhiteSpace() ? string.Empty : "&sort=" + TagHelper.For.Sort)}";
-                pageUrl += pageUrl.Contains("?") ? "&" + routeValue : "?" + routeValue;
+                if (pageUrl is not null)
+                {
+                    var routeValue = $"currentPage={currentPage}{(TagHelper.For.Sort.IsNullOrEmpty() ? string.Empty : "&sort=" + TagHelper.For.Sort)}";
+                    pageUrl += pageUrl.Contains("?") ? "&" + routeValue : "?" + routeValue;
+                }
 
                 attributeList.Remove(hrefAttribute);
                 attributeList.Add(new TagHelperAttribute("href", pageUrl, hrefAttribute.ValueStyle));
             }
         }
 
-        private AnchorTagHelper GetAnchorTagHelper(string currentPage, out TagHelperAttributeList attributeList)
+        private AnchorTagHelper GetAnchorTagHelper(string? currentPage, out TagHelperAttributeList attributeList)
         {
             var anchorTagHelper = new AnchorTagHelper(generator)
             {

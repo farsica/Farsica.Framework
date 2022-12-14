@@ -161,7 +161,7 @@
             await response.Body.WriteAsync(Encoding.UTF8.GetBytes(CreateCaptcha(response)));
         }
 
-        private static string RandomString(int length)
+        private static string? RandomString(int length)
         {
             var random = new Random();
             const string pool = "0123456789";

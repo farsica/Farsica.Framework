@@ -12,7 +12,7 @@
 
         public override bool IsValid(object value)
         {
-            return string.IsNullOrWhiteSpace(value?.ToString()) || Regex.IsMatch(value.ToString());
+            return string.IsNullOrEmpty(value?.ToString()) || Regex.IsMatch(value.ToString());
         }
 
         public void AddValidation(ClientModelValidationContext context)

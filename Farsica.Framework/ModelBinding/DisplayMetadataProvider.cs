@@ -146,7 +146,7 @@
                     }
 
                     var groupName = Globals.GetLocalizedGroupName(field) ?? string.Empty;
-                    string value = (field.GetValue(null) as Enum)?.ToString("d");
+                    string? value = (field.GetValue(null) as Enum)?.ToString("d");
 
                     groupedDisplayNamesAndValues.Add(new KeyValuePair<EnumGroupAndName, string>(
                         new EnumGroupAndName(

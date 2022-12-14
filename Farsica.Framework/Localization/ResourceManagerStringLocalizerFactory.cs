@@ -14,7 +14,7 @@
     {
         private readonly IResourceNamesCache resourceNamesCache = new ResourceNamesCache();
         private readonly ConcurrentDictionary<string, ResourceManagerStringLocalizer> localizerCache = new();
-        private readonly string resourcesRelativePath;
+        private readonly string? resourcesRelativePath;
         private readonly ILoggerFactory loggerFactory;
 
         public ResourceManagerStringLocalizerFactory(IOptions<LocalizationOptions> localizationOptions, ILoggerFactory loggerFactory)
@@ -50,7 +50,7 @@
             return localizerCache.GetOrAdd(baseName, _ => CreateResourceManagerStringLocalizer(assembly, baseName));
         }
 
-        public IStringLocalizer Create(string baseName, string location)
+        public IStringLocalizer Create(string baseName, string? location)
         {
             if (baseName == null)
             {
@@ -74,7 +74,7 @@
             });
         }
 
-        protected virtual string GetResourcePrefix(TypeInfo typeInfo)
+        protected virtual string? GetResourcePrefix(TypeInfo typeInfo)
         {
             if (typeInfo == null)
             {
@@ -84,7 +84,7 @@
             return GetResourcePrefix(typeInfo, GetRootNamespace(typeInfo.Assembly), GetResourcePath(typeInfo.Assembly));
         }
 
-        protected virtual string GetResourcePrefix(TypeInfo typeInfo, string baseNamespace, string resourcesRelativePath)
+        protected virtual string? GetResourcePrefix(TypeInfo typeInfo, string? baseNamespace, string? resourcesRelativePath)
         {
             if (typeInfo == null)
             {
@@ -113,7 +113,7 @@
             }
         }
 
-        protected virtual string GetResourcePrefix(string baseResourceName, string baseNamespace)
+        protected virtual string? GetResourcePrefix(string baseResourceName, string? baseNamespace)
         {
             if (string.IsNullOrEmpty(baseResourceName))
             {
@@ -136,7 +136,7 @@
             return baseResourceName;
         }
 
-        protected virtual ResourceManagerStringLocalizer CreateResourceManagerStringLocalizer(Assembly assembly, string baseName)
+        protected virtual ResourceManagerStringLocalizer CreateResourceManagerStringLocalizer(Assembly assembly, string? baseName)
         {
             return new ResourceManagerStringLocalizer(
                 new ResourceManager(baseName, assembly),
@@ -146,7 +146,7 @@
                 loggerFactory.CreateLogger<ResourceManagerStringLocalizer>());
         }
 
-        protected virtual string GetResourcePrefix(string location, string baseName, string resourceLocation)
+        protected virtual string? GetResourcePrefix(string location, string? baseName, string? resourceLocation)
         {
             // Re-root the base name if a resources path is set
             return location + "." + resourceLocation + TrimPrefix(baseName, location + ".");
@@ -162,7 +162,7 @@
             return assembly.GetCustomAttribute<RootNamespaceAttribute>();
         }
 
-        private static string TrimPrefix(string name, string prefix)
+        private static string? TrimPrefix(string name, string? prefix)
         {
             if (name.StartsWith(prefix, StringComparison.Ordinal))
             {
@@ -172,7 +172,7 @@
             return name;
         }
 
-        private string GetRootNamespace(Assembly assembly)
+        private string? GetRootNamespace(Assembly assembly)
         {
             var rootNamespaceAttribute = GetRootNamespaceAttribute(assembly);
             if (rootNamespaceAttribute != null)
@@ -183,7 +183,7 @@
             return assembly.GetName().Name;
         }
 
-        private string GetResourcePath(Assembly assembly)
+        private string? GetResourcePath(Assembly assembly)
         {
             var resourceLocationAttribute = GetResourceLocationAttribute(assembly);
 

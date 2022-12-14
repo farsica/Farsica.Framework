@@ -357,8 +357,8 @@
 
         private static IDictionary<string, object> CreateHtmlAttributes(
             IHtmlHelper htmlHelper,
-            string className,
-            string inputType = null)
+            string? className,
+            string? inputType = null)
         {
             var htmlAttributesObject = htmlHelper.ViewData[HtmlAttributeKey];
             if (htmlAttributesObject != null)
@@ -381,8 +381,8 @@
 
         private static IDictionary<string, object> MergeHtmlAttributes(
             object htmlAttributesObject,
-            string className,
-            string inputType)
+            string? className,
+            string? inputType)
         {
             var htmlAttributes = Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributesObject);
 
@@ -413,7 +413,7 @@
                 !templateInfo.Visited(modelExplorer);
         }
 
-        private static void ApplyRfc3339DateFormattingIfNeeded(IHtmlHelper htmlHelper, string format)
+        private static void ApplyRfc3339DateFormattingIfNeeded(IHtmlHelper htmlHelper, string? format)
         {
             if (htmlHelper.Html5DateRenderingMode != Html5DateRenderingMode.Rfc3339)
             {
@@ -434,12 +434,12 @@
             }
         }
 
-        private static IHtmlContent GenerateTextBox(IHtmlHelper htmlHelper, string inputType = null)
+        private static IHtmlContent GenerateTextBox(IHtmlHelper htmlHelper, string? inputType = null)
         {
             return GenerateTextBox(htmlHelper, inputType, htmlHelper.ViewData.TemplateInfo.FormattedModelValue);
         }
 
-        private static IHtmlContent GenerateTextBox(IHtmlHelper htmlHelper, string inputType, object value)
+        private static IHtmlContent GenerateTextBox(IHtmlHelper htmlHelper, string? inputType, object value)
         {
             var htmlAttributes =
                 CreateHtmlAttributes(htmlHelper, className: "text-box single-line", inputType: inputType);
@@ -496,7 +496,7 @@
 
             public override int MaxOutputCharactersPerInputCharacter => 1;
 
-            public override string Encode(string value)
+            public override string? Encode(string value)
             {
                 return value;
             }
@@ -516,7 +516,7 @@
                 output.Write(value, startIndex, characterCount);
             }
 
-            public override void Encode(TextWriter output, string value, int startIndex, int characterCount)
+            public override void Encode(TextWriter output, string? value, int startIndex, int characterCount)
             {
                 if (output == null)
                 {

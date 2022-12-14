@@ -82,16 +82,16 @@
         //        }
         //    }
         // }
-        public RedirectToPageResult RedirectToAreaPage(string pageName, string area, object routeValues = null)
+        public RedirectToPageResult RedirectToAreaPage(string pageName, string? area, object? routeValues = null)
             => RedirectToPage(pageName.TrimEnd(Constants.PagePostfix), Globals.PrepareValues(routeValues, area));
 
-        public RedirectToActionResult RedirectToAreaAction(string actionName, string controllerName, string area, object routeValues = null)
-            => RedirectToAction(actionName, controllerName.TrimEnd(Constants.ControllerPostfix), Globals.PrepareValues(routeValues, area));
+        public RedirectToActionResult RedirectToAreaAction(string actionName, string? controllerName, string? area, object? routeValues = null)
+            => RedirectToAction(actionName, controllerName?.TrimEnd(Constants.ControllerPostfix), Globals.PrepareValues(routeValues, area));
 
-        public override RedirectToActionResult RedirectToAction(string actionName, string controllerName, object routeValues, string fragment)
-            => base.RedirectToAction(actionName, controllerName.TrimEnd(Constants.ControllerPostfix), Globals.PrepareValues(routeValues), fragment);
+        public override RedirectToActionResult RedirectToAction(string actionName, string? controllerName, object routeValues, string? fragment)
+            => base.RedirectToAction(actionName, controllerName?.TrimEnd(Constants.ControllerPostfix), Globals.PrepareValues(routeValues), fragment);
 
-        public override RedirectToPageResult RedirectToPage(string pageName, string pageHandler, object routeValues, string fragment)
+        public override RedirectToPageResult RedirectToPage(string pageName, string? pageHandler, object routeValues, string? fragment)
             => base.RedirectToPage(pageName.TrimEnd(Constants.PagePostfix), pageHandler, Globals.PrepareValues(routeValues), fragment);
     }
 }

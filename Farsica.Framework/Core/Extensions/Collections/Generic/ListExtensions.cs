@@ -169,13 +169,6 @@
             return item;
         }
 
-        /// <summary>
-        /// Sort a list by a topological sorting, which consider their dependencies.
-        /// </summary>
-        /// <typeparam name="T">The type of the members of values.</typeparam>
-        /// <param name="source">A list of objects to sort</param>
-        /// <param name="getDependencies">Function to resolve the dependencies</param>
-        /// <returns></returns>
         public static IReadOnlyList<T> SortByDependencies<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> getDependencies)
         {
             var sorted = new List<T>();
@@ -189,14 +182,6 @@
             return sorted;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T">The type of the members of values.</typeparam>
-        /// <param name="item">Item to resolve</param>
-        /// <param name="getDependencies">Function to resolve the dependencies</param>
-        /// <param name="sorted">List with the sortet items</param>
-        /// <param name="visited">Dictionary with the visited items</param>
         private static void SortByDependenciesVisit<T>(T item, Func<T, IEnumerable<T>> getDependencies, List<T> sorted, Dictionary<T, bool> visited)
         {
             var alreadyVisited = visited.TryGetValue(item, out bool inProcess);

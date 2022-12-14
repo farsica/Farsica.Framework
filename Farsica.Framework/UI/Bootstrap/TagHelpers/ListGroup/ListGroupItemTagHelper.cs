@@ -1,5 +1,6 @@
 ﻿namespace Farsica.Framework.UI.Bootstrap.TagHelpers.ListGroup
 {
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Razor.TagHelpers;
     using Microsoft.Extensions.Options;
@@ -20,11 +21,13 @@
         public bool? Disabled { get; set; }
 
         [HtmlAttributeName("frb-href")]
-        public string Href { get; set; }
+        public string? Href { get; set; }
 
+        [NotNull]
         [HtmlAttributeName("frb-tag-type")]
         public ListItemTagType TagType { get; set; } = ListItemTagType.Default;
 
+        [NotNull]
         [HtmlAttributeName("frb-type")]
         public ListItemType Type { get; set; } = ListItemType.Default;
     }

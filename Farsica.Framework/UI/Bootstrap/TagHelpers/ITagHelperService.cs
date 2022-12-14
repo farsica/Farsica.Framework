@@ -6,7 +6,7 @@
     public interface ITagHelperService<TTagHelper>
         where TTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
     {
-        TTagHelper TagHelper { get; }
+        TTagHelper? TagHelper { get; }
 
         int Order { get; }
 

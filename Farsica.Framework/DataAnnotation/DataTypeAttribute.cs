@@ -54,7 +54,7 @@
             }
         }
 
-        public new string ErrorMessageResourceName
+        public new string? ErrorMessageResourceName
         {
             get
             {
@@ -80,7 +80,7 @@
             }
         }
 
-        public new string ErrorMessage
+        public new string? ErrorMessage
         {
             get
             {
@@ -93,7 +93,7 @@
             }
         }
 
-        public override string GetDataTypeName()
+        public override string? GetDataTypeName()
         {
             return ElementDataType.ToString();
         }

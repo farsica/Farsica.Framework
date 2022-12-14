@@ -6,7 +6,7 @@
 
     public static class TagHelperOutputExtensions
     {
-        public static string Render(this TagHelperOutput output, HtmlEncoder htmlEncoder)
+        public static string? Render(this TagHelperOutput output, HtmlEncoder htmlEncoder)
         {
             using var writer = new StringWriter();
             output.WriteTo(writer, htmlEncoder);

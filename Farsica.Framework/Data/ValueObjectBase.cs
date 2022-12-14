@@ -5,25 +5,24 @@
 
     public abstract class ValueObjectBase
     {
-        public static bool operator ==(ValueObjectBase left, ValueObjectBase right)
+        public static bool operator ==(ValueObjectBase? left, ValueObjectBase? right)
         {
             return EqualOperator(left, right);
         }
 
-        public static bool operator !=(ValueObjectBase left, ValueObjectBase right)
+        public static bool operator !=(ValueObjectBase? left, ValueObjectBase? right)
         {
             return NotEqualOperator(left, right);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (obj == null || obj.GetType() != GetType())
+            if (obj is null || obj.GetType() != GetType())
             {
                 return false;
             }
 
-            ValueObjectBase other = obj as ValueObjectBase;
-            if (other == null)
+            if (obj is not ValueObjectBase other)
             {
                 return false;
             }
@@ -55,9 +54,9 @@
              .Aggregate((t1, t2) => t1 ^ t2);
         }
 
-        protected static bool EqualOperator(ValueObjectBase left, ValueObjectBase right)
+        protected static bool EqualOperator(ValueObjectBase? left, ValueObjectBase? right)
         {
-            if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
+            if (left is null ^ right is null)
             {
                 return false;
             }
@@ -65,7 +64,7 @@
             return ReferenceEquals(left, null) || left.Equals(right);
         }
 
-        protected static bool NotEqualOperator(ValueObjectBase left, ValueObjectBase right)
+        protected static bool NotEqualOperator(ValueObjectBase? left, ValueObjectBase? right)
         {
             return !EqualOperator(left, right);
         }

@@ -17,7 +17,7 @@
         }
 
         [HtmlAttributeName("frb-label")]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [HtmlAttributeName("frb-inline")]
         public bool? Inline { get; set; }
@@ -26,6 +26,6 @@
         public bool? Disabled { get; set; }
 
         [HtmlAttributeName("frb-items")]
-        public IEnumerable<SelectListItem> Items { get; set; }
+        public IEnumerable<SelectListItem>? Items { get; set; }
     }
 }

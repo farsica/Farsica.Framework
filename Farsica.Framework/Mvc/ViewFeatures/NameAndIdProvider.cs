@@ -7,14 +7,14 @@
     {
         private static readonly object PreviousNameAndIdKey = typeof(PreviousNameAndId);
 
-        public static string CreateSanitizedId(ViewContext viewContext, string fullName, string invalidCharReplacement)
+        public static string? CreateSanitizedId(ViewContext? viewContext, string? fullName, string? invalidCharReplacement)
         {
-            if (viewContext == null)
+            if (viewContext is null)
             {
                 throw new ArgumentNullException(nameof(viewContext));
             }
 
-            if (invalidCharReplacement == null)
+            if (invalidCharReplacement is null)
             {
                 throw new ArgumentNullException(nameof(invalidCharReplacement));
             }
@@ -26,17 +26,16 @@
 
             // Check cache to avoid whatever TagBuilder.CreateSanitizedId() may do.
             var items = viewContext.HttpContext.Items;
-            PreviousNameAndId previousNameAndId = null;
-            if (items.TryGetValue(PreviousNameAndIdKey, out object previousNameAndIdObject) &&
-                (previousNameAndId = (PreviousNameAndId)previousNameAndIdObject) != null &&
+            PreviousNameAndId? previousNameAndId = null;
+            if (items.TryGetValue(PreviousNameAndIdKey, out object? previousNameAndIdObject) && (previousNameAndId = (PreviousNameAndId?)previousNameAndIdObject) != null &&
                 string.Equals(previousNameAndId.FullName, fullName, StringComparison.Ordinal))
             {
-                return previousNameAndId.SanitizedId;
+                return previousNameAndId?.SanitizedId;
             }
 
             var sanitizedId = TagBuilder.CreateSanitizedId(fullName, invalidCharReplacement);
 
-            if (previousNameAndId == null)
+            if (previousNameAndId is null)
             {
                 // Do not create a PreviousNameAndId when TagBuilder.CreateSanitizedId() only examined fullName.
                 if (string.Equals(fullName, sanitizedId, StringComparison.Ordinal))
@@ -54,19 +53,19 @@
             return previousNameAndId.SanitizedId;
         }
 
-        public static void GenerateId(ViewContext viewContext, TagBuilder tagBuilder, string fullName, string invalidCharReplacement)
+        public static void GenerateId(ViewContext viewContext, TagBuilder tagBuilder, string? fullName, string? invalidCharReplacement)
         {
-            if (viewContext == null)
+            if (viewContext is null)
             {
                 throw new ArgumentNullException(nameof(viewContext));
             }
 
-            if (tagBuilder == null)
+            if (tagBuilder is null)
             {
                 throw new ArgumentNullException(nameof(tagBuilder));
             }
 
-            if (invalidCharReplacement == null)
+            if (invalidCharReplacement is null)
             {
                 throw new ArgumentNullException(nameof(invalidCharReplacement));
             }
@@ -89,9 +88,9 @@
             }
         }
 
-        public static string GetFullHtmlFieldName(ViewContext viewContext, string expression)
+        public static string? GetFullHtmlFieldName(ViewContext? viewContext, string? expression)
         {
-            var htmlFieldPrefix = viewContext.ViewData.TemplateInfo.HtmlFieldPrefix;
+            var htmlFieldPrefix = viewContext?.ViewData.TemplateInfo.HtmlFieldPrefix;
             if (string.IsNullOrEmpty(expression))
             {
                 return htmlFieldPrefix;
@@ -103,15 +102,15 @@
             }
 
             // Need to concatenate. See if we've already done that.
-            var items = viewContext.HttpContext.Items;
-            PreviousNameAndId previousNameAndId = null;
-            if (items.TryGetValue(PreviousNameAndIdKey, out object previousNameAndIdObject) && (previousNameAndId = (PreviousNameAndId)previousNameAndIdObject) != null &&
+            var items = viewContext?.HttpContext.Items;
+            PreviousNameAndId? previousNameAndId = null;
+            if (items.TryGetValue(PreviousNameAndIdKey, out object? previousNameAndIdObject) && (previousNameAndId = (PreviousNameAndId?)previousNameAndIdObject) is not null &&
                 string.Equals(previousNameAndId.HtmlFieldPrefix, htmlFieldPrefix, StringComparison.Ordinal) && string.Equals(previousNameAndId.Expression, expression, StringComparison.Ordinal))
             {
-                return previousNameAndId.OutputFullName;
+                return previousNameAndId?.OutputFullName;
             }
 
-            if (previousNameAndId == null)
+            if (previousNameAndId is null)
             {
                 previousNameAndId = new PreviousNameAndId();
                 items[PreviousNameAndIdKey] = previousNameAndId;
@@ -136,21 +135,21 @@
         {
             // Cached ambient input for NameAndIdProvider.GetFullHtmlFieldName(). TemplateInfo.HtmlFieldPrefix may
             // change during the lifetime of a ViewContext.
-            public string HtmlFieldPrefix { get; set; }
+            public string? HtmlFieldPrefix { get; set; }
 
             // Cached input for NameAndIdProvider.GetFullHtmlFieldName().
-            public string Expression { get; set; }
+            public string? Expression { get; set; }
 
             // Cached return value for NameAndIdProvider.GetFullHtmlFieldName().
-            public string OutputFullName { get; set; }
+            public string? OutputFullName { get; set; }
 
             // Cached input for NameAndIdProvider.CreateSanitizedId(). Since IHtmlHelper.GenerateIdFromName() is
             // available to all, there is no guarantee this is equal to OutputFullName when CreateSanitizedId() is
             // called.
-            public string FullName { get; set; }
+            public string? FullName { get; set; }
 
             // Cached return value for NameAndIdProvider.CreateSanitizedId().
-            public string SanitizedId { get; set; }
+            public string? SanitizedId { get; set; }
         }
     }
 }

@@ -25,50 +25,50 @@
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public bool TryGetValue<TItem, TKey>(TKey key, out TItem value)
+        public bool TryGetValue<TItem, TKey>(TKey key, out TItem? value)
             where TKey : struct
         {
             return TryGetValue(key.ToString(), out value);
         }
 
-        public bool TryGetValue<TItem>(string key, out TItem value)
+        public bool TryGetValue<TItem>(string? key, out TItem? value)
         {
             value = Get<TItem>(key);
-            return value.Equals(default(TItem));
+            return value is not null && value.Equals(default(TItem));
         }
 
-        public async Task<TItem> GetAsync<TItem, TKey>(TKey key)
+        public async Task<TItem?> GetAsync<TItem, TKey>(TKey key)
             where TKey : struct
         {
             return await GetAsync<TItem>(key.ToString());
         }
 
-        public async Task<TItem> GetAsync<TItem>(string key)
+        public async Task<TItem?> GetAsync<TItem>(string? key)
         {
-            var cookie = httpContextAccessor.HttpContext.Request.Cookies[GenerateKey(key)];
+            var cookie = httpContextAccessor.HttpContext?.Request.Cookies[GenerateKey(key)];
             if (string.IsNullOrEmpty(cookie))
             {
                 return default;
             }
 
-            return await System.Text.Json.JsonSerializer.DeserializeAsync<TItem>(new MemoryStream(Convert.FromBase64String(cookie)));
+            return await JsonSerializer.DeserializeAsync<TItem>(new MemoryStream(Convert.FromBase64String(cookie)));
         }
 
-        public TItem Get<TItem, TKey>(TKey key)
+        public TItem? Get<TItem, TKey>(TKey key)
             where TKey : struct
         {
             return Get<TItem>(key.ToString());
         }
 
-        public TItem Get<TItem>(string key)
+        public TItem? Get<TItem>(string? key)
         {
-            var cookie = httpContextAccessor.HttpContext.Request.Cookies[GenerateKey(key)];
+            var cookie = httpContextAccessor.HttpContext?.Request.Cookies[GenerateKey(key)];
             if (string.IsNullOrEmpty(cookie))
             {
                 return default;
             }
 
-            return System.Text.Json.JsonSerializer.Deserialize<TItem>(Convert.FromBase64String(cookie));
+            return JsonSerializer.Deserialize<TItem>(Convert.FromBase64String(cookie));
         }
 
         public void Remove<TKey>(TKey key)
@@ -77,20 +77,20 @@
             Remove(key.ToString());
         }
 
-        public void Remove(string key)
+        public void Remove(string? key)
         {
-            httpContextAccessor.HttpContext.Response.Cookies.Delete(GenerateKey(key));
+            httpContextAccessor.HttpContext?.Response.Cookies.Delete(GenerateKey(key));
         }
 
-        public async Task<TItem> SetAsync<TItem, TKey>(TKey key, TItem value, TimeSpan? maxAge = null, DateTimeOffset? expires = null, bool httpOnly = true)
+        public async Task<TItem?> SetAsync<TItem, TKey>(TKey key, TItem value, TimeSpan? maxAge = null, DateTimeOffset? expires = null, bool httpOnly = true)
             where TKey : struct
         {
             return await SetAsync(key.ToString(), value, maxAge, expires, httpOnly);
         }
 
-        public async Task<TItem> SetAsync<TItem>(string key, TItem value, TimeSpan? maxAge = null, DateTimeOffset? expires = null, bool httpOnly = true)
+        public async Task<TItem?> SetAsync<TItem>(string? key, TItem value, TimeSpan? maxAge = null, DateTimeOffset? expires = null, bool httpOnly = true)
         {
-            if (httpContextAccessor.HttpContext.Request.Cookies[GenerateKey(key)] != string.Empty)
+            if (httpContextAccessor.HttpContext?.Request.Cookies[GenerateKey(key)] != string.Empty)
             {
                 Remove(key);
             }
@@ -113,7 +113,7 @@
                 Expires = expires,
             };
 
-            httpContextAccessor.HttpContext.Response.Cookies.Append(GenerateKey(key), Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonValue)), option);
+            httpContextAccessor.HttpContext?.Response.Cookies.Append(GenerateKey(key), Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonValue)), option);
 
             return value;
         }
@@ -124,9 +124,9 @@
             return Set(key.ToString(), value, maxAge, expires, httpOnly);
         }
 
-        public TItem Set<TItem>(string key, TItem value, TimeSpan? maxAge = null, DateTimeOffset? expires = null, bool httpOnly = true)
+        public TItem Set<TItem>(string? key, TItem value, TimeSpan? maxAge = null, DateTimeOffset? expires = null, bool httpOnly = true)
         {
-            if (httpContextAccessor.HttpContext.Request.Cookies[GenerateKey(key)] != string.Empty)
+            if (httpContextAccessor.HttpContext?.Request.Cookies[GenerateKey(key)] != string.Empty)
             {
                 Remove(key);
             }
@@ -142,12 +142,12 @@
                 Expires = expires,
             };
 
-            httpContextAccessor.HttpContext.Response.Cookies.Append(GenerateKey(key), Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonValue)), option);
+            httpContextAccessor.HttpContext?.Response.Cookies.Append(GenerateKey(key), Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonValue)), option);
 
             return value;
         }
 
-        private static string GenerateKey(string key)
+        private static string GenerateKey(string? key)
         {
             return Constants.Cookie + key;
         }

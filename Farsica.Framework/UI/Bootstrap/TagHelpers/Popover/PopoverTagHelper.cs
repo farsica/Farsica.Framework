@@ -33,18 +33,18 @@
         public bool? Hoverable { get; set; }
 
         [HtmlAttributeName("frb-popover")]
-        public string Popover { get; set; }
+        public string? Popover { get; set; }
 
         [HtmlAttributeName("frb-popover-right")]
-        public string PopoverRight { get; set; }
+        public string? PopoverRight { get; set; }
 
         [HtmlAttributeName("frb-popover-left")]
-        public string PopoverLeft { get; set; }
+        public string? PopoverLeft { get; set; }
 
         [HtmlAttributeName("frb-popover-top")]
-        public string PopoverTop { get; set; }
+        public string? PopoverTop { get; set; }
 
         [HtmlAttributeName("frb-popover-bottom")]
-        public string PopoverBottom { get; set; }
+        public string? PopoverBottom { get; set; }
     }
 }

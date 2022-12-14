@@ -6,7 +6,7 @@
 
     public class CultureRouteConstraint : IRouteConstraint
     {
-        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(HttpContext httpContext, IRouter route, string? routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
             if (!values.ContainsKey(Core.Constants.LanguageIdentifier))
             {

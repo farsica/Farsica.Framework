@@ -9,7 +9,7 @@
     {
         public override bool IsValid(object value)
         {
-            return string.IsNullOrWhiteSpace(value?.ToString()) || Uri.TryCreate(value.ToString(), UriKind.Absolute, out _);
+            return string.IsNullOrEmpty(value?.ToString()) || Uri.TryCreate(value.ToString(), UriKind.Absolute, out _);
         }
 
         public void AddValidation(ClientModelValidationContext context)

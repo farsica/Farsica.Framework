@@ -20,7 +20,7 @@
             output.Content.SetHtmlContent(html);
         }
 
-        protected virtual string GetHtml(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetHtml(TagHelperContext context, TagHelperOutput output)
         {
             var value = TagHelper.For.ModelExplorer.Model as bool?;
             var name = TagHelper.For.Name;

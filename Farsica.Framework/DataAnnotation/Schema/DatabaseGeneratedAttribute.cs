@@ -4,14 +4,14 @@
 
     public sealed class DatabaseGeneratedAttribute : System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedAttribute
     {
-        public DatabaseGeneratedAttribute(DatabaseGeneratedOption databaseGeneratedOption, string sequenceName = null)
+        public DatabaseGeneratedAttribute(DatabaseGeneratedOption databaseGeneratedOption, string? sequenceName = null)
             : base(Convert(databaseGeneratedOption))
         {
             SequenceName = sequenceName;
             DatabaseGeneratedOption = databaseGeneratedOption;
         }
 
-        public string SequenceName { get; }
+        public string? SequenceName { get; }
 
         public new DatabaseGeneratedOption DatabaseGeneratedOption { get; }
 
@@ -19,11 +19,11 @@
         {
             switch (databaseGeneratedOption)
             {
-                case Schema.DatabaseGeneratedOption.None:
+                case DatabaseGeneratedOption.None:
                     return System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None;
-                case Schema.DatabaseGeneratedOption.Identity:
+                case DatabaseGeneratedOption.Identity:
                     return System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity;
-                case Schema.DatabaseGeneratedOption.Computed:
+                case DatabaseGeneratedOption.Computed:
                     return System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed;
                 default:
                     throw new ArgumentException(databaseGeneratedOption.ToString());

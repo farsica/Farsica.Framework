@@ -23,7 +23,7 @@
         {
             var path = httpContext.Request.Path;
 
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 return Task.FromResult(new ProviderCultureResult(Constants.DefaultLanguageCode));
             }

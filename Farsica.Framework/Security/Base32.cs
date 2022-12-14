@@ -7,7 +7,7 @@
     {
         private static readonly string Base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
-        public static string ToBase32(byte[] input)
+        public static string? ToBase32(byte[] input)
         {
             if (input == null)
             {

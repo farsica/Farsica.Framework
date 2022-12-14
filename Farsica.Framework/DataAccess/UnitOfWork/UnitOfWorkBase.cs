@@ -245,7 +245,7 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!IsDisposed && disposing && Context != null)
+            if (!IsDisposed && disposing && Context is not null)
             {
                 Context.Dispose();
                 Context = null;
@@ -258,9 +258,9 @@
 
         #region Private Methods
 
-        private static string GetSequenceCommand(string sequence, string schema)
+        private static string? GetSequenceCommand(string sequence, string? schema)
         {
-            return $"SELECT {(!string.IsNullOrWhiteSpace(schema) ? $"{schema}." : string.Empty)}{sequence}.NEXTVAL FROM DUAL";
+            return $"SELECT {(!string.IsNullOrEmpty(schema) ? $"{schema}." : string.Empty)}{sequence}.NEXTVAL FROM DUAL";
         }
 
         private static void NormalizePersian<TEntity>(IList<TEntity> lst)
@@ -282,7 +282,7 @@
                     if (property.PropertyType == typeof(string))
                     {
                         var val = property.GetValue(item, null) as string;
-                        if (!string.IsNullOrWhiteSpace(val))
+                        if (!string.IsNullOrEmpty(val))
                         {
                             var newVal = val.NormalizePersian();
                             if (newVal != val)
@@ -313,7 +313,7 @@
                     if (property.PropertyType == typeof(string))
                     {
                         var val = property.GetValue(item.Entity, null) as string;
-                        if (!string.IsNullOrWhiteSpace(val))
+                        if (!string.IsNullOrEmpty(val))
                         {
                             var newVal = val.NormalizePersian();
                             if (newVal != val)
@@ -326,7 +326,7 @@
                     {
                         if (item.State == EntityState.Added)
                         {
-                            if (property.GetCustomAttributes(typeof(DatabaseGeneratedAttribute), false).FirstOrDefault() is DatabaseGeneratedAttribute attribute && attribute.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity && !string.IsNullOrWhiteSpace(attribute.SequenceName))
+                            if (property.GetCustomAttributes(typeof(DatabaseGeneratedAttribute), false).FirstOrDefault() is DatabaseGeneratedAttribute attribute && attribute.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity && !string.IsNullOrEmpty(attribute.SequenceName))
                             {
                                 var val = GetSequenceValue(attribute.SequenceName);
                                 property.SetValue(item.Entity, val, null);
@@ -360,7 +360,7 @@
                     else if (property.PropertyType == typeof(string))
                     {
                         var val = property.GetValue(item.Entity, null) as string;
-                        if (!string.IsNullOrWhiteSpace(val))
+                        if (!string.IsNullOrEmpty(val))
                         {
                             var newVal = val.NormalizePersian();
                             if (newVal != val)
@@ -373,7 +373,7 @@
                     {
                         if (item.State == EntityState.Added)
                         {
-                            if (property.GetCustomAttributes(typeof(DatabaseGeneratedAttribute), false).FirstOrDefault() is DatabaseGeneratedAttribute attribute && attribute.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity && !string.IsNullOrWhiteSpace(attribute.SequenceName))
+                            if (property.GetCustomAttributes(typeof(DatabaseGeneratedAttribute), false).FirstOrDefault() is DatabaseGeneratedAttribute attribute && attribute.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity && !string.IsNullOrEmpty(attribute.SequenceName))
                             {
                                 var val = await GetSequenceValueAsync(attribute.SequenceName);
                                 property.SetValue(item.Entity, val, null);

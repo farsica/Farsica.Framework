@@ -9,7 +9,7 @@
 
     public sealed class DaysDistanceAttribute : ValidationAttribute
     {
-        public DaysDistanceAttribute(string otherProperty, int maxDistance, string expression = null)
+        public DaysDistanceAttribute(string otherProperty, int maxDistance, string? expression = null)
             : base(() => "ValidationError")
         {
             OtherProperty = otherProperty;
@@ -19,20 +19,20 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_DaysDistance);
         }
 
-        public string OtherProperty { get; internal set; }
+        public string? OtherProperty { get; internal set; }
 
         public int MaxDistance { get; internal set; }
 
-        public string Expression { get; internal set; }
+        public string? Expression { get; internal set; }
 
-        public string FormatErrorMessage(string name, string otherName)
+        public string? FormatErrorMessage(string name, string? otherName)
         {
             return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, otherName, MaxDistance);
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (!string.IsNullOrWhiteSpace(Expression))
+            if (!string.IsNullOrEmpty(Expression))
             {
                 var properties = validationContext.ObjectType.GetProperties();
                 var interpreter = new Interpreter();

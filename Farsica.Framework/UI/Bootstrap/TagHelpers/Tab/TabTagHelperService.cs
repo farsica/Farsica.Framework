@@ -19,26 +19,27 @@
             var tabContent = GetTabContentItem(context, output, innerContent.GetContent());
 
             var tabHeaderItems = context.GetValue<List<TabItem>>(TabItems);
-
-            var active = TagHelper.Active ?? false;
-
-            tabHeaderItems.Add(new TabItem(tabHeader, tabContent, active, TagHelper.Name, TagHelper.ParentDropdownName, false));
+            if (tabHeaderItems is not null)
+            {
+                var active = TagHelper?.Active ?? false;
+                tabHeaderItems.Add(new TabItem(tabHeader, tabContent, active, TagHelper?.Name, TagHelper?.ParentDropdownName, false));
+            }
 
             output.SuppressOutput();
         }
 
-        protected virtual string GetTabHeaderItem(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetTabHeaderItem(TagHelperContext context, TagHelperOutput output)
         {
-            var id = TagHelper.Name + "-tab";
-            var link = TagHelper.Name;
-            var control = TagHelper.Name;
-            var title = TagHelper.Title;
+            var id = TagHelper?.Name + "-tab";
+            var link = TagHelper?.Name;
+            var control = TagHelper?.Name;
+            var title = TagHelper?.Title;
             var attributes = GetTabHeaderAttributes(context, output);
 
             var classAttributesAsString = attributes.Where(a => a.Name == "class").ToList().Select(a => a.Value).JoinAsString(" ");
             var otherAttributesAsString = attributes.Where(a => a.Name != "class").ToList().ToHtmlAttributesAsString();
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.ParentDropdownName))
+            if (!string.IsNullOrEmpty(TagHelper?.ParentDropdownName))
             {
                 return "<a class=\"dropdown-item " + classAttributesAsString + "\" id=\"" + id + "\" href=\"#" + link + "\" data-toggle=\"tab\"  role=\"tab\" aria-controls=\"" + control + "\" aria-selected=\"false\" " + otherAttributesAsString + ">" + title + "</a>";
             }
@@ -48,10 +49,10 @@
                    "</a></li>";
         }
 
-        protected virtual string GetTabContentItem(TagHelperContext context, TagHelperOutput output, string content)
+        protected virtual string? GetTabContentItem(TagHelperContext context, TagHelperOutput output, string? content)
         {
-            var headerId = TagHelper.Name + "-tab";
-            var id = TagHelper.Name;
+            var headerId = TagHelper?.Name + "-tab";
+            var id = TagHelper?.Name;
             var attributes = GetTabContentAttributes(context, output);
 
             var classAttributesAsString = attributes.Where(a => a.Name == "class").ToList().Select(a => a.Name).JoinAsString(" ");
@@ -64,7 +65,7 @@
 
         protected virtual void SetPlaceholderForNameIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Name))
+            if (TagHelper is not null && string.IsNullOrEmpty(TagHelper.Name))
             {
                 TagHelper.Name = TabItemNamePlaceHolder;
             }

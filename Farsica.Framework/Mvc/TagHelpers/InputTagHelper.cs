@@ -95,7 +95,7 @@
 //        public ModelExpression For { get; set; }
 
 // /// <summary>
-//        /// The format string (see https://msdn.microsoft.com/en-us/library/txafckwd.aspx) used to format the
+//        /// The format string? (see https://msdn.microsoft.com/en-us/library/txafckwd.aspx) used to format the
 //        /// <see cref="For"/> result. Sets the generated "value" attribute to that formatted string.
 //        /// </summary>
 //        /// <remarks>
@@ -104,7 +104,7 @@
 //        /// <see cref="IHtmlGenerator.GenerateTextBox"/>.
 //        /// </remarks>
 //        [HtmlAttributeName(FormatAttributeName)]
-//        public string Format { get; set; }
+//        public string? Format { get; set; }
 
 // /// <summary>
 //        /// The type of the &lt;input&gt; element.
@@ -116,7 +116,7 @@
 //        /// <c>hidden</c>, <c>password</c>, or <c>radio</c>.
 //        /// </remarks>
 //        [HtmlAttributeName("type")]
-//        public string InputTypeName { get; set; }
+//        public string? InputTypeName { get; set; }
 
 // /// <summary>
 //        /// The name of the &lt;input&gt; element.
@@ -125,7 +125,7 @@
 //        /// Passed through to the generated HTML in all cases. Also used to determine whether <see cref="For"/> is
 //        /// valid with an empty <see cref="ModelExpression.Name"/>.
 //        /// </remarks>
-//        public string Name { get; set; }
+//        public string? Name { get; set; }
 
 // /// <summary>
 //        /// The value of the &lt;input&gt; element.
@@ -134,7 +134,7 @@
 //        /// Passed through to the generated HTML in all cases. Also used to determine the generated "checked" attribute
 //        /// if <see cref="InputTypeName"/> is "radio". Must not be <c>null</c> in that case.
 //        /// </remarks>
-//        public string Value { get; set; }
+//        public string? Value { get; set; }
 
 // /// <inheritdoc />
 //        /// <remarks>Does nothing if <see cref="For"/> is <c>null</c>.</remarks>
@@ -183,8 +183,8 @@
 //                    For.Name));
 //            }
 
-// string inputType;
-//            string inputTypeHint;
+// string? inputType;
+//            string? inputTypeHint;
 //            if (string.IsNullOrEmpty(InputTypeName))
 //            {
 //                // Note GetInputType never returns null.
@@ -264,7 +264,7 @@
 //        /// <param name="inputTypeHint">When this method returns, contains the string, often the name of a
 //        /// <see cref="ModelMetadata.ModelType"/> base class, used to determine this method's return value.</param>
 //        /// <returns>An &lt;input&gt; element's "type" attribute value.</returns>
-//        protected string GetInputType(ModelExplorer modelExplorer, out string inputTypeHint)
+//        protected string? GetInputType(ModelExplorer modelExplorer, out string? inputTypeHint)
 //        {
 //            foreach (var hint in GetInputTypeHints(modelExplorer))
 //            {
@@ -348,7 +348,7 @@
 
 // private TagBuilder GenerateRadio(ModelExplorer modelExplorer, IDictionary<string, object> htmlAttributes)
 //        {
-//            // Note empty string is allowed.
+//            // Note empty string? is allowed.
 //            if (Value == null)
 //            {
 //                throw new InvalidOperationException(Resources.FormatInputTagHelper_ValueRequired(
@@ -369,8 +369,8 @@
 
 // private TagBuilder GenerateTextBox(
 //            ModelExplorer modelExplorer,
-//            string inputTypeHint,
-//            string inputType,
+//            string? inputTypeHint,
+//            string? inputType,
 //            IDictionary<string, object> htmlAttributes)
 //        {
 //            var format = Format;
@@ -436,9 +436,9 @@
 //        }
 
 // // Get a fall-back format based on the metadata.
-//        private string GetFormat(ModelExplorer modelExplorer, string inputTypeHint, string inputType)
+//        private string? GetFormat(ModelExplorer modelExplorer, string? inputTypeHint, string? inputType)
 //        {
-//            string format;
+//            string? format;
 //            if (string.Equals("month", inputType, StringComparison.OrdinalIgnoreCase))
 //            {
 //                // "month" is a new HTML5 input type that only will be rendered in Rfc3339 mode

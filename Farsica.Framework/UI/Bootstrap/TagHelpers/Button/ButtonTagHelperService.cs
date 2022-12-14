@@ -28,7 +28,7 @@
         protected virtual void AddBusyText(TagHelperContext context, TagHelperOutput output)
         {
             var busyText = TagHelper.BusyText ?? UIResource.ProcessingWithThreeDot;
-            if (string.IsNullOrWhiteSpace(busyText))
+            if (string.IsNullOrEmpty(busyText))
             {
                 return;
             }

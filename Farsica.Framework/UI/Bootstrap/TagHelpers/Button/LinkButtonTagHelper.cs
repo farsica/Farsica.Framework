@@ -22,10 +22,10 @@
         public ButtonSize Size { get; set; } = ButtonSize.Default;
 
         [HtmlAttributeName("frb-text")]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         [HtmlAttributeName("frb-icon")]
-        public string Icon { get; set; }
+        public string? Icon { get; set; }
 
         [HtmlAttributeName("frb-disabled")]
         public bool? Disabled { get; set; }

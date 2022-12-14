@@ -7,49 +7,49 @@
 
     public static class EnumHelper
     {
-        public static string LocalizeEnum(object value)
+        public static string? LocalizeEnum(object? value)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return string.Empty;
             }
 
-            var items = value.ToString().Split(',', StringSplitOptions.TrimEntries);
-            return string.Join(",", items.Select(t => Globals.GetLocalizedDisplayName(value.GetType().GetField(t)) ?? t));
+            var items = value.ToString()?.Split(',', StringSplitOptions.TrimEntries);
+            return items is null ? string.Empty : string.Join(",", items.Select(t => Globals.GetLocalizedDisplayName(value.GetType().GetField(t)) ?? t));
         }
 
-        public static string LocalizeEnum<T>(object value)
+        public static string? LocalizeEnum<T>(object? value)
             where T : struct
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return string.Empty;
             }
 
-            var items = value.ToString().Split(',', StringSplitOptions.TrimEntries);
-            return string.Join(",", items.Select(t => Globals.GetLocalizedDisplayName(typeof(T).GetField(t)) ?? t));
+            var items = value.ToString()?.Split(',', StringSplitOptions.TrimEntries);
+            return items is null ? string.Empty : string.Join(",", items.Select(t => Globals.GetLocalizedDisplayName(typeof(T).GetField(t)) ?? t));
         }
 
-        public static string LocalizedShortName<T>(T value)
+        public static string? LocalizedShortName<T>(T value)
             where T : struct
         {
-            var items = value.ToString().Split(',', StringSplitOptions.TrimEntries);
-            return string.Join(",", items.Select(t => Globals.GetLocalizedShortName(typeof(T).GetField(t)) ?? t));
+            var items = value.ToString()?.Split(',', StringSplitOptions.TrimEntries);
+            return items is null ? string.Empty : string.Join(",", items.Select(t => Globals.GetLocalizedShortName(typeof(T).GetField(t)) ?? t));
         }
 
-        public static string LocalizedDescription<T>(T value)
+        public static string? LocalizedDescription<T>(T value)
             where T : struct
         {
-            var items = value.ToString().Split(',', StringSplitOptions.TrimEntries);
-            return string.Join(",", items.Select(t => Globals.GetLocalizedDescription(typeof(T).GetField(t)) ?? t));
+            var items = value.ToString()?.Split(',', StringSplitOptions.TrimEntries);
+            return items is null ? string.Empty : string.Join(",", items.Select(t => Globals.GetLocalizedDescription(typeof(T).GetField(t)) ?? t));
         }
 
-        public static bool TryParse<T>(this string name, out T t)
+        public static bool TryParse<T>(this string? name, out T t)
             where T : struct
         {
             t = default;
 
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrEmpty(name))
             {
                 return false;
             }
@@ -67,7 +67,11 @@
                     || name == Globals.GetLocalizedDisplayName(info)
                     || name == Globals.GetLocalizedShortName(info))
                 {
-                    t = (T)info.GetValue(info);
+                    if (info.GetValue(info) is T t1)
+                    {
+                        t = t1;
+                    }
+
                     return true;
                 }
             }
@@ -75,7 +79,7 @@
             return false;
         }
 
-        public static IEnumerable<T> FlagsEnumToList<T>(this T value)
+        public static IEnumerable<T>? FlagsEnumToList<T>(this T value)
             where T : struct
         {
             if (!typeof(T).IsSubclassOf(typeof(Enum)))
@@ -83,7 +87,7 @@
                 throw new ArgumentException("typeof(T)");
             }
 
-            return value.ToString().Split(',').Select(flag => (T)Enum.Parse(typeof(T), flag));
+            return value.ToString()?.Split(',').Select(flag => (T)Enum.Parse(typeof(T), flag));
         }
 
         public static T ListToFlagsEnum<T>(this IEnumerable<T> value)

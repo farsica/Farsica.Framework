@@ -8,7 +8,7 @@
 
     internal static class FormatWeekHelper
     {
-        public static string GetFormattedWeek(ModelExplorer modelExplorer)
+        public static string? GetFormattedWeek(ModelExplorer modelExplorer)
         {
             var value = modelExplorer.Model;
             var metadata = modelExplorer.Metadata;

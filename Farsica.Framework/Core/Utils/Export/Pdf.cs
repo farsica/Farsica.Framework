@@ -34,9 +34,9 @@
 
         public override Constants.ExportType ProviderType => Constants.ExportType.Pdf;
 
-        protected override string Extension => ".pdf";
+        protected override string? Extension => ".pdf";
 
-        protected override string ContentType => "application/pdf";
+        protected override string? ContentType => "application/pdf";
 
         protected override byte[] GenerateFile(DataSet dataSet, bool hasSearchItem)
         {
@@ -46,7 +46,7 @@
             writer.CloseStream = false;
             doc.Open();
             AddLogoToDocument(doc);
-            string font_ttf = new Uri(webHostEnvironment.WebRootPath + "\\lib\\vazir\\webfonts\\Vazir-FD.ttf").AbsolutePath;
+            string? font_ttf = new Uri(webHostEnvironment.WebRootPath + "\\lib\\vazir\\webfonts\\Vazir-FD.ttf").AbsolutePath;
             BaseFont basefont = BaseFont.CreateFont(font_ttf, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
             iTextSharp.text.Font font = new iTextSharp.text.Font(basefont, 12, iTextSharp.text.Font.NORMAL);
 
@@ -346,7 +346,7 @@
 
         private void AddLogoToDocument(Document doc)
         {
-            string imageUrl = new Uri(webHostEnvironment.WebRootPath + "\\img\\logo-mini.png").AbsolutePath;
+            string? imageUrl = new Uri(webHostEnvironment.WebRootPath + "\\img\\logo-mini.png").AbsolutePath;
             var logo = iTextSharp.text.Image.GetInstance(imageUrl);
             logo.SetAbsolutePosition(400, 520);
             logo.ScaleAbsoluteHeight(50);

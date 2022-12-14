@@ -13,7 +13,7 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_Required);
         }
 
-        public new string ErrorMessageResourceName
+        public new string? ErrorMessageResourceName
         {
             get
             {
@@ -26,7 +26,7 @@
             }
         }
 
-        public new string ErrorMessage
+        public new string? ErrorMessage
         {
             get
             {

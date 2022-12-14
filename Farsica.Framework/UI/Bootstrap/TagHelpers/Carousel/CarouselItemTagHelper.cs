@@ -17,15 +17,15 @@
         public bool? Active { get; set; }
 
         [HtmlAttributeName("frb-src")]
-        public string Src { get; set; }
+        public string? Src { get; set; }
 
         [HtmlAttributeName("frb-alt")]
-        public string Alt { get; set; }
+        public string? Alt { get; set; }
 
         [HtmlAttributeName("frb-caption-title")]
-        public string CaptionTitle { get; set; }
+        public string? CaptionTitle { get; set; }
 
         [HtmlAttributeName("frb-caption")]
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
     }
 }

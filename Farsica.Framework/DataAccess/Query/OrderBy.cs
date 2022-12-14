@@ -40,7 +40,7 @@
             }
 
             LambdaExpression lambda = System.Linq.Expressions.Expression.Lambda(expression, arg);
-            string methodName = reverse ? "OrderByDescending" : "OrderBy";
+            string? methodName = reverse ? "OrderByDescending" : "OrderBy";
 
             MethodCallExpression resultExp = System.Linq.Expressions.Expression.Call(
                 typeof(Queryable),

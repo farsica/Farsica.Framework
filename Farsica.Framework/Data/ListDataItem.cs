@@ -5,7 +5,7 @@
     public class ListDataItem<T>
     {
         [JsonPropertyName("text")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("id")]
         public T Value { get; set; }

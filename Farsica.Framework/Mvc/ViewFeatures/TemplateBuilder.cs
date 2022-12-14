@@ -17,8 +17,8 @@
         private readonly ViewDataDictionary viewData;
         private readonly ModelExplorer modelExplorer;
         private readonly ModelMetadata metadata;
-        private readonly string htmlFieldName;
-        private readonly string templateName;
+        private readonly string? htmlFieldName;
+        private readonly string? templateName;
         private readonly bool readOnly;
         private readonly object additionalViewData;
         private object model;
@@ -29,8 +29,8 @@
             ViewContext viewContext,
             ViewDataDictionary viewData,
             ModelExplorer modelExplorer,
-            string htmlFieldName,
-            string templateName,
+            string? htmlFieldName,
+            string? templateName,
             bool readOnly,
             object additionalViewData)
         {
@@ -94,14 +94,14 @@
             }
             else if (viewData.ModelMetadata.IsEnum && model is Enum modelEnum)
             {
-                // Cover the case where the model is an enum and we want the string value of it
+                // Cover the case where the model is an enum and we want the string? value of it
                 var value = modelEnum.ToString("d");
                 var enumGrouped = viewData.ModelMetadata.EnumGroupedDisplayNamesAndValues;
                 foreach (var kvp in enumGrouped)
                 {
                     if (kvp.Value == value)
                     {
-                        // Creates a ModelExplorer with the same Metadata except that the Model is a string instead of an Enum
+                        // Creates a ModelExplorer with the same Metadata except that the Model is a string? instead of an Enum
                         formattedModelValue = kvp.Key.Name;
                         break;
                     }

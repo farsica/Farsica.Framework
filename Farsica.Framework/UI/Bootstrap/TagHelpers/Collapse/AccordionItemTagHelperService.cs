@@ -18,13 +18,12 @@
             var html = GetAccordionHeaderItem(context, output) + GetAccordionContentItem(context, output, innerContent);
 
             var tabHeaderItems = context.GetValue<List<string>>(AccordionItems);
-
-            tabHeaderItems.Add(html);
+            tabHeaderItems?.Add(html);
 
             output.SuppressOutput();
         }
 
-        protected virtual string GetAccordionHeaderItem(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetAccordionHeaderItem(TagHelperContext context, TagHelperOutput output)
         {
             return "     <div class=\"card-header\" id=\"" + GetHeadingId() + "\">" + Environment.NewLine +
                    "      <h5 class=\"mb-0\">" + Environment.NewLine +
@@ -35,7 +34,7 @@
                    "    </div>" + Environment.NewLine;
         }
 
-        protected virtual string GetAccordionContentItem(TagHelperContext context, TagHelperOutput output, string content)
+        protected virtual string? GetAccordionContentItem(TagHelperContext context, TagHelperOutput output, string? content)
         {
             var show = (TagHelper.Active ?? false) ? " show" : string.Empty;
             return "<div id=\"" + GetContentId() + "\" class=\"collapse" + show + "\" aria-labelledby=\"" + GetHeadingId() + "\" data-parent=\"#" + AccordionParentIdPlaceholder + "\">" + Environment.NewLine +
@@ -45,19 +44,19 @@
                    "</div>" + Environment.NewLine;
         }
 
-        protected virtual string GetHeadingId()
+        protected virtual string? GetHeadingId()
         {
             return "heading" + TagHelper.Id;
         }
 
-        protected virtual string GetContentId()
+        protected virtual string? GetContentId()
         {
             return "content" + TagHelper.Id;
         }
 
         protected virtual void SetRandomIdIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Id))
+            if (string.IsNullOrEmpty(TagHelper.Id))
             {
                 TagHelper.Id = "A" + Guid.NewGuid().ToString("N");
             }

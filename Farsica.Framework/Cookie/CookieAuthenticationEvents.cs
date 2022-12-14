@@ -17,12 +17,12 @@
     public class CookieAuthenticationEvents : Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents
     {
         private readonly IUrlHelperFactory urlHelperFactory;
-        private readonly string action;
-        private readonly string controller;
-        private readonly string area;
-        private readonly string page;
+        private readonly string? action;
+        private readonly string? controller;
+        private readonly string? area;
+        private readonly string? page;
 
-        public CookieAuthenticationEvents(IUrlHelperFactory urlHelperFactory, string action = null, string controller = null, string area = null, string page = null)
+        public CookieAuthenticationEvents(IUrlHelperFactory urlHelperFactory, string? action = null, string? controller = null, string? area = null, string? page = null)
         {
             this.urlHelperFactory = urlHelperFactory;
             this.action = action;
@@ -51,16 +51,16 @@
 
             if (string.IsNullOrEmpty(page))
             {
-                context.RedirectUri = url.Action(action, controller, area, routeValues);
+                context.RedirectUri = url?.Action(action, controller, area, routeValues) ?? string.Empty;
             }
             else
             {
-                context.RedirectUri = Mvc.UrlHelperExtensions.Page(url, page, area, routeValues);
+                context.RedirectUri = Mvc.UrlHelperExtensions.Page(url, page, area, routeValues) ?? string.Empty;
             }
 
             return base.RedirectToLogin(context);
         }
 
-        private static string GetCurrentCulture(string url) => url?.Split("/", StringSplitOptions.RemoveEmptyEntries)?.FirstOrDefault() ?? Constants.DefaultLanguageCode;
+        private static string? GetCurrentCulture(string? url) => url?.Split("/", StringSplitOptions.RemoveEmptyEntries)?.FirstOrDefault() ?? Constants.DefaultLanguageCode;
     }
 }

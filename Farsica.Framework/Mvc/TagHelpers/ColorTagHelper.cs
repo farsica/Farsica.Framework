@@ -38,7 +38,7 @@
                 attributeList.Add("value", val);
             }
 
-            string innerHtml = null;
+            string? innerHtml = null;
             using (var writer = new System.IO.StringWriter())
             {
                 var tagBuilder = generator.GenerateTextBox(ViewContext, For.ModelExplorer, ElementName, val, null, attributeList);

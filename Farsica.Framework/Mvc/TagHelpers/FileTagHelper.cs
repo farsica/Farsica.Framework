@@ -28,10 +28,10 @@
         public ModelExpression OldFor { get; set; }
 
         [HtmlAttributeName("frb-old-name")]
-        public string OldName { get; set; }
+        public string? OldName { get; set; }
 
         [HtmlAttributeName("frb-old-value")]
-        public string OldValue { get; set; }
+        public string? OldValue { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

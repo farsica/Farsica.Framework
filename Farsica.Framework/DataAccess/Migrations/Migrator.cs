@@ -90,7 +90,7 @@
             }
         }
 
-        public string GenerateScript(string fromMigration = null, string toMigration = null, MigrationsSqlGenerationOptions options = MigrationsSqlGenerationOptions.Default)
+        public string? GenerateScript(string fromMigration = null, string? toMigration = null, MigrationsSqlGenerationOptions options = MigrationsSqlGenerationOptions.Default)
         {
             throw new NotImplementedException();
         }
@@ -100,7 +100,7 @@
             throw new NotImplementedException();
         }
 
-        private static string Prepare(string sql)
+        private static string? Prepare(string sql)
         {
             var factory = Data.DbProviderFactories.GetFactory;
             return sql
@@ -108,7 +108,7 @@
                     .Replace(nameof(HistoryRow.ProductVersion), factory.GetObjectName(nameof(HistoryRow.ProductVersion), pluralize: false));
         }
 
-        private async Task<IReadOnlyList<(string Version, string Query)>> GetMigrationsToApplyAsync(CancellationToken cancellationToken = default)
+        private async Task<IReadOnlyList<(string Version, string? Query)>> GetMigrationsToApplyAsync(CancellationToken cancellationToken = default)
         {
             var migrationDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Migrations");
             if (!Directory.Exists(migrationDirectory))
@@ -143,7 +143,7 @@
                 .OrderBy(t => t)
                 .Select(t => t);
 
-            List<(string Version, string Query)> result = new();
+            List<(string Version, string? Query)> result = new();
             foreach (var item in lst)
             {
                 var file = await File.ReadAllTextAsync(item, System.Text.Encoding.UTF8, cancellationToken);
@@ -180,12 +180,12 @@
             this.commandLogger = commandLogger;
         }
 
-        public override void Migrate(string targetMigration = null)
+        public override void Migrate(string? targetMigration = null)
         {
             throw new NotImplementedException();
         }
 
-        public override async Task MigrateAsync(string targetMigration = null, CancellationToken cancellationToken = default)
+        public override async Task MigrateAsync(string? targetMigration = null, CancellationToken cancellationToken = default)
         {
             logger.MigrateUsingConnection(this, connection);
 
@@ -232,7 +232,7 @@
             }
         }
 
-        private static string Prepare(string sql)
+        private static string? Prepare(string sql)
         {
             var factory = Data.DbProviderFactories.GetFactory;
             return sql
@@ -240,7 +240,7 @@
                     .Replace(nameof(HistoryRow.ProductVersion), factory.GetObjectName(nameof(HistoryRow.ProductVersion), pluralize: false));
         }
 
-        private async Task<IReadOnlyList<(string Version, string Query)>> GetMigrationsToApplyAsync(CancellationToken cancellationToken = default)
+        private async Task<IReadOnlyList<(string Version, string? Query)>> GetMigrationsToApplyAsync(CancellationToken cancellationToken = default)
         {
             var migrationDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Migrations");
             if (Directory.Exists(migrationDirectory) is false)
@@ -275,7 +275,7 @@
                 .OrderBy(t => t)
                 .Select(t => t);
 
-            List<(string Version, string Query)> result = new();
+            List<(string Version, string? Query)> result = new();
             foreach (var item in lst)
             {
                 var file = await File.ReadAllTextAsync(item, System.Text.Encoding.UTF8, cancellationToken);

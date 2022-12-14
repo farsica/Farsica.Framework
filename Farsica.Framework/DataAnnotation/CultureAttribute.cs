@@ -15,7 +15,7 @@
 
         public override bool IsValid(object value)
         {
-            return !string.IsNullOrWhiteSpace(value?.ToString()) && CultureInfo.GetCultures(CultureTypes.AllCultures).Any(t => t.Name == value.ToString());
+            return !string.IsNullOrEmpty(value?.ToString()) && CultureInfo.GetCultures(CultureTypes.AllCultures).Any(t => t.Name == value.ToString());
         }
 
         public void AddValidation(ClientModelValidationContext context)

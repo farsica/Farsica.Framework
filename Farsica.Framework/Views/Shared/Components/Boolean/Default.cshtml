@@ -1,7 +1,7 @@
 ﻿@model bool?
 
 @{
-    string css;
+    string? css;
     if (!ViewData.ContainsKey("class"))
     {
         css = "form-check-input styled";
@@ -10,7 +10,7 @@
     {
         css = ViewData["class"] + " form-check-input styled";
     }
-    string onChange = "";
+    string? onChange = "";
     if (ViewData.ContainsKey("onChange"))
     {
         onChange = "onChange=" + ViewData["onChange"].ToString() + "";

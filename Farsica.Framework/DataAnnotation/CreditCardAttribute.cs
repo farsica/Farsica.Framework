@@ -9,7 +9,7 @@
     {
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
@@ -17,10 +17,10 @@
             var attribute = new System.ComponentModel.DataAnnotations.CreditCardAttribute();
             if (value is List<string> lst)
             {
-                return lst.All(t => string.IsNullOrWhiteSpace(t) || attribute.IsValid(t));
+                return lst.All(t => string.IsNullOrEmpty(t) || attribute.IsValid(t));
             }
 
-            return string.IsNullOrWhiteSpace(value.ToString()) || attribute.IsValid(value);
+            return string.IsNullOrEmpty(value.ToString()) || attribute.IsValid(value);
         }
 
         public void AddValidation(ClientModelValidationContext context)

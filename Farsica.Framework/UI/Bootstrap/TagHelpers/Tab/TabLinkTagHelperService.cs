@@ -15,21 +15,20 @@
             var tabHeader = GetTabHeaderItem(context, output);
 
             var tabHeaderItems = context.GetValue<List<TabItem>>(TabItems);
-
-            tabHeaderItems.Add(new TabItem(tabHeader, string.Empty, false, TagHelper.Name, TagHelper.ParentDropdownName, false));
+            tabHeaderItems?.Add(new TabItem(tabHeader, string.Empty, false, TagHelper?.Name, TagHelper?.ParentDropdownName, false));
 
             output.SuppressOutput();
 
             return Task.CompletedTask;
         }
 
-        protected virtual string GetTabHeaderItem(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetTabHeaderItem(TagHelperContext context, TagHelperOutput output)
         {
-            var id = TagHelper.Name + "-tab";
-            var href = TagHelper.Href;
-            var title = TagHelper.Title;
+            var id = TagHelper?.Name + "-tab";
+            var href = TagHelper?.Href;
+            var title = TagHelper?.Title;
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.ParentDropdownName))
+            if (!string.IsNullOrEmpty(TagHelper?.ParentDropdownName))
             {
                 return "<a class=\"dropdown-item\" id=\"" + id + "\" href=\"" + href + "\">" + title + "</a>";
             }
@@ -41,7 +40,7 @@
 
         protected virtual void SetPlaceholderForNameIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Name))
+            if (TagHelper is not null && string.IsNullOrEmpty(TagHelper.Name))
             {
                 TagHelper.Name = TabItemNamePlaceHolder;
             }

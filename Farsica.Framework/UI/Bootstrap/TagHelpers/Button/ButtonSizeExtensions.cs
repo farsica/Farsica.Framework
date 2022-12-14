@@ -4,7 +4,7 @@
 
     public static class ButtonSizeExtensions
     {
-        public static string ToClassName(this ButtonSize size)
+        public static string? ToClassName(this ButtonSize size)
         {
             switch (size)
             {

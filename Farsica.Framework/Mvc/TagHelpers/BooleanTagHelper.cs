@@ -16,7 +16,7 @@
         }
 
         [HtmlAttributeName("frb-label")]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

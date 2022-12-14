@@ -37,7 +37,7 @@
 
         protected virtual void AddIcon(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Icon.IsNullOrWhiteSpace())
+            if (TagHelper.Icon.IsNullOrEmpty())
             {
                 return;
             }
@@ -45,7 +45,7 @@
             output.Content.AppendHtml($"<i class=\"{GetIconClass(context, output)}\"></i> ");
         }
 
-        protected virtual string GetIconClass(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetIconClass(TagHelperContext context, TagHelperOutput output)
         {
             switch (TagHelper.IconType)
             {
@@ -58,7 +58,7 @@
 
         protected virtual void AddText(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Text.IsNullOrWhiteSpace())
+            if (TagHelper.Text.IsNullOrEmpty())
             {
                 return;
             }

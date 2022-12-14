@@ -35,7 +35,7 @@
             ProcessOffsetClass(context, output, TagHelper.OffsetXl, "-xl");
         }
 
-        protected virtual void ProcessSizeClass(TagHelperContext context, TagHelperOutput output, ColumnSize size, string breakpoint)
+        protected virtual void ProcessSizeClass(TagHelperContext context, TagHelperOutput output, ColumnSize size, string? breakpoint)
         {
             if (size == ColumnSize.Undefined)
             {
@@ -57,7 +57,7 @@
             output.Attributes.AddClass(classString);
         }
 
-        protected virtual void ProcessOffsetClass(TagHelperContext context, TagHelperOutput output, ColumnSize size, string breakpoint)
+        protected virtual void ProcessOffsetClass(TagHelperContext context, TagHelperOutput output, ColumnSize size, string? breakpoint)
         {
             if (size == ColumnSize.Undefined)
             {

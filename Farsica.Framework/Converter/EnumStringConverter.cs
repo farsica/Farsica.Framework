@@ -6,7 +6,7 @@
 
     public class EnumStringConverter<T> : JsonConverter<T>
     {
-        private readonly JsonConverter<T> converter;
+        private readonly JsonConverter<T>? converter;
         private readonly Type underlyingType;
 
         public EnumStringConverter()
@@ -14,14 +14,20 @@
         {
         }
 
-        public EnumStringConverter(JsonSerializerOptions options)
+        public EnumStringConverter(JsonSerializerOptions? options)
         {
             if (options != null)
             {
                 converter = options.GetConverter(typeof(T)) as JsonConverter<T>;
             }
 
-            underlyingType = Nullable.GetUnderlyingType(typeof(T));
+            var type = Nullable.GetUnderlyingType(typeof(T));
+            if (type is null)
+            {
+                throw new ArgumentException(nameof(T));
+            }
+
+            underlyingType = type;
         }
 
         public override bool CanConvert(Type typeToConvert)
@@ -36,21 +42,20 @@
                 return converter.Read(ref reader, underlyingType, options);
             }
 
-            string value = reader.GetString();
-
-            if (string.IsNullOrWhiteSpace(value))
+            string? value = reader.GetString();
+            if (string.IsNullOrEmpty(value))
             {
                 return default;
             }
 
             // for performance, parse with ignoreCase:false first.
-            if (!System.Enum.TryParse(underlyingType, value, ignoreCase: false, out object result)
+            if (!System.Enum.TryParse(underlyingType, value, ignoreCase: false, out object? result)
                 && !System.Enum.TryParse(underlyingType, value, ignoreCase: true, out result))
             {
                 throw new JsonException($"Unable to convert \"{value}\" to Enum \"{underlyingType}\".");
             }
 
-            return (T)result;
+            return (T?)result;
         }
 
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)

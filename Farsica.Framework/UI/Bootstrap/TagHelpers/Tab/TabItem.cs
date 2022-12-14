@@ -2,7 +2,7 @@
 {
     public class TabItem
     {
-        public TabItem(string header, string content, bool active, string id, string parentId, bool isDropdown)
+        public TabItem(string? header, string? content, bool active, string? id, string? parentId, bool isDropdown)
         {
             Header = header;
             Content = content;
@@ -12,16 +12,16 @@
             IsDropdown = isDropdown;
         }
 
-        public string Header { get; set; }
+        public string? Header { get; set; }
 
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
         public bool Active { get; set; }
 
         public bool IsDropdown { get; set; }
 
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
-        public string ParentId { get; set; }
+        public string? ParentId { get; set; }
     }
 }

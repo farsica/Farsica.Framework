@@ -14,9 +14,9 @@
         }
 
         [HtmlAttributeName("frb-title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [HtmlAttributeName("frb-subtitle")]
-        public string Subtitle { get; set; }
+        public string? Subtitle { get; set; }
     }
 }

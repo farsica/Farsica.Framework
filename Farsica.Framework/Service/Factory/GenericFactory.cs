@@ -23,12 +23,12 @@
             }
 
             var provider = providers.FirstOrDefault(t => t.ProviderType.Equals(providerType));
-            if (provider == null && returnFirstItemIfNotMatch)
+            if (provider is null && returnFirstItemIfNotMatch)
             {
                 provider = providers.First();
             }
 
-            return provider;
+            return provider ?? throw new ArgumentNullException(nameof(providerType));
         }
     }
 }

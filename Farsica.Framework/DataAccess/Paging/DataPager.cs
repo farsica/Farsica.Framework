@@ -18,7 +18,7 @@
             this.unitOfWorkProvider = unitOfWorkProvider;
         }
 
-        public DataPage<TEntity> Get(int pageNumber, int pageLength, OrderBy<TEntity> orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+        public DataPage<TEntity> Get(int pageNumber, int pageLength, OrderBy<TEntity>? orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
         {
             using var uow = unitOfWorkProvider.Value.CreateUnitOfWork(false);
             var repository = uow.GetRepository<TEntity, TKey>();
@@ -30,7 +30,7 @@
             return CreateDataPage(pageNumber, pageLength, data, totalCount);
         }
 
-        public async Task<DataPage<TEntity>> GetAsync(int pageNumber, int pageLength, OrderBy<TEntity> orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+        public async Task<DataPage<TEntity>> GetAsync(int pageNumber, int pageLength, OrderBy<TEntity>? orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
         {
             using var uow = unitOfWorkProvider.Value.CreateUnitOfWork(false);
             var repository = uow.GetRepository<TEntity, TKey>();
@@ -42,7 +42,7 @@
             return CreateDataPage(pageNumber, pageLength, data, totalCount);
         }
 
-        public DataPage<TEntity> Query(int pageNumber, int pageLength, Filter<TEntity> filter, OrderBy<TEntity> orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+        public DataPage<TEntity> Query(int pageNumber, int pageLength, Filter<TEntity> filter, OrderBy<TEntity>? orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
         {
             using var uow = unitOfWorkProvider.Value.CreateUnitOfWork(false);
             var repository = uow.GetRepository<TEntity, TKey>();
@@ -54,7 +54,7 @@
             return CreateDataPage(pageNumber, pageLength, data, totalCount);
         }
 
-        public async Task<DataPage<TEntity>> QueryAsync(int pageNumber, int pageLength, Filter<TEntity> filter, OrderBy<TEntity> orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+        public async Task<DataPage<TEntity>> QueryAsync(int pageNumber, int pageLength, Filter<TEntity> filter, OrderBy<TEntity>? orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
         {
             using var uow = unitOfWorkProvider.Value.CreateUnitOfWork(false);
             var repository = uow.GetRepository<TEntity, TKey>();

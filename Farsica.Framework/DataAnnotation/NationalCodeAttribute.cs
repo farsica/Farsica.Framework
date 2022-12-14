@@ -6,7 +6,7 @@
     {
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }

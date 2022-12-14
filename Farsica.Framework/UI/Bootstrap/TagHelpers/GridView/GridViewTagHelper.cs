@@ -17,36 +17,36 @@
         #endregion
 
         [HtmlAttributeName("frb-entity-type")]
-        public string EntityType { get; set; }
+        public string? EntityType { get; set; }
 
         [HtmlAttributeName("frb-data-url")]
-        public string DataUrl { get; set; }
+        public string? DataUrl { get; set; }
 
         [HtmlAttributeName("frb-add-url")]
-        public string AddUrl { get; set; }
+        public string? AddUrl { get; set; }
 
         [HtmlAttributeName("frb-add-title")]
-        public string AddTitle { get; set; }
+        public string? AddTitle { get; set; }
 
         [HtmlAttributeName("frb-edit-url")]
-        public string EditUrl { get; set; }
+        public string? EditUrl { get; set; }
 
         [HtmlAttributeName("frb-edit-title")]
-        public string EditTitle { get; set; }
+        public string? EditTitle { get; set; }
 
         [HtmlAttributeName("frb-delete-url")]
-        public string DeleteUrl { get; set; }
+        public string? DeleteUrl { get; set; }
 
         [HtmlAttributeName("frb-custom-buttons")]
-        public string CustomButtons { get; set; }
+        public string? CustomButtons { get; set; }
 
         [HtmlAttributeName("frb-auto-refresh")]
         public bool AutoRefresh { get; set; }
 
         [HtmlAttributeName("frb-formatters")]
-        public string Formatters { get; set; }
+        public string? Formatters { get; set; }
 
         [HtmlAttributeName("frb-columns")]
-        public string Columns { get; set; }
+        public string? Columns { get; set; }
     }
 }

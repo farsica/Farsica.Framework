@@ -54,7 +54,7 @@
 
         protected virtual void MakeLinkIfHrefIsSet()
         {
-            if (!string.IsNullOrWhiteSpace(TagHelper.Href))
+            if (!string.IsNullOrEmpty(TagHelper.Href))
             {
                 TagHelper.TagType = ListItemTagType.Link;
             }

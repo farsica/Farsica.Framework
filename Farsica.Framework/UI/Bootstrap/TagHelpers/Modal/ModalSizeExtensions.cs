@@ -4,7 +4,7 @@
 
     public static class ModalSizeExtensions
     {
-        public static string ToClassName(this ModalSize size)
+        public static string? ToClassName(this ModalSize size)
         {
             switch (size)
             {

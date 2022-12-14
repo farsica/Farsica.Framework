@@ -59,7 +59,7 @@
 
         protected virtual void SetDataTriggerIfDismissible(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Dismissible ?? false)
+            if (TagHelper?.Dismissible ?? false)
             {
                 output.Attributes.Add("data-trigger", "focus");
             }
@@ -67,7 +67,7 @@
 
         protected virtual void SetDataTriggerIfHoverable(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Hoverable ?? false)
+            if (TagHelper?.Hoverable ?? false)
             {
                 // If already has focus data trigger
                 if (output.Attributes.TryGetAttribute("data-trigger", out _))
@@ -102,41 +102,41 @@
             output.Attributes.Add("data-content", GetDataContent());
         }
 
-        protected virtual string GetDataContent()
+        protected virtual string? GetDataContent()
         {
             switch (GetDirectory())
             {
                 case PopoverDirectory.Top:
-                    return TagHelper.PopoverTop;
+                    return TagHelper?.PopoverTop;
                 case PopoverDirectory.Right:
-                    return TagHelper.PopoverRight;
+                    return TagHelper?.PopoverRight;
                 case PopoverDirectory.Bottom:
-                    return TagHelper.PopoverBottom;
+                    return TagHelper?.PopoverBottom;
                 case PopoverDirectory.Left:
-                    return TagHelper.PopoverLeft;
+                    return TagHelper?.PopoverLeft;
                 default:
-                    return TagHelper.Popover;
+                    return TagHelper?.Popover;
             }
         }
 
         protected virtual PopoverDirectory GetDirectory()
         {
-            if (!string.IsNullOrWhiteSpace(TagHelper.PopoverTop))
+            if (!string.IsNullOrEmpty(TagHelper?.PopoverTop))
             {
                 return PopoverDirectory.Top;
             }
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.PopoverBottom))
+            if (!string.IsNullOrEmpty(TagHelper?.PopoverBottom))
             {
                 return PopoverDirectory.Bottom;
             }
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.PopoverRight))
+            if (!string.IsNullOrEmpty(TagHelper?.PopoverRight))
             {
                 return PopoverDirectory.Right;
             }
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.PopoverLeft))
+            if (!string.IsNullOrEmpty(TagHelper?.PopoverLeft))
             {
                 return PopoverDirectory.Left;
             }
@@ -146,12 +146,12 @@
 
         protected virtual bool IsDismissibleOrHoverable()
         {
-            if (TagHelper.Dismissible ?? false)
+            if (TagHelper?.Dismissible ?? false)
             {
                 return true;
             }
 
-            if (TagHelper.Hoverable ?? false)
+            if (TagHelper?.Hoverable ?? false)
             {
                 return true;
             }

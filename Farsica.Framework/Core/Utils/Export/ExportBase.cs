@@ -25,15 +25,15 @@
 
         public abstract Constants.ExportType ProviderType { get; }
 
-        protected abstract string Extension { get; }
+        protected abstract string? Extension { get; }
 
-        protected abstract string ContentType { get; }
+        protected abstract string? ContentType { get; }
 
         protected GridDataSource GridDataSource { get; private set; }
 
         protected ISearch Search { get; private set; }
 
-        public FileContentResult Export(GridDataSource gridDataSource, ISearch search, string actionName = null)
+        public FileContentResult Export(GridDataSource gridDataSource, ISearch search, string? actionName = null)
         {
             GridDataSource = gridDataSource;
             Search = search;
@@ -43,9 +43,9 @@
             DataTable dt = new();
             if (gridDataSource.Data?.Count > 0)
             {
-                var localizedSearchColumnNames = new Dictionary<string, string>();
-                var localizedGridColumnNames = new Dictionary<string, string>();
-                bool dataIsDictionaryBase = (gridDataSource.Data[0] as Dictionary<string, string>) != null;
+                var localizedSearchColumnNames = new Dictionary<string, string?>();
+                var localizedGridColumnNames = new Dictionary<string, string?>();
+                bool dataIsDictionaryBase = (gridDataSource.Data[0] as Dictionary<string, string?>) != null;
                 IEnumerable<PropertyInfo> properties = null;
                 if (hasSearchItem)
                 {

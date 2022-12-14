@@ -5,7 +5,7 @@
 
     public class LocalizedIdentityErrorDescriber : IdentityErrorDescriber
     {
-        public override IdentityError DuplicateEmail(string email)
+        public override IdentityError DuplicateEmail(string? email)
         {
             return new IdentityError
             {
@@ -14,7 +14,7 @@
             };
         }
 
-        public override IdentityError DuplicateUserName(string userName)
+        public override IdentityError DuplicateUserName(string? userName)
         {
             return new IdentityError
             {
@@ -23,7 +23,7 @@
             };
         }
 
-        public override IdentityError InvalidEmail(string email)
+        public override IdentityError InvalidEmail(string? email)
         {
             return new IdentityError
             {
@@ -32,7 +32,7 @@
             };
         }
 
-        public override IdentityError DuplicateRoleName(string role)
+        public override IdentityError DuplicateRoleName(string? role)
         {
             return new IdentityError
             {
@@ -41,7 +41,7 @@
             };
         }
 
-        public override IdentityError InvalidRoleName(string role)
+        public override IdentityError InvalidRoleName(string? role)
         {
             return new IdentityError
             {
@@ -59,7 +59,7 @@
             };
         }
 
-        public override IdentityError InvalidUserName(string userName)
+        public override IdentityError InvalidUserName(string? userName)
         {
             return new IdentityError
             {
@@ -149,7 +149,7 @@
             };
         }
 
-        public override IdentityError UserAlreadyInRole(string role)
+        public override IdentityError UserAlreadyInRole(string? role)
         {
             return new IdentityError
             {
@@ -158,7 +158,7 @@
             };
         }
 
-        public override IdentityError UserNotInRole(string role)
+        public override IdentityError UserNotInRole(string? role)
         {
             return new IdentityError
             {

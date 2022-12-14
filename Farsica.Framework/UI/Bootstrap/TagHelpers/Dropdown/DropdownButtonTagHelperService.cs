@@ -37,7 +37,7 @@
             output.Attributes.Clear();
         }
 
-        protected virtual async Task<string> GetButtonsAsHtmlAsync(TagHelperContext context, TagHelperOutput output,
+        protected virtual async Task<string?> GetButtonsAsHtmlAsync(TagHelperContext context, TagHelperOutput output,
             TagHelperContent content)
         {
             var buttonBuilder = new StringBuilder(string.Empty);
@@ -56,7 +56,7 @@
             return buttonBuilder.ToString();
         }
 
-        protected virtual async Task<string> GetMainButtonAsync(TagHelperContext context, TagHelperOutput output, TagHelperContent content)
+        protected virtual async Task<string?> GetMainButtonAsync(TagHelperContext context, TagHelperOutput output, TagHelperContent content)
         {
             var buttonTagHelper = serviceProvider.GetRequiredService<ButtonTagHelper>();
 
@@ -80,7 +80,7 @@
             return buttonTag.Render(htmlEncoder);
         }
 
-        protected virtual async Task<string> GetSplitButtonAsync(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<string?> GetSplitButtonAsync(TagHelperContext context, TagHelperOutput output)
         {
             var buttonTagHelper = serviceProvider.GetRequiredService<ButtonTagHelper>();
 

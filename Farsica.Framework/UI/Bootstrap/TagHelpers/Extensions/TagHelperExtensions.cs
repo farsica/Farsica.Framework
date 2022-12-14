@@ -11,7 +11,7 @@
             this TagHelper tagHelper,
             TagHelperAttributeList attributeList,
             TagHelperContext context,
-            string tagName = "div",
+            string? tagName = "div",
             TagMode tagMode = TagMode.SelfClosing)
         {
             var innerOutput = new TagHelperOutput(
@@ -34,7 +34,7 @@
             return innerOutput;
         }
 
-        public static async Task<string> RenderAsync(this TagHelper tagHelper, TagHelperAttributeList attributeList, TagHelperContext context, HtmlEncoder htmlEncoder, string tagName = "div", TagMode tagMode = TagMode.SelfClosing)
+        public static async Task<string?> RenderAsync(this TagHelper tagHelper, TagHelperAttributeList attributeList, TagHelperContext context, HtmlEncoder htmlEncoder, string? tagName = "div", TagMode tagMode = TagMode.SelfClosing)
         {
             var innerOutput = await tagHelper.ProcessAndGetOutputAsync(attributeList, context, tagName, tagMode);
 

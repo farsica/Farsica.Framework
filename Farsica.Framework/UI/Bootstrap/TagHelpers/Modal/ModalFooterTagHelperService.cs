@@ -20,7 +20,7 @@
             ProcessButtonsAlignment(output);
         }
 
-        protected virtual string CreateContent()
+        protected virtual string? CreateContent()
         {
             var sb = new StringBuilder();
 

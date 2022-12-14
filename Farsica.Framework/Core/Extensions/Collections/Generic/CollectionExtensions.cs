@@ -18,9 +18,9 @@
         /// <summary>
         /// Adds an item to the collection if it's not already in the collection.
         /// </summary>
-        /// <param name="source">The collection</param>
-        /// <param name="item">Item to check and add</param>
-        /// <typeparam name="T">Type of the items in the collection</typeparam>
+        /// <param name="source">The collection.</param>
+        /// <param name="item">Item to check and add.</param>
+        /// <typeparam name="T">Type of the items in the collection.</typeparam>
         /// <returns>Returns True if added, returns False if not.</returns>
         public static bool AddIfNotContains<T>([NotNull] this ICollection<T> source, T item)
         {
@@ -36,9 +36,9 @@
         /// <summary>
         /// Adds items to the collection which are not already in the collection.
         /// </summary>
-        /// <param name="source">The collection</param>
-        /// <param name="items">Item to check and add</param>
-        /// <typeparam name="T">Type of the items in the collection</typeparam>
+        /// <param name="source">The collection.</param>
+        /// <param name="items">Item to check and add.</param>
+        /// <typeparam name="T">Type of the items in the collection.</typeparam>
         /// <returns>Returns the added items.</returns>
         public static IEnumerable<T> AddIfNotContains<T>([NotNull] this ICollection<T> source, IEnumerable<T> items)
         {
@@ -61,10 +61,10 @@
         /// <summary>
         /// Adds an item to the collection if it's not already in the collection based on the given <paramref name="predicate"/>.
         /// </summary>
-        /// <param name="source">The collection</param>
-        /// <param name="predicate">The condition to decide if the item is already in the collection</param>
-        /// <param name="itemFactory">A factory that returns the item</param>
-        /// <typeparam name="T">Type of the items in the collection</typeparam>
+        /// <param name="source">The collection.</param>
+        /// <param name="predicate">The condition to decide if the item is already in the collection.</param>
+        /// <param name="itemFactory">A factory that returns the item.</param>
+        /// <typeparam name="T">Type of the items in the collection.</typeparam>
         /// <returns>Returns True if added, returns False if not.</returns>
         public static bool AddIfNotContains<T>([NotNull] this ICollection<T> source, [NotNull] Func<T, bool> predicate, [NotNull] Func<T> itemFactory)
         {
@@ -80,10 +80,10 @@
         /// <summary>
         /// Removes all items from the collection those satisfy the given <paramref name="predicate"/>.
         /// </summary>
-        /// <typeparam name="T">Type of the items in the collection</typeparam>
-        /// <param name="source">The collection</param>
-        /// <param name="predicate">The condition to remove the items</param>
-        /// <returns>List of removed items</returns>
+        /// <typeparam name="T">Type of the items in the collection.</typeparam>
+        /// <param name="source">The collection.</param>
+        /// <param name="predicate">The condition to remove the items.</param>
+        /// <returns>List of removed items.</returns>
         public static IList<T> RemoveAll<T>([NotNull] this ICollection<T> source, Func<T, bool> predicate)
         {
             var items = source.Where(predicate).ToList();

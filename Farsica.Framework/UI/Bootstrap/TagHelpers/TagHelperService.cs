@@ -1,5 +1,6 @@
 ﻿namespace Farsica.Framework.UI.Bootstrap.TagHelpers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -23,7 +24,8 @@
         protected const string TabItemSelectedPlaceholder = "{_Tab_Selected_Placeholder_}";
         protected const string AccordionParentIdPlaceholder = "{_Parent_Accordion_Id_}";
 
-        public TTagHelper TagHelper { get; internal set; }
+        [NotNull]
+        public TTagHelper? TagHelper { get; internal set; }
 
         public virtual int Order { get; }
 

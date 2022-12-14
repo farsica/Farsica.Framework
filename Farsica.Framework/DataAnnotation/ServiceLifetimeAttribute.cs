@@ -10,11 +10,11 @@
     public sealed class ServiceLifetimeAttribute : Attribute
     {
 #pragma warning disable CA1019 // Define accessors for attribute arguments
-        public ServiceLifetimeAttribute(ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string parameters = null)
+        public ServiceLifetimeAttribute(ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string? parameters = null)
 #pragma warning restore CA1019 // Define accessors for attribute arguments
         {
             ServiceLifetime = serviceLifetime;
-            if (!string.IsNullOrWhiteSpace(parameters))
+            if (!string.IsNullOrEmpty(parameters))
             {
                 Parameters = parameters.Split(Constants.Delimiter, StringSplitOptions.RemoveEmptyEntries)?.Select(t => Type.GetType(t));
             }

@@ -15,7 +15,7 @@
         }
 
         [HtmlAttributeName("frb-text")]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         [HtmlAttributeName("frb-size")]
         public ButtonSize Size { get; set; } = ButtonSize.Default;
@@ -27,7 +27,7 @@
         public ButtonType ButtonType { get; set; } = ButtonType.Default;
 
         [HtmlAttributeName("frb-icon")]
-        public string Icon { get; set; }
+        public string? Icon { get; set; }
 
         [HtmlAttributeName("frb-icon-type")]
         public FontIconType IconType { get; set; } = FontIconType.FontAwesome;

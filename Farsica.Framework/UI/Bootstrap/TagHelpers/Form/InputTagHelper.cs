@@ -14,10 +14,10 @@
         }
 
         [HtmlAttributeName("frb-label")]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [HtmlAttributeName("frb-info")]
-        public string InfoText { get; set; }
+        public string? InfoText { get; set; }
 
         [HtmlAttributeName("frb-disabled")]
         public bool IsDisabled { get; set; } = false;
@@ -29,13 +29,13 @@
         public bool AutoFocus { get; set; }
 
         [HtmlAttributeName("frb-type")]
-        public string InputTypeName { get; set; }
+        public string? InputTypeName { get; set; }
 
         [HtmlAttributeName("frb-size")]
         public FormControlSize Size { get; set; } = FormControlSize.Default;
 
         [HtmlAttributeName("frb-format")]
-        public string Format { get; set; }
+        public string? Format { get; set; }
 
         [HtmlAttributeName("frb-suppress-label")]
         public bool SuppressLabel { get; set; }

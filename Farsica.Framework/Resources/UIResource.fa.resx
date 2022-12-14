@@ -23,7 +23,7 @@
 			[base64 mime encoded serialized .NET Framework object]
 		</data>
 		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+			[base64 mime encoded string? representing a byte array form of the .NET Framework object]
 		</data>
 
 		There are any number of "resheader" rows that contain simple 

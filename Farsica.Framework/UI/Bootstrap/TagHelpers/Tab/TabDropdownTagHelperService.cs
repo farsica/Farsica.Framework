@@ -11,7 +11,7 @@
     {
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Name))
+            if (string.IsNullOrEmpty(TagHelper.Name))
             {
                 throw new Exception("Name of tab dropdown tag can not bu null or empty.");
             }
@@ -20,13 +20,12 @@
             var tabHeader = GetTabHeaderItem(context, output);
 
             var tabHeaderItems = context.GetValue<List<TabItem>>(TabItems);
-
-            tabHeaderItems.Add(new TabItem(tabHeader, string.Empty, false, TagHelper.Name, string.Empty, true));
+            tabHeaderItems?.Add(new TabItem(tabHeader, string.Empty, false, TagHelper.Name, string.Empty, true));
 
             output.SuppressOutput();
         }
 
-        protected virtual string GetTabHeaderItem(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetTabHeaderItem(TagHelperContext context, TagHelperOutput output)
         {
             var id = TagHelper.Name + "-tab";
             var link = TagHelper.Name;

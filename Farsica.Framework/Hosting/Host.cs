@@ -4,6 +4,7 @@
     using System.IO;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Destructurama;
     using Farsica.Framework.Core;
     using Farsica.Framework.Data;
     using Farsica.Framework.DataAccess.Context;
@@ -45,6 +46,10 @@
             Globals.ProviderType = config.GetValue<ProviderType>("Connection:ProviderType");
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(config)
+                .Destructure.UsingAttributes()
+                .Enrich.FromLogContext()
+                .Enrich.WithCorrelationId()
+                .Enrich.WithCorrelationIdHeader()
                 .CreateLogger();
 
             var host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
@@ -62,8 +67,10 @@
             if (checkMigration)
             {
                 using var scope = host.Services.CreateScope();
-                var context = scope.ServiceProvider.GetService(typeof(IEntityContext)) as DbContext;
-                await context.Database.MigrateAsync();
+                if (scope.ServiceProvider.GetService(typeof(IEntityContext)) is DbContext context)
+                {
+                    await context.Database.MigrateAsync();
+                }
             }
 
             await host.RunAsync();

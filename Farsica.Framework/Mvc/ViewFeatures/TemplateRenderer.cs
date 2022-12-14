@@ -73,7 +73,7 @@
         private readonly IViewBufferScope bufferScope;
         private readonly ViewContext viewContext;
         private readonly ViewDataDictionary viewData;
-        private readonly string templateName;
+        private readonly string? templateName;
         private readonly bool readOnly;
 
         public TemplateRenderer(
@@ -81,7 +81,7 @@
             IViewBufferScope bufferScope,
             ViewContext viewContext,
             ViewDataDictionary viewData,
-            string templateName,
+            string? templateName,
             bool readOnly)
         {
             this.viewEngine = viewEngine ?? throw new ArgumentNullException(nameof(viewEngine));

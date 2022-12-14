@@ -26,7 +26,7 @@
 
         protected virtual void SetRandomNameIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Id))
+            if (string.IsNullOrEmpty(TagHelper.Id))
             {
                 TagHelper.Id = "N" + Guid.NewGuid().ToString("N");
             }

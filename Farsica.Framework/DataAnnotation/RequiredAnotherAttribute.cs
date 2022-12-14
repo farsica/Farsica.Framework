@@ -23,17 +23,17 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_RequiredAnotherList);
         }
 
-        public string OtherProperty { get; private set; }
+        public string? OtherProperty { get; private set; }
 
         public short? MinCountOtherProperty { get; private set; }
 
         public short? MaxCountOtherProperty { get; private set; }
 
-        public new string ErrorMessageResourceName { get; } = nameof(Resources.GlobalResource.Validation_RequiredAnother);
+        public new string? ErrorMessageResourceName { get; } = nameof(Resources.GlobalResource.Validation_RequiredAnother);
 
         public new Type ErrorMessageResourceType { get; } = typeof(Resources.GlobalResource);
 
-        public string FormatErrorMessage(string name, string otherName)
+        public string? FormatErrorMessage(string name, string? otherName)
         {
             return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, otherName, MinCountOtherProperty, MaxCountOtherProperty);
         }
@@ -61,7 +61,7 @@
 
         private void SetFields(string otherProperty, short? minCountOtherProperty, short? maxCountOtherProperty)
         {
-            if (string.IsNullOrWhiteSpace(otherProperty))
+            if (string.IsNullOrEmpty(otherProperty))
             {
                 throw new ArgumentNullException(nameof(otherProperty));
             }

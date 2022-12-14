@@ -4,7 +4,7 @@
 
     public static class TagHelperContextExtensions
     {
-        public static T GetValue<T>(this TagHelperContext context, string key)
+        public static T? GetValue<T>(this TagHelperContext context, string? key)
         {
             if (!context.Items.ContainsKey(key))
             {

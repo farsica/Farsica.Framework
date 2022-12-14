@@ -14,12 +14,12 @@
         }
 
         [HtmlAttributeName("frb-title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [HtmlAttributeName("frb-parent-dropdown-name")]
-        public string ParentDropdownName { get; set; }
+        public string? ParentDropdownName { get; set; }
 
         [HtmlAttributeName("frb-href")]
-        public string Href { get; set; }
+        public string? Href { get; set; }
     }
 }

@@ -59,7 +59,7 @@
 //            }
 //        }
 
-// protected virtual async Task<string> GetFormInputGroupAsHtmlAsync(TagHelperContext context, TagHelperOutput output)
+// protected virtual async Task<string?> GetFormInputGroupAsHtmlAsync(TagHelperContext context, TagHelperOutput output)
 //        {
 //            var inputTag = await GetInputTagHelperOutputAsync(context, output);
 
@@ -71,7 +71,7 @@
 // return GetContent(context, output, label, inputHtml, validation, info);
 //        }
 
-// protected virtual async Task<string> GetValidationAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
+// protected virtual async Task<string?> GetValidationAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
 //        {
 //            var validationMessageTagHelper = new ValidationMessageTagHelper(generator)
 //            {
@@ -84,14 +84,14 @@
 // return await validationMessageTagHelper.RenderAsync(attributeList, context, encoder, "span", TagMode.StartTagAndEndTag);
 //        }
 
-// protected virtual string GetContent(TagHelperContext context, TagHelperOutput output, string label, string inputHtml, string validation, string infoHtml)
+// protected virtual string? GetContent(TagHelperContext context, TagHelperOutput output, string? label, string? inputHtml, string? validation, string? infoHtml)
 //        {
 //            var innerContent = label + inputHtml;
 
 // return innerContent + infoHtml + validation;
 //        }
 
-// protected virtual string SurroundInnerHtmlAndGet(TagHelperContext context, TagHelperOutput output, string innerHtml)
+// protected virtual string? SurroundInnerHtmlAndGet(TagHelperContext context, TagHelperOutput output, string? innerHtml)
 //        {
 //            return "<div class=\"form-group\">" +
 //                   Environment.NewLine + innerHtml + Environment.NewLine +
@@ -177,7 +177,7 @@
 //            if (attribute != null)
 //            {
 //                var placeholderLocalized = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Prompt);
-//                if (!string.IsNullOrWhiteSpace(placeholderLocalized))
+//                if (!string.IsNullOrEmpty(placeholderLocalized))
 //                    inputTagHelperOutput.Attributes.Add("placeholder", placeholderLocalized);
 //            }
 //        }
@@ -192,12 +192,12 @@
 //            if (attribute != null)
 //            {
 //                var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
-//                if (!string.IsNullOrWhiteSpace(description))
+//                if (!string.IsNullOrEmpty(description))
 //                    inputTagHelperOutput.Attributes.Add("aria-describedby", description);
 //            }
 //        }
 
-// protected virtual async Task<string> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
+// protected virtual async Task<string?> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
 //        {
 //            if (TagHelper.SuppressLabel)
 //                return "";
@@ -214,7 +214,7 @@
 //                   "</label>" + GetRequiredSymbol(context, output);
 //        }
 
-// protected virtual string GetRequiredSymbol(TagHelperContext context, TagHelperOutput output)
+// protected virtual string? GetRequiredSymbol(TagHelperContext context, TagHelperOutput output)
 //        {
 //            if (!TagHelper.DisplayRequiredSymbol)
 //                return "";
@@ -222,7 +222,7 @@
 // return cachedModelAttributes?.GetAttribute<RequiredAttribute>() != null ? "<span> * </span>" : "";
 //        }
 
-// protected virtual string GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
+// protected virtual string? GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
 //        {
 //            var text = "";
 //            if (!string.IsNullOrEmpty(TagHelper.InfoText))
@@ -235,7 +235,7 @@
 //                if (attribute != null)
 //                {
 //                    var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
-//                    if (!string.IsNullOrWhiteSpace(description))
+//                    if (!string.IsNullOrEmpty(description))
 //                        text = description;
 //                }
 //            }
@@ -247,7 +247,7 @@
 //            return $"<small id=\"{idAttr?.Value}InfoText\" class=\"form-text text-muted\">{text}</small>";
 //        }
 
-// protected virtual async Task<string> GetLabelAsHtmlUsingTagHelperAsync(TagHelperContext context, TagHelperOutput output)
+// protected virtual async Task<string?> GetLabelAsHtmlUsingTagHelperAsync(TagHelperContext context, TagHelperOutput output)
 //        {
 //            var labelTagHelper = new LabelTagHelper(generator)
 //            {
@@ -303,7 +303,7 @@
 //            }
 //        }
 
-// protected virtual string GetSize(TagHelperContext context, TagHelperOutput output)
+// protected virtual string? GetSize(TagHelperContext context, TagHelperOutput output)
 //        {
 //            var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
 //            if (uIHintAttribute != null)
@@ -322,14 +322,14 @@
 //            }
 //        }
 
-// protected virtual string GetIdAttributeAsString(TagHelperOutput inputTag)
+// protected virtual string? GetIdAttributeAsString(TagHelperOutput inputTag)
 //        {
 //            var idAttr = inputTag.Attributes.FirstOrDefault(a => a.Name == "id");
 
 // return idAttr != null ? "for=\"" + idAttr.Value + "\"" : "";
 //        }
 
-// protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string propertyName, string html, int order, out bool suppress)
+// protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
 //        {
 //            var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
 //            suppress = list == null;

@@ -4,7 +4,7 @@
 
     public static class CardImagePositionExtensions
     {
-        public static string ToClassName(this CardImagePosition position)
+        public static string? ToClassName(this CardImagePosition position)
         {
             switch (position)
             {

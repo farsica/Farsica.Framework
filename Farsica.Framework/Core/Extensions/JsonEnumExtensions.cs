@@ -10,9 +10,15 @@
 
     public static class JsonEnumExtensions
     {
-        public static bool TryGetEnumAttribute<TAttribute>(Type type, string name, [System.Diagnostics.CodeAnalysis.NotNullWhen(returnValue: true)] out TAttribute? attribute)
+        public static bool TryGetEnumAttribute<TAttribute>(Type type, string? name, [System.Diagnostics.CodeAnalysis.NotNullWhen(returnValue: true)] out TAttribute? attribute)
             where TAttribute : Attribute
         {
+            if (name is null)
+            {
+                attribute = null;
+                return false;
+            }
+
             var member = type.GetMember(name).SingleOrDefault();
             attribute = member?.GetCustomAttribute<TAttribute>(false);
             return attribute != null;

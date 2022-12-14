@@ -7,7 +7,7 @@
     {
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
@@ -18,7 +18,7 @@
 
         private static bool Validate(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrEmpty(value))
             {
                 return true;
             }

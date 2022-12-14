@@ -44,7 +44,7 @@
 
             SetContent(context, output, list, childContent);
 
-            output.Attributes.AddIfNotExist("method", TagHelper.Method);
+            output.Attributes.AddIfNotExist("method", TagHelper?.Method);
 
             await SetSubmitButton(context, output);
         }
@@ -98,7 +98,7 @@
         {
             return model.ModelExplorer?.Metadata?.IsEnum == true
                 || model.ModelExplorer?.Metadata?.ElementType?.IsEnum == true
-                || model.ModelExplorer.GetAttribute<SelectItemsAttribute>() != null;
+                || model.ModelExplorer?.GetAttribute<SelectItemsAttribute>() != null;
         }
 
         private static bool IsListOfCsharpClassOrPrimitive(Type type)
@@ -113,7 +113,7 @@
             return type.ToString().StartsWith("System.Collections.Generic.IEnumerable`") || type.ToString().StartsWith("System.Collections.Generic.List`");
         }
 
-        private static void SetContent(TagHelperContext context, TagHelperOutput output, List<FormGroupItem> items, string childContent)
+        private static void SetContent(TagHelperContext context, TagHelperOutput output, List<FormGroupItem> items, string? childContent)
         {
             var contentBuilder = new StringBuilder(string.Empty);
 
@@ -123,7 +123,7 @@
                 contentBuilder.AppendLine(item.HtmlContent);
             }
 
-            if (childContent.Contains(FormContentPlaceHolder))
+            if (childContent?.Contains(FormContentPlaceHolder) is true)
             {
                 output.Content.SetHtmlContent(childContent.Replace(FormContentPlaceHolder, contentBuilder.ToString()));
             }
@@ -228,13 +228,13 @@
             var radioInputTagHelper = serviceProvider.GetRequiredService<RadioInputTagHelper>();
             radioInputTagHelper.For = model;
             radioInputTagHelper.Items = null;
-            radioInputTagHelper.Inline = uIHintAttribute.Inline;
-            radioInputTagHelper.Disabled = uIHintAttribute.Disabled;
+            radioInputTagHelper.Inline = uIHintAttribute?.Inline;
+            radioInputTagHelper.Disabled = uIHintAttribute?.Disabled;
             radioInputTagHelper.ViewContext = TagHelper.ViewContext;
             return radioInputTagHelper;
         }
 
-        private async Task<string> ProcessSubmitButtonAndGetContentAsync(TagHelperContext context, TagHelperOutput output)
+        private async Task<string?> ProcessSubmitButtonAndGetContentAsync(TagHelperContext context, TagHelperOutput output)
         {
             var buttonTagHelper = serviceProvider.GetRequiredService<ButtonTagHelper>();
             var attributes = new TagHelperAttributeList { new TagHelperAttribute("type", "submit") };

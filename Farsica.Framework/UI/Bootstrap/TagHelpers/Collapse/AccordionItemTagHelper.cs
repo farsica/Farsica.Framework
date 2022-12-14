@@ -14,10 +14,10 @@
         }
 
         [HtmlAttributeName("frb-id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [HtmlAttributeName("frb-title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [HtmlAttributeName("frb-active")]
         public bool? Active { get; set; }

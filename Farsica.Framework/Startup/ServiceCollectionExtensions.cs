@@ -7,11 +7,11 @@
 
     public static class ServiceCollectionExtensions
     {
-        public static void ConfigureApplicationCookie(this IServiceCollection services, string loginAction, string loginController, string loginArea = null)
+        public static void ConfigureApplicationCookie(this IServiceCollection services, string? loginAction, string? loginController, string? loginArea = null)
         {
             services.AddTransient((IServiceProvider serviceProvider) =>
             {
-                return new CookieAuthenticationEvents(serviceProvider.GetService<IUrlHelperFactory>(), loginAction, loginController, loginArea);
+                return new CookieAuthenticationEvents(serviceProvider.GetRequiredService<IUrlHelperFactory>(), loginAction, loginController, loginArea);
             });
             services.ConfigureApplicationCookie(options =>
             {
@@ -19,11 +19,11 @@
             });
         }
 
-        public static void ConfigureApplicationCookie(this IServiceCollection services, string loginPageName, string loginArea = null)
+        public static void ConfigureApplicationCookie(this IServiceCollection services, string? loginPageName, string? loginArea = null)
         {
             services.AddTransient((IServiceProvider serviceProvider) =>
             {
-                return new CookieAuthenticationEvents(serviceProvider.GetService<IUrlHelperFactory>(), page: loginPageName, area: loginArea);
+                return new CookieAuthenticationEvents(serviceProvider.GetRequiredService<IUrlHelperFactory>(), page: loginPageName, area: loginArea);
             });
             services.ConfigureApplicationCookie(options =>
             {

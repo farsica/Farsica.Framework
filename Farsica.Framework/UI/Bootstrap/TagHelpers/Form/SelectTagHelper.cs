@@ -17,15 +17,15 @@
         }
 
         [HtmlAttributeName("frb-label")]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [HtmlAttributeName("frb-items")]
-        public IEnumerable<SelectListItem> Items { get; set; }
+        public IEnumerable<SelectListItem>? Items { get; set; }
 
         [HtmlAttributeName("frb-size")]
         public FormControlSize Size { get; set; } = FormControlSize.Default;
 
         [HtmlAttributeName("frb-info")]
-        public string InfoText { get; set; }
+        public string? InfoText { get; set; }
     }
 }

@@ -4,6 +4,6 @@
     {
         bool IgnoreOnExport { get; }
 
-        string Convert(object value);
+        string? Convert(object value);
     }
 }

@@ -26,7 +26,7 @@
 
             output.Content.SetHtmlContent(GetInnerHtml(context, output));
 
-            list.Add(new BreadcrumbItem
+            list?.Add(new BreadcrumbItem
             {
                 Html = output.Render(encoder),
                 Active = TagHelper.Active,
@@ -35,9 +35,9 @@
             output.SuppressOutput();
         }
 
-        protected virtual string GetInnerHtml(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetInnerHtml(TagHelperContext context, TagHelperOutput output)
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Href))
+            if (string.IsNullOrEmpty(TagHelper.Href))
             {
                 output.Attributes.Add("aria-current", "page");
                 return TagHelper.Title;

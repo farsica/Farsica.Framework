@@ -19,7 +19,7 @@
                 .Select(t => Activator.CreateInstance(t) as IRegister);
             foreach (var register in lst)
             {
-                register.Register(this);
+                register?.Register(this);
             }
 
             return lst;

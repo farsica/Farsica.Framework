@@ -37,7 +37,7 @@
                     return lst;
                 }
 
-                if (pagingDto.SearchFilter is not null)
+                if (pagingDto.SearchFilter?.Column is not null)
                 {
                     var type = typeof(TSource).GetProperty(pagingDto.SearchFilter.Column)?.PropertyType;
                     if (type is not null)
@@ -57,7 +57,7 @@
                             var match = false;
                             foreach (var info in fields)
                             {
-                                var names = new List<string> { info.Name };
+                                var names = new List<string?> { info.Name };
 
                                 var customAttribute = info.GetCustomAttribute<DisplayAttribute>(false);
                                 if (customAttribute is not null)
@@ -65,7 +65,7 @@
                                     names.Add(Globals.GetLocalizedValueInternal(customAttribute, info.Name, Constants.ResourceKey.Name));
                                 }
 
-                                if (names.Any(t => t.Equals(pagingDto.SearchFilter.Phrase, StringComparison.InvariantCultureIgnoreCase)))
+                                if (names.Any(t => t is not null && t.Equals(pagingDto.SearchFilter.Phrase, StringComparison.InvariantCultureIgnoreCase)))
                                 {
                                     lst = lst.AsQueryable().Where($"{pagingDto.SearchFilter.Column} == (@0)", info.GetValue(info));
                                     match = true;
@@ -153,7 +153,7 @@
                     return lst;
                 }
 
-                if (pagingDto.SearchFilter is not null)
+                if (pagingDto.SearchFilter?.Column is not null)
                 {
                     var type = typeof(TSource).GetProperty(pagingDto.SearchFilter.Column)?.PropertyType;
                     if (type is not null)

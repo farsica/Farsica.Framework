@@ -21,7 +21,7 @@
 
         public override bool IsValid(object value)
         {
-            if (!ValidationContext.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string cookieData))
+            if (!ValidationContext.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string? cookieData))
             {
                 return false;
             }

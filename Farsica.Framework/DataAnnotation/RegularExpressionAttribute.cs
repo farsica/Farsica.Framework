@@ -27,7 +27,7 @@
             }
         }
 
-        public new string ErrorMessageResourceName
+        public new string? ErrorMessageResourceName
         {
             get
             {
@@ -40,7 +40,7 @@
             }
         }
 
-        public new string ErrorMessage
+        public new string? ErrorMessage
         {
             get
             {
@@ -55,7 +55,7 @@
 
         public override bool IsValid(object value)
         {
-            return string.IsNullOrWhiteSpace(value?.ToString()) || base.IsValid(value);
+            return string.IsNullOrEmpty(value?.ToString()) || base.IsValid(value);
         }
 
         public void AddValidation(ClientModelValidationContext context)

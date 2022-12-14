@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using Farsica.Framework.Core;
@@ -10,21 +11,21 @@
 
     public static class ModelExplorerExtensions
     {
-        public static IEnumerable<Attribute> GetAttributes(this ModelExplorer property)
+        public static IEnumerable<Attribute>? GetAttributes([NotNull] this ModelExplorer property)
         {
-            return property?.Metadata?.ContainerType?.GetTypeInfo()?.GetProperty(property.Metadata.PropertyName)?.GetCustomAttributes();
+            return property.Metadata?.PropertyName is null ? null : property.Metadata.ContainerType?.GetTypeInfo()?.GetProperty(property.Metadata.PropertyName)?.GetCustomAttributes();
         }
 
-        public static T GetAttribute<T>(this IEnumerable<Attribute> attributes)
+        public static T? GetAttribute<T>([NotNull] this IEnumerable<Attribute> attributes)
             where T : Attribute
         {
             return attributes.OfType<T>().FirstOrDefault();
         }
 
-        public static T GetAttribute<T>(this ModelExplorer property)
+        public static T? GetAttribute<T>([NotNull] this ModelExplorer property)
             where T : Attribute
         {
-            return property?.Metadata?.ContainerType?.GetTypeInfo()?.GetProperty(property.Metadata.PropertyName)?.GetCustomAttribute<T>();
+            return property.Metadata.PropertyName is null ? null : property.Metadata?.ContainerType?.GetTypeInfo()?.GetProperty(property.Metadata.PropertyName)?.GetCustomAttribute<T>();
         }
 
         public static int GetDisplayOrder(this ModelExplorer explorer)

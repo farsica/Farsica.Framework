@@ -25,30 +25,30 @@
         public bool? Antiforgery { get; set; } = true;
 
         [HtmlAttributeName("frb-action")]
-        public string Action { get; set; }
+        public string? Action { get; set; }
 
         [HtmlAttributeName("frb-controller")]
-        public string Controller { get; set; }
+        public string? Controller { get; set; }
 
         [HtmlAttributeName("frb-area")]
-        public string Area { get; set; }
+        public string? Area { get; set; }
 
         [HtmlAttributeName("frb-page")]
-        public string Page { get; set; }
+        public string? Page { get; set; }
 
         [HtmlAttributeName("frb-page-handler")]
-        public string PageHandler { get; set; }
+        public string? PageHandler { get; set; }
 
         [HtmlAttributeName("frb-fragment")]
-        public string Fragment { get; set; }
+        public string? Fragment { get; set; }
 
         [HtmlAttributeName("frb-route")]
-        public string Route { get; set; }
+        public string? Route { get; set; }
 
         [HtmlAttributeName("frb-method")]
-        public string Method { get; set; } = "post";
+        public string? Method { get; set; } = "post";
 
         [HtmlAttributeName("frb-all-route-data", DictionaryAttributePrefix = "frb-route-")]
-        public IDictionary<string, string> RouteValues { get; set; }
+        public IDictionary<string, string?>? RouteValues { get; set; }
     }
 }

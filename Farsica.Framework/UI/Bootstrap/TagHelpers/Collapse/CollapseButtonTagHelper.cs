@@ -16,6 +16,6 @@
         }
 
         [HtmlAttributeName("frb-collapse-id")]
-        public string BodyId { get; set; }
+        public string? BodyId { get; set; }
     }
 }

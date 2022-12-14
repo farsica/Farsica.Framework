@@ -13,7 +13,7 @@
 
         public override bool IsValid(object value)
         {
-            return string.IsNullOrWhiteSpace(value?.ToString()) || new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(value);
+            return string.IsNullOrEmpty(value?.ToString()) || new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(value);
         }
 
         public void AddValidation(ClientModelValidationContext context)

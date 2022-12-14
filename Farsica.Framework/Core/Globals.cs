@@ -33,7 +33,7 @@
 
         public static ProviderType ProviderType { get; set; }
 
-        public static string NormalizePersian(this string str)
+        public static string? NormalizePersian(this string? str)
         {
             return str?.Trim()
                 .Replace("ﮎ", "ک")
@@ -54,10 +54,10 @@
                 .Replace("‌", " ");
         }
 
-        public static string GetClientIpAddress(this HttpRequest httpRequest)
+        public static string? GetClientIpAddress(this HttpRequest httpRequest)
         {
             var xForwardedFor = httpRequest.Headers["X-Forwarded-For"];
-            if (!string.IsNullOrWhiteSpace(xForwardedFor))
+            if (!string.IsNullOrEmpty(xForwardedFor))
             {
                 return xForwardedFor.ToString().Split(',').Last();
             }
@@ -65,7 +65,7 @@
             return httpRequest.HttpContext?.Connection?.RemoteIpAddress?.ToString();
         }
 
-        public static string GetHeaderParameter(this HttpRequest httpRequest, string key)
+        public static string? GetHeaderParameter(this HttpRequest httpRequest, string key)
         {
             return httpRequest.Headers.TryGetValue(key, out StringValues stringValues) ? stringValues.FirstOrDefault() : null;
         }
@@ -74,7 +74,7 @@
         {
             var allDigitEqual = new[] { "0000000000", "1111111111", "2222222222", "3333333333", "4444444444", "5555555555", "6666666666", "7777777777", "8888888888", "9999999999" };
 
-            if (string.IsNullOrWhiteSpace(nationalCode) || allDigitEqual.Contains(nationalCode) || nationalCode.Length != 10)
+            if (string.IsNullOrEmpty(nationalCode) || allDigitEqual.Contains(nationalCode) || nationalCode.Length != 10)
             {
                 return false;
             }
@@ -97,7 +97,7 @@
             return ((c < 2) && (a == c)) || ((c >= 2) && ((11 - c) == a));
         }
 
-        public static string? GetLocalizedDisplayName(MemberInfo member)
+        public static string? GetLocalizedDisplayName(MemberInfo? member)
         {
             if (member == null)
             {
@@ -117,7 +117,7 @@
             return !string.IsNullOrEmpty(name) ? name : member.Name;
         }
 
-        public static string DisplayNameFor<T>(this Expression<Func<T, object>> expression)
+        public static string? DisplayNameFor<T>(this Expression<Func<T, object>> expression)
             where T : class
         {
             var memberExpression = expression.Body as MemberExpression;
@@ -138,9 +138,9 @@
             return string.Empty;
         }
 
-        public static string GetLocalizedShortName(MemberInfo member)
+        public static string? GetLocalizedShortName(MemberInfo? member)
         {
-            if (member == null)
+            if (member is null)
             {
                 return null;
             }
@@ -155,7 +155,7 @@
             return customAttribute?.GetShortName();
         }
 
-        public static string GetLocalizedDescription(MemberInfo member)
+        public static string? GetLocalizedDescription(MemberInfo? member)
         {
             if (member == null)
             {
@@ -172,7 +172,7 @@
             return customAttribute?.GetDescription();
         }
 
-        public static string GetLocalizedPromt(MemberInfo member)
+        public static string? GetLocalizedPromt(MemberInfo member)
         {
             if (member == null)
             {
@@ -189,7 +189,7 @@
             return customAttribute?.GetPrompt();
         }
 
-        public static string GetLocalizedGroupName(MemberInfo member)
+        public static string? GetLocalizedGroupName(MemberInfo member)
         {
             if (member == null)
             {
@@ -206,29 +206,29 @@
             return customAttribute?.GetGroupName();
         }
 
-        public static T ValueOf<T>(this Dictionary<string, string> dictionary, string key, T defaultValue = default)
+        public static T? ValueOf<T>(this Dictionary<string, string> dictionary, string key, T? defaultValue = default)
         {
-            dictionary.TryGetValue(key, out string tmp);
+            dictionary.TryGetValue(key, out string? tmp);
             return ValueOf(tmp, defaultValue);
         }
 
-        public static T ValueOf<T>(this string value, T defaultValue = default)
+        public static T? ValueOf<T>(this string? value, T? defaultValue = default)
         {
             return ValueOf(value, typeof(T), defaultValue);
         }
 
-        public static dynamic ValueOf(this string value, Type type, dynamic defaultValue)
+        public static dynamic? ValueOf(this string? value, Type type, dynamic? defaultValue)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     return defaultValue;
                 }
 
                 if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    type = Nullable.GetUnderlyingType(type);
+                    type = Nullable.GetUnderlyingType(type) ?? type;
                 }
 
                 if (type.IsEnum)
@@ -319,22 +319,22 @@
             }
         }
 
-        public static int UserId(this HttpContext httpContext)
+        public static int UserId(this HttpContext? httpContext)
         {
             return UserId<int>(httpContext);
         }
 
-        public static T UserId<T>(this HttpContext httpContext)
+        public static T? UserId<T>(this HttpContext? httpContext)
         {
             return UserId<T>(httpContext?.User);
         }
 
-        public static int UserId(this ClaimsPrincipal claimsPrincipal)
+        public static int UserId(this ClaimsPrincipal? claimsPrincipal)
         {
             return UserId<int>(claimsPrincipal);
         }
 
-        public static T UserId<T>(this ClaimsPrincipal claimsPrincipal)
+        public static T? UserId<T>(this ClaimsPrincipal? claimsPrincipal)
         {
             if (claimsPrincipal == null)
             {
@@ -344,16 +344,16 @@
             return claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier).ValueOf<T>();
         }
 
-        public static IDictionary<string, object> ObjectToDictionary(object value)
+        public static IDictionary<string, object?>? ObjectToDictionary(object value)
         {
-            if (value is IDictionary<string, object> dictionary)
+            if (value is IDictionary<string, object?> dictionary)
             {
-                return new Dictionary<string, object>(dictionary, StringComparer.OrdinalIgnoreCase);
+                return new Dictionary<string, object?>(dictionary, StringComparer.OrdinalIgnoreCase);
             }
 
-            dictionary = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            dictionary = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
 
-            if (value != null)
+            if (value is not null)
             {
                 dictionary = value.GetType().GetProperties().ToDictionary(t => t.Name, t => t.GetValue(value, null));
             }
@@ -361,7 +361,7 @@
             return dictionary;
         }
 
-        public static string GenerateRandomCode(int size = 32)
+        public static string? GenerateRandomCode(int size = 32)
         {
             using var cryptoProvider = RandomNumberGenerator.Create();
             var secretKeyByteArray = new byte[4 * size];
@@ -501,9 +501,9 @@
             return persianCalture;
         }
 
-        public static string Sentencise(this string str, bool titlecase = false)
+        public static string? Sentencise(this string? str, bool titlecase = false)
         {
-            if (string.IsNullOrWhiteSpace(str))
+            if (string.IsNullOrEmpty(str))
             {
                 return null;
             }
@@ -534,7 +534,7 @@
             return retVal.ToString();
         }
 
-        public static IEnumerable<Type> GetAllTypesImplementingType(this Type mainType, IEnumerable<Type> scanTypes)
+        public static IEnumerable<Type>? GetAllTypesImplementingType(this Type mainType, IEnumerable<Type> scanTypes)
         {
             IEnumerable<Type> types;
 
@@ -565,7 +565,7 @@
             return types;
         }
 
-        public static string TrimEnd(this string input, string suffixToRemove, StringComparison comparisonType = StringComparison.CurrentCulture)
+        public static string TrimEnd(this string input, string? suffixToRemove, StringComparison comparisonType = StringComparison.CurrentCulture)
         {
             if (suffixToRemove != null && input.EndsWith(suffixToRemove, comparisonType))
             {
@@ -575,7 +575,7 @@
             return input;
         }
 
-        public static string Slugify(this string value)
+        public static string? Slugify(this string? value)
         {
             return value == null ? null : Regex.Replace(
                 value,
@@ -585,7 +585,7 @@
                 TimeSpan.FromMilliseconds(100)).ToLowerInvariant();
         }
 
-        public static async Task<string> ConvertImageToBase64Async(IFormFile file)
+        public static async Task<string?> ConvertImageToBase64Async(IFormFile file)
         {
             if (file == null)
             {
@@ -599,12 +599,17 @@
 
         public static bool IsImage(string fileName)
         {
-            return fileName.IsNullOrEmpty() is false && fileName.StartsWith("<svg", StringComparison.InvariantCultureIgnoreCase) is false && (fileName.StartsWith("data:image") || Constants.ValidImageExtensions.Contains(Path.GetExtension(fileName)?.TrimStart('.'), StringComparison.OrdinalIgnoreCase));
+            return fileName.IsNullOrEmpty() is false && fileName.StartsWith("<svg", StringComparison.InvariantCultureIgnoreCase) is false && (fileName.StartsWith("data:image") || Constants.ValidImageExtensions.Contains(Path.GetExtension(fileName)?.TrimStart('.') ?? string.Empty, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static bool ValidateIban(this string iban)
+        public static bool ValidateIban(this string? iban)
         {
-            if (iban.Length != 26 || !iban[..2].ToCharArray().All(t => char.IsLetter(t)))
+            if (string.IsNullOrEmpty(iban))
+            {
+                return true;
+            }
+
+            if (iban.Length != 26 || !iban[..2].ToCharArray().All(char.IsLetter))
             {
                 return false;
             }
@@ -622,9 +627,9 @@
             return true;
         }
 
-        public static string NormalizeMobile(this string mobile)
+        public static string? NormalizeMobile(this string? mobile)
         {
-            if (mobile.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(mobile))
             {
                 return string.Empty;
             }
@@ -671,7 +676,7 @@
                 .Replace(".Common,", resourceAssembly + ",");
         }
 
-        internal static string? GetLocalizedValueInternal(DisplayAttribute displayAttribute, string? propertyName, Constants.ResourceKey resourceKey, ResourceManager? cachedResourceManager = null)
+        internal static string GetLocalizedValueInternal(DisplayAttribute displayAttribute, string propertyName, Constants.ResourceKey resourceKey, ResourceManager? cachedResourceManager = null)
         {
             if (cachedResourceManager is null)
             {
@@ -723,39 +728,29 @@
                 else
                 {
                     result = cachedResourceManager.GetString($"{displayAttribute.EnumType.Name}_{propertyName}_{resourceKey}");
-                    if (resourceKey == Constants.ResourceKey.Name && string.IsNullOrWhiteSpace(result))
+                    if (resourceKey == Constants.ResourceKey.Name && string.IsNullOrEmpty(result))
                     {
                         result = cachedResourceManager.GetString($"{displayAttribute.EnumType.Name}_{propertyName}");
                     }
                 }
             }*/
 
-            if (result.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(result))
             {
-                switch (resourceKey)
+                result = resourceKey switch
                 {
-                    case Constants.ResourceKey.Name:
-                        result = displayAttribute.Name;
-                        break;
-                    case Constants.ResourceKey.ShortName:
-                        result = displayAttribute.ShortName;
-                        break;
-                    case Constants.ResourceKey.Description:
-                        result = displayAttribute.Description;
-                        break;
-                    case Constants.ResourceKey.Prompt:
-                        result = displayAttribute.Prompt;
-                        break;
-                    case Constants.ResourceKey.GroupName:
-                        result = displayAttribute.GroupName;
-                        break;
-                }
+                    Constants.ResourceKey.ShortName => displayAttribute.ShortName,
+                    Constants.ResourceKey.Description => displayAttribute.Description,
+                    Constants.ResourceKey.Prompt => displayAttribute.Prompt,
+                    Constants.ResourceKey.GroupName => displayAttribute.GroupName,
+                    _ => displayAttribute.Name,
+                };
             }
 
             return result;
         }
 
-        internal static RouteValueDictionary PrepareValues(object routeValues, string area = null)
+        internal static RouteValueDictionary PrepareValues(object? routeValues, string? area = null)
         {
             var rootValueDictionary = new RouteValueDictionary(routeValues);
             if (!rootValueDictionary.ContainsKey(Constants.LanguageIdentifier))

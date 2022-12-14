@@ -21,7 +21,7 @@
     {
         private readonly IHtmlGenerator generator;
         private readonly HtmlEncoder encoder;
-        private IEnumerable<Attribute> cachedModelAttributes;
+        private IEnumerable<Attribute>? cachedModelAttributes;
 
         public SelectTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder)
         {
@@ -53,7 +53,7 @@
             }
         }
 
-        protected virtual async Task<string> GetFormInputGroupAsHtmlAsync(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<string?> GetFormInputGroupAsHtmlAsync(TagHelperContext context, TagHelperOutput output)
         {
             var selectTag = await GetSelectTagAsync(context, output);
             var selectAsHtml = selectTag.Render(encoder);
@@ -64,7 +64,7 @@
             return label + Environment.NewLine + selectAsHtml + Environment.NewLine + infoText + Environment.NewLine + validation;
         }
 
-        protected virtual string SurroundInnerHtmlAndGet(TagHelperContext context, TagHelperOutput output, string innerHtml)
+        protected virtual string? SurroundInnerHtmlAndGet(TagHelperContext context, TagHelperOutput output, string? innerHtml)
         {
             return "<div class=\"form-group\">" + Environment.NewLine + innerHtml + Environment.NewLine + "</div>";
         }
@@ -117,7 +117,7 @@
             throw new Exception("No items provided for select attribute.");
         }
 
-        protected virtual async Task<string> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput selectTag)
+        protected virtual async Task<string?> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput selectTag)
         {
             var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
             if (uIHintAttribute != null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
@@ -133,7 +133,7 @@
             return await GetLabelAsHtmlUsingTagHelperAsync(context, output) + GetRequiredSymbol(context, output);
         }
 
-        protected virtual string GetRequiredSymbol(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetRequiredSymbol(TagHelperContext context, TagHelperOutput output)
         {
             if (!TagHelper.DisplayRequiredSymbol)
             {
@@ -155,14 +155,14 @@
             if (attribute != null)
             {
                 var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
-                if (!string.IsNullOrWhiteSpace(description))
+                if (!string.IsNullOrEmpty(description))
                 {
                     inputTagHelperOutput.Attributes.Add("aria-describedby", description);
                 }
             }
         }
 
-        protected virtual string GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
+        protected virtual string? GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
         {
             var text = string.Empty;
             if (!string.IsNullOrEmpty(TagHelper.InfoText))
@@ -175,7 +175,7 @@
                 if (attribute != null)
                 {
                     var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
-                    if (!string.IsNullOrWhiteSpace(description))
+                    if (!string.IsNullOrEmpty(description))
                     {
                         text = description;
                     }
@@ -211,16 +211,19 @@
                 selectItems.Add(new SelectListItem());
             }
 
-            var ignoreFields = enumType.GetFields().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is not null || t.GetCustomAttribute<DisplayAttribute>(false)?.Hidden is true).Select(t => (t.GetValue(null) as Enum)?.ToString());
-            foreach (var enumValue in enumType.GetEnumValues())
+            if (enumType is not null)
             {
-                if (!ignoreFields.Contains(enumValue.ToString()))
+                var ignoreFields = enumType.GetFields().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is not null || t.GetCustomAttribute<DisplayAttribute>(false)?.Hidden is true).Select(t => (t.GetValue(null) as Enum)?.ToString());
+                foreach (var enumValue in enumType.GetEnumValues())
                 {
-                    selectItems.Add(new SelectListItem
+                    if (!ignoreFields.Contains(enumValue.ToString()))
                     {
-                        Value = enumValue.ToString(),
-                        Text = EnumHelper.LocalizeEnum(enumValue),
-                    });
+                        selectItems.Add(new SelectListItem
+                        {
+                            Value = enumValue.ToString(),
+                            Text = EnumHelper.LocalizeEnum(enumValue),
+                        });
+                    }
                 }
             }
 
@@ -239,7 +242,7 @@
             return selectItems;
         }
 
-        protected virtual async Task<string> GetLabelAsHtmlUsingTagHelperAsync(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<string?> GetLabelAsHtmlUsingTagHelperAsync(TagHelperContext context, TagHelperOutput output)
         {
             var labelTagHelper = new LabelTagHelper(generator)
             {
@@ -250,7 +253,7 @@
             return await labelTagHelper.RenderAsync(new TagHelperAttributeList(), context, encoder, "label", TagMode.StartTagAndEndTag);
         }
 
-        protected virtual async Task<string> GetValidationAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
+        protected virtual async Task<string?> GetValidationAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
         {
             var validationMessageTagHelper = new ValidationMessageTagHelper(generator)
             {
@@ -263,7 +266,7 @@
             return await validationMessageTagHelper.RenderAsync(attributeList, context, encoder, "span", TagMode.StartTagAndEndTag);
         }
 
-        protected virtual string GetSize(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetSize(TagHelperContext context, TagHelperOutput output)
         {
             var attribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
             if (attribute != null)
@@ -316,19 +319,19 @@
             }
         }
 
-        protected virtual string GetIdAttributeAsString(TagHelperOutput inputTag)
+        protected virtual string? GetIdAttributeAsString(TagHelperOutput inputTag)
         {
             var idAttr = inputTag.Attributes.FirstOrDefault(a => a.Name == "id");
 
             return idAttr != null ? "for=\"" + idAttr.Value + "\"" : string.Empty;
         }
 
-        protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string propertyName, string html, int order, out bool suppress)
+        protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
             suppress = list == null;
 
-            if (list != null && !list.Any(igc => igc.HtmlContent.Contains("id=\"" + propertyName.Replace('.', '_') + "\"")))
+            if (list is not null && propertyName is not null && !list.Any(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
             {
                 list.Add(new FormGroupItem
                 {

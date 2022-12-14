@@ -8,8 +8,13 @@
     {
         internal const string Captcha = "Captcha";
 
-        internal static string Encrypt(string stringToHash)
+        internal static string? Encrypt(string? stringToHash)
         {
+            if (stringToHash is null)
+            {
+                return null;
+            }
+
             const string Salt = @"F@rA80o|\/|";
             var saltByte = Encoding.UTF8.GetBytes(Salt);
             var passwordTextByte = Encoding.UTF8.GetBytes(stringToHash);

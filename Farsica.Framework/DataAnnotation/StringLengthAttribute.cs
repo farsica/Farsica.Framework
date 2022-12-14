@@ -35,7 +35,7 @@
             }
         }
 
-        public new string ErrorMessageResourceName
+        public new string? ErrorMessageResourceName
         {
             get
             {
@@ -48,7 +48,7 @@
             }
         }
 
-        public new string ErrorMessage
+        public new string? ErrorMessage
         {
             get
             {
@@ -63,14 +63,14 @@
 
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
 
             if (value is List<string> lst)
             {
-                return lst.All(t => string.IsNullOrWhiteSpace(t) || base.IsValid(t));
+                return lst.All(t => string.IsNullOrEmpty(t) || base.IsValid(t));
             }
 
             return base.IsValid(value);

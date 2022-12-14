@@ -15,7 +15,7 @@
 #pragma warning restore SA1313 // Parameter names should begin with lower-case letter
         where TEnum : struct, Enum;
 
-    public delegate bool TryOverrideName(Type enumType, string name, out ReadOnlyMemory<char> overrideName);
+    public delegate bool TryOverrideName(Type enumType, string? name, out ReadOnlyMemory<char> overrideName);
 
     public class GeneralJsonStringEnumConverter : JsonConverterFactory
     {
@@ -36,7 +36,7 @@
             var enumType = Nullable.GetUnderlyingType(typeToConvert) ?? typeToConvert;
             var flagged = enumType.IsDefined(typeof(FlagsAttribute), true);
             JsonConverter enumConverter;
-            TryOverrideName tryOverrideName = (Type t, string n, out ReadOnlyMemory<char> o) => TryOverrideName(t, n, out o);
+            TryOverrideName tryOverrideName = TryOverrideName;
             var converterType = (flagged ? typeof(FlaggedJsonEnumConverter<>) : typeof(UnflaggedJsonEnumConverter<>)).MakeGenericType(new[] { enumType });
             enumConverter = (JsonConverter)Activator.CreateInstance(
                 converterType,
@@ -60,7 +60,7 @@
             }
         }
 
-        protected virtual bool TryOverrideName(Type enumType, string name, out ReadOnlyMemory<char> overrideName)
+        protected virtual bool TryOverrideName(Type enumType, string? name, out ReadOnlyMemory<char> overrideName)
         {
             overrideName = default;
             return false;

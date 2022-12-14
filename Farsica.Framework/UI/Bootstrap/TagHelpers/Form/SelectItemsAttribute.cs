@@ -14,11 +14,11 @@
             ItemsListPropertyName = itemsListPropertyName;
         }
 
-        public string ItemsListPropertyName { get; internal set; }
+        public string? ItemsListPropertyName { get; internal set; }
 
-        public IEnumerable<SelectListItem> GetItems(ModelExplorer explorer)
+        public IEnumerable<SelectListItem>? GetItems(ModelExplorer explorer)
         {
-            var properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName.Equals(ItemsListPropertyName)).ToList();
+            var properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) is true).ToList();
 
             while (!properties.Any())
             {
@@ -28,12 +28,10 @@
                     return null;
                 }
 
-                properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName.Equals(ItemsListPropertyName)).ToList();
+                properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) is true).ToList();
             }
 
-            var selectItems = (properties.First().Model as IEnumerable<SelectListItem>).ToList();
-
-            return selectItems;
+            return properties.First().Model as IEnumerable<SelectListItem>;
         }
     }
 }

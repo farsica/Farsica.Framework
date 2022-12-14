@@ -51,41 +51,41 @@
             output.Attributes.Add("title", GetTitle());
         }
 
-        protected virtual string GetTitle()
+        protected virtual string? GetTitle()
         {
             switch (GetDirectory())
             {
                 case TooltipDirectory.Top:
-                    return TagHelper.TooltipTop;
+                    return TagHelper?.TooltipTop;
                 case TooltipDirectory.Right:
-                    return TagHelper.TooltipRight;
+                    return TagHelper?.TooltipRight;
                 case TooltipDirectory.Bottom:
-                    return TagHelper.TooltipBottom;
+                    return TagHelper?.TooltipBottom;
                 case TooltipDirectory.Left:
-                    return TagHelper.TooltipLeft;
+                    return TagHelper?.TooltipLeft;
                 default:
-                    return TagHelper.Tooltip;
+                    return TagHelper?.Tooltip;
             }
         }
 
         protected virtual TooltipDirectory GetDirectory()
         {
-            if (!string.IsNullOrWhiteSpace(TagHelper.TooltipTop))
+            if (!string.IsNullOrEmpty(TagHelper?.TooltipTop))
             {
                 return TooltipDirectory.Top;
             }
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.TooltipBottom))
+            if (!string.IsNullOrEmpty(TagHelper?.TooltipBottom))
             {
                 return TooltipDirectory.Bottom;
             }
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.TooltipRight))
+            if (!string.IsNullOrEmpty(TagHelper?.TooltipRight))
             {
                 return TooltipDirectory.Right;
             }
 
-            if (!string.IsNullOrWhiteSpace(TagHelper.TooltipLeft))
+            if (!string.IsNullOrEmpty(TagHelper?.TooltipLeft))
             {
                 return TooltipDirectory.Left;
             }

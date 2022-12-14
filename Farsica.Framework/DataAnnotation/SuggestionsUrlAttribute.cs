@@ -10,6 +10,6 @@
             Url = url;
         }
 
-        public string Url { get; }
+        public string? Url { get; }
     }
 }

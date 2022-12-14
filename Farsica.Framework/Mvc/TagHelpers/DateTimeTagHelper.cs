@@ -81,7 +81,7 @@
             output.Attributes.AddIfNotExist("data-toggle", toggle);
             output.Attributes.AddClass("form-control");
 
-            string val = null;
+            string? val = null;
             if (Value != null)
             {
                 val = (Value as TimeSpan?)?.ToString(format) ?? (Value as DateTimeOffset?)?.ToString(format) ?? (Value as DateTime?)?.ToString(format);

@@ -14,7 +14,7 @@
             output.PostContent.SetHtmlContent(CreatePostContent());
         }
 
-        protected virtual string CreatePreContent(TagHelperOutput output)
+        protected virtual string? CreatePreContent(TagHelperOutput output)
         {
             var sb = new StringBuilder();
 
@@ -28,12 +28,12 @@
             return sb.ToString();
         }
 
-        protected virtual string GetModalClasses()
+        protected virtual string? GetModalClasses()
         {
             return "modal fade";
         }
 
-        protected virtual string GetModalDialogClasses()
+        protected virtual string? GetModalDialogClasses()
         {
             var classNames = new StringBuilder("modal-dialog");
 
@@ -52,12 +52,12 @@
             return classNames.ToString();
         }
 
-        protected virtual string GetModalContentClasses()
+        protected virtual string? GetModalContentClasses()
         {
             return "modal-content";
         }
 
-        protected virtual string GetDataAttributes()
+        protected virtual string? GetDataAttributes()
         {
             if (TagHelper.Static == true)
             {
@@ -67,7 +67,7 @@
             return string.Empty;
         }
 
-        protected virtual string CreatePostContent()
+        protected virtual string? CreatePostContent()
         {
             var sb = new StringBuilder();
 

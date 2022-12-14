@@ -17,7 +17,7 @@
         {
         }
 
-        protected override bool TryOverrideName(Type enumType, string name, out ReadOnlyMemory<char> overrideName)
+        protected override bool TryOverrideName(Type enumType, string? name, out ReadOnlyMemory<char> overrideName)
         {
             if (JsonEnumExtensions.TryGetEnumAttribute<JsonPropertyNameAttribute>(enumType, name, out var attr) && attr.Name != null)
             {

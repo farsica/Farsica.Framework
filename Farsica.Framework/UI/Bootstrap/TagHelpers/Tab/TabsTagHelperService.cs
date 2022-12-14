@@ -29,17 +29,17 @@
 
             output.TagName = "div";
             output.Content.SetHtmlContent(finalContent);
-            if (TagHelper.TabStyle == TabStyle.PillVertical)
+            if (TagHelper?.TabStyle == TabStyle.PillVertical)
             {
                 PlaceInsideRow(output);
             }
         }
 
-        protected virtual string CombineHeadersAndContents(TagHelperContext context, TagHelperOutput output, string headers, string contents)
+        protected virtual string? CombineHeadersAndContents(TagHelperContext context, TagHelperOutput output, string? headers, string? contents)
         {
             var combined = new StringBuilder();
 
-            if (TagHelper.TabStyle == TabStyle.PillVertical)
+            if (TagHelper?.TabStyle == TabStyle.PillVertical)
             {
                 var headerColumnSize = GetHeaderColumnSize();
                 var contentColumnSize = 12 - headerColumnSize;
@@ -53,10 +53,10 @@
             return combined.ToString();
         }
 
-        protected virtual string SurroundHeaders(TagHelperContext context, TagHelperOutput output, string headers)
+        protected virtual string? SurroundHeaders(TagHelperContext context, TagHelperOutput output, string? headers)
         {
-            var id = TagHelper.Name;
-            var navClass = TagHelper.TabStyle == TabStyle.Tab ? " nav-tabs" : " nav-pills";
+            var id = TagHelper?.Name;
+            var navClass = TagHelper?.TabStyle == TabStyle.Tab ? " nav-tabs" : " nav-pills";
             var verticalClass = GetVerticalPillClassIfVertical();
 
             var surroundedHeaders = "<ul class=\"nav" + verticalClass + navClass + "\" id=\"" + id + "\" role=\"tablist\">" + Environment.NewLine +
@@ -66,9 +66,9 @@
             return surroundedHeaders;
         }
 
-        protected virtual string SurroundContents(TagHelperContext context, TagHelperOutput output, string contents)
+        protected virtual string? SurroundContents(TagHelperContext context, TagHelperOutput output, string? contents)
         {
-            var id = TagHelper.Name + "Content";
+            var id = TagHelper?.Name + "Content";
 
             var surroundedContents = "<div class=\"tab-content\" id=\"" + id + "\">" + Environment.NewLine +
                                    contents +
@@ -77,13 +77,9 @@
             return surroundedContents;
         }
 
-        protected virtual string PlaceInsideColumn(string contents, int columnSize)
+        protected virtual string? PlaceInsideColumn(string? contents, int columnSize)
         {
-            var surroundedContents = "<div class=\"col-md-" + columnSize + "\">" + Environment.NewLine +
-                                   contents +
-                                   "   </div>";
-
-            return surroundedContents;
+            return "<div class=\"col-md-" + columnSize + "\">" + Environment.NewLine + contents + "   </div>";
         }
 
         protected virtual void PlaceInsideRow(TagHelperOutput output)
@@ -96,7 +92,7 @@
             if (!items.Any(it => it.Active) && items.Count > 0)
             {
                 var firstItem = items.FirstOrDefault(i => !i.IsDropdown);
-                if (firstItem != null)
+                if (firstItem is not null)
                 {
                     firstItem.Active = true;
                 }
@@ -104,21 +100,26 @@
 
             foreach (var tabItem in items)
             {
+                if (tabItem is null)
+                {
+                    continue;
+                }
+
                 if (tabItem.Active)
                 {
-                    tabItem.Content = tabItem.Content.Replace(TabItemShowActivePlaceholder, " show active");
-                    tabItem.Header = tabItem.Header.Replace(TabItemActivePlaceholder, " active").Replace(TabItemSelectedPlaceholder, "true");
+                    tabItem.Content = tabItem.Content?.Replace(TabItemShowActivePlaceholder, " show active");
+                    tabItem.Header = tabItem.Header?.Replace(TabItemActivePlaceholder, " active").Replace(TabItemSelectedPlaceholder, "true");
                 }
                 else
                 {
-                    tabItem.Content = tabItem.Content.Replace(TabItemShowActivePlaceholder, string.Empty);
-                    tabItem.Header = tabItem.Header.Replace(TabItemActivePlaceholder, string.Empty).Replace(TabItemSelectedPlaceholder, "false");
+                    tabItem.Content = tabItem.Content?.Replace(TabItemShowActivePlaceholder, string.Empty);
+                    tabItem.Header = tabItem.Header?.Replace(TabItemActivePlaceholder, string.Empty).Replace(TabItemSelectedPlaceholder, "false");
                 }
             }
         }
 
 #pragma warning disable CA1002 // Do not expose generic lists
-        protected virtual string GetHeaders(TagHelperContext context, TagHelperOutput output, List<TabItem> items)
+        protected virtual string? GetHeaders(TagHelperContext context, TagHelperOutput output, List<TabItem> items)
 #pragma warning restore CA1002 // Do not expose generic lists
         {
             SetActiveTab(items);
@@ -133,9 +134,9 @@
                 {
                     var childHeaders = items.Where(i => i.ParentId == item.Id).Select(c => SetTabItemNameIfNotProvided(c.Header, items.IndexOf(c)));
                     var childHeadersAsString = string.Join(Environment.NewLine, childHeaders.ToArray());
-                    header = item.Header.Replace(TabDropdownItemsActivePlaceholder, childHeadersAsString);
+                    header = item.Header?.Replace(TabDropdownItemsActivePlaceholder, childHeadersAsString);
                 }
-                else if (string.IsNullOrWhiteSpace(item.ParentId))
+                else if (string.IsNullOrEmpty(item.ParentId))
                 {
                     header = item.Header;
 
@@ -150,7 +151,7 @@
             return headers;
         }
 
-        protected virtual string GetConents(TagHelperContext context, TagHelperOutput output, IReadOnlyList<TabItem> items)
+        protected virtual string? GetConents(TagHelperContext context, TagHelperOutput output, IReadOnlyList<TabItem> items)
         {
             var contentsBuilder = new StringBuilder();
 
@@ -180,41 +181,39 @@
             return items;
         }
 
-        protected virtual string GetDataToggleStyle()
+        protected virtual string? GetDataToggleStyle()
         {
-            return TagHelper.TabStyle == TabStyle.Tab ? "tab" : "pill";
+            return TagHelper?.TabStyle == TabStyle.Tab ? "tab" : "pill";
         }
 
-        protected virtual string SetDataToggle(string content)
+        protected virtual string? SetDataToggle(string content)
         {
             return content.Replace(TabItemsDataTogglePlaceHolder, GetDataToggleStyle());
         }
 
-        protected virtual string GetVerticalPillClassIfVertical()
+        protected virtual string? GetVerticalPillClassIfVertical()
         {
-            return TagHelper.TabStyle == TabStyle.PillVertical ? " flex-column " : string.Empty;
+            return TagHelper?.TabStyle == TabStyle.PillVertical ? " flex-column " : string.Empty;
         }
 
         protected virtual int GetHeaderColumnSize()
         {
-            return
-                TagHelper.VerticalHeaderSize is ColumnSize.Undefined or
-                ColumnSize.Auto or ColumnSize._
+            return TagHelper is null || TagHelper.VerticalHeaderSize is ColumnSize.Undefined or ColumnSize.Auto or ColumnSize._
                     ? (int)ColumnSize._3
                     : (int)TagHelper.VerticalHeaderSize;
         }
 
         protected virtual void SetRandomNameIfNotProvided()
         {
-            if (string.IsNullOrWhiteSpace(TagHelper.Name))
+            if (TagHelper is not null && string.IsNullOrEmpty(TagHelper.Name))
             {
                 TagHelper.Name = "T" + Guid.NewGuid().ToString("N");
             }
         }
 
-        protected virtual string SetTabItemNameIfNotProvided(string content, int index)
+        protected virtual string? SetTabItemNameIfNotProvided(string? content, int index)
         {
-            return content.Replace(TabItemNamePlaceHolder, TagHelper.Name + "_" + index);
+            return content?.Replace(TabItemNamePlaceHolder, TagHelper?.Name + "_" + index);
         }
     }
 }

@@ -18,7 +18,7 @@
     {
         private readonly IHtmlGenerator generator;
         private readonly HtmlEncoder encoder;
-        private IEnumerable<Attribute> cachedModelAttributes;
+        private IEnumerable<Attribute>? cachedModelAttributes;
 
         public InputTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder)
         {
@@ -57,7 +57,7 @@
             }
         }
 
-        protected virtual async Task<(string Content, bool IsCheckBox)> GetFormInputGroupAsHtmlAsync(TagHelperContext context, TagHelperOutput output)
+        protected virtual async Task<(string? Content, bool IsCheckBox)> GetFormInputGroupAsHtmlAsync(TagHelperContext context, TagHelperOutput output)
         {
             var (inputTag, isCheckBox) = await GetInputTagHelperOutputAsync(context, output);
 
@@ -69,7 +69,7 @@
             return (GetContent(context, output, label, inputHtml, validation, info, isCheckBox), isCheckBox);
         }
 
-        protected virtual async Task<string> GetValidationAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
+        protected virtual async Task<string?> GetValidationAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
         {
             if (IsOutputHidden(inputTag))
             {
@@ -87,7 +87,7 @@
             return await validationMessageTagHelper.RenderAsync(attributeList, context, encoder, "span", TagMode.StartTagAndEndTag);
         }
 
-        protected virtual string GetContent(TagHelperContext context, TagHelperOutput output, string label, string inputHtml, string validation, string infoHtml, bool isCheckbox)
+        protected virtual string? GetContent(TagHelperContext context, TagHelperOutput output, string? label, string? inputHtml, string? validation, string? infoHtml, bool isCheckbox)
         {
             var innerContent = isCheckbox ?
                 inputHtml + label :
@@ -96,7 +96,7 @@
             return innerContent + infoHtml + validation;
         }
 
-        protected virtual string SurroundInnerHtmlAndGet(TagHelperContext context, TagHelperOutput output, string innerHtml, bool isCheckbox)
+        protected virtual string? SurroundInnerHtmlAndGet(TagHelperContext context, TagHelperOutput output, string? innerHtml, bool isCheckbox)
         {
             return "<div class=\"" + (isCheckbox ? "custom-checkbox custom-control" : "form-group") + "\">" +
                    Environment.NewLine + innerHtml + Environment.NewLine +
@@ -114,7 +114,7 @@
                     ViewContext = TagHelper.ViewContext,
                 };
 
-                if (!string.IsNullOrWhiteSpace(TagHelper.Name))
+                if (!string.IsNullOrEmpty(TagHelper.Name))
                 {
                     textAreaTagHelper.Name = TagHelper.Name;
                 }
@@ -205,7 +205,7 @@
             if (attribute != null)
             {
                 var placeholderLocalized = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Prompt);
-                if (!string.IsNullOrWhiteSpace(placeholderLocalized))
+                if (!string.IsNullOrEmpty(placeholderLocalized))
                 {
                     inputTagHelperOutput.Attributes.Add("placeholder", placeholderLocalized);
                 }
@@ -224,7 +224,7 @@
             if (attribute != null)
             {
                 var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
-                if (!string.IsNullOrWhiteSpace(description))
+                if (!string.IsNullOrEmpty(description))
                 {
                     inputTagHelperOutput.Attributes.Add("aria-describedby", description);
                 }
@@ -236,7 +236,7 @@
             return attributes.Any(t => t.Value != null && t.Name == "type" && t.Value.ToString() == "checkbox");
         }
 
-        protected virtual async Task<string> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag, bool isCheckbox)
+        protected virtual async Task<string?> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag, bool isCheckbox)
         {
             if (IsOutputHidden(inputTag) || TagHelper.SuppressLabel)
             {
@@ -261,7 +261,7 @@
                    "</label>" + GetRequiredSymbol(context, output);
         }
 
-        protected virtual string GetRequiredSymbol(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetRequiredSymbol(TagHelperContext context, TagHelperOutput output)
         {
             if (!TagHelper.DisplayRequiredSymbol)
             {
@@ -271,7 +271,7 @@
             return cachedModelAttributes?.GetAttribute<RequiredAttribute>() != null ? "<span> * </span>" : string.Empty;
         }
 
-        protected virtual string GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag, bool isCheckbox)
+        protected virtual string? GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag, bool isCheckbox)
         {
             if (IsOutputHidden(inputTag))
             {
@@ -294,7 +294,7 @@
                 if (attribute != null)
                 {
                     var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
-                    if (!string.IsNullOrWhiteSpace(description))
+                    if (!string.IsNullOrEmpty(description))
                     {
                         text = description;
                     }
@@ -310,7 +310,7 @@
             return $"<small id=\"{idAttr?.Value}InfoText\" class=\"form-text text-muted\">{text}</small>";
         }
 
-        protected virtual async Task<string> GetLabelAsHtmlUsingTagHelperAsync(TagHelperContext context, TagHelperOutput output, bool isCheckbox)
+        protected virtual async Task<string?> GetLabelAsHtmlUsingTagHelperAsync(TagHelperContext context, TagHelperOutput output, bool isCheckbox)
         {
             var labelTagHelper = new LabelTagHelper(generator)
             {
@@ -397,7 +397,7 @@
             }
         }
 
-        protected virtual string GetSize(TagHelperContext context, TagHelperOutput output)
+        protected virtual string? GetSize(TagHelperContext context, TagHelperOutput output)
         {
             var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
             if (uIHintAttribute != null)
@@ -421,23 +421,23 @@
         protected virtual bool IsOutputHidden(TagHelperOutput inputTag)
         {
             var dataTypeAttribute = cachedModelAttributes?.GetAttribute<DataTypeAttribute>();
-            return inputTag.Attributes.Any(t => t.Name.ToLowerInvariant() == "type" && t.Value.ToString().ToLowerInvariant() == "hidden")
+            return inputTag.Attributes.Any(t => t.Name.ToLowerInvariant() == "type" && t.Value.ToString()?.ToLowerInvariant() == "hidden")
                 || dataTypeAttribute?.ElementDataType == ElementDataType.Hidden;
         }
 
-        protected virtual string GetIdAttributeAsString(TagHelperOutput inputTag)
+        protected virtual string? GetIdAttributeAsString(TagHelperOutput inputTag)
         {
             var idAttr = inputTag.Attributes.FirstOrDefault(a => a.Name == "id");
 
             return idAttr != null ? "for=\"" + idAttr.Value + "\"" : string.Empty;
         }
 
-        protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string propertyName, string html, int order, out bool suppress)
+        protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
             suppress = list == null;
 
-            if (list != null && !list.Any(igc => igc.HtmlContent.Contains("id=\"" + propertyName.Replace('.', '_') + "\"")))
+            if (list != null && propertyName is not null && !list.Any(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
             {
                 list.Add(new FormGroupItem
                 {

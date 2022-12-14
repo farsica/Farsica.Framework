@@ -14,7 +14,7 @@
             output.PostContent.SetHtmlContent(CreatePostContent());
         }
 
-        protected virtual string CreatePreContent()
+        protected virtual string? CreatePreContent()
         {
             var sb = new StringBuilder();
 
@@ -23,7 +23,7 @@
             return sb.ToString();
         }
 
-        protected virtual string CreatePostContent()
+        protected virtual string? CreatePostContent()
         {
             var sb = new StringBuilder();
 

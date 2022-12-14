@@ -9,7 +9,7 @@
     {
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
@@ -17,7 +17,7 @@
             var attribute = new System.ComponentModel.DataAnnotations.PhoneAttribute();
             if (value is List<string> lst)
             {
-                return lst.All(t => string.IsNullOrWhiteSpace(t) || attribute.IsValid(t));
+                return lst.All(t => string.IsNullOrEmpty(t) || attribute.IsValid(t));
             }
 
             return attribute.IsValid(value);

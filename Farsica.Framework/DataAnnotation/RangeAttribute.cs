@@ -22,7 +22,7 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_Range);
         }
 
-        public RangeAttribute(Type type, string minimum, string maximum)
+        public RangeAttribute(Type type, string? minimum, string? maximum)
             : base(type, minimum, maximum)
         {
             ErrorMessageResourceType = typeof(Resources.GlobalResource);
@@ -43,7 +43,7 @@
             }
         }
 
-        public new string ErrorMessageResourceName
+        public new string? ErrorMessageResourceName
         {
             get
             {
@@ -56,7 +56,7 @@
             }
         }
 
-        public new string ErrorMessage
+        public new string? ErrorMessage
         {
             get
             {
@@ -73,7 +73,7 @@
 
         public override bool IsValid(object value)
         {
-            if (string.IsNullOrWhiteSpace(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
