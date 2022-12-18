@@ -1,41 +1,42 @@
 ﻿namespace Farsica.Framework.Caching
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Farsica.Framework.DataAnnotation;
-    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Caching.Distributed;
 
     [Injectable]
     public interface ICacheProvider
     {
-        Task<TItem> GetAsync<TItem, TKey>(TKey key, Func<ICacheEntry, Task<TItem>>? factory = null, string? tenant = null)
+        Task<TItem?> GetAsync<TItem, TKey>(TKey key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct;
 
-        Task<TItem> GetAsync<TItem>(string? key, Func<ICacheEntry, Task<TItem>>? factory = null, string? tenant = null);
+        Task<TItem?> GetAsync<TItem>(string? key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null);
 
-        TItem Get<TItem, TKey>(TKey key, Func<ICacheEntry, TItem>? factory = null, string? tenant = null)
+        public TItem? Get<TItem, TKey>(TKey key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct;
 
-        TItem Get<TItem>(string? key, Func<ICacheEntry, TItem> factory, string? tenant = null);
+        public TItem? Get<TItem>(string? key, Func<TItem?>? factory, DistributedCacheEntryOptions? options = null, string? tenant = null);
 
         Task RemoveAsync<TKey>(TKey key, string? tenant = null)
             where TKey : struct;
 
-        Task RemoveAsync(string? key, string? tenant = null);
+        Task RemoveAsync([NotNull] string key, string? tenant = null);
 
-        void Remove<TKey>(TKey key, string? tenant = null)
+        public void Remove<TKey>(TKey key, string? tenant = null)
             where TKey : struct;
 
-        void Remove(string? key, string? tenant = null);
+        public void Remove(string? key, string? tenant = null);
 
-        Task<TItem> SetAsync<TItem, TKey>(TKey key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null)
+        Task SetAsync<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct;
 
-        Task<TItem> SetAsync<TItem>(string? key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null);
+        Task SetAsync<TItem>([NotNull] string key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null);
 
-        TItem Set<TItem, TKey>(TKey key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null)
+        public void Set<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct;
 
-        TItem Set<TItem>(string? key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null);
+        public void Set<TItem>([NotNull] string key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null);
     }
 }

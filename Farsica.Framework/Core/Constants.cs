@@ -47,10 +47,10 @@
         public const string Cookie = "__f";
         public const string AspNetApplicationCookie = "__fapp";
         public const string RequestVerificationTokenCookie = "__frvt";
-        public const string HttpClientIgnoreSslAndAutoRedirect = "HttpClientIgnoreSslAndAutoRedirect";
         public const int DisplayOrder = 10000;
         public const string ControllerPostfix = "Controller";
         public const string PagePostfix = "Model";
+        internal const string HttpClientIgnoreSslAndAutoRedirect = "HttpClientIgnoreSslAndAutoRedirect";
 
         public enum DegreeType : byte
         {

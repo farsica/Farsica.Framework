@@ -10,7 +10,7 @@
     {
         private const int Iterations = 1024;
 
-        public static string? Base64EncryptAES(string plainText, string password, string salt)
+        public static string? EncryptAES(string plainText, string password, string salt)
         {
             return Convert.ToBase64String(EncryptAES(Encoding.UTF8.GetBytes(plainText), password, salt));
         }
@@ -23,7 +23,7 @@
             aesProvider.Mode = CipherMode.CBC;
 
             var saltBytes = Encoding.ASCII.GetBytes(salt);
-            var derivedBytes = new Rfc2898DeriveBytes(password, saltBytes, Iterations);
+            var derivedBytes = new Rfc2898DeriveBytes(password, saltBytes, Iterations, HashAlgorithmName.SHA256);
             var derivedKey = derivedBytes.GetBytes(32); // 256 bits
             var derivedInitVector = derivedKey.Take(16).ToArray(); // 128 bits
 
@@ -40,22 +40,21 @@
             return cipherTextBytes;
         }
 
-        public static string? Base64DecryptAES(string? base64EncryptedText, string password, string salt)
+        public static string? DecryptAES(string? base64EncryptedText, string password, string salt)
         {
             if (string.IsNullOrEmpty(base64EncryptedText))
             {
                 return base64EncryptedText;
             }
 
-            var val = DecryptAES(Convert.FromBase64String(base64EncryptedText), password, salt);
-            return val is not null ? Encoding.UTF8.GetString(val) : string.Empty;
+            return DecryptAES(Convert.FromBase64String(base64EncryptedText), password, salt);
         }
 
-        public static byte[]? DecryptAES(byte[]? encryptedText, string password, string salt)
+        public static string? DecryptAES(byte[]? encryptedText, string password, string salt)
         {
             if (encryptedText == null)
             {
-                return encryptedText;
+                return string.Empty;
             }
 
             var aesProvider = Aes.Create();
@@ -64,20 +63,19 @@
             aesProvider.Mode = CipherMode.CBC;
 
             var saltBytes = Encoding.ASCII.GetBytes(salt);
-            var derivedBytes = new Rfc2898DeriveBytes(password, saltBytes, Iterations);
+            var derivedBytes = new Rfc2898DeriveBytes(password, saltBytes, Iterations, HashAlgorithmName.SHA256);
             var derivedKey = derivedBytes.GetBytes(32); // 256 bits
             var derivedInitVector = derivedKey.Take(16).ToArray(); // 128 bits
 
             var decryptor = aesProvider.CreateDecryptor(derivedKey, derivedInitVector);
             using var memStream = new MemoryStream(encryptedText);
             using var cryptoStream = new CryptoStream(memStream, decryptor, CryptoStreamMode.Read);
-            var plainTextBytes = new byte[encryptedText.Length];
-            var byteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-
+            using var plainTextReader = new StreamReader(cryptoStream);
+            var decryptedText = plainTextReader.ReadToEnd();
             memStream.Close();
             cryptoStream.Close();
 
-            return plainTextBytes;
+            return decryptedText;
         }
     }
 }

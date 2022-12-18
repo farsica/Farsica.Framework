@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Net.Http;
     using System.Reflection;
     using System.Resources;
     using System.Security.Claims;
@@ -650,6 +651,11 @@
             }
 
             return mobile;
+        }
+
+        public static HttpClient CreateHttpClient(this IHttpClientFactory httpClientFactory)
+        {
+            return httpClientFactory.CreateClient(Constants.HttpClientIgnoreSslAndAutoRedirect);
         }
 
         internal static string? PrepareResourcePath(this string? path)

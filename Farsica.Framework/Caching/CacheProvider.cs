@@ -1,44 +1,79 @@
 ﻿namespace Farsica.Framework.Caching
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Text.Json;
     using System.Threading.Tasks;
     using Farsica.Framework.DataAnnotation;
-    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Caching.Distributed;
 
     [ServiceLifetime(Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton)]
     public class CacheProvider : ICacheProvider
     {
-        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache cache;
 
-        public CacheProvider(IMemoryCache memoryCache)
+        public CacheProvider(IDistributedCache cache)
         {
-            this.memoryCache = memoryCache;
+            this.cache = cache;
         }
 
-        public async Task<TItem> GetAsync<TItem, TKey>(TKey key, Func<ICacheEntry, Task<TItem>>? factory = null, string? tenant = null)
+        public async Task<TItem?> GetAsync<TItem, TKey>(TKey key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
-            return await GetAsync(key.ToString(), factory, tenant);
+            return await GetAsync(key.ToString(), factory, options, tenant);
         }
 
-        public async Task<TItem> GetAsync<TItem>(string? key, Func<ICacheEntry, Task<TItem>>? factory = null, string? tenant = null)
+        public async Task<TItem?> GetAsync<TItem>(string? key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
         {
-            return factory == null ?
-                memoryCache.Get<TItem>($"{tenant}_{key}")
-                : await memoryCache.GetOrCreateAsync(GenerateKey(key, tenant), factory);
+            var cacheKey = GenerateKey(key, tenant);
+            var tmp = await cache.GetAsync(cacheKey);
+            if (tmp is null)
+            {
+                if (factory is null)
+                {
+                    return default;
+                }
+
+                options ??= new DistributedCacheEntryOptions();
+
+                var result = await factory();
+                await cache.SetAsync(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result), options);
+
+                return result;
+            }
+
+            using var stream = new MemoryStream(tmp);
+            return await JsonSerializer.DeserializeAsync<TItem?>(stream);
         }
 
-        public TItem Get<TItem, TKey>(TKey key, Func<ICacheEntry, TItem>? factory = null, string? tenant = null)
+        public TItem? Get<TItem, TKey>(TKey key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
-            return Get(key.ToString(), factory, tenant);
+            return Get(key.ToString(), factory, options, tenant);
         }
 
-        public TItem Get<TItem>(string? key, Func<ICacheEntry, TItem>? factory, string? tenant = null)
+        public TItem? Get<TItem>(string? key, Func<TItem?>? factory, DistributedCacheEntryOptions? options = null, string? tenant = null)
         {
-            return factory == null ?
-                memoryCache.Get<TItem>(GenerateKey(key, tenant))
-                : memoryCache.GetOrCreate(GenerateKey(key, tenant), factory);
+            var cacheKey = GenerateKey(key, tenant);
+            var tmp = cache.Get(cacheKey);
+            if (tmp is null)
+            {
+                if (factory is null)
+                {
+                    return default;
+                }
+
+                options ??= new DistributedCacheEntryOptions();
+
+                var result = factory();
+                cache.Set(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result), options);
+
+                return result;
+            }
+
+            using var stream = new MemoryStream(tmp);
+            return JsonSerializer.Deserialize<TItem?>(stream);
         }
 
         public async Task RemoveAsync<TKey>(TKey key, string? tenant = null)
@@ -47,9 +82,9 @@
             await RemoveAsync(key.ToString(), tenant);
         }
 
-        public async Task RemoveAsync(string? key, string? tenant = null)
+        public async Task RemoveAsync([NotNull] string key, string? tenant = null)
         {
-            await Task.Run(() => Remove(key, tenant));
+            await cache.RemoveAsync(GenerateKey(key, tenant));
         }
 
         public void Remove<TKey>(TKey key, string? tenant = null)
@@ -60,47 +95,36 @@
 
         public void Remove(string? key, string? tenant = null)
         {
-            memoryCache.Remove(GenerateKey(key, tenant));
+            cache.Remove(GenerateKey(key, tenant));
         }
 
-        public async Task<TItem> SetAsync<TItem, TKey>(TKey key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null)
+        public async Task SetAsync<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
-            return await SetAsync(key.ToString(), value, tenant, slidingExpiration, options);
+            await SetAsync(key.ToString(), value, options, tenant);
         }
 
-        public async Task<TItem> SetAsync<TItem>(string? key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null)
+        public async Task SetAsync<TItem>([NotNull] string key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
         {
-            return await Task.FromResult(Set(key, value, tenant, slidingExpiration, options));
+            options ??= new DistributedCacheEntryOptions();
+
+            await cache.SetAsync(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value), options);
         }
 
-        public TItem Set<TItem, TKey>(TKey key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null)
+        public void Set<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
-            return Set(key.ToString(), value, tenant, slidingExpiration, options);
+            Set(key.ToString(), value, options, tenant);
         }
 
-        public TItem Set<TItem>(string? key, TItem value, string? tenant = null, TimeSpan? slidingExpiration = null, MemoryCacheEntryOptions? options = null)
+        public void Set<TItem>([NotNull] string key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
         {
-            if (options != null)
-            {
-                if (slidingExpiration.HasValue)
-                {
-                    options.SlidingExpiration = slidingExpiration;
-                }
+            options ??= new DistributedCacheEntryOptions();
 
-                return memoryCache.Set(GenerateKey(key, tenant), value, options);
-            }
-
-            if (slidingExpiration.HasValue)
-            {
-                return memoryCache.Set(GenerateKey(key, tenant), value, new MemoryCacheEntryOptions { SlidingExpiration = slidingExpiration });
-            }
-
-            return memoryCache.Set(GenerateKey(key, tenant), value);
+            cache.Set(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value), options);
         }
 
-        private static string? GenerateKey(string? key, string? tenant = null)
+        private static string GenerateKey([NotNull] string key, string? tenant = null)
         {
             return $"{tenant ?? string.Empty}_{key}";
         }
