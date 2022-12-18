@@ -1,7 +1,9 @@
 ﻿namespace Farsica.Framework.Mapping
 {
+    using System.Diagnostics.CodeAnalysis;
+
     public interface IRegister
     {
-        void Register(TypeAdapterConfig config);
+        void Register([NotNull] TypeAdapterConfig config);
     }
 }
