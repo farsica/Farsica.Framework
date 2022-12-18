@@ -111,9 +111,9 @@
 
         #endregion
 
-        public IRepository<TEntity, int> GetRepository<TEntity>()
-            where TEntity : class, IEntity<TEntity, int>
-            => GetRepository<TEntity, int>();
+        public IRepository<TEntity, long> GetRepository<TEntity>()
+            where TEntity : class, IEntity<TEntity, long>
+            => GetRepository<TEntity, long>();
 
         public IRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
             where TEntity : class, IEntity<TEntity, TKey>

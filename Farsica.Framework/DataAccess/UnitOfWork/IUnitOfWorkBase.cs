@@ -15,8 +15,8 @@
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-        IRepository<TEntity, int> GetRepository<TEntity>()
-            where TEntity : class, IEntity<TEntity, int>;
+        IRepository<TEntity, long> GetRepository<TEntity>()
+            where TEntity : class, IEntity<TEntity, long>;
 
         IRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
             where TEntity : class, IEntity<TEntity, TKey>;
