@@ -374,13 +374,13 @@
                     {
                         services.Add(new ServiceDescriptor(serviceType, provider =>
                         {
-                            var parameters = serviceLifetimeAttribute.Parameters.Select(t => provider.GetRequiredService(t)).ToArray();
+                            var parameters = serviceLifetimeAttribute.Parameters.Select(t => provider.GetService(t)).ToArray();
                             return Activator.CreateInstance(implementationType, parameters);
                         }, serviceLifetimeAttribute.ServiceLifetime));
 
                         services.Add(new ServiceDescriptor(implementationType, provider =>
                         {
-                            var parameters = serviceLifetimeAttribute.Parameters.Select(t => provider.GetRequiredService(t)).ToArray();
+                            var parameters = serviceLifetimeAttribute.Parameters.Select(t => provider.GetService(t)).ToArray();
                             return Activator.CreateInstance(implementationType, parameters);
                         }, serviceLifetimeAttribute.ServiceLifetime));
                     }

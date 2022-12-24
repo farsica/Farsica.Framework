@@ -61,6 +61,33 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Added.
+        /// </summary>
+        public static string AuditType_Added {
+            get {
+                return ResourceManager.GetString("AuditType_Added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted.
+        /// </summary>
+        public static string AuditType_Deleted {
+            get {
+                return ResourceManager.GetString("AuditType_Deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified.
+        /// </summary>
+        public static string AuditType_Modified {
+            get {
+                return ResourceManager.GetString("AuditType_Modified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optimistic concurrency failure, object has been modified..
         /// </summary>
         public static string ConcurrencyFailure {

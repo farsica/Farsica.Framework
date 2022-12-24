@@ -14,7 +14,7 @@
     <Authors>Fariborz khosravi</Authors>
     <Company>Farsica</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.6.5</Version>
+    <Version>1.6.6</Version>
     <Description>Asp.net Core Application Framework</Description>
     <RepositoryUrl>
     </RepositoryUrl>
@@ -38,9 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Destructurama.Attributed" Version="3.0.0" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.19.0" />
     <PackageReference Include="DynamicExpresso.Core" Version="2.13.0" />
-    <PackageReference Include="EFCore.BulkExtensions" Version="6.6.2" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="6.6.4" />
     <PackageReference Include="Mapster" Version="7.3.0" />
     <PackageReference Include="Mapster.Async" Version="2.0.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
@@ -66,7 +66,7 @@
     <PackageReference Include="Serilog.Sinks.Http" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="3.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.23" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.24" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -115,6 +115,6 @@
     <Delete Files="@(FilesToDelete)" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	<Exec Command="@echo nuget push -Source &quot;Charisma&quot; -ApiKey az $(TargetDir)..\Farsica.Framework.$(Version).nupkg &gt; $(SolutionDir)nuget\push_packages.bat" />
+	<Exec Command="@echo nuget push -Source &quot;Farsica&quot; -ApiKey az $(TargetDir)..\Farsica.Framework.$(Version).nupkg &gt; $(SolutionDir)nuget\push_packages.bat" />
   </Target>
 </Project>

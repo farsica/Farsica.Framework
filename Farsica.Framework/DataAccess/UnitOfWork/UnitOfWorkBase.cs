@@ -117,6 +117,7 @@
 
         public IRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
             where TEntity : class, IEntity<TEntity, TKey>
+            where TKey : IEquatable<TKey>
         {
             CheckDisposed();
             var repositoryType = typeof(IRepository<TEntity, TKey>);
@@ -149,7 +150,11 @@
                 var connection = Context.Database.GetDbConnection();
                 using var command = connection.CreateCommand();
                 command.CommandText = sql.Replace(Constants.SchemaIdentifier, Context.Model.GetDefaultSchema());
-                await connection.OpenAsync();
+                if (connection.State != ConnectionState.Open)
+                {
+                    await connection.OpenAsync();
+                }
+
                 command.CommandType = CommandType.Text;
                 command.CommandTimeout = 300;
                 if (param != null)
@@ -179,7 +184,11 @@
                 var connection = Context.Database.GetDbConnection();
                 using var command = connection.CreateCommand();
                 command.CommandText = sql.Replace(Constants.SchemaIdentifier, Context.Model.GetDefaultSchema());
-                await connection.OpenAsync();
+                if (connection.State != ConnectionState.Open)
+                {
+                    await connection.OpenAsync();
+                }
+
                 command.CommandType = CommandType.Text;
                 command.CommandTimeout = 300;
 
@@ -212,7 +221,11 @@
             var connection = Context.Database.GetDbConnection();
             using var command = connection.CreateCommand();
             command.CommandText = GetSequenceCommand(sequence, Context.Model.GetDefaultSchema());
-            await connection.OpenAsync();
+            if (connection.State != ConnectionState.Open)
+            {
+                await connection.OpenAsync();
+            }
+
             var value = (decimal)await command.ExecuteScalarAsync();
             return Convert.ToInt32(value);
         }
@@ -222,7 +235,11 @@
             var connection = Context.Database.GetDbConnection();
             using var command = connection.CreateCommand();
             command.CommandText = GetSequenceCommand(sequence, Context.Model.GetDefaultSchema());
-            connection.Open();
+            if (connection.State != ConnectionState.Open)
+            {
+                connection.Open();
+            }
+
             var value = (decimal)command.ExecuteScalar();
             return Convert.ToInt32(value);
         }
@@ -275,7 +292,7 @@
                 }
 
                 var properties = item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.CanRead && p.CanWrite);
+                    .Where(p => p.CanRead && p.CanWrite);
 
                 foreach (var property in properties)
                 {

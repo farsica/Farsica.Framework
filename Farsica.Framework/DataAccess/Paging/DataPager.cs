@@ -10,6 +10,7 @@
 
     public class DataPager<TEntity, TKey> : IDataPager<TEntity, TKey>
         where TEntity : class, IEntity<TEntity, TKey>
+        where TKey : IEquatable<TKey>
     {
         private readonly Lazy<IUnitOfWorkProvider> unitOfWorkProvider;
 
@@ -66,7 +67,7 @@
             return CreateDataPage(pageNumber, pageLength, data, totalCount);
         }
 
-        private static DataPage<TEntity> CreateDataPage(int pageNumber, int pageLength, IEnumerable<TEntity> data, long totalEntityCount)
+        private static DataPage<TEntity> CreateDataPage(int pageNumber, int pageLength, IEnumerable<TEntity>? data, long totalEntityCount)
         {
             return new DataPage<TEntity>
             {

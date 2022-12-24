@@ -436,12 +436,6 @@
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BEGNIR")]
             EghtesadNovin,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "HEKMIR")]
-            Hekmat,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "ANSBIR")]
-            Ansar,
-
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "DAYBIR")]
             Day,
 
@@ -459,9 +453,6 @@
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "MEHRIR")]
             MehrIran,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "MEDBIR")]
-            MehrEghtesad,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "PBIRIR")]
             PostBank,
@@ -548,6 +539,18 @@
             Failure,
             NotEnable,
             Limitation,
+        }
+
+        public enum AuditType : byte
+        {
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(AuditType))]
+            Added,
+
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(AuditType))]
+            Modified,
+
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(AuditType))]
+            Deleted,
         }
 
         internal enum ResourceKey

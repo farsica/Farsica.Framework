@@ -5,7 +5,7 @@
 
     public class DataPage<TEntity>
     {
-        public IEnumerable<TEntity> Data { get; set; }
+        public IEnumerable<TEntity>? Data { get; set; }
 
         public long TotalEntityCount { get; set; }
 

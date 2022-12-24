@@ -23,7 +23,7 @@
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string? representing a byte array form of the .NET Framework object]</value>
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
                 
@@ -273,37 +273,46 @@
   <data name="Status_Succeed" xml:space="preserve">
     <value>موفق</value>
   </data>
-	<data name="Validation_MissingBindRequiredValueAccessor" xml:space="preserve">
+  <data name="Validation_MissingBindRequiredValueAccessor" xml:space="preserve">
     <value>مقدار فیلد '{0}' الزامی می باشد.</value>
   </data>
-	<data name="Validation_MissingKeyOrValueAccessor" xml:space="preserve">
+  <data name="Validation_MissingKeyOrValueAccessor" xml:space="preserve">
     <value>مقدار الزامی می باشد.</value>
   </data>
-	<data name="Validation_MissingRequestBodyRequiredValueAccessor" xml:space="preserve">
+  <data name="Validation_MissingRequestBodyRequiredValueAccessor" xml:space="preserve">
     <value>مقدار بادی درخواست خالی می باشد.</value>
   </data>
-	<data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
+  <data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
     <value>مقدار '{0}' معتبر نمی باشد.</value>
   </data>
-	<data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
     <value>مقدار '{0}' برای {1} معتبر نمی باشد.</value>
   </data>
-	<data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
     <value>مقدار '{0}' معتبر نمی باشد.</value>
   </data>
-	<data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
     <value>مقدار وارد شده برای {0} معتبر نمی باشد.</value>
   </data>
-	<data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
     <value>مقدار وارد شده معتبر نمی باشد.</value>
   </data>
-	<data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
     <value>مقدار '{0}' معتبر نمی باشد.</value>
   </data>
-	<data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
+  <data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
     <value>فیلد {0} بایستی یک عدد باشد.</value>
   </data>
-	<data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
+  <data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
     <value>فیلد بایستی یک عدد باشد.</value>
+  </data>
+  <data name="AuditType_Added" xml:space="preserve">
+    <value>جدید</value>
+  </data>
+  <data name="AuditType_Deleted" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="AuditType_Modified" xml:space="preserve">
+    <value>ویرایش</value>
   </data>
 </root>

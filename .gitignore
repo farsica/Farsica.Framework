@@ -4,5 +4,6 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 .vs
-/Farsica.Framework/bin
-/Farsica.Framework/obj
+bin/
+obj/
+*.user

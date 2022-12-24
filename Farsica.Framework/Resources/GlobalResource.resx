@@ -23,7 +23,7 @@
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string? representing a byte array form of the .NET Framework object]</value>
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
                 
@@ -285,25 +285,34 @@
   <data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
     <value>The value '{0}' is invalid.</value>
   </data>
-	<data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
     <value>The value '{0}' is not valid for {1}.</value>
   </data>
-	<data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
     <value>The value '{0}' is not valid.</value>
   </data>
-	<data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
     <value>The supplied value is invalid for {0}.</value>
   </data>
-	<data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
     <value>The supplied value is invalid.</value>
   </data>
-	<data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
+  <data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
     <value>The value '{0}' is invalid.</value>
   </data>
-	<data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
+  <data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
     <value>The field {0} must be a number.</value>
   </data>
-	<data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
+  <data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
     <value>The field must be a number.</value>
+  </data>
+  <data name="AuditType_Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="AuditType_Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="AuditType_Modified" xml:space="preserve">
+    <value>Modified</value>
   </data>
 </root>

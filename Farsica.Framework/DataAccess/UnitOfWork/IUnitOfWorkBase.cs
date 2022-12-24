@@ -19,7 +19,8 @@
             where TEntity : class, IEntity<TEntity, long>;
 
         IRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
-            where TEntity : class, IEntity<TEntity, TKey>;
+            where TEntity : class, IEntity<TEntity, TKey>
+            where TKey : IEquatable<TKey>;
 
         TRepository GetCustomRepository<TRepository>();
 

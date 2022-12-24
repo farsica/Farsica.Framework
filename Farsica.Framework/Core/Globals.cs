@@ -320,7 +320,7 @@
             }
         }
 
-        public static int UserId(this HttpContext? httpContext)
+        public static long UserId(this HttpContext? httpContext)
         {
             return UserId<int>(httpContext);
         }
@@ -330,7 +330,7 @@
             return UserId<T>(httpContext?.User);
         }
 
-        public static int UserId(this ClaimsPrincipal? claimsPrincipal)
+        public static long UserId(this ClaimsPrincipal? claimsPrincipal)
         {
             return UserId<int>(claimsPrincipal);
         }
