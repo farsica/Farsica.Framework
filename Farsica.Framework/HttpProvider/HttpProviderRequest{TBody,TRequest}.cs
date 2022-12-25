@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public abstract class HttpProviderRequest<TBody, TRequest>
+    public sealed class HttpProviderRequest<TBody, TRequest>
     {
 #pragma warning disable SA1206 // Declaration keywords should follow order
         public required TRequest Request { get; init; }
