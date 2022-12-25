@@ -49,11 +49,11 @@
             httpContextAccessor = ServiceProvider.GetRequiredService<IHttpContextAccessor>();
         }
 
-        public DbSet<Audit> Audits { get; set; }
+        public DbSet<Audit<TUser, TKey>> Audits { get; set; }
 
-        public DbSet<AuditEntry> AuditEntries { get; set; }
+        public DbSet<AuditEntry<TUser, TKey>> AuditEntries { get; set; }
 
-        public DbSet<AuditEntryProperty> AuditEntryProperties { get; set; }
+        public DbSet<AuditEntryProperty<TUser, TKey>> AuditEntryProperties { get; set; }
 
         protected string? ConnectionName { get; }
 
@@ -125,7 +125,7 @@
             };
         }
 
-        private Audit? GenerateAudit()
+        private Audit<TUser, TKey>? GenerateAudit()
         {
             if (EnableAudit is false)
             {
@@ -133,19 +133,19 @@
             }
 
             ChangeTracker.DetectChanges();
-            var audit = new Audit
+            var audit = new Audit<TUser, TKey>
             {
                 Date = DateTimeOffset.Now,
                 IpAddress = httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString(),
                 UserAgent = httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString(),
-                UserId = httpContextAccessor.HttpContext?.User.UserId(),
-                AuditEntries = new List<AuditEntry>(),
+                UserId = (TKey?)(httpContextAccessor.HttpContext?.User.UserId() as object),
+                AuditEntries = new List<AuditEntry<TUser, TKey>>(),
             };
             var entries = ChangeTracker.Entries();
 
             foreach (var entry in entries)
             {
-                if (entry.Entity is Audit || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                if (entry.Entity is Audit<TUser, TKey> || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
                 {
                     continue;
                 }
@@ -157,10 +157,10 @@
                 }
 
                 _ = long.TryParse(entry.Properties.FirstOrDefault(t => t.Metadata.IsPrimaryKey())?.CurrentValue?.ToString(), out long id);
-                var auditEntry = new AuditEntry
+                var auditEntry = new AuditEntry<TUser, TKey>
                 {
                     EntityType = auditAttribute.EntityType,
-                    AuditEntryProperties = new List<AuditEntryProperty>(),
+                    AuditEntryProperties = new List<AuditEntryProperty<TUser, TKey>>(),
                     AuditType = Convert(entry.State),
                     IdentifierId = id,
                 };
@@ -174,7 +174,7 @@
                             continue;
                         }
 
-                        auditEntry.AuditEntryProperties.Add(new AuditEntryProperty
+                        auditEntry.AuditEntryProperties.Add(new AuditEntryProperty<TUser, TKey>
                         {
                             OldValue = property.OriginalValue?.ToString(),
                             NewValue = property.CurrentValue?.ToString(),
@@ -189,16 +189,16 @@
             return audit.AuditEntries.Any(t => t.AuditType == Constants.AuditType.Deleted || t.AuditEntryProperties?.Any() is true) ? audit : null;
         }
 
-        private void SaveAudit(Audit audit)
+        private void SaveAudit(Audit<TUser, TKey> audit)
         {
-            if (audit == null)
+            if (audit is null)
             {
                 return;
             }
 
-            var auditLst = new List<Audit>
+            var auditLst = new List<Audit<TUser, TKey>>
             {
-                new Audit
+                new Audit<TUser, TKey>
                 {
                     Date = audit.Date,
                     UserId = audit.UserId,
@@ -208,12 +208,12 @@
             };
             this.BulkInsert(auditLst, new BulkConfig { SetOutputIdentity = true });
 
-            var auditEntries = new List<AuditEntry>();
             if (audit.AuditEntries is not null)
             {
+                var auditEntries = new List<AuditEntry<TUser, TKey>>();
                 foreach (var auditEntry in audit.AuditEntries)
                 {
-                    auditEntries.Add(new AuditEntry
+                    auditEntries.Add(new AuditEntry<TUser, TKey>
                     {
                         AuditId = auditLst[0].Id,
                         AuditType = auditEntry.AuditType,
@@ -224,7 +224,7 @@
 
                 this.BulkInsert(auditEntries, new BulkConfig { SetOutputIdentity = true });
 
-                var properties = new List<AuditEntryProperty>();
+                var properties = new List<AuditEntryProperty<TUser, TKey>>();
                 foreach (var auditEntry in audit.AuditEntries)
                 {
                     if (auditEntry.AuditEntryProperties is not null)
@@ -246,16 +246,16 @@
             }
         }
 
-        private async Task SaveAuditAsync(Audit audit)
+        private async Task SaveAuditAsync(Audit<TUser, TKey> audit)
         {
             if (audit is null)
             {
                 return;
             }
 
-            var auditLst = new List<Audit>
+            var auditLst = new List<Audit<TUser, TKey>>
             {
-                new Audit
+                new Audit<TUser, TKey>
                 {
                     Date = audit.Date,
                     UserId = audit.UserId,
@@ -265,34 +265,42 @@
             };
             await this.BulkInsertAsync(auditLst, new BulkConfig { SetOutputIdentity = true, });
 
-            var auditEntries = new List<AuditEntry>();
-            foreach (var auditEntry in audit.AuditEntries)
+            if (audit.AuditEntries?.Count > 0)
             {
-                auditEntries.Add(new AuditEntry
+                var auditEntries = new List<AuditEntry<TUser, TKey>>();
+                foreach (var auditEntry in audit.AuditEntries)
                 {
-                    AuditId = auditLst[0].Id,
-                    AuditType = auditEntry.AuditType,
-                    EntityType = auditEntry.EntityType,
-                    IdentifierId = auditEntry.IdentifierId,
-                });
-            }
-
-            await this.BulkInsertAsync(auditEntries, new BulkConfig { SetOutputIdentity = true });
-
-            var properties = new List<AuditEntryProperty>();
-            foreach (var auditEntry in audit.AuditEntries)
-            {
-                foreach (var item in auditEntry.AuditEntryProperties)
-                {
-                    item.AuditEntryId = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId &&
-                    t.AuditType == auditEntry.AuditType &&
-                    t.EntityType == auditEntry.EntityType).Id;
+                    auditEntries.Add(new AuditEntry<TUser, TKey>
+                    {
+                        AuditId = auditLst[0].Id,
+                        AuditType = auditEntry.AuditType,
+                        EntityType = auditEntry.EntityType,
+                        IdentifierId = auditEntry.IdentifierId,
+                    });
                 }
 
-                properties.AddRange(auditEntry.AuditEntryProperties);
-            }
+                await this.BulkInsertAsync(auditEntries, new BulkConfig { SetOutputIdentity = true });
 
-            await this.BulkInsertAsync(properties);
+                var properties = new List<AuditEntryProperty<TUser, TKey>>();
+                foreach (var auditEntry in audit.AuditEntries)
+                {
+                    if (auditEntry.AuditEntryProperties?.Count > 0)
+                    {
+                        foreach (var property in auditEntry.AuditEntryProperties)
+                        {
+                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType == auditEntry.AuditType && t.EntityType == auditEntry.EntityType);
+                            if (item is not null)
+                            {
+                                property.AuditEntryId = item.Id;
+                            }
+                        }
+
+                        properties.AddRange(auditEntry.AuditEntryProperties);
+                    }
+                }
+
+                await this.BulkInsertAsync(properties);
+            }
         }
     }
 }

@@ -9,18 +9,20 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    [Table(nameof(Audit))]
-    public class Audit : IEntity<Audit, long>
+    [Table(nameof(Audit<TUser, TKey>))]
+    public class Audit<TUser, TKey> : IEntity<Audit<TUser, TKey>, long>
+        where TUser : IdentityUser<TKey>
+        where TKey : IEquatable<TKey>
     {
         [System.ComponentModel.DataAnnotations.Key]
         [Column(nameof(Id), DataType.Long)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [Column(nameof(UserId), DataType.Long)]
-        public long? UserId { get; set; }
+        [Column(nameof(UserId))]
+        public TKey? UserId { get; set; }
 
-        public IdentityUser<long>? User { get; set; }
+        public TUser? User { get; set; }
 
         [Column(nameof(Date), DataType.DateTimeOffset)]
         public DateTimeOffset Date { get; set; }
@@ -35,9 +37,9 @@
         [Required]
         public string? IpAddress { get; set; }
 
-        public ICollection<AuditEntry>? AuditEntries { get; set; }
+        public ICollection<AuditEntry<TUser, TKey>>? AuditEntries { get; set; }
 
-        public void Configure(EntityTypeBuilder<Audit> builder)
+        public void Configure(EntityTypeBuilder<Audit<TUser, TKey>> builder)
         {
         }
     }
