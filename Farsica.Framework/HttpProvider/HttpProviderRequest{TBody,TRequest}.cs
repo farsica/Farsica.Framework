@@ -5,7 +5,7 @@
     public sealed class HttpProviderRequest<TBody, TRequest>
     {
 #pragma warning disable SA1206 // Declaration keywords should follow order
-        public required TRequest Request { get; init; }
+        public required TRequest? Request { get; init; }
 
         public required string? Uri { get; set; }
 
