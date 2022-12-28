@@ -177,7 +177,7 @@
             }
         }
 
-        public async Task<DataTable> SqlQueryAsync(string sql, IList<(string ParameterName, object Value)>? param = null)
+        public async Task<DataSet> SqlQueryAsync(string sql, IList<(string ParameterName, object Value)>? param = null)
         {
             try
             {
@@ -203,11 +203,17 @@
                     }
                 }
 
-                var dt = new DataTable();
+                DataSet dataSet = new();
                 using var reader = await command.ExecuteReaderAsync();
-                dt.Load(reader);
+                do
+                {
+                    DataTable dt = new();
+                    dt.Load(reader);
+                    dataSet.Tables.Add(dt);
+                }
+                while (reader.NextResult());
 
-                return dt;
+                return dataSet;
             }
             catch (Exception exc)
             {

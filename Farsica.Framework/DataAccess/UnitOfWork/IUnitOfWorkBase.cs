@@ -26,7 +26,7 @@
 
         Task<int> ExecuteSqlCommandAsync(string sql, IEnumerable<(string ParameterName, object Value)>? param = null);
 
-        Task<DataTable> SqlQueryAsync(string sql, IList<(string ParameterName, object Value)>? param = null);
+        Task<DataSet> SqlQueryAsync(string sql, IList<(string ParameterName, object Value)>? param = null);
 
         Task<int> GetSequenceValueAsync(string sequence);
 
