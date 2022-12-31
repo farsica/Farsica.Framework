@@ -319,9 +319,9 @@
                     //    foreach (var parameter in actionContext.ActionDescriptor.Parameters)
                     //    {
                     //        var prop = parameter.ParameterType.GetProperty(key);
-                    //        if (prop != null)
+                    //        if (prop is not null)
                     //        {
-                    //            var attr = prop.GetCustomAttributes(typeof(ValidationAttribute), false).FirstOrDefault() as ValidationAttribute;
+                    //            var attr = prop.GetCustomAttributes<ValidationAttribute>(false).FirstOrDefault();
                     //            if (attr is MinLengthAttribute minLengthAttribute)
                     //            {
                     //                error.Add("Error", "minLength");
