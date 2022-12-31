@@ -11,15 +11,15 @@
         [Column(nameof(CreationDate), Data.DataType.DateTimeOffset)]
         public DateTimeOffset CreationDate { get; set; }
 
-        [Column(nameof(CreationDate))]
+        [Column(nameof(CreationUserId))]
         public TUserKey CreationUserId { get; set; }
 
         public TUser CreationUser { get; set; }
 
-        [Column(nameof(CreationDate), Data.DataType.DateTimeOffset)]
+        [Column(nameof(LastModifyDate), Data.DataType.DateTimeOffset)]
         public DateTimeOffset? LastModifyDate { get; set; }
 
-        [Column(nameof(CreationDate))]
+        [Column(nameof(LastModifyUserId))]
         public TUserKey? LastModifyUserId { get; set; }
 
         public TUser? LastModifyUser { get; set; }

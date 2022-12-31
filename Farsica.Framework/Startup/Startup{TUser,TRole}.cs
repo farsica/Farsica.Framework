@@ -11,6 +11,7 @@
     using System.Text.Unicode;
 
     using Farsica.Framework.Core;
+    using Farsica.Framework.Data;
     using Farsica.Framework.DataAccess.Context;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Identity;
@@ -125,9 +126,7 @@
 
             if (authentication)
             {
-                app
-                    .UseAuthentication()
-                    .UseAuthorization();
+                app.UseAuthentication().UseAuthorization();
             }
 
             // env.WebRootFileProvider = new CompositeFileProvider(env.WebRootFileProvider, new ManifestEmbeddedFileProvider(Assembly.GetCallingAssembly(), "wwwroot"));
@@ -261,7 +260,12 @@
             if (localization)
             {
                 services.TryAddSingleton<Microsoft.Extensions.Localization.IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
-                services.TryAddSingleton<IHtmlGenerator, HtmlGenerator>();
+
+                if (views || razorPages)
+                {
+                    services.TryAddSingleton<IHtmlGenerator, HtmlGenerator>();
+                }
+
                 services.AddLocalization();
                 services.ConfigureRequestLocalization();
             }
@@ -301,6 +305,35 @@
             mvcBuilder.AddDataAnnotationsLocalization(options =>
             {
                 options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(GlobalResource));
+            });
+
+            mvcBuilder.ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    return new BadRequestObjectResult(new ApiResponse<object>(actionContext.ModelState));
+
+                    // var error = new Dictionary<string, string>();
+                    // foreach (var key in actionContext.ModelState.Keys)
+                    // {
+                    //    foreach (var parameter in actionContext.ActionDescriptor.Parameters)
+                    //    {
+                    //        var prop = parameter.ParameterType.GetProperty(key);
+                    //        if (prop != null)
+                    //        {
+                    //            var attr = prop.GetCustomAttributes(typeof(ValidationAttribute), false).FirstOrDefault() as ValidationAttribute;
+                    //            if (attr is MinLengthAttribute minLengthAttribute)
+                    //            {
+                    //                error.Add("Error", "minLength");
+                    //                error.Add("Property", key);
+                    //                error.Add("minimum", minLengthAttribute.Length.ToString());
+                    //            }
+                    //        }
+                    //    }
+                    // }
+
+                    // return new BadRequestObjectResult(error);
+                };
             });
 
             if (razorPages)
