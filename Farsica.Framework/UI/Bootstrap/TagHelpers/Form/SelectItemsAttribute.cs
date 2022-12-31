@@ -23,7 +23,7 @@
             while (!properties.Any())
             {
                 explorer = explorer.Container;
-                if (explorer.Container == null)
+                if (explorer.Container is null)
                 {
                     return null;
                 }

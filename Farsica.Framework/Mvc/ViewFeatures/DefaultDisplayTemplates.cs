@@ -17,7 +17,7 @@
         public static IHtmlContent BooleanTemplate(IHtmlHelper htmlHelper)
         {
             bool? value = null;
-            if (htmlHelper.ViewData.Model != null)
+            if (htmlHelper.ViewData.Model is not null)
             {
                 value = Convert.ToBoolean(htmlHelper.ViewData.Model, CultureInfo.InvariantCulture);
             }
@@ -30,7 +30,7 @@
         public static IHtmlContent CollectionTemplate(IHtmlHelper htmlHelper)
         {
             var model = htmlHelper.ViewData.Model;
-            if (model == null)
+            if (model is null)
             {
                 return HtmlString.Empty;
             }
@@ -66,7 +66,7 @@
                 foreach (var item in enumerable)
                 {
                     var itemMetadata = elementMetadata;
-                    if (item != null && !typeInCollectionIsNullableValueType)
+                    if (item is not null && !typeInCollectionIsNullableValueType)
                     {
                         itemMetadata = metadataProvider.GetMetadataForType(item.GetType());
                     }
@@ -112,10 +112,10 @@
 
         public static IHtmlContent EmailAddressTemplate(IHtmlHelper htmlHelper)
         {
-            var uriString = "mailto:" + ((htmlHelper.ViewData.Model == null) ?
+            var uriString = "mailto:" + ((htmlHelper.ViewData.Model is null) ?
                 string.Empty :
                 htmlHelper.ViewData.Model.ToString());
-            var linkedText = (htmlHelper.ViewData.TemplateInfo.FormattedModelValue == null) ?
+            var linkedText = (htmlHelper.ViewData.TemplateInfo.FormattedModelValue is null) ?
                 string.Empty :
                 htmlHelper.ViewData.TemplateInfo.FormattedModelValue.ToString();
 
@@ -143,7 +143,7 @@
             var templateInfo = viewData.TemplateInfo;
             var modelExplorer = viewData.ModelExplorer;
 
-            if (modelExplorer.Model == null)
+            if (modelExplorer.Model is null)
             {
                 return new HtmlString(modelExplorer.Metadata.NullDisplayText);
             }
@@ -212,7 +212,7 @@
         public static IHtmlContent StringTemplate(IHtmlHelper htmlHelper)
         {
             var value = htmlHelper.ViewData.TemplateInfo.FormattedModelValue;
-            if (value == null)
+            if (value is null)
             {
                 return HtmlString.Empty;
             }
@@ -222,8 +222,8 @@
 
         public static IHtmlContent UrlTemplate(IHtmlHelper htmlHelper)
         {
-            var uriString = (htmlHelper.ViewData.Model == null) ? string.Empty : htmlHelper.ViewData.Model.ToString();
-            var linkedText = (htmlHelper.ViewData.TemplateInfo.FormattedModelValue == null) ?
+            var uriString = (htmlHelper.ViewData.Model is null) ? string.Empty : htmlHelper.ViewData.Model.ToString();
+            var linkedText = (htmlHelper.ViewData.TemplateInfo.FormattedModelValue is null) ?
                 string.Empty :
                 htmlHelper.ViewData.TemplateInfo.FormattedModelValue.ToString();
 

@@ -12,7 +12,7 @@
         /// </summary>
         public static bool IsNullOrEmpty<T>([MaybeNull] this ICollection<T> source)
         {
-            return source == null || source.Count <= 0;
+            return source is null || source.Count <= 0;
         }
 
         /// <summary>

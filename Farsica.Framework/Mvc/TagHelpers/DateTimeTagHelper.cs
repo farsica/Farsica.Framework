@@ -82,11 +82,11 @@
             output.Attributes.AddClass("form-control");
 
             string? val = null;
-            if (Value != null)
+            if (Value is not null)
             {
                 val = (Value as TimeSpan?)?.ToString(format) ?? (Value as DateTimeOffset?)?.ToString(format) ?? (Value as DateTime?)?.ToString(format);
             }
-            else if (For.Model != null)
+            else if (For.Model is not null)
             {
                 val = (For.Model as TimeSpan?)?.ToString(format) ?? (For.Model as DateTimeOffset?)?.ToString(format) ?? (For.Model as DateTime?)?.ToString(format);
             }

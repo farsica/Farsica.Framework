@@ -190,7 +190,7 @@
             logger.MigrateUsingConnection(this, connection);
 
             var migrationsToApply = await GetMigrationsToApplyAsync(cancellationToken);
-            if (migrationsToApply?.Any() is true)
+            if (migrationsToApply?.Count > 0)
             {
                 var schema = currentContext.Context.Model.GetDefaultSchema();
                 for (int i = 0; i < migrationsToApply.Count; i++)
@@ -240,7 +240,7 @@
                     .Replace(nameof(HistoryRow.ProductVersion), factory.GetObjectName(nameof(HistoryRow.ProductVersion), pluralize: false));
         }
 
-        private async Task<IReadOnlyList<(string Version, string? Query)>> GetMigrationsToApplyAsync(CancellationToken cancellationToken = default)
+        private async Task<IReadOnlyList<(string Version, string? Query)>?> GetMigrationsToApplyAsync(CancellationToken cancellationToken = default)
         {
             var migrationDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Migrations");
             if (Directory.Exists(migrationDirectory) is false)

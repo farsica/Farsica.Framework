@@ -47,7 +47,7 @@
         {
             var html = new StringBuilder(string.Empty);
 
-            if (selectItems != null)
+            if (selectItems is not null)
             {
                 foreach (var selectItem in selectItems)
                 {
@@ -71,7 +71,7 @@
 
         protected virtual IList<SelectListItem>? GetSelectItems(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Items != null)
+            if (TagHelper.Items is not null)
             {
                 return TagHelper.Items.ToList();
             }
@@ -82,7 +82,7 @@
             }
 
             var selectItemsAttribute = TagHelper.For.ModelExplorer.GetAttribute<SelectItemsAttribute>();
-            if (selectItemsAttribute != null)
+            if (selectItemsAttribute is not null)
             {
                 return GetSelectItemsFromAttribute(selectItemsAttribute, TagHelper.For.ModelExplorer);
             }
@@ -102,7 +102,7 @@
         {
             var selectItems = selectItemsAttribute.GetItems(explorer)?.ToList();
 
-            if (selectItems == null)
+            if (selectItems is null)
             {
                 return new List<SelectListItem>();
             }
@@ -118,7 +118,7 @@
             {
                 var itemToBeSelected = selectItems.FirstOrDefault(si => si.Value == selectedValue);
 
-                if (itemToBeSelected != null)
+                if (itemToBeSelected is not null)
                 {
                     itemToBeSelected.Selected = true;
                 }
@@ -131,13 +131,13 @@
             {
                 var baseType = TagHelper.For.ModelExplorer.Model?.GetType().GetEnumUnderlyingType();
 
-                if (baseType == null)
+                if (baseType is null)
                 {
                     return null;
                 }
 
                 var valueAsString = Convert.ChangeType(TagHelper.For.ModelExplorer.Model, baseType);
-                return valueAsString != null ? valueAsString.ToString() : string.Empty;
+                return valueAsString is not null ? valueAsString.ToString() : string.Empty;
             }
 
             return TagHelper.For.ModelExplorer.Model?.ToString();
@@ -146,7 +146,7 @@
         protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
-            suppress = list == null;
+            suppress = list is null;
 
             if (list is not null && propertyName is not null && !list.Any(t => t.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
             {

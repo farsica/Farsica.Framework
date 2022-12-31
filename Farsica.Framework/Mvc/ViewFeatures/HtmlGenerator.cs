@@ -49,7 +49,7 @@
             var tagBuilder = new TagBuilder("option");
             tagBuilder.InnerHtml.SetContent(text);
 
-            if (item.Value != null)
+            if (item.Value is not null)
             {
                 tagBuilder.Attributes["value"] = item.Value;
             }

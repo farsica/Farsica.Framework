@@ -83,7 +83,7 @@
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
-            if (otherPropertyInfo == null)
+            if (otherPropertyInfo is null)
             {
                 return new ValidationResult(string.Format(CultureInfo.CurrentCulture, GlobalResource.Validation_Compare_UnknownProperty, OtherProperty));
             }

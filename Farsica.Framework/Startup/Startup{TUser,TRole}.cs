@@ -173,17 +173,17 @@
         private static void AddStores(IServiceCollection services, Type userType, Type roleType, Type contextType)
         {
             var identityUserType = FindGenericBaseType(userType, typeof(IdentityUser<>));
-            if (identityUserType == null)
+            if (identityUserType is null)
             {
                 throw new InvalidOperationException("NotIdentityUser");
             }
 
             var keyType = identityUserType.GenericTypeArguments[0];
 
-            if (roleType != null)
+            if (roleType is not null)
             {
                 var identityRoleType = FindGenericBaseType(roleType, typeof(IdentityRole<>));
-                if (identityRoleType == null)
+                if (identityRoleType is null)
                 {
                     throw new InvalidOperationException("NotIdentityRole");
                 }
@@ -191,7 +191,7 @@
                 Type userStoreType;
                 Type roleStoreType;
                 var identityContext = FindGenericBaseType(contextType, typeof(IdentityDbContext<,,,,,,,>));
-                if (identityContext == null)
+                if (identityContext is null)
                 {
                     // If its a custom DbContext, we can only add the default POCOs
                     userStoreType = typeof(UserStore<,,,>).MakeGenericType(userType, roleType, contextType, keyType);
@@ -219,7 +219,7 @@
             { // No Roles
                 Type userStoreType;
                 var identityContext = FindGenericBaseType(contextType, typeof(IdentityUserContext<,,,,>));
-                if (identityContext == null)
+                if (identityContext is null)
                 {
                     // If its a custom DbContext, we can only add the default POCOs
                     userStoreType = typeof(UserOnlyStore<,,>).MakeGenericType(userType, contextType, keyType);
@@ -240,10 +240,10 @@
         private static TypeInfo? FindGenericBaseType([NotNull] Type currentType, [NotNull] Type genericBaseType)
         {
             var type = currentType;
-            while (type != null)
+            while (type is not null)
             {
                 var genericType = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
-                if (genericType != null && genericType == genericBaseType)
+                if (genericType is not null && genericType == genericBaseType)
                 {
                     return type.GetTypeInfo();
                 }
@@ -353,10 +353,10 @@
         private void AddScopedDynamic(IServiceCollection services, Assembly frameworkAssembly, IEnumerable<string> assemblyFiles)
         {
             var assemblies = assemblyFiles.Select(t => Assembly.LoadFrom(t))
-                .Where(t => t.GetCustomAttribute<InjectableAttribute>() != null)
+                .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
                 .Union(new[] { frameworkAssembly });
             var allTypes = assemblies.SelectMany(t => t.DefinedTypes);
-            var injectableTypes = allTypes.Where(t => t.GetCustomAttribute<InjectableAttribute>() != null && (razorPages || views || t.Namespace.StartsWith("Farsica.Framework.UI") is false));
+            var injectableTypes = allTypes.Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null && (razorPages || views || t.Namespace.StartsWith("Farsica.Framework.UI") is false));
             foreach (var serviceType in injectableTypes)
             {
                 var implementationTypes = serviceType.GetAllTypesImplementingType(allTypes);

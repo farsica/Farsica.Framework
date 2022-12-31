@@ -160,7 +160,7 @@
         {
             var item = source.FirstOrDefault(selector);
 
-            if (item == null)
+            if (item is null)
             {
                 item = factory();
                 source.Add(item);
@@ -198,7 +198,7 @@
                 visited[item] = true;
 
                 var dependencies = getDependencies(item);
-                if (dependencies != null)
+                if (dependencies is not null)
                 {
                     foreach (var dependency in dependencies)
                     {

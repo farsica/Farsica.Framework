@@ -100,14 +100,14 @@
 
         public static string? GetLocalizedDisplayName(MemberInfo? member)
         {
-            if (member == null)
+            if (member is null)
             {
                 return null;
             }
 
             string? name;
             var displayAttribute = member.GetCustomAttribute<DisplayAttribute>(false);
-            if (displayAttribute != null)
+            if (displayAttribute is not null)
             {
                 name = GetLocalizedValueInternal(displayAttribute, member.Name, Constants.ResourceKey.Name);
                 return !name.IsNullOrEmpty() ? name : member.Name;
@@ -147,7 +147,7 @@
             }
 
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
-            if (customDisplay != null)
+            if (customDisplay is not null)
             {
                 return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.ShortName);
             }
@@ -158,13 +158,13 @@
 
         public static string? GetLocalizedDescription(MemberInfo? member)
         {
-            if (member == null)
+            if (member is null)
             {
                 return null;
             }
 
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
-            if (customDisplay != null)
+            if (customDisplay is not null)
             {
                 return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.Description);
             }
@@ -175,13 +175,13 @@
 
         public static string? GetLocalizedPromt(MemberInfo member)
         {
-            if (member == null)
+            if (member is null)
             {
                 return null;
             }
 
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
-            if (customDisplay != null)
+            if (customDisplay is not null)
             {
                 return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.Prompt);
             }
@@ -192,13 +192,13 @@
 
         public static string? GetLocalizedGroupName(MemberInfo member)
         {
-            if (member == null)
+            if (member is null)
             {
                 return null;
             }
 
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
-            if (customDisplay != null)
+            if (customDisplay is not null)
             {
                 return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.GroupName);
             }
@@ -326,6 +326,7 @@
         }
 
         public static T? UserId<T>(this HttpContext? httpContext)
+            where T : IEquatable<T>
         {
             return UserId<T>(httpContext?.User);
         }
@@ -336,8 +337,9 @@
         }
 
         public static T? UserId<T>(this ClaimsPrincipal? claimsPrincipal)
+            where T : IEquatable<T>
         {
-            if (claimsPrincipal == null)
+            if (claimsPrincipal is null)
             {
                 return default;
             }
@@ -545,7 +547,7 @@
                         from t2 in t1.GetInterfaces()
                         let baseType = t1.BaseType
                         where !t1.IsAbstract &&
-                        ((baseType != null && baseType.IsGenericType && mainType.IsAssignableFrom(baseType.GetGenericTypeDefinition())) ||
+                        ((baseType is not null && baseType.IsGenericType && mainType.IsAssignableFrom(baseType.GetGenericTypeDefinition())) ||
                         (t2.IsGenericType && mainType.IsAssignableFrom(t2.GetGenericTypeDefinition())))
                         select t1;
             }
@@ -568,7 +570,7 @@
 
         public static string TrimEnd(this string input, string? suffixToRemove, StringComparison comparisonType = StringComparison.CurrentCulture)
         {
-            if (suffixToRemove != null && input.EndsWith(suffixToRemove, comparisonType))
+            if (suffixToRemove is not null && input.EndsWith(suffixToRemove, comparisonType))
             {
                 return input[..^suffixToRemove.Length];
             }
@@ -578,7 +580,7 @@
 
         public static string? Slugify(this string? value)
         {
-            return value == null ? null : Regex.Replace(
+            return value is null ? null : Regex.Replace(
                 value,
                 "([a-z])([A-Z])",
                 "$1-$2",
@@ -588,7 +590,7 @@
 
         public static async Task<string?> ConvertImageToBase64Async(IFormFile file)
         {
-            if (file == null)
+            if (file is null)
             {
                 return null;
             }
@@ -722,12 +724,12 @@
 
             /*else if (displayAttribute.ResourceTypeName.IsNullOrEmpty() is false)
             {
-                if (cachedResourceManager == null)
+                if (cachedResourceManager is null)
                 {
                     cachedResourceManager = new ResourceManager(Type.GetType(displayAttribute.ResourceTypeName));
                 }
 
-                if (displayAttribute.EnumType == null)
+                if (displayAttribute.EnumType is null)
                 {
                     result = cachedResourceManager.GetString($"{propertyName}_{resourceKey}");
                 }

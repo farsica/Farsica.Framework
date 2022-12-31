@@ -23,7 +23,7 @@
         public static IHtmlContent BooleanTemplate(IHtmlHelper htmlHelper)
         {
             bool? value = null;
-            if (htmlHelper.ViewData.Model != null)
+            if (htmlHelper.ViewData.Model is not null)
             {
                 value = Convert.ToBoolean(htmlHelper.ViewData.Model, CultureInfo.InvariantCulture);
             }
@@ -37,7 +37,7 @@
         {
             var viewData = htmlHelper.ViewData;
             var model = viewData.Model;
-            if (model == null)
+            if (model is null)
             {
                 return HtmlString.Empty;
             }
@@ -73,7 +73,7 @@
                 foreach (var item in enumerable)
                 {
                     var itemMetadata = elementMetadata;
-                    if (item != null && !typeInCollectionIsNullableValueType)
+                    if (item is not null && !typeInCollectionIsNullableValueType)
                     {
                         itemMetadata = metadataProvider.GetMetadataForType(item.GetType());
                     }
@@ -162,7 +162,7 @@
 
             if (templateInfo.TemplateDepth > 1)
             {
-                if (modelExplorer.Model == null)
+                if (modelExplorer.Model is null)
                 {
                     return new HtmlString(modelExplorer.Metadata.NullDisplayText);
                 }
@@ -316,7 +316,7 @@
 
         public static IHtmlContent FileInputTemplate(IHtmlHelper htmlHelper)
         {
-            if (htmlHelper == null)
+            if (htmlHelper is null)
             {
                 throw new ArgumentNullException(nameof(htmlHelper));
             }
@@ -326,7 +326,7 @@
 
         public static IHtmlContent FileCollectionInputTemplate(IHtmlHelper htmlHelper)
         {
-            if (htmlHelper == null)
+            if (htmlHelper is null)
             {
                 throw new ArgumentNullException(nameof(htmlHelper));
             }
@@ -361,7 +361,7 @@
             string? inputType = null)
         {
             var htmlAttributesObject = htmlHelper.ViewData[HtmlAttributeKey];
-            if (htmlAttributesObject != null)
+            if (htmlAttributesObject is not null)
             {
                 return MergeHtmlAttributes(htmlAttributesObject, className, inputType);
             }
@@ -371,7 +371,7 @@
                 { "class", className },
             };
 
-            if (inputType != null)
+            if (inputType is not null)
             {
                 htmlAttributes.Add("type", inputType);
             }
@@ -397,7 +397,7 @@
             }
 
             // The input type from the provided htmlAttributes overrides the inputType parameter.
-            if (inputType != null && !htmlAttributes.ContainsKey("type"))
+            if (inputType is not null && !htmlAttributes.ContainsKey("type"))
             {
                 htmlAttributes.Add("type", inputType);
             }
@@ -503,7 +503,7 @@
 
             public override void Encode(TextWriter output, char[] value, int startIndex, int characterCount)
             {
-                if (output == null)
+                if (output is null)
                 {
                     throw new ArgumentNullException(nameof(output));
                 }
@@ -518,12 +518,12 @@
 
             public override void Encode(TextWriter output, string? value, int startIndex, int characterCount)
             {
-                if (output == null)
+                if (output is null)
                 {
                     throw new ArgumentNullException(nameof(output));
                 }
 
-                if (value == null)
+                if (value is null)
                 {
                     throw new ArgumentNullException(nameof(value));
                 }

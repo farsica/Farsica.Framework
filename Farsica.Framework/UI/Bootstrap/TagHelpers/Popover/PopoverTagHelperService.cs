@@ -47,7 +47,7 @@
             }
 
             var titleAttribute = output.Attributes.FirstOrDefault(at => at.Name == "title");
-            var titleAsHtml = titleAttribute == null ? string.Empty : "title=\"" + titleAttribute.Value + "\" ";
+            var titleAsHtml = titleAttribute is null ? string.Empty : "title=\"" + titleAttribute.Value + "\" ";
             var preElementHtml = "<span tabindex=\"0\" class=\"d-inline-block\" " + titleAsHtml + triggerAsHtml + dataPlacementAsHtml + "data-toggle=\"popover\" data-content=\"" + GetDataContent() + "\">";
             var postElementHtml = "</span>";
 

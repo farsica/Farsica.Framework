@@ -62,7 +62,7 @@
         /// <inheritdoc />
         public override void Write(char[] buffer, int index, int count)
         {
-            if (buffer == null)
+            if (buffer is null)
             {
                 throw new ArgumentNullException(nameof(buffer));
             }
@@ -94,7 +94,7 @@
         /// <inheritdoc />
         public override void Write(object value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return;
             }
@@ -119,7 +119,7 @@
         /// <param name="value">The <see cref="IHtmlContent"/> value.</param>
         public void Write(IHtmlContent value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return;
             }
@@ -133,7 +133,7 @@
         /// <param name="value">The <see cref="IHtmlContentContainer"/> value.</param>
         public void Write(IHtmlContentContainer value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return;
             }
@@ -144,7 +144,7 @@
         /// <inheritdoc />
         public override void WriteLine(object value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return;
             }
@@ -176,7 +176,7 @@
         /// <inheritdoc />
         public override Task WriteAsync(char[] buffer, int index, int count)
         {
-            if (buffer == null)
+            if (buffer is null)
             {
                 throw new ArgumentNullException(nameof(buffer));
             }

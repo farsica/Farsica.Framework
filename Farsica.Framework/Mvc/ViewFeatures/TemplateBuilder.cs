@@ -75,7 +75,7 @@
                 viewData.ModelMetadata.EditFormatString;
 
             var formattedModelValue = model;
-            if (model == null)
+            if (model is null)
             {
                 if (readOnly)
                 {
@@ -111,7 +111,7 @@
             viewData.TemplateInfo.FormattedModelValue = formattedModelValue;
             viewData.TemplateInfo.HtmlFieldPrefix = this.viewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
 
-            if (additionalViewData != null)
+            if (additionalViewData is not null)
             {
                 foreach (var kvp in Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper.ObjectToDictionary(additionalViewData))
                 {

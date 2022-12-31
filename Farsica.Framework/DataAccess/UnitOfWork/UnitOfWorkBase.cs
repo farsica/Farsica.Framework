@@ -15,6 +15,7 @@
     using Farsica.Framework.DataAnnotation.Schema;
 
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
     public abstract class UnitOfWorkBase<TContext> : IUnitOfWorkBase
@@ -120,26 +121,28 @@
             where TKey : IEquatable<TKey>
         {
             CheckDisposed();
-            var repositoryType = typeof(IRepository<TEntity, TKey>);
-            if (ServiceProvider.GetService(repositoryType) is not IRepository<TEntity, TKey> repository)
+            IRepository<TEntity, TKey>? repository = ServiceProvider.GetService<IRepository<TEntity, TKey>>();
+            if (repository is null)
             {
-                throw new RepositoryNotFoundException(repositoryType.Name, $"Repository {repositoryType.Name} not found in the IOC container. Check if it is registered during startup.");
+                var type = typeof(IRepository<TEntity, TKey>).Name;
+                throw new RepositoryNotFoundException(type, $"Repository {type} not found in the IOC container. Check if it is registered during startup.");
             }
 
-            (repository as IRepositoryInjection)?.SetContext(Context);
+            (repository as IRepositoryInjection<TContext>)?.SetContext(Context);
             return repository;
         }
 
         public TRepository GetCustomRepository<TRepository>()
         {
             CheckDisposed();
-            var repositoryType = typeof(TRepository);
-            if (ServiceProvider.GetService(repositoryType) is not TRepository repository)
+            TRepository? repository = ServiceProvider.GetService<TRepository>();
+            if (repository is null)
             {
-                throw new RepositoryNotFoundException(repositoryType.Name, string.Format("Repository {0} not found in the IOC container. Check if it is registered during startup.", repositoryType.Name));
+                var type = typeof(TRepository).Name;
+                throw new RepositoryNotFoundException(type, string.Format("Repository {0} not found in the IOC container. Check if it is registered during startup.", type));
             }
 
-            (repository as IRepositoryInjection)?.SetContext(Context);
+            (repository as IRepositoryInjection<TContext>)?.SetContext(Context);
             return repository;
         }
 
@@ -157,7 +160,7 @@
 
                 command.CommandType = CommandType.Text;
                 command.CommandTimeout = 300;
-                if (param != null)
+                if (param is not null)
                 {
                     foreach (var (parameterName, value) in param)
                     {
@@ -192,7 +195,7 @@
                 command.CommandType = CommandType.Text;
                 command.CommandTimeout = 300;
 
-                if (param != null)
+                if (param is not null)
                 {
                     foreach (var (parameterName, value) in param)
                     {
@@ -292,7 +295,7 @@
             for (int i = 0; i < lst.Count; i++)
             {
                 var item = lst[i];
-                if (item == null)
+                if (item is null)
                 {
                     continue;
                 }
@@ -323,7 +326,7 @@
             var changedEntities = Context.ChangeTracker.Entries().Where(x => x.State is EntityState.Added or EntityState.Modified);
             foreach (var item in changedEntities)
             {
-                if (item.Entity == null)
+                if (item.Entity is null)
                 {
                     continue;
                 }
@@ -365,7 +368,7 @@
             var changedEntities = Context.ChangeTracker.Entries().Where(x => x.State is EntityState.Added or EntityState.Modified);
             foreach (var item in changedEntities)
             {
-                if (item.Entity == null)
+                if (item.Entity is null)
                 {
                     continue;
                 }

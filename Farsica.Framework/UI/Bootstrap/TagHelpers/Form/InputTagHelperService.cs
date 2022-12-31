@@ -202,7 +202,7 @@
             }
 
             var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-            if (attribute != null)
+            if (attribute is not null)
             {
                 var placeholderLocalized = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Prompt);
                 if (!string.IsNullOrEmpty(placeholderLocalized))
@@ -215,13 +215,13 @@
         protected virtual void AddInfoTextId(TagHelperOutput inputTagHelperOutput)
         {
             var idAttr = inputTagHelperOutput.Attributes.FirstOrDefault(a => a.Name == "id");
-            if (idAttr == null)
+            if (idAttr is null)
             {
                 return;
             }
 
             var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-            if (attribute != null)
+            if (attribute is not null)
             {
                 var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
                 if (!string.IsNullOrEmpty(description))
@@ -233,7 +233,7 @@
 
         protected virtual bool IsInputCheckbox(TagHelperContext context, TagHelperOutput output, TagHelperAttributeList attributes)
         {
-            return attributes.Any(t => t.Value != null && t.Name == "type" && t.Value.ToString() == "checkbox");
+            return attributes.Any(t => t.Value is not null && t.Name == "type" && t.Value.ToString() == "checkbox");
         }
 
         protected virtual async Task<string?> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag, bool isCheckbox)
@@ -244,7 +244,7 @@
             }
 
             var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
-            if (uIHintAttribute != null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
+            if (uIHintAttribute is not null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
             {
                 return string.Empty;
             }
@@ -268,7 +268,7 @@
                 return string.Empty;
             }
 
-            return cachedModelAttributes?.GetAttribute<RequiredAttribute>() != null ? "<span> * </span>" : string.Empty;
+            return cachedModelAttributes?.GetAttribute<RequiredAttribute>() is not null ? "<span> * </span>" : string.Empty;
         }
 
         protected virtual string? GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag, bool isCheckbox)
@@ -291,7 +291,7 @@
             else
             {
                 var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-                if (attribute != null)
+                if (attribute is not null)
                 {
                     var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
                     if (!string.IsNullOrEmpty(description))
@@ -331,7 +331,7 @@
         protected virtual void ConvertToTextAreaIfTextArea(TagHelperOutput tagHelperOutput)
         {
             var dataTypeAttribute = cachedModelAttributes?.GetAttribute<DataTypeAttribute>();
-            if (dataTypeAttribute == null || dataTypeAttribute.ElementDataType != ElementDataType.MultilineText)
+            if (dataTypeAttribute is null || dataTypeAttribute.ElementDataType != ElementDataType.MultilineText)
             {
                 return;
             }
@@ -400,7 +400,7 @@
         protected virtual string? GetSize(TagHelperContext context, TagHelperOutput output)
         {
             var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
-            if (uIHintAttribute != null)
+            if (uIHintAttribute is not null)
             {
                 TagHelper.Size = uIHintAttribute.Size;
             }
@@ -429,15 +429,15 @@
         {
             var idAttr = inputTag.Attributes.FirstOrDefault(a => a.Name == "id");
 
-            return idAttr != null ? "for=\"" + idAttr.Value + "\"" : string.Empty;
+            return idAttr is not null ? "for=\"" + idAttr.Value + "\"" : string.Empty;
         }
 
         protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
-            suppress = list == null;
+            suppress = list is null;
 
-            if (list != null && propertyName is not null && !list.Any(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
+            if (list is not null && propertyName is not null && !list.Any(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
             {
                 list.Add(new FormGroupItem
                 {

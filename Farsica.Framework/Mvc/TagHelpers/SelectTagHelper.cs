@@ -122,7 +122,7 @@
             if (isEnum && Multiple)
             {
                 sb.Append($"<div class=\"select-wrapper\" data-name=\"{ElementName}\" data-name-list=\"{ElementName}\" data-post-fix-value=\"\" data-list=\"false\" data-flags=\"{(isFlagsEnum ? "true" : "false")}\">");
-                if (currentValues != null)
+                if (currentValues is not null)
                 {
                     var i = 0;
                     foreach (var item in currentValues)
@@ -142,7 +142,7 @@
             else if (isPrimitive)
             {
                 sb.Append($"<div class=\"select-wrapper\" data-name=\"{ElementName}\" data-name-list=\"{ElementName}\" data-post-fix-value=\"\" data-list=\"true\">");
-                if (currentValues != null)
+                if (currentValues is not null)
                 {
                     int i = 0;
                     foreach (var item in currentValues)
@@ -159,7 +159,7 @@
             {
                 sb.Append($"<div class=\"select-wrapper\" data-name=\"{ElementName}\" data-name-list=\"{ElementName}\" data-post-fix-value=\".Value\" data-post-fix-selected=\".Selected\" data-list=\"true\">");
 
-                if (currentValues != null)
+                if (currentValues is not null)
                 {
                     int i = 0;
                     foreach (var item in currentValues)

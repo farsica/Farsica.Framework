@@ -320,7 +320,7 @@
 
         public static string? Truncate(this string? str, int maxLength)
         {
-            if (str == null)
+            if (str is null)
             {
                 return null;
             }
@@ -335,7 +335,7 @@
 
         public static string? TruncateFromBeginning(this string? str, int maxLength)
         {
-            if (str == null)
+            if (str is null)
             {
                 return null;
             }
@@ -355,7 +355,7 @@
 
         public static string? TruncateWithPostfix(this string? str, int maxLength, string postfix)
         {
-            if (str == null)
+            if (str is null)
             {
                 return null;
             }

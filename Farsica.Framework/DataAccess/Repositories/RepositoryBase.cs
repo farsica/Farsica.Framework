@@ -3,7 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
-    public abstract class RepositoryBase<TContext> : IRepositoryInjection
+    public abstract class RepositoryBase<TContext> : IRepositoryInjection<TContext>
         where TContext : DbContext
     {
         protected RepositoryBase(ILogger<DataAccess> logger, TContext context)
@@ -16,9 +16,9 @@
 
         protected TContext Context { get; private set; }
 
-        public IRepositoryInjection SetContext(DbContext context)
+        public IRepositoryInjection<TContext> SetContext(TContext context)
         {
-            Context = (TContext)context;
+            Context = context;
             return this;
         }
     }

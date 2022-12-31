@@ -174,7 +174,7 @@
 //                return;
 
 // var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-//            if (attribute != null)
+//            if (attribute is not null)
 //            {
 //                var placeholderLocalized = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Prompt);
 //                if (!string.IsNullOrEmpty(placeholderLocalized))
@@ -185,11 +185,11 @@
 // protected virtual void AddInfoTextId(TagHelperOutput inputTagHelperOutput)
 //        {
 //            var idAttr = inputTagHelperOutput.Attributes.FirstOrDefault(a => a.Name == "id");
-//            if (idAttr == null)
+//            if (idAttr is null)
 //                return;
 
 // var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-//            if (attribute != null)
+//            if (attribute is not null)
 //            {
 //                var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
 //                if (!string.IsNullOrEmpty(description))
@@ -203,7 +203,7 @@
 //                return "";
 
 // var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
-//            if (uIHintAttribute != null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
+//            if (uIHintAttribute is not null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
 //                return "";
 
 // if (string.IsNullOrEmpty(TagHelper.Label))
@@ -219,7 +219,7 @@
 //            if (!TagHelper.DisplayRequiredSymbol)
 //                return "";
 
-// return cachedModelAttributes?.GetAttribute<RequiredAttribute>() != null ? "<span> * </span>" : "";
+// return cachedModelAttributes?.GetAttribute<RequiredAttribute>() is not null ? "<span> * </span>" : "";
 //        }
 
 // protected virtual string? GetInfoAsHtml(TagHelperContext context, TagHelperOutput output, TagHelperOutput inputTag)
@@ -232,7 +232,7 @@
 //            else
 //            {
 //                var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-//                if (attribute != null)
+//                if (attribute is not null)
 //                {
 //                    var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
 //                    if (!string.IsNullOrEmpty(description))
@@ -306,7 +306,7 @@
 // protected virtual string? GetSize(TagHelperContext context, TagHelperOutput output)
 //        {
 //            var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
-//            if (uIHintAttribute != null)
+//            if (uIHintAttribute is not null)
 //                TagHelper.Size = uIHintAttribute.Size;
 
 // switch (TagHelper.Size)
@@ -326,15 +326,15 @@
 //        {
 //            var idAttr = inputTag.Attributes.FirstOrDefault(a => a.Name == "id");
 
-// return idAttr != null ? "for=\"" + idAttr.Value + "\"" : "";
+// return idAttr is not null ? "for=\"" + idAttr.Value + "\"" : "";
 //        }
 
 // protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
 //        {
 //            var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
-//            suppress = list == null;
+//            suppress = list is null;
 
-// if (list != null && !list.Any(igc => igc.HtmlContent.Contains("id=\"" + propertyName.Replace('.', '_') + "\"")))
+// if (list is not null && !list.Any(igc => igc.HtmlContent.Contains("id=\"" + propertyName.Replace('.', '_') + "\"")))
 //            {
 //                list.Add(new FormGroupItem
 //                {

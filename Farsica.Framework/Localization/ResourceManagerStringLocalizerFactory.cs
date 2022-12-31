@@ -19,7 +19,7 @@
 
         public ResourceManagerStringLocalizerFactory(IOptions<LocalizationOptions> localizationOptions, ILoggerFactory loggerFactory)
         {
-            if (localizationOptions == null)
+            if (localizationOptions is null)
             {
                 throw new ArgumentNullException(nameof(localizationOptions));
             }
@@ -36,7 +36,7 @@
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            if (resourceSource == null)
+            if (resourceSource is null)
             {
                 throw new ArgumentNullException(nameof(resourceSource));
             }
@@ -52,12 +52,12 @@
 
         public IStringLocalizer Create(string baseName, string? location)
         {
-            if (baseName == null)
+            if (baseName is null)
             {
                 throw new ArgumentNullException(nameof(baseName));
             }
 
-            if (location == null)
+            if (location is null)
             {
                 throw new ArgumentNullException(nameof(location));
             }
@@ -76,7 +76,7 @@
 
         protected virtual string? GetResourcePrefix(TypeInfo typeInfo)
         {
-            if (typeInfo == null)
+            if (typeInfo is null)
             {
                 throw new ArgumentNullException(nameof(typeInfo));
             }
@@ -86,7 +86,7 @@
 
         protected virtual string? GetResourcePrefix(TypeInfo typeInfo, string? baseNamespace, string? resourcesRelativePath)
         {
-            if (typeInfo == null)
+            if (typeInfo is null)
             {
                 throw new ArgumentNullException(nameof(typeInfo));
             }
@@ -175,7 +175,7 @@
         private string? GetRootNamespace(Assembly assembly)
         {
             var rootNamespaceAttribute = GetRootNamespaceAttribute(assembly);
-            if (rootNamespaceAttribute != null)
+            if (rootNamespaceAttribute is not null)
             {
                 return rootNamespaceAttribute.RootNamespace;
             }
@@ -188,7 +188,7 @@
             var resourceLocationAttribute = GetResourceLocationAttribute(assembly);
 
             // If we don't have an attribute assume all assemblies use the same resource location.
-            var resourceLocation = resourceLocationAttribute == null
+            var resourceLocation = resourceLocationAttribute is null
                 ? resourcesRelativePath
                 : resourceLocationAttribute.ResourceLocation + ".";
             resourceLocation = resourceLocation

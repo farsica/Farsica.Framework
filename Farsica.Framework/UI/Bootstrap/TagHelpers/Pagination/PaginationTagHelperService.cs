@@ -156,7 +156,7 @@
         {
             var hrefAttribute = attributeList.FirstOrDefault(x => x.Name.Equals("href", StringComparison.OrdinalIgnoreCase));
 
-            if (hrefAttribute != null)
+            if (hrefAttribute is not null)
             {
                 var pageUrl = TagHelper.For.PageUrl;
                 if (pageUrl is not null)

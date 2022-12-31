@@ -55,7 +55,7 @@
             if (hasSearchItem)
             {
                 var searchItemType = Search.GetType();
-                properties = searchItemType.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) == null && (t.GetCustomAttribute<ExportInfoAttribute>() == null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
+                properties = searchItemType.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is null && (t.GetCustomAttribute<ExportInfoAttribute>() is null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
 
                 PdfPTable table1 = new PdfPTable(properties.Count())
                 {
@@ -78,10 +78,10 @@
                 {
                     var pureValue = info.GetValue(Search, null);
                     var pureValueList = string.Empty;
-                    if (pureValue != null)
+                    if (pureValue is not null)
                     {
                         var converter = info.GetCustomAttribute<JsonConverterAttribute>();
-                        if (converter != null)
+                        if (converter is not null)
                         {
                             if (converter.CreateConverter(converter.ConverterType) is IJsonConverter instance && !instance.IgnoreOnExport)
                             {
@@ -133,7 +133,7 @@
             if (GridDataSource.Data?.Count > 0)
             {
                 var pagingType = GridDataSource.Data[0].GetType();
-                properties = pagingType.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) == null && (t.GetCustomAttribute<ExportInfoAttribute>() == null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
+                properties = pagingType.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is null && (t.GetCustomAttribute<ExportInfoAttribute>() is null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
 
                 AddTableToITextSharpDocument(GridDataSource.Data, properties, writer, doc, font, GridDataSource.DataTable);
             }
@@ -212,7 +212,7 @@
         private static void AddTablePaging(object value, iTextSharp.text.Font font, PropertyInfo info, ref PdfPTable tablePaging)
         {
             iTextSharp.text.Image pic = null;
-            if (info != null)
+            if (info is not null)
             {
                 var typeValue = GetNullableTypeValue(info.PropertyType);
                 if (typeValue.IsEnum)
@@ -253,7 +253,7 @@
         private void AddTableToITextSharpDocument(IList lst, IEnumerable<PropertyInfo> properties, PdfWriter writer, Document doc, iTextSharp.text.Font font, DataTable dataTable = null)
         {
             var tableRows = 1;
-            if (dataTable != null)
+            if (dataTable is not null)
             {
                 var tablePaging = AddDataTableHeader(dataTable, font);
                 for (var i = 0; i <= lst.Count; i++)
@@ -313,10 +313,10 @@
                         }
 
                         var pureValue = info.GetValue(lst[i], null);
-                        if (pureValue != null)
+                        if (pureValue is not null)
                         {
                             var converter = info.GetCustomAttribute<JsonConverterAttribute>();
-                            if (converter != null)
+                            if (converter is not null)
                             {
                                 if (converter.CreateConverter(converter.ConverterType) is IJsonConverter instance && !instance.IgnoreOnExport)
                                 {

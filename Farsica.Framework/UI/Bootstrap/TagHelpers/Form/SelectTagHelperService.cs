@@ -98,7 +98,7 @@
 
         protected virtual IReadOnlyList<SelectListItem> GetSelectItems(TagHelperContext context, TagHelperOutput output)
         {
-            if (TagHelper.Items != null)
+            if (TagHelper.Items is not null)
             {
                 return TagHelper.Items.ToList();
             }
@@ -109,7 +109,7 @@
             }
 
             var selectItemsAttribute = cachedModelAttributes?.GetAttribute<SelectItemsAttribute>();
-            if (selectItemsAttribute != null)
+            if (selectItemsAttribute is not null)
             {
                 return GetSelectItemsFromAttribute(selectItemsAttribute, TagHelper.For.ModelExplorer);
             }
@@ -120,7 +120,7 @@
         protected virtual async Task<string?> GetLabelAsHtmlAsync(TagHelperContext context, TagHelperOutput output, TagHelperOutput selectTag)
         {
             var uIHintAttribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
-            if (uIHintAttribute != null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
+            if (uIHintAttribute is not null && uIHintAttribute.LabelPosition == LabelPosition.Hidden)
             {
                 return string.Empty;
             }
@@ -140,19 +140,19 @@
                 return string.Empty;
             }
 
-            return cachedModelAttributes?.GetAttribute<RequiredAttribute>() != null ? "<span> * </span>" : string.Empty;
+            return cachedModelAttributes?.GetAttribute<RequiredAttribute>() is not null ? "<span> * </span>" : string.Empty;
         }
 
         protected virtual void AddInfoTextId(TagHelperOutput inputTagHelperOutput)
         {
             var idAttr = inputTagHelperOutput.Attributes.FirstOrDefault(a => a.Name == "id");
-            if (idAttr == null)
+            if (idAttr is null)
             {
                 return;
             }
 
             var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-            if (attribute != null)
+            if (attribute is not null)
             {
                 var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
                 if (!string.IsNullOrEmpty(description))
@@ -172,7 +172,7 @@
             else
             {
                 var attribute = cachedModelAttributes?.GetAttribute<DisplayAttribute>();
-                if (attribute != null)
+                if (attribute is not null)
                 {
                     var description = Globals.GetLocalizedValueInternal(attribute, TagHelper.For.Name, Constants.ResourceKey.Description);
                     if (!string.IsNullOrEmpty(description))
@@ -196,7 +196,7 @@
 #pragma warning restore CA1002 // Do not expose generic lists
         {
             var selectItems = new List<SelectListItem>();
-            var isNullableType = Nullable.GetUnderlyingType(explorer.ModelType) != null;
+            var isNullableType = Nullable.GetUnderlyingType(explorer.ModelType) is not null;
             var enumType = explorer.ModelType;
 
             if (isNullableType)
@@ -234,7 +234,7 @@
         {
             var selectItems = selectItemsAttribute.GetItems(explorer)?.ToList();
 
-            if (selectItems == null)
+            if (selectItems is null)
             {
                 return new List<SelectListItem>();
             }
@@ -269,7 +269,7 @@
         protected virtual string? GetSize(TagHelperContext context, TagHelperOutput output)
         {
             var attribute = cachedModelAttributes?.GetAttribute<UIHintAttribute>();
-            if (attribute != null)
+            if (attribute is not null)
             {
                 TagHelper.Size = attribute.Size;
             }
@@ -323,13 +323,13 @@
         {
             var idAttr = inputTag.Attributes.FirstOrDefault(a => a.Name == "id");
 
-            return idAttr != null ? "for=\"" + idAttr.Value + "\"" : string.Empty;
+            return idAttr is not null ? "for=\"" + idAttr.Value + "\"" : string.Empty;
         }
 
         protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
-            suppress = list == null;
+            suppress = list is null;
 
             if (list is not null && propertyName is not null && !list.Any(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
             {
@@ -345,7 +345,7 @@
         private bool IsEnum()
         {
             var value = TagHelper.For.Model;
-            if (value != null)
+            if (value is not null)
             {
                 var type = value.GetType();
                 if (type.IsEnum)

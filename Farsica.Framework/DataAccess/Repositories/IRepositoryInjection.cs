@@ -2,8 +2,9 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    public interface IRepositoryInjection
+    public interface IRepositoryInjection<TContext>
+        where TContext : DbContext
     {
-        IRepositoryInjection SetContext(DbContext context);
+        IRepositoryInjection<TContext> SetContext(TContext context);
     }
 }

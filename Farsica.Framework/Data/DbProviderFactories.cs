@@ -10,7 +10,7 @@
         {
             get
             {
-                if (factory != null)
+                if (factory is not null)
                 {
                     return factory;
                 }

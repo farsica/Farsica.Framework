@@ -47,7 +47,7 @@
             if (value is IComparable firstComparable)
             {
                 var ov = otherValue as IEnumerable<object>;
-                if (otherValue == null
+                if (otherValue is null
                     || (MaxCountOtherProperty.HasValue && (ov.Count() < MinCountOtherProperty || MaxCountOtherProperty < ov.Count())))
                 {
                     var displayName = Globals.GetLocalizedDisplayName(validationContext.ObjectType.GetProperty(validationContext.MemberName));

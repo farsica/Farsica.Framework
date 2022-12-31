@@ -95,8 +95,8 @@
 
                 string? drawingID = "IdDrawingsPart";
 
-                if (newWorksheetPart.DrawingsPart != null
-                && newWorksheetPart.DrawingsPart.WorksheetDrawing != null)
+                if (newWorksheetPart.DrawingsPart is not null
+                && newWorksheetPart.DrawingsPart.WorksheetDrawing is not null)
                 {
                     Drawing drawing1 = new Drawing() { Id = drawingID };
                     newWorksheetPart.Worksheet.Append(drawing1);
@@ -253,13 +253,13 @@
 
                             DrawingsPart drawingsPart = null;
                             Xdr.WorksheetDrawing worksheetDrawing = new Xdr.WorksheetDrawing();
-                            if (worksheetPart.DrawingsPart == null)
+                            if (worksheetPart.DrawingsPart is null)
                             {
                                 drawingsPart = worksheetPart.AddNewPart<DrawingsPart>("IdDrawingsPart");
                                 drawingsPart.WorksheetDrawing = worksheetDrawing;
                             }
-                            else if (worksheetPart.DrawingsPart != null
-                                            && worksheetPart.DrawingsPart.WorksheetDrawing != null)
+                            else if (worksheetPart.DrawingsPart is not null
+                                            && worksheetPart.DrawingsPart.WorksheetDrawing is not null)
                             {
                                 drawingsPart = worksheetPart.DrawingsPart;
                                 worksheetDrawing = worksheetPart.DrawingsPart.WorksheetDrawing;

@@ -4,24 +4,24 @@
     using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Identity;
 
-    public interface IVersioning<TUser, TUserKey>
+    public abstract class VersionableEntity<TUser, TUserKey> : IVersionableEntity<TUser, TUserKey>
         where TUser : IdentityUser<TUserKey>
         where TUserKey : IEquatable<TUserKey>
     {
         [Column(nameof(CreationDate), Data.DataType.DateTimeOffset)]
-        DateTimeOffset CreationDate { get; set; }
+        public DateTimeOffset CreationDate { get; set; }
 
         [Column(nameof(CreationDate))]
-        TUserKey CreationUserId { get; set; }
+        public TUserKey CreationUserId { get; set; }
 
-        TUser CreationUser { get; set; }
+        public TUser CreationUser { get; set; }
 
         [Column(nameof(CreationDate), Data.DataType.DateTimeOffset)]
-        DateTimeOffset? LastModifyDate { get; set; }
+        public DateTimeOffset? LastModifyDate { get; set; }
 
         [Column(nameof(CreationDate))]
-        TUserKey? LastModifyUserId { get; set; }
+        public TUserKey? LastModifyUserId { get; set; }
 
-        TUser? LastModifyUser { get; set; }
+        public TUser? LastModifyUser { get; set; }
     }
 }

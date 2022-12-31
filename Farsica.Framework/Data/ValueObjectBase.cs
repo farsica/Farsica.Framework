@@ -37,7 +37,7 @@
                     return false;
                 }
 
-                if (thisValues.Current != null &&
+                if (thisValues.Current is not null &&
                     !thisValues.Current.Equals(otherValues.Current))
                 {
                     return false;
@@ -50,7 +50,7 @@
         public override int GetHashCode()
         {
             return GetAtomicValues()
-             .Select(t => t != null ? t.GetHashCode() : 0)
+             .Select(t => t is not null ? t.GetHashCode() : 0)
              .Aggregate((t1, t2) => t1 ^ t2);
         }
 

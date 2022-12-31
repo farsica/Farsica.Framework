@@ -43,7 +43,7 @@
             output.Attributes.AddClass("textarea");
 
             var elementValue = Value as LocalizableString ?? For.Model as LocalizableString;
-            if (elementValue != null && !elementValue.Value.IsNullOrEmpty())
+            if (elementValue is not null && !elementValue.Value.IsNullOrEmpty())
             {
                 output.Attributes.AddIfNotExist("value", elementValue.Value);
             }
@@ -66,10 +66,10 @@
             {
                 var data = elementValue?.LocalizedValues.FirstOrDefault(t => t.Id == dto.Id);
                 var id = "culture" + dto.Id;
-                var checkedAttr = data != null ? "checked='checked'" : string.Empty;
-                sb.Append("<li class='dropdown-item'>&nbsp;<input id='" + id + "' type='checkbox' " + (data != null ? "checked='checked'" : string.Empty) + " /><i>&nbsp;</i><label for='" + id + "'>" + dto.Name + "</label></li>");
+                var checkedAttr = data is not null ? "checked='checked'" : string.Empty;
+                sb.Append("<li class='dropdown-item'>&nbsp;<input id='" + id + "' type='checkbox' " + (data is not null ? "checked='checked'" : string.Empty) + " /><i>&nbsp;</i><label for='" + id + "'>" + dto.Name + "</label></li>");
 
-                var css = $"localize wrapper-{dto.Id} {(data != null ? string.Empty : "collapse")}";
+                var css = $"localize wrapper-{dto.Id} {(data is not null ? string.Empty : "collapse")}";
                 innerSb.Append("<div class='editor-wrapper mt-3 " + css + "'>");
 
                 using (var writer = new System.IO.StringWriter())

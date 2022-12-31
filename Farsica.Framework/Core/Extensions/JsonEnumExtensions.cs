@@ -21,7 +21,7 @@
 
             var member = type.GetMember(name).SingleOrDefault();
             attribute = member?.GetCustomAttribute<TAttribute>(false);
-            return attribute != null;
+            return attribute is not null;
         }
 
         public static ulong ToUInt64<TEnum>(this TEnum value)
@@ -122,9 +122,9 @@
             var values = Enum.GetValues<TEnum>();
             return names.Zip(values, (n, v) =>
             {
-                if (tryOverrideName == null || !tryOverrideName(typeof(TEnum), n, out var jsonName))
+                if (tryOverrideName is null || !tryOverrideName(typeof(TEnum), n, out var jsonName))
                 {
-                    jsonName = namingPolicy == null ? n.AsMemory() : namingPolicy.ConvertName(n).AsMemory();
+                    jsonName = namingPolicy is null ? n.AsMemory() : namingPolicy.ConvertName(n).AsMemory();
                 }
 
                 return new EnumData<TEnum>(jsonName, v, v.ToUInt64(enumTypeCode));

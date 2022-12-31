@@ -2,14 +2,14 @@
 {
     public struct Error
     {
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
-        public string Reference { get; set; }
+        public string? Reference { get; set; }
 
-        public string Info { get; set; }
+        public string? Info { get; set; }
 
-        public string Value { get; set; }
+        public object? Value { get; set; }
     }
 }

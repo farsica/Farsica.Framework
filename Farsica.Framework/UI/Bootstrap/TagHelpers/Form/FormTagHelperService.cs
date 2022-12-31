@@ -67,7 +67,7 @@
             var temp = explorer;
             var propertyName = explorer.Metadata.PropertyName;
 
-            while (temp?.Container?.Metadata?.PropertyName != null)
+            while (temp?.Container?.Metadata?.PropertyName is not null)
             {
                 temp = temp.Container;
                 propertyName = temp.Metadata.PropertyName + "." + propertyName;
@@ -78,7 +78,7 @@
 
         private static bool IsCsharpClassOrPrimitive(Type type)
         {
-            if (type == null)
+            if (type is null)
             {
                 return false;
             }
@@ -98,14 +98,14 @@
         {
             return model.ModelExplorer?.Metadata?.IsEnum == true
                 || model.ModelExplorer?.Metadata?.ElementType?.IsEnum == true
-                || model.ModelExplorer?.GetAttribute<SelectItemsAttribute>() != null;
+                || model.ModelExplorer?.GetAttribute<SelectItemsAttribute>() is not null;
         }
 
         private static bool IsListOfCsharpClassOrPrimitive(Type type)
         {
             var genericType = type.GenericTypeArguments.FirstOrDefault();
 
-            if (genericType == null || !IsCsharpClassOrPrimitive(genericType))
+            if (genericType is null || !IsCsharpClassOrPrimitive(genericType))
             {
                 return false;
             }
@@ -190,7 +190,7 @@
         private async Task ProcessSelectGroupAsync(TagHelperContext context, TagHelperOutput output, ModelExpression model)
         {
             var dataTypeAttribute = model.ModelExplorer.GetAttribute<DataTypeAttribute>();
-            var selectTagHelper = dataTypeAttribute != null && dataTypeAttribute.ElementDataType == ElementDataType.RadioButton ?
+            var selectTagHelper = dataTypeAttribute is not null && dataTypeAttribute.ElementDataType == ElementDataType.RadioButton ?
                 GetRadioInputTagHelper(model) :
                 GetSelectTagHelper(model);
 
@@ -252,7 +252,7 @@
         private List<ModelExpression> ExploreModelsRecursively(List<ModelExpression> list, ModelExplorer model)
         {
             var scaffoldColumnAttribute = model.GetAttribute<ScaffoldColumnAttribute>();
-            if (scaffoldColumnAttribute != null && !scaffoldColumnAttribute.Scaffold)
+            if (scaffoldColumnAttribute is not null && !scaffoldColumnAttribute.Scaffold)
             {
                 return list;
             }

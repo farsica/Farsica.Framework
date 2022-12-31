@@ -128,7 +128,7 @@
                 while (true)
                 {
                     type = type.BaseType;
-                    if (type == null || type == typeof(object))
+                    if (type is null || type == typeof(object))
                     {
                         break;
                     }

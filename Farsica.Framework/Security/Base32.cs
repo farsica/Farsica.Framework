@@ -9,7 +9,7 @@
 
         public static string? ToBase32(byte[] input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -34,7 +34,7 @@
 
         public static byte[] FromBase32(string input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }

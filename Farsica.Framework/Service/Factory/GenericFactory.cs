@@ -17,7 +17,7 @@
 
         public TProvider GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = true)
         {
-            if (providers == null)
+            if (providers is null)
             {
                 throw new Exception("providers is null");
             }

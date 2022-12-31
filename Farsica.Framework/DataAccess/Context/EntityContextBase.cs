@@ -32,7 +32,7 @@
         where TRoleClaim : IdentityRoleClaim<TKey>
         where TUserToken : IdentityUserToken<TKey>
     {
-        private readonly string[] shadowProperties = new[] { nameof(IVersioning<TUser, TKey>.CreationDate), nameof(IVersioning<TUser, TKey>.CreationUserId), nameof(IVersioning<TUser, TKey>.LastModifyDate), nameof(IVersioning<TUser, TKey>.LastModifyUserId) };
+        private readonly string[] shadowProperties = new[] { nameof(IVersionableEntity<TUser, TKey>.CreationDate), nameof(IVersionableEntity<TUser, TKey>.CreationUserId), nameof(IVersionableEntity<TUser, TKey>.LastModifyDate), nameof(IVersionableEntity<TUser, TKey>.LastModifyUserId) };
         private readonly IHttpContextAccessor httpContextAccessor;
 
         protected EntityContextBase(IServiceProvider serviceProvider)
@@ -73,6 +73,8 @@
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
+            PrepareShadowProperties();
+
             var data = GenerateAudit();
             var result = base.SaveChanges(acceptAllChangesOnSuccess);
             if (data is not null)
@@ -85,6 +87,8 @@
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
+            PrepareShadowProperties();
+
             var data = GenerateAudit();
             var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             if (data is not null)
@@ -125,6 +129,37 @@
             };
         }
 
+        private void PrepareShadowProperties()
+        {
+            ChangeTracker.DetectChanges();
+
+            if (httpContextAccessor.HttpContext is null)
+            {
+                return;
+            }
+
+            var entries = ChangeTracker.Entries();
+
+            foreach (var entry in entries)
+            {
+                if (entry.Entity is not IVersionableEntity<TUser, TKey> versionableEntity)
+                {
+                    continue;
+                }
+
+                if (entry.State is EntityState.Added)
+                {
+                    versionableEntity.CreationUserId = httpContextAccessor.HttpContext.UserId<TKey>();
+                    versionableEntity.CreationDate = DateTimeOffset.Now;
+                }
+                else if (entry.State is EntityState.Modified)
+                {
+                    versionableEntity.LastModifyUserId = httpContextAccessor.HttpContext.UserId<TKey>();
+                    versionableEntity.LastModifyDate = DateTimeOffset.Now;
+                }
+            }
+        }
+
         private Audit<TUser, TKey>? GenerateAudit()
         {
             if (EnableAudit is false)
@@ -132,7 +167,6 @@
                 return null;
             }
 
-            ChangeTracker.DetectChanges();
             var audit = new Audit<TUser, TKey>
             {
                 Date = DateTimeOffset.Now,

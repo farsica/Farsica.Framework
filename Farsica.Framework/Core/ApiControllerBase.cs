@@ -1,6 +1,8 @@
 ﻿namespace Farsica.Framework.Core
 {
     using System;
+    using Farsica.Framework.Data;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
@@ -43,5 +45,30 @@
         [NonAction]
         public override RedirectToPageResult RedirectToPage(string pageName, string? pageHandler, object? routeValues, string? fragment)
             => base.RedirectToPage(pageName.TrimEnd(Constants.PagePostfix), pageHandler, Globals.PrepareValues(routeValues), fragment);
+
+        public BadRequestObjectResult BadRequest<T>(ApiResponse<T> response)
+        {
+            return base.BadRequest(response);
+        }
+
+        public OkObjectResult Ok<T>(ApiResponse<T> response)
+        {
+            return base.Ok(response);
+        }
+
+        public override UnauthorizedResult Unauthorized()
+        {
+            return base.Unauthorized();
+        }
+
+        public override ForbidResult Forbid()
+        {
+            return base.Forbid();
+        }
+
+        public ObjectResult InternalServerError<T>(ApiResponse<T> response) => new(response)
+        {
+            StatusCode = StatusCodes.Status500InternalServerError,
+        };
     }
 }

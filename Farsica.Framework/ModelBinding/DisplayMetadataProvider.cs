@@ -14,7 +14,7 @@
     {
         public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
         {
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
@@ -37,7 +37,7 @@
             // subclasses. The DataType.Currency, DataType.Date, and DataType.Time [DisplayFormat] attributes have a
             // non-null DataFormatString and the DataType.Date and DataType.Time [DisplayFormat] attributes have
             // ApplyFormatInEditMode==true.
-            if (displayFormatAttribute == null && dataTypeAttribute != null)
+            if (displayFormatAttribute is null && dataTypeAttribute is not null)
             {
                 displayFormatAttribute = dataTypeAttribute.DisplayFormat;
             }
@@ -45,17 +45,17 @@
             var displayMetadata = context.DisplayMetadata;
 
             // ConvertEmptyStringToNull
-            if (displayFormatAttribute != null)
+            if (displayFormatAttribute is not null)
             {
                 displayMetadata.ConvertEmptyStringToNull = displayFormatAttribute.ConvertEmptyStringToNull;
             }
 
             // DataTypeName
-            if (dataTypeAttribute != null)
+            if (dataTypeAttribute is not null)
             {
                 displayMetadata.DataTypeName = dataTypeAttribute.GetDataTypeName();
             }
-            else if (displayFormatAttribute != null && !displayFormatAttribute.HtmlEncode)
+            else if (displayFormatAttribute is not null && !displayFormatAttribute.HtmlEncode)
             {
                 displayMetadata.DataTypeName = nameof(ElementDataType.Html);
             }
@@ -90,30 +90,30 @@
             }
 
             // Description
-            if (displayAttribute != null)
+            if (displayAttribute is not null)
             {
                 displayMetadata.Description = () => Globals.GetLocalizedValueInternal(displayAttribute, elementName, Constants.ResourceKey.Description, manager) ?? elementName;
             }
 
             // DisplayFormatString
-            if (displayFormatAttribute != null)
+            if (displayFormatAttribute is not null)
             {
                 displayMetadata.DisplayFormatString = displayFormatAttribute.DataFormatString;
             }
 
             // DisplayName
             // DisplayAttribute has precedence over DisplayNameAttribute.
-            if (displayAttribute != null)
+            if (displayAttribute is not null)
             {
                 displayMetadata.DisplayName = () => Globals.GetLocalizedValueInternal(displayAttribute, elementName, Constants.ResourceKey.Name, manager) ?? elementName;
             }
-            else if (displayNameAttribute != null)
+            else if (displayNameAttribute is not null)
             {
                 displayMetadata.DisplayName = () => displayNameAttribute.DisplayName;
             }
 
             // EditFormatString
-            if (displayFormatAttribute != null && displayFormatAttribute.ApplyFormatInEditMode)
+            if (displayFormatAttribute is not null && displayFormatAttribute.ApplyFormatInEditMode)
             {
                 displayMetadata.EditFormatString = displayFormatAttribute.DataFormatString;
             }
@@ -140,7 +140,7 @@
 
                 foreach (var field in enumFields)
                 {
-                    if (field == null)
+                    if (field is null)
                     {
                         continue;
                     }
@@ -165,7 +165,7 @@
                 displayFormatAttribute?.ApplyFormatInEditMode == true)
             {
                 // Have a non-empty EditFormatString based on [DisplayFormat] from our cache.
-                if (dataTypeAttribute == null)
+                if (dataTypeAttribute is null)
                 {
                     // Attributes include no [DataType]; [DisplayFormat] was applied directly.
                     displayMetadata.HasNonDefaultEditFormat = true;
@@ -185,59 +185,59 @@
             }
 
             // HideSurroundingHtml
-            if (hiddenInputAttribute != null)
+            if (hiddenInputAttribute is not null)
             {
                 displayMetadata.HideSurroundingHtml = !hiddenInputAttribute.DisplayValue;
             }
 
             // HtmlEncode
-            if (displayFormatAttribute != null)
+            if (displayFormatAttribute is not null)
             {
                 displayMetadata.HtmlEncode = displayFormatAttribute.HtmlEncode;
             }
 
             // NullDisplayText
-            if (displayFormatAttribute != null)
+            if (displayFormatAttribute is not null)
             {
                 displayMetadata.NullDisplayText = displayFormatAttribute.NullDisplayText;
             }
 
             // Order
-            if (displayAttribute != null)
+            if (displayAttribute is not null)
             {
                 displayMetadata.Order = displayAttribute.Order;
             }
 
             // Placeholder
-            if (displayAttribute != null)
+            if (displayAttribute is not null)
             {
                 displayMetadata.Placeholder = () => Globals.GetLocalizedValueInternal(displayAttribute, elementName, Constants.ResourceKey.Prompt, manager) ?? elementName;
             }
 
             // ShowForDisplay
-            if (scaffoldColumnAttribute != null)
+            if (scaffoldColumnAttribute is not null)
             {
                 displayMetadata.ShowForDisplay = scaffoldColumnAttribute.Scaffold;
             }
 
             // ShowForEdit
-            if (scaffoldColumnAttribute != null)
+            if (scaffoldColumnAttribute is not null)
             {
                 displayMetadata.ShowForEdit = scaffoldColumnAttribute.Scaffold;
             }
 
             // SimpleDisplayProperty
-            if (displayColumnAttribute != null)
+            if (displayColumnAttribute is not null)
             {
                 displayMetadata.SimpleDisplayProperty = displayColumnAttribute.DisplayColumn;
             }
 
             // TemplateHint
-            if (uiHintAttribute != null)
+            if (uiHintAttribute is not null)
             {
                 displayMetadata.TemplateHint = uiHintAttribute.UIHint;
             }
-            else if (hiddenInputAttribute != null)
+            else if (hiddenInputAttribute is not null)
             {
                 displayMetadata.TemplateHint = "HiddenInput";
             }

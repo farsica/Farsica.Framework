@@ -143,29 +143,29 @@
 //        /// </exception>
 //        public override void Process(TagHelperContext context, TagHelperOutput output)
 //        {
-//            if (context == null)
+//            if (context is null)
 //            {
 //                throw new ArgumentNullException(nameof(context));
 //            }
 
-// if (output == null)
+// if (output is null)
 //            {
 //                throw new ArgumentNullException(nameof(output));
 //            }
 
 // // Pass through attributes that are also well-known HTML attributes. Must be done prior to any copying
 //            // from a TagBuilder.
-//            if (InputTypeName != null)
+//            if (InputTypeName is not null)
 //            {
 //                output.CopyHtmlAttribute("type", context);
 //            }
 
-// if (Name != null)
+// if (Name is not null)
 //            {
 //                output.CopyHtmlAttribute(nameof(Name), context);
 //            }
 
-// if (Value != null)
+// if (Value is not null)
 //            {
 //                output.CopyHtmlAttribute(nameof(Value), context);
 //            }
@@ -174,7 +174,7 @@
 //            // IHtmlGenerator will enforce name requirements.
 //            var metadata = For.Metadata;
 //            var modelExplorer = For.ModelExplorer;
-//            if (metadata == null)
+//            if (metadata is null)
 //            {
 //                throw new InvalidOperationException(Resources.FormatTagHelpers_NoProvidedMetadata(
 //                    "<input>",
@@ -243,7 +243,7 @@
 //                    break;
 //            }
 
-// if (tagBuilder != null)
+// if (tagBuilder is not null)
 //            {
 //                // This TagBuilder contains the one <input/> element of interest.
 //                output.MergeAttributes(tagBuilder);
@@ -286,7 +286,7 @@
 //        {
 //            if (modelExplorer.ModelType == typeof(string))
 //            {
-//                if (modelExplorer.Model != null)
+//                if (modelExplorer.Model is not null)
 //                {
 //                    if (!bool.TryParse(modelExplorer.Model.ToString(), out var potentialBool))
 //                    {
@@ -313,7 +313,7 @@
 //            {
 //                // hiddenForCheckboxTag always rendered after the returned element
 //                var hiddenForCheckboxTag = Generator.GenerateHiddenForCheckbox(ViewContext, modelExplorer, For.Name);
-//                if (hiddenForCheckboxTag != null)
+//                if (hiddenForCheckboxTag is not null)
 //                {
 //                    var renderingMode =
 //                        output.TagMode == TagMode.SelfClosing ? TagRenderMode.SelfClosing : TagRenderMode.StartTag;
@@ -349,7 +349,7 @@
 // private TagBuilder GenerateRadio(ModelExplorer modelExplorer, IDictionary<string, object> htmlAttributes)
 //        {
 //            // Note empty string? is allowed.
-//            if (Value == null)
+//            if (Value is null)
 //            {
 //                throw new InvalidOperationException(Resources.FormatInputTagHelper_ValueRequired(
 //                    "<input>",
@@ -388,7 +388,7 @@
 //                }
 //            }
 
-// if (htmlAttributes == null)
+// if (htmlAttributes is null)
 //            {
 //                htmlAttributes = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 //            }
@@ -422,7 +422,7 @@
 //                value = Convert.ToBase64String(byteArrayValue);
 //            }
 
-// if (htmlAttributes == null)
+// if (htmlAttributes is null)
 //            {
 //                htmlAttributes = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 //            }

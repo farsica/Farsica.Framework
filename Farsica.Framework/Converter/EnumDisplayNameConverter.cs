@@ -17,7 +17,7 @@
 
         public EnumDisplayNameConverter(JsonSerializerOptions? options)
         {
-            if (options != null)
+            if (options is not null)
             {
                 converter = options.GetConverter(typeof(T)) as JsonConverter<T>;
             }
@@ -38,7 +38,7 @@
 
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (converter != null)
+            if (converter is not null)
             {
                 return converter.Read(ref reader, underlyingType, options);
             }

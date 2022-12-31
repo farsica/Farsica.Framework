@@ -27,7 +27,7 @@
             // Check cache to avoid whatever TagBuilder.CreateSanitizedId() may do.
             var items = viewContext.HttpContext.Items;
             PreviousNameAndId? previousNameAndId = null;
-            if (items.TryGetValue(PreviousNameAndIdKey, out object? previousNameAndIdObject) && (previousNameAndId = (PreviousNameAndId?)previousNameAndIdObject) != null &&
+            if (items.TryGetValue(PreviousNameAndIdKey, out object? previousNameAndIdObject) && (previousNameAndId = (PreviousNameAndId?)previousNameAndIdObject) is not null &&
                 string.Equals(previousNameAndId.FullName, fullName, StringComparison.Ordinal))
             {
                 return previousNameAndId?.SanitizedId;

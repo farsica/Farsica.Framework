@@ -52,7 +52,7 @@
 
         public static string? DecryptAES(byte[]? encryptedText, string password, string salt)
         {
-            if (encryptedText == null)
+            if (encryptedText is null)
             {
                 return string.Empty;
             }

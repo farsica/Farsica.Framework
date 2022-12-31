@@ -63,7 +63,7 @@
         public TEntity? Get(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
-            if (includes != null)
+            if (includes is not null)
             {
                 query = includes(query);
             }
@@ -80,7 +80,7 @@
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
-            if (includes != null)
+            if (includes is not null)
             {
                 query = includes(query);
             }
@@ -123,7 +123,7 @@
 
         public void Add(TEntity entity)
         {
-            if (entity == null)
+            if (entity is null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
@@ -138,7 +138,7 @@
 
         public TEntity? Update(TEntity entity)
         {
-            if (entity == null)
+            if (entity is null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
@@ -159,7 +159,7 @@
 
         public void Remove(TEntity entity)
         {
-            if (entity == null)
+            if (entity is null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
@@ -178,7 +178,7 @@
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
-            if (filter != null)
+            if (filter is not null)
             {
                 query = query.Where(filter);
             }
@@ -190,7 +190,7 @@
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
-            if (filter != null)
+            if (filter is not null)
             {
                 query = query.Where(filter);
             }
@@ -202,7 +202,7 @@
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
-            if (filter != null)
+            if (filter is not null)
             {
                 query = query.Where(filter);
             }
@@ -214,7 +214,7 @@
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
-            if (filter != null)
+            if (filter is not null)
             {
                 query = query.Where(filter);
             }
@@ -231,17 +231,17 @@
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
 
-            if (predicate != null)
+            if (predicate is not null)
             {
                 query = query.Where(predicate);
             }
 
-            if (includes != null)
+            if (includes is not null)
             {
                 query = includes(query);
             }
 
-            if (orderBy != null)
+            if (orderBy is not null)
             {
                 query = orderBy(query);
             }

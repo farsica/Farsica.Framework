@@ -40,12 +40,12 @@
         {
             get
             {
-                if (multiplePages != null)
+                if (multiplePages is not null)
                 {
                     return multiplePages.Count;
                 }
 
-                if (currentPage != null)
+                if (currentPage is not null)
                 {
                     return 1;
                 }
@@ -58,12 +58,12 @@
         {
             get
             {
-                if (multiplePages != null)
+                if (multiplePages is not null)
                 {
                     return multiplePages[index];
                 }
 
-                if (index == 0 && currentPage != null)
+                if (index == 0 && currentPage is not null)
                 {
                     return currentPage;
                 }
@@ -76,7 +76,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IHtmlContentBuilder Append(string unencoded)
         {
-            if (unencoded != null)
+            if (unencoded is not null)
             {
                 // Text that needs encoding is the uncommon case in views, which is why it
                 // creates a wrapper and pre-encoded text does not.
@@ -90,7 +90,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IHtmlContentBuilder AppendHtml(IHtmlContent content)
         {
-            if (content != null)
+            if (content is not null)
             {
                 AppendValue(new ViewBufferValue(content));
             }
@@ -103,7 +103,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IHtmlContentBuilder AppendHtml(string encoded)
         {
-            if (encoded != null)
+            if (encoded is not null)
             {
                 AppendValue(new ViewBufferValue(encoded));
             }
@@ -122,12 +122,12 @@
         /// <inheritdoc />
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
-            if (writer == null)
+            if (writer is null)
             {
                 throw new ArgumentNullException(nameof(writer));
             }
 
-            if (encoder == null)
+            if (encoder is null)
             {
                 throw new ArgumentNullException(nameof(encoder));
             }
@@ -162,12 +162,12 @@
         /// <returns>A <see cref="Task"/> which will complete once content has been written.</returns>
         public async Task WriteToAsync(TextWriter writer, HtmlEncoder encoder)
         {
-            if (writer == null)
+            if (writer is null)
             {
                 throw new ArgumentNullException(nameof(writer));
             }
 
-            if (encoder == null)
+            if (encoder is null)
             {
                 throw new ArgumentNullException(nameof(encoder));
             }
@@ -203,7 +203,7 @@
 
         public void CopyTo(IHtmlContentBuilder destination)
         {
-            if (destination == null)
+            if (destination is null)
             {
                 throw new ArgumentNullException(nameof(destination));
             }
@@ -232,7 +232,7 @@
 
         public void MoveTo(IHtmlContentBuilder destination)
         {
-            if (destination == null)
+            if (destination is null)
             {
                 throw new ArgumentNullException(nameof(destination));
             }
@@ -289,7 +289,7 @@
         private ViewBufferPage GetCurrentPage()
         {
             var currentPage = this.currentPage;
-            if (currentPage == null || currentPage.IsFull)
+            if (currentPage is null || currentPage.IsFull)
             {
                 // Uncommon slow-path
                 return AppendNewPage();
@@ -308,11 +308,11 @@
 
         private void AddPage(ViewBufferPage page)
         {
-            if (multiplePages != null)
+            if (multiplePages is not null)
             {
                 multiplePages.Add(page);
             }
-            else if (currentPage != null)
+            else if (currentPage is not null)
             {
                 multiplePages = new List<ViewBufferPage>(2)
                 {
@@ -336,7 +336,7 @@
                 // page if possible.
                 var isLessThanHalfFull = 2 * page.Count <= page.Capacity;
                 if (isLessThanHalfFull &&
-                    destinationPage != null &&
+                    destinationPage is not null &&
                     destinationPage.Capacity - destinationPage.Count >= page.Count)
                 {
                     // We have room, let's copy the items.

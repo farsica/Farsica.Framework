@@ -95,7 +95,7 @@
                     {
                         if ((uInt64Value & enumData[i].UInt64Value) == enumData[i].UInt64Value && enumData[i].UInt64Value != 0)
                         {
-                            if (sb == null)
+                            if (sb is null)
                             {
                                 sb = new StringBuilder();
                                 sb.Append(enumData[i].Name.Span);
@@ -110,7 +110,7 @@
                         }
                     }
 
-                    if (uInt64Value == 0 && sb != null)
+                    if (uInt64Value == 0 && sb is not null)
                     {
                         name = sb.ToString().AsMemory();
                         return true;

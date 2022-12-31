@@ -38,24 +38,24 @@
             GridDataSource = gridDataSource;
             Search = search;
 
-            var hasSearchItem = search != null;
+            var hasSearchItem = search is not null;
             DataSet ds = new();
             DataTable dt = new();
             if (gridDataSource.Data?.Count > 0)
             {
                 var localizedSearchColumnNames = new Dictionary<string, string?>();
                 var localizedGridColumnNames = new Dictionary<string, string?>();
-                bool dataIsDictionaryBase = (gridDataSource.Data[0] as Dictionary<string, string?>) != null;
+                bool dataIsDictionaryBase = (gridDataSource.Data[0] as Dictionary<string, string?>) is not null;
                 IEnumerable<PropertyInfo> properties = null;
                 if (hasSearchItem)
                 {
                     var dtSearch = new DataTable();
                     var searchItemType = search.GetType();
-                    properties = searchItemType.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>() == null && (t.GetCustomAttribute<ExportInfoAttribute>() == null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
+                    properties = searchItemType.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>() is null && (t.GetCustomAttribute<ExportInfoAttribute>() is null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
                     foreach (var info in properties)
                     {
                         var description = Globals.GetLocalizedDescription(info);
-                        var name = description != null && description != info.Name ? description : Globals.GetLocalizedDisplayName(info);
+                        var name = description is not null && description != info.Name ? description : Globals.GetLocalizedDisplayName(info);
                         var columnType = GetNullableType(info.PropertyType);
                         if (columnType.IsGenericType && columnType.GenericTypeArguments?.FirstOrDefault()?.Name == nameof(ParameterDto))
                         {
@@ -77,11 +77,11 @@
                     foreach (var info in properties)
                     {
                         var pureValue = info.GetValue(search, null);
-                        if (pureValue != null)
+                        if (pureValue is not null)
                         {
                             var pureValueList = string.Empty;
                             var converter = info.GetCustomAttribute<JsonConverterAttribute>();
-                            if (converter != null)
+                            if (converter is not null)
                             {
                                 if (converter.CreateConverter(converter.ConverterType) is IJsonConverter instance && !instance.IgnoreOnExport)
                                 {
@@ -123,7 +123,7 @@
                     ds.Tables.Add(dtSearch);
                 }
 
-                if (gridDataSource.DataTable != null)
+                if (gridDataSource.DataTable is not null)
                 {
                     dataIsDictionaryBase = true;
 
@@ -152,12 +152,12 @@
                     {
                         localizedGridColumnNames = new Dictionary<string, string>();
                         var type = gridDataSource.Data[0].GetType();
-                        properties = type.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) == null && (t.GetCustomAttribute<ExportInfoAttribute>() == null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
+                        properties = type.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is null && (t.GetCustomAttribute<ExportInfoAttribute>() is null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
                         var i = 0;
                         foreach (var info in properties)
                         {
                             var description = Globals.GetLocalizedDescription(info);
-                            var name = description != null && description != info.Name ? description : Globals.GetLocalizedDisplayName(info);
+                            var name = description is not null && description != info.Name ? description : Globals.GetLocalizedDisplayName(info);
                             if (dt.Columns.Contains(name))
                             {
                                 name += i;
@@ -169,7 +169,7 @@
                             if (columnType == typeof(bool))
                             {
                                 var exportInfo = info.GetCustomAttribute<ExportInfoAttribute>();
-                                if (exportInfo != null && !exportInfo.TrueResourceKey.IsNullOrEmpty())
+                                if (exportInfo is not null && !exportInfo.TrueResourceKey.IsNullOrEmpty())
                                 {
                                     columnType = typeof(string);
                                 }
@@ -202,14 +202,11 @@
                             }
 
                             var value = dictionaryValues[key];
-                            if (gridDataSource.DataTable != null)
+                            if (gridDataSource.DataTable is not null)
                             {
                                 if (gridDataSource.DataTable.Columns[key].ExtendedProperties[nameof(ExportInfoAttribute)] is ExportInfoAttribute exportInfo && !exportInfo.TrueResourceKey.IsNullOrEmpty())
                                 {
-                                    if (exportInfo.ResourceType == null)
-                                    {
-                                        exportInfo.ResourceType = typeof(GlobalResource);
-                                    }
+                                    exportInfo.ResourceType ??= typeof(GlobalResource);
 
                                     var resourceManager = new System.Resources.ResourceManager(exportInfo.ResourceType);
                                     value = value.ValueOf<bool>() ? resourceManager.GetString(exportInfo.TrueResourceKey) : resourceManager.GetString(exportInfo.FalseResourceKey);
@@ -224,10 +221,10 @@
                         foreach (var info in properties)
                         {
                             var pureValue = info.GetValue(t, null);
-                            if (pureValue != null)
+                            if (pureValue is not null)
                             {
                                 var converter = info.GetCustomAttribute<JsonConverterAttribute>();
-                                if (converter != null)
+                                if (converter is not null)
                                 {
                                     if (converter.CreateConverter(converter.ConverterType) is IJsonConverter instance && !instance.IgnoreOnExport)
                                     {
@@ -243,7 +240,7 @@
                                 else if (typeValue == typeof(bool))
                                 {
                                     var exportInfo = info.GetCustomAttribute<ExportInfoAttribute>();
-                                    if (exportInfo != null && !exportInfo.TrueResourceKey.IsNullOrEmpty())
+                                    if (exportInfo is not null && !exportInfo.TrueResourceKey.IsNullOrEmpty())
                                     {
                                         exportInfo.ResourceType ??= typeof(GlobalResource);
 
