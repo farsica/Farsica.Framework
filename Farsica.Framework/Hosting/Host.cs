@@ -33,7 +33,7 @@
             await RunInternal<TStartup>(args, true);
         }
 
-        private static async Task RunInternal<TStartup>(string[] args, bool checkMigration)
+        public static IHost? CreateHost<TStartup>(string[] args)
             where TStartup : class
         {
             var config = new ConfigurationBuilder()
@@ -52,7 +52,7 @@
                 .Enrich.WithCorrelationIdHeader()
                 .CreateLogger();
 
-            var host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+            return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
@@ -63,6 +63,16 @@
                     webBuilder.UseStartup<TStartup>()
                     .UseSetting(WebHostDefaults.ApplicationKey, typeof(TStartup).GetTypeInfo().Assembly.FullName);
                 }).Build();
+        }
+
+        private static async Task RunInternal<TStartup>(string[] args, bool checkMigration)
+            where TStartup : class
+        {
+            var host = CreateHost<TStartup>(args);
+            if (host is null)
+            {
+                return;
+            }
 
             if (checkMigration)
             {
