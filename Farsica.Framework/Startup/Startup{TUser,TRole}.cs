@@ -274,6 +274,7 @@
             {
                 options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
                 options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
             });
 
             Action<MvcOptions> configureMvc = options =>
@@ -291,6 +292,8 @@
                 options.ModelBindingMessageProvider.SetValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_ValueIsInvalidAccessor, v));
                 options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor((v) => string.Format(GlobalResource.Validation_ValueMustBeANumberAccessor, v));
                 options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(() => string.Format(GlobalResource.Validation_NonPropertyValueMustBeANumberAccessor));
+
+                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
             };
             var mvcBuilder = views ? services.AddControllersWithViews(configureMvc) : services.AddControllers(configureMvc);
 

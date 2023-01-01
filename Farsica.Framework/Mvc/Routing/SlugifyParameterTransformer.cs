@@ -5,6 +5,6 @@
 
     public class SlugifyParameterTransformer : IOutboundParameterTransformer
     {
-        public string? TransformOutbound(object value) => (value as string).Slugify();
+        public string? TransformOutbound(object? value) => (value as string).Slugify();
     }
 }
