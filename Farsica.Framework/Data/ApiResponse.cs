@@ -42,6 +42,8 @@
 
         public string? Message { get; set; }
 
+        public string? Action { get; set; }
+
         public bool Succeeded => Errors is null || Errors.Any() is false;
 
         public IEnumerable<Error>? Errors { get; set; }
