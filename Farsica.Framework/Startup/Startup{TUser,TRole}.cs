@@ -388,7 +388,7 @@
 
         private void AddScopedDynamic(IServiceCollection services, Assembly frameworkAssembly, IEnumerable<string> assemblyFiles)
         {
-            var assemblies = assemblyFiles.Select(t => Assembly.LoadFrom(t))
+            var assemblies = assemblyFiles.Select(Assembly.LoadFrom)
                 .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
                 .Union(new[] { frameworkAssembly });
             var allTypes = assemblies.SelectMany(t => t.DefinedTypes);

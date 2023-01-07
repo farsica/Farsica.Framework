@@ -1,26 +1,23 @@
 ﻿namespace Farsica.Framework.DataAccess.Entities
 {
     using System;
-    using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Identity;
 
-    public interface IVersionableEntity<TUser, TUserKey>
-        where TUser : IdentityUser<TUserKey>
-        where TUserKey : IEquatable<TUserKey>
+#pragma warning disable CA1005 // Avoid excessive parameters on generic types
+    public interface IVersionableEntity<TUser, TCreationKey, TLastModifyKey>
+#pragma warning restore CA1005 // Avoid excessive parameters on generic types
+        where TUser : IdentityUser<TCreationKey>
+        where TCreationKey : IEquatable<TCreationKey>
     {
-        [Column(nameof(CreationDate), Data.DataType.DateTimeOffset)]
         DateTimeOffset CreationDate { get; set; }
 
-        [Column(nameof(CreationUserId))]
-        TUserKey CreationUserId { get; set; }
+        TCreationKey CreationUserId { get; set; }
 
         TUser CreationUser { get; set; }
 
-        [Column(nameof(LastModifyDate), Data.DataType.DateTimeOffset)]
         DateTimeOffset? LastModifyDate { get; set; }
 
-        [Column(nameof(LastModifyUserId))]
-        TUserKey? LastModifyUserId { get; set; }
+        TLastModifyKey? LastModifyUserId { get; set; }
 
         TUser? LastModifyUser { get; set; }
     }

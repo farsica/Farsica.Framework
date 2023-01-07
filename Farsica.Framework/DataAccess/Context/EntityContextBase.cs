@@ -32,7 +32,7 @@
         where TRoleClaim : IdentityRoleClaim<TKey>
         where TUserToken : IdentityUserToken<TKey>
     {
-        private readonly string[] shadowProperties = new[] { nameof(IVersionableEntity<TUser, TKey>.CreationDate), nameof(IVersionableEntity<TUser, TKey>.CreationUserId), nameof(IVersionableEntity<TUser, TKey>.LastModifyDate), nameof(IVersionableEntity<TUser, TKey>.LastModifyUserId) };
+        private readonly string[] shadowProperties = new[] { nameof(IVersionableEntity<TUser, TKey, TKey>.CreationDate), nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId), nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyDate), nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId) };
         private readonly IHttpContextAccessor httpContextAccessor;
 
         protected EntityContextBase(IServiceProvider serviceProvider)
@@ -106,6 +106,7 @@
                 builder.HasDefaultSchema(DefaultSchema);
             }
 
+            ConfigureShadowProperties(builder);
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
         }
 
@@ -129,6 +130,24 @@
             };
         }
 
+        private void ConfigureShadowProperties(ModelBuilder builder)
+        {
+            var types = EntityAssembly.GetTypes();
+            foreach (var type in types)
+            {
+                if (type.GetInterfaces().Any(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
+                {
+                    builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
+                            .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
+
+                    builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
+                        .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
+
+                    builder.Entity(type).Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
+                }
+            }
+        }
+
         private void PrepareShadowProperties()
         {
             ChangeTracker.DetectChanges();
@@ -142,19 +161,28 @@
 
             foreach (var entry in entries)
             {
-                if (entry.Entity is not IVersionableEntity<TUser, TKey> versionableEntity)
+                if (entry.Entity is not IVersionableEntity<TUser, TKey, TKey> versionableEntity)
                 {
                     continue;
                 }
 
+                var userId = httpContextAccessor.HttpContext.UserId<TKey>();
                 if (entry.State is EntityState.Added)
                 {
-                    versionableEntity.CreationUserId = httpContextAccessor.HttpContext.UserId<TKey>();
+                    if (userId is not null)
+                    {
+                        versionableEntity.CreationUserId = userId;
+                    }
+
                     versionableEntity.CreationDate = DateTimeOffset.Now;
                 }
                 else if (entry.State is EntityState.Modified)
                 {
-                    versionableEntity.LastModifyUserId = httpContextAccessor.HttpContext.UserId<TKey>();
+                    if (userId is not null)
+                    {
+                        versionableEntity.LastModifyUserId = userId;
+                    }
+
                     versionableEntity.LastModifyDate = DateTimeOffset.Now;
                 }
             }
