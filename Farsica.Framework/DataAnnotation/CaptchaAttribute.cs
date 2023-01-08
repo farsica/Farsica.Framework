@@ -19,7 +19,7 @@
             ErrorMessageResourceName = nameof(GlobalResource.Validation_Expression);
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (!ValidationContext.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string? cookieData))
             {

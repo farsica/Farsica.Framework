@@ -10,7 +10,7 @@
         private const string Pattern = "^(09)[0-9]{2}[0-9]{7}$";
         private static readonly Regex Regex = new(Pattern, RegexOptions.Compiled);
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             return string.IsNullOrEmpty(value?.ToString()) || Regex.IsMatch(value.ToString());
         }

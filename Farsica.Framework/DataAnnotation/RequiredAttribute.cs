@@ -39,7 +39,7 @@
             }
         }
 
-        public new Type ErrorMessageResourceType
+        public new Type? ErrorMessageResourceType
         {
             get
             {

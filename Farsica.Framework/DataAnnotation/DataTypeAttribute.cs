@@ -41,7 +41,7 @@
 
         public ElementDataType ElementDataType { get; }
 
-        public new Type ErrorMessageResourceType
+        public new Type? ErrorMessageResourceType
         {
             get
             {

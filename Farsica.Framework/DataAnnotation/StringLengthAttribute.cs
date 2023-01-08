@@ -20,9 +20,10 @@
         {
             MinimumLength = minimumLength;
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_StringLength);
+            ErrorMessageResourceType = typeof(Resources.GlobalResource);
         }
 
-        public new Type ErrorMessageResourceType
+        public new Type? ErrorMessageResourceType
         {
             get
             {
@@ -61,7 +62,7 @@
             }
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {

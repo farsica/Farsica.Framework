@@ -30,7 +30,7 @@
             Type = type;
         }
 
-        public new Type ErrorMessageResourceType
+        public new Type? ErrorMessageResourceType
         {
             get
             {
@@ -71,7 +71,7 @@
 
         public Type Type { get; }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {

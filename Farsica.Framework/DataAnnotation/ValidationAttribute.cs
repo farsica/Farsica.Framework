@@ -25,7 +25,7 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_Expression);
         }
 
-        public new Type ErrorMessageResourceType
+        public new Type? ErrorMessageResourceType
         {
             get
             {
@@ -64,9 +64,9 @@
             }
         }
 
-        protected ValidationContext ValidationContext { get; }
+        protected ValidationContext? ValidationContext { get; }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {

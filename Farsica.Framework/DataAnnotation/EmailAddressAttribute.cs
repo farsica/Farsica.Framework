@@ -11,7 +11,7 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_EmailAddress);
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             return string.IsNullOrEmpty(value?.ToString()) || new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(value);
         }

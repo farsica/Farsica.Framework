@@ -24,7 +24,7 @@
 
         public Constants.OperandType OperandType { get; set; } = Constants.OperandType.Equals;
 
-        public new Type ErrorMessageResourceType
+        public new Type? ErrorMessageResourceType
         {
             get => base.ErrorMessageResourceType;
 
@@ -80,7 +80,7 @@
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-{key}", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)), Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(OtherProperty)))));
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
             var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
             if (otherPropertyInfo is null)
