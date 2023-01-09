@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Net.Http.Json;
     using System.Threading.Tasks;
@@ -16,11 +17,11 @@
             this.httpClientFactory = httpClientFactory;
         }
 
-        public async Task<TResponse?> DeleteAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest, TResponse?, Task<TResponse?>>? failHandler = null)
+        public async Task<TResponse?> DeleteAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest?, TResponse?, Task<TResponse?>>? failHandler = null)
             where TRequest : IHttpRequest
             where TResponse : IHttpResponse
         {
-            var client = httpClientFactory.Value.CreateHttpClient();
+            var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
@@ -74,11 +75,11 @@
             return response.StatusCode is not System.Net.HttpStatusCode.OK && failHandler is not null ? await failHandler(request.Request, result) : result;
         }
 
-        public async Task<TResponse?> GetAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest, TResponse?, Task<TResponse?>>? failHandler = null)
+        public async Task<TResponse?> GetAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest?, TResponse?, Task<TResponse?>>? failHandler = null)
             where TRequest : IHttpRequest
             where TResponse : IHttpResponse
         {
-            var client = httpClientFactory.Value.CreateHttpClient();
+            var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
                 client.BaseAddress = new Uri(request.BaseAddress);
@@ -112,11 +113,11 @@
             return response.StatusCode is not System.Net.HttpStatusCode.OK && failHandler is not null ? await failHandler(request.Request, result) : result;
         }
 
-        public async Task<TResponse?> PostAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest, TResponse?, Task<TResponse?>>? failHandler = null)
+        public async Task<TResponse?> PostAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest?, TResponse?, Task<TResponse?>>? failHandler = null)
             where TRequest : IHttpRequest
             where TResponse : IHttpResponse
         {
-            var client = httpClientFactory.Value.CreateHttpClient();
+            var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
@@ -132,17 +133,18 @@
             }
 
             HttpResponseMessage response;
-
             if (request.Body is List<KeyValuePair<string, string?>> keyValuePairBody)
             {
                 using var req = new HttpRequestMessage(HttpMethod.Post, request.Uri) { Content = new FormUrlEncodedContent(keyValuePairBody), };
                 response = await client.SendAsync(req);
             }
+            else if (request.Body is HttpContent httpContent)
+            {
+                response = await client.PostAsync(request.Uri, httpContent);
+            }
             else
             {
-                response = request.Body is StringContent stringContent ?
-                    await client.PostAsync(request.Uri, stringContent) :
-                    await client.PostAsJsonAsync(request.Uri, request.Body);
+                response = await client.PostAsJsonAsync(request.Uri, request.Body);
             }
 
             if (postCallHandler is not null)
@@ -163,11 +165,11 @@
             return response.StatusCode is not System.Net.HttpStatusCode.OK && failHandler is not null ? await failHandler(request.Request, result) : result;
         }
 
-        public async Task<TResponse?> PutAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest, TResponse?, Task<TResponse?>>? failHandler = null)
+        public async Task<TResponse?> PutAsync<TRequest, TResponse, TBody>([NotNull] HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest?, TResponse?, Task<TResponse?>>? failHandler = null)
             where TRequest : IHttpRequest
             where TResponse : IHttpResponse
         {
-            var client = httpClientFactory.Value.CreateHttpClient();
+            var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
@@ -189,11 +191,13 @@
                 using var req = new HttpRequestMessage(HttpMethod.Put, request.Uri) { Content = new FormUrlEncodedContent(keyValuePairBody), };
                 response = await client.SendAsync(req);
             }
+            else if (request.Body is HttpContent httpContent)
+            {
+                response = await client.PutAsync(request.Uri, httpContent);
+            }
             else
             {
-                response = request.Body is StringContent stringContent ?
-                    await client.PutAsync(request.Uri, stringContent) :
-                    await client.PutAsJsonAsync(request.Uri, request.Body);
+                response = await client.PutAsJsonAsync(request.Uri, request.Body);
             }
 
             if (postCallHandler is not null)

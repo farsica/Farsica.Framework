@@ -16,5 +16,7 @@
         public IReadOnlyList<(string Key, string Value)>? HeaderParameters { get; set; }
 
         public TBody? Body { get; set; }
+
+        public bool ForceTls13 { get; set; }
     }
 }

@@ -376,6 +376,16 @@
                 },
                 AllowAutoRedirect = false,
             });
+            services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirectTls13).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ClientCertificateOptions = ClientCertificateOption.Manual,
+                ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                },
+                AllowAutoRedirect = false,
+                SslProtocols = System.Security.Authentication.SslProtocols.Tls13,
+            });
 
             services.AddHttpContextAccessor();
             services.Configure<WebEncoderOptions>(options =>

@@ -51,6 +51,7 @@
         public const string ControllerPostfix = "Controller";
         public const string PagePostfix = "Model";
         internal const string HttpClientIgnoreSslAndAutoRedirect = "HttpClientIgnoreSslAndAutoRedirect";
+        internal const string HttpClientIgnoreSslAndAutoRedirectTls13 = "HttpClientIgnoreSslAndAutoRedirectTls13";
 
         public enum DegreeType : byte
         {

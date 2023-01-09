@@ -662,9 +662,9 @@
             return mobile;
         }
 
-        public static HttpClient CreateHttpClient(this IHttpClientFactory httpClientFactory)
+        public static HttpClient CreateHttpClient(this IHttpClientFactory httpClientFactory, bool forceTls13 = false)
         {
-            return httpClientFactory.CreateClient(Constants.HttpClientIgnoreSslAndAutoRedirect);
+            return httpClientFactory.CreateClient(forceTls13 ? Constants.HttpClientIgnoreSslAndAutoRedirectTls13 : Constants.HttpClientIgnoreSslAndAutoRedirect);
         }
 
         internal static string? PrepareResourcePath(this string? path)
