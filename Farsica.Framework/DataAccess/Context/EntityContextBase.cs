@@ -200,7 +200,7 @@
                 Date = DateTimeOffset.Now,
                 IpAddress = httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString(),
                 UserAgent = httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString(),
-                UserId = (TKey?)(httpContextAccessor.HttpContext?.User.UserId() as object),
+                UserId = httpContextAccessor.HttpContext.UserId<TKey>(),
                 AuditEntries = new List<AuditEntry<TUser, TKey>>(),
             };
             var entries = ChangeTracker.Entries();
