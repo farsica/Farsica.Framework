@@ -4,12 +4,15 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
+    using System.Reflection;
+    using System.Text;
     using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Farsica.Framework.Resources;
+    using Farsica.Framework.Validation;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-    public sealed class CompareAttribute : System.ComponentModel.DataAnnotations.CompareAttribute, IClientModelValidator
+    public sealed class CompareAttribute : System.ComponentModel.DataAnnotations.CompareAttribute, IClientModelValidator, IClientPropertyValidator
     {
         public CompareAttribute(string otherProperty)
             : base(otherProperty)
@@ -80,6 +83,16 @@
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-{key}", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)), Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(OtherProperty)))));
         }
 
+        public string? GetJsonMetaData(PropertyInfo? property)
+        {
+            return new StringBuilder()
+                .Append('{')
+                .Append($"\"{nameof(OtherProperty)}\":\"{OtherProperty}\"")
+                .Append($"\"{nameof(OperandType)}\":\"{OperandType}\"")
+                .Append($"\"Message\":\"{FormatErrorMessage(Globals.GetLocalizedDisplayName(property), OtherPropertyDisplayName)}\"")
+                .Append('}').ToString();
+        }
+
         protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
             var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
@@ -147,7 +160,7 @@
             return result;
         }
 
-        private string? FormatErrorMessage(string modelDisplayName, string? otherDisplayName)
+        private string? FormatErrorMessage(string? modelDisplayName, string? otherDisplayName)
         {
             return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, otherDisplayName ?? OtherPropertyDisplayName ?? OtherProperty, EnumHelper.LocalizeEnum(OperandType));
         }

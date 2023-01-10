@@ -7,7 +7,7 @@
 
     public sealed class PhoneAttribute : ValidationAttribute, IClientModelValidator
     {
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {

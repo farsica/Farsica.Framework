@@ -1,6 +1,7 @@
 ﻿namespace Farsica.Framework.Core
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
@@ -662,9 +663,70 @@
             return mobile;
         }
 
+        public static string? NormalizeIranianMobile(this string? mobile)
+        {
+            if (string.IsNullOrEmpty(mobile))
+            {
+                return string.Empty;
+            }
+
+            if (mobile.StartsWith("0098"))
+            {
+                return mobile.Replace("0098", "0");
+            }
+
+            if (mobile.StartsWith("+98"))
+            {
+                return mobile.Replace("+98", "0");
+            }
+
+            return mobile.PadLeft(11, '0');
+        }
+
         public static HttpClient CreateHttpClient(this IHttpClientFactory httpClientFactory, bool forceTls13 = false)
         {
             return httpClientFactory.CreateClient(forceTls13 ? Constants.HttpClientIgnoreSslAndAutoRedirectTls13 : Constants.HttpClientIgnoreSslAndAutoRedirect);
+        }
+
+        public static string? GetAllResourceString(string defaultNamespace)
+        {
+            var assembly = AppDomain.CurrentDomain.GetAssemblies()?.FirstOrDefault(t => t.FullName?.Contains($"{defaultNamespace}.Resource") is true);
+            if (assembly == null)
+            {
+                return string.Empty;
+            }
+
+            var names = assembly.GetManifestResourceNames();
+            StringBuilder sb = new("{");
+
+            foreach (var item in names)
+            {
+                if (item.StartsWith($"{defaultNamespace}.Resource.UI.Web.Api.") is false && item.StartsWith($"{defaultNamespace}.Resource.Data.ViewModel.") is false)
+                {
+                    continue;
+                }
+
+                using var cultureResourceStream = assembly.GetManifestResourceStream(item);
+                if (cultureResourceStream is null)
+                {
+                    continue;
+                }
+
+                var baseName = item.TrimEnd(".resources");
+                var manager = new ResourceManager(baseName, assembly);
+                _ = sb.Append($"\"{baseName.Split(".").Last()}\":{{");
+                using var resources = new ResourceReader(cultureResourceStream);
+                foreach (DictionaryEntry entry in resources)
+                {
+                    var key = (string)entry.Key;
+                    _ = sb.Append($"\"{key.Replace("_Name", string.Empty)}\":\"{manager.GetString(key, CultureInfo.CurrentCulture)}\",");
+                }
+
+                _ = sb.Append("},").Replace(",},", "},");
+            }
+
+            _ = sb.Append('}').Replace(",}", "}");
+            return sb.ToString();
         }
 
         internal static string? PrepareResourcePath(this string? path)
