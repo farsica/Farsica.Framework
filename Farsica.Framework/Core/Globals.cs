@@ -672,12 +672,17 @@
 
             if (mobile.StartsWith("0098"))
             {
-                return mobile.Replace("0098", "0");
+                return mobile[4..].PadLeft(11, '0');
             }
 
             if (mobile.StartsWith("+98"))
             {
-                return mobile.Replace("+98", "0");
+                return mobile[3..].PadLeft(11, '0');
+            }
+
+            if (mobile.StartsWith("989"))
+            {
+                return mobile[2..].PadLeft(11, '0');
             }
 
             return mobile.PadLeft(11, '0');
@@ -697,10 +702,14 @@
             }
 
             var names = assembly.GetManifestResourceNames();
-            StringBuilder sb = new("{");
+            StringBuilder sb = new();
 
-            foreach (var item in names)
+            _ = sb.Append('{');
+            _ = sb.Append("\"Data\":{");
+
+            for (int i = 0; i < names.Length; i++)
             {
+                string? item = names[i];
                 if (item.StartsWith($"{defaultNamespace}.Resource.UI.Web.Api.") is false && item.StartsWith($"{defaultNamespace}.Resource.Data.ViewModel.") is false)
                 {
                     continue;
@@ -724,6 +733,27 @@
 
                 _ = sb.Append("},").Replace(",},", "},");
             }
+
+            _ = sb.Append("},");
+
+            _ = sb.Append("\"Validation\":{");
+
+            var resourceSet = Resources.GlobalResource.ResourceManager.GetResourceSet(CultureInfo.CurrentCulture, true, true);
+            if (resourceSet is not null)
+            {
+                foreach (DictionaryEntry item in resourceSet)
+                {
+                    var key = item.Key.ToString();
+                    if (key is null || key.StartsWith("Validation_") is false)
+                    {
+                        continue;
+                    }
+
+                    _ = sb.Append($"\"{key.Replace("Validation_", string.Empty)}\":\"{item.Value}\",");
+                }
+            }
+
+            _ = sb.Append('}');
 
             _ = sb.Append('}').Replace(",}", "}");
             return sb.ToString();
