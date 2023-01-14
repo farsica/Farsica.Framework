@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Dynamic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -693,7 +694,7 @@
             return httpClientFactory.CreateClient(forceTls13 ? Constants.HttpClientIgnoreSslAndAutoRedirectTls13 : Constants.HttpClientIgnoreSslAndAutoRedirect);
         }
 
-        public static string? GetAllResourceString(string defaultNamespace)
+        public static dynamic GetAllResourceString(string defaultNamespace)
         {
             var assembly = AppDomain.CurrentDomain.GetAssemblies()?.FirstOrDefault(t => t.FullName?.Contains($"{defaultNamespace}.Resource") is true);
             if (assembly == null)
@@ -702,11 +703,9 @@
             }
 
             var names = assembly.GetManifestResourceNames();
-            StringBuilder sb = new();
+            dynamic expando = new ExpandoObject();
 
-            _ = sb.Append('{');
-            _ = sb.Append("\"Data\":{");
-
+            Dictionary<string, object?> dataList = new();
             for (int i = 0; i < names.Length; i++)
             {
                 string? item = names[i];
@@ -723,21 +722,20 @@
 
                 var baseName = item.TrimEnd(".resources");
                 var manager = new ResourceManager(baseName, assembly);
-                _ = sb.Append($"\"{baseName.Split(".").Last()}\":{{");
                 using var resources = new ResourceReader(cultureResourceStream);
+                Dictionary<string, object?> nestedList = new();
                 foreach (DictionaryEntry entry in resources)
                 {
                     var key = (string)entry.Key;
-                    _ = sb.Append($"\"{key.Replace("_Name", string.Empty)}\":\"{manager.GetString(key, CultureInfo.CurrentCulture)}\",");
+                    nestedList.Add(key.Replace("_Name", string.Empty), manager.GetString(key, CultureInfo.CurrentCulture));
                 }
 
-                _ = sb.Append("},").Replace(",},", "},");
+                dataList.Add(baseName.Split(".").Last(), nestedList);
             }
 
-            _ = sb.Append("},");
+            expando.Data = dataList;
 
-            _ = sb.Append("\"Validation\":{");
-
+            Dictionary<string, object?> validationList = new();
             var resourceSet = Resources.GlobalResource.ResourceManager.GetResourceSet(CultureInfo.CurrentCulture, true, true);
             if (resourceSet is not null)
             {
@@ -749,14 +747,13 @@
                         continue;
                     }
 
-                    _ = sb.Append($"\"{key.Replace("Validation_", string.Empty)}\":\"{item.Value}\",");
+                    validationList.Add(key.Replace("Validation_", string.Empty), item.Value);
                 }
             }
 
-            _ = sb.Append('}');
+            expando.Validation = validationList;
 
-            _ = sb.Append('}').Replace(",}", "}");
-            return sb.ToString();
+            return expando;
         }
 
         internal static string? PrepareResourcePath(this string? path)
