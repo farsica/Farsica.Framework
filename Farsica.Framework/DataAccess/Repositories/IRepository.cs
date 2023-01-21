@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Farsica.Framework.DataAccess.Entities;
+    using Farsica.Framework.DataAccess.Specification;
 
     [DataAnnotation.Injectable]
     public interface IRepository<TEntity, TKey>
@@ -13,6 +15,8 @@
         where TKey : IEquatable<TKey>
     {
         IQueryable<TEntity> GetManyQueryable(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false);
+
+        IQueryable<TEntity> GetManyQueryable([NotNull] ISpecification<TEntity> specification, bool tracking = false);
 
         IEnumerable<TEntity>? GetAll(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false);
 
@@ -28,7 +32,11 @@
 
         IEnumerable<TEntity>? Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false);
 
+        IEnumerable<TEntity>? Query([NotNull] ISpecification<TEntity> specification, bool tracking = false);
+
         Task<IEnumerable<TEntity>?> QueryAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false);
+
+        Task<IEnumerable<TEntity>?> QueryAsync([NotNull] ISpecification<TEntity> specification, bool tracking = false);
 
         IEnumerable<TEntity>? QueryPage(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false);
 
@@ -42,13 +50,21 @@
 
         void Remove(TKey id);
 
-        bool Any(Expression<Func<TEntity, bool>>? filter = null);
+        bool Any(Expression<Func<TEntity, bool>>? predicate = null);
 
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? filter = null);
+        bool Any([NotNull] ISpecification<TEntity> specification);
 
-        int Count(Expression<Func<TEntity, bool>>? filter = null);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? predicate = null);
 
-        Task<int> CountAsync(Expression<Func<TEntity, bool>>? filter = null);
+        Task<bool> AnyAsync([NotNull] ISpecification<TEntity> specification);
+
+        int Count(Expression<Func<TEntity, bool>>? predicate = null);
+
+        int Count([NotNull] ISpecification<TEntity> specification);
+
+        Task<int> CountAsync(Expression<Func<TEntity, bool>>? predicate = null);
+
+        Task<int> CountAsync([NotNull] ISpecification<TEntity> specification);
 
         void SetUnchanged(TEntity entitieit);
     }

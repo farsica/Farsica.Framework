@@ -554,6 +554,12 @@
             Deleted,
         }
 
+        public enum SortType
+        {
+            Asc,
+            Desc,
+        }
+
         internal enum ResourceKey
         {
             Name,

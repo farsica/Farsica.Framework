@@ -1,10 +1,11 @@
 ﻿namespace Farsica.Framework.Data
 {
     using Farsica.Framework.DataAnnotation;
+    using static Farsica.Framework.Core.Constants;
 
-    public record SortFilter
+    public sealed class SortFilter
     {
-        public bool Descending { get; set; }
+        public SortType SortType { get; set; }
 
         [Required]
         public string? Column { get; set; }

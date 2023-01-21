@@ -1,19 +1,13 @@
 ﻿namespace Farsica.Framework.Data
 {
-    using static Farsica.Framework.Core.Constants;
+    using System.Collections.Generic;
 
     public class PagingDto
     {
-        public int CurrentPage { get; set; }
+        public PageFilter? PageFilter { get; set; }
 
-        public int PageSize { get; set; }
+        public IEnumerable<SortFilter>? SortFilter { get; set; }
 
-        public SortFilter? SortFilter { get; set; }
-
-        public SearchFilter? SearchFilter { get; set; }
-
-        public bool Export { get; set; }
-
-        public ExportType ExportType { get; set; }
+        public IEnumerable<SearchFilter>? SearchFilter { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 {
     using Farsica.Framework.DataAnnotation;
 
-    public record SearchFilter
+    public sealed class SearchFilter
     {
         [Required]
         public string? Phrase { get; set; }

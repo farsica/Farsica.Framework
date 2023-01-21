@@ -30,12 +30,12 @@
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            if (pagingDto?.Export is true)
+            if (pagingDto?.PageFilter?.ExportType.HasValue is true)
             {
                 if ((context.Result as ObjectResult)?.Value is GridDataSource gridDataSource)
                 {
                     var fileName = (context.ActionDescriptor as ControllerActionDescriptor)?.ActionName;
-                    context.Result = genericFactory.GetProvider(pagingDto.ExportType, false).Export(gridDataSource, search, fileName);
+                    context.Result = genericFactory.GetProvider(pagingDto.PageFilter.ExportType.Value, false).Export(gridDataSource, search, fileName);
                 }
             }
         }

@@ -2,13 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
     using EFCore.BulkExtensions;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.Query;
+    using Farsica.Framework.DataAccess.Specification;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -32,93 +35,91 @@
             return QueryDb(predicate, orderBy, includes, tracking);
         }
 
+        public IQueryable<TEntity> GetManyQueryable([NotNull] ISpecification<TEntity> specification, bool tracking = false)
+        {
+            var query = QueryDb(specification.Expression(), specification.Order, null, tracking);
+            if (specification.PageFilter is not null)
+            {
+                query = query.Skip(specification.PageFilter.PageSize * (specification.PageFilter.CurrentPage - 1)).Take(specification.PageFilter.PageSize);
+            }
+
+            return query;
+        }
+
         public IEnumerable<TEntity>? GetAll(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
-            var result = QueryDb(null, orderBy, includes, tracking);
-            return result.AsEnumerable();
+            return QueryDb(null, orderBy, includes, tracking).AsEnumerable();
         }
 
         public async Task<IEnumerable<TEntity>?> GetAllAsync(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
-            var result = QueryDb(null, orderBy, includes, tracking);
-            return await result.ToListAsync();
+            return await QueryDb(null, orderBy, includes, tracking).ToListAsync();
         }
 
         public IEnumerable<TEntity>? GetPage(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
-
-            var result = QueryDb(null, orderBy, includes, tracking);
-            return result.Skip(startRow).Take(pageLength).AsEnumerable();
+            return QueryDb(null, orderBy, includes, tracking).Skip(startRow).Take(pageLength).AsEnumerable();
         }
 
         public async Task<IEnumerable<TEntity>?> GetPageAsync(int startRow, int pageLength, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
-
-            var result = QueryDb(null, orderBy, includes, tracking);
-            return await result.Skip(startRow).Take(pageLength).ToListAsync();
+            return await QueryDb(null, orderBy, includes, tracking).Skip(startRow).Take(pageLength).ToListAsync();
         }
 
         public TEntity? Get(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
-            if (includes is not null)
-            {
-                query = includes(query);
-            }
-
-            if (!tracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return query.FirstOrDefault(t => t.Id.Equals(id));
+            return QueryDb(t => t.Id.Equals(id), null, includes, tracking).FirstOrDefault();
         }
 
         public async Task<TEntity?> GetAsync(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
-
-            if (includes is not null)
-            {
-                query = includes(query);
-            }
-
-            if (!tracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync(t => t.Id.Equals(id));
+            return await QueryDb(t => t.Id.Equals(id), null, includes, tracking).FirstOrDefaultAsync();
         }
 
         public IEnumerable<TEntity>? Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
-            var result = QueryDb(predicate, orderBy, includes, tracking);
-            return result.AsEnumerable();
+            return QueryDb(predicate, orderBy, includes, tracking).AsEnumerable();
+        }
+
+        public IEnumerable<TEntity>? Query([NotNull] ISpecification<TEntity> specification, bool tracking = false)
+        {
+            var query = QueryDb(specification.Expression(), specification.Order, null, tracking);
+            if (specification.PageFilter is not null)
+            {
+                query = query.Skip(specification.PageFilter.PageSize * (specification.PageFilter.CurrentPage - 1)).Take(specification.PageFilter.PageSize);
+            }
+
+            return query.AsEnumerable();
         }
 
         public async Task<IEnumerable<TEntity>?> QueryAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
-            var result = QueryDb(predicate, orderBy, includes, tracking);
-            return await result.ToListAsync();
+            return await QueryDb(predicate, orderBy, includes, tracking).ToListAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>?> QueryAsync([NotNull] ISpecification<TEntity> specification, bool tracking = false)
+        {
+            var query = QueryDb(specification.Expression(), specification.Order, null, tracking);
+            if (specification.PageFilter is not null)
+            {
+                query = query.Skip(specification.PageFilter.PageSize * (specification.PageFilter.CurrentPage - 1)).Take(specification.PageFilter.PageSize);
+            }
+
+            return await query.ToListAsync();
         }
 
         public IEnumerable<TEntity>? QueryPage(int startRow, int pageLength, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
-
-            var result = QueryDb(predicate, orderBy, includes, tracking);
-            return result.Skip(startRow).Take(pageLength).AsEnumerable();
+            return QueryDb(predicate, orderBy, includes, tracking).Skip(startRow).Take(pageLength).AsEnumerable();
         }
 
         public async Task<IEnumerable<TEntity>?> QueryPageAsync(int startRow, int pageLength, Expression<Func<TEntity, bool>>? predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)
         {
             orderBy ??= defaultOrderBy.Expression;
-
-            var result = QueryDb(predicate, orderBy, includes, tracking);
-            return await result.Skip(startRow).Take(pageLength).ToListAsync();
+            return await QueryDb(predicate, orderBy, includes, tracking).Skip(startRow).Take(pageLength).ToListAsync();
         }
 
         public void Add(TEntity entity)
@@ -174,52 +175,44 @@
             await Context.BulkDeleteAsync(entities, bulkConfig, progress, type, cancellationToken);
         }
 
-        public bool Any(Expression<Func<TEntity, bool>>? filter = null)
+        public bool Any(Expression<Func<TEntity, bool>>? predicate = null)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
-
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
-
-            return query.Any();
+            return QueryDb(predicate, null, null, false).Any();
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? filter = null)
+        public bool Any([NotNull] ISpecification<TEntity> specification)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
-
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
-
-            return await query.AnyAsync();
+            return QueryDb(specification.Expression(), null, null, false).Any();
         }
 
-        public int Count(Expression<Func<TEntity, bool>>? filter = null)
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? predicate = null)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
-
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
-
-            return query.Count();
+            return await QueryDb(predicate, null, null, false).AnyAsync();
         }
 
-        public async Task<int> CountAsync(Expression<Func<TEntity, bool>>? filter = null)
+        public async Task<bool> AnyAsync([NotNull] ISpecification<TEntity> specification)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
+            return await QueryDb(specification.Expression(), null, null, false).AnyAsync();
+        }
 
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
+        public int Count(Expression<Func<TEntity, bool>>? predicate = null)
+        {
+            return QueryDb(predicate, null, null, false).Count();
+        }
 
-            return await query.CountAsync();
+        public int Count([NotNull] ISpecification<TEntity> specification)
+        {
+            return QueryDb(specification.Expression(), null, null, false).Count();
+        }
+
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>>? predicate = null)
+        {
+            return await QueryDb(predicate, null, null, false).CountAsync();
+        }
+
+        public async Task<int> CountAsync([NotNull] ISpecification<TEntity> specification)
+        {
+            return await QueryDb(specification.Expression(), null, null, false).CountAsync();
         }
 
         public void SetUnchanged(TEntity entitieit)
