@@ -73,9 +73,19 @@
             return QueryDb(t => t.Id.Equals(id), null, includes, tracking).FirstOrDefault();
         }
 
+        public TEntity? Get([NotNull] ISpecification<TEntity> specification, bool tracking = true)
+        {
+            return QueryDb(specification.Expression(), specification.Order, null, tracking).FirstOrDefault();
+        }
+
         public async Task<TEntity?> GetAsync(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true)
         {
             return await QueryDb(t => t.Id.Equals(id), null, includes, tracking).FirstOrDefaultAsync();
+        }
+
+        public async Task<TEntity?> GetAsync([NotNull] ISpecification<TEntity> specification, bool tracking = true)
+        {
+            return await QueryDb(specification.Expression(), specification.Order, null, tracking).FirstOrDefaultAsync();
         }
 
         public IEnumerable<TEntity>? Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false)

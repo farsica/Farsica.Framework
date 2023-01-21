@@ -28,7 +28,11 @@
 
         TEntity? Get(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true);
 
+        TEntity? Get([NotNull] ISpecification<TEntity> specification, bool tracking = true);
+
         Task<TEntity?> GetAsync(TKey id, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = true);
+
+        Task<TEntity?> GetAsync([NotNull] ISpecification<TEntity> specification, bool tracking = true);
 
         IEnumerable<TEntity>? Query(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null, bool tracking = false);
 
