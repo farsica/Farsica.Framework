@@ -1,6 +1,7 @@
 ﻿namespace Farsica.Framework.Core.Extensions.Linq
 {
     using System;
+    using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Dynamic.Core;
@@ -86,7 +87,7 @@
             {
                 if (pagingDto.PageFilter.ReturnTotalRecordsCount)
                 {
-                    total = await lst.CountAsync();
+                    total = lst is IEnumerable ? lst.Count() : await lst.CountAsync();
                 }
 
                 if (sort is false)
