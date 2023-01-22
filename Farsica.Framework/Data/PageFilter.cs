@@ -14,5 +14,7 @@
         public int PageSize { get; set; } = 1;
 
         public ExportType? ExportType { get; set; }
+
+        public bool ReturnTotalRecordsCount { get; set; }
     }
 }

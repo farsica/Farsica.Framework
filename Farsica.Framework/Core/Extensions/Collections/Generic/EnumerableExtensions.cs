@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
+    using System.Threading.Tasks;
     using Farsica.Framework.Core.Extensions.Linq;
     using Farsica.Framework.Data;
 
@@ -33,9 +34,9 @@
                 : source;
         }
 
-        public static IEnumerable<TSource> FilterList<TSource>(this IEnumerable<TSource> lst, PagingDto pagingDto)
+        public static async Task<(IEnumerable<TSource> List, int? TotalRecordsCount)> FilterListAsync<TSource>(this IEnumerable<TSource> lst, PagingDto pagingDto)
         {
-            return QueryableExtensions.FilterList(lst.AsQueryable(), pagingDto);
+            return await QueryableExtensions.FilterListAsync(lst.AsQueryable(), pagingDto);
         }
     }
 }

@@ -5,7 +5,9 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using Farsica.Framework.Data;
+    using Microsoft.EntityFrameworkCore;
 
     public static class QueryableExtensions
     {
@@ -50,11 +52,11 @@
                 : query;
         }
 
-        public static IQueryable<TSource> FilterList<TSource>(this IQueryable<TSource> lst, PagingDto pagingDto)
+        public static async Task<(IQueryable<TSource> List, int? TotalRecordsCount)> FilterListAsync<TSource>(this IQueryable<TSource> lst, PagingDto pagingDto)
         {
             if (pagingDto is null)
             {
-                return lst;
+                return (lst, null);
             }
 
             var properties = typeof(TSource).GetProperties();
@@ -78,8 +80,15 @@
                 }
             }
 
+            int? total = null;
+
             if (pagingDto.PageFilter is not null)
             {
+                if (pagingDto.PageFilter.ReturnTotalRecordsCount)
+                {
+                    total = await lst.CountAsync();
+                }
+
                 if (sort is false)
                 {
                     var id = properties.FirstOrDefault(t => t.Name.Equals("Id", StringComparison.InvariantCultureIgnoreCase))?.Name ?? properties.FirstOrDefault()?.Name;
@@ -89,7 +98,7 @@
                 lst = lst.Skip(pagingDto.PageFilter.PageSize * (pagingDto.PageFilter.CurrentPage - 1)).Take(pagingDto.PageFilter.PageSize);
             }
 
-            return lst;
+            return (lst, total);
 
             void ApplyFilter(SearchFilter searchFilter)
             {

@@ -14,7 +14,7 @@
     <Authors>Fariborz khosravi</Authors>
     <Company>Farsica</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.9.0</Version>
+    <Version>1.9.1</Version>
     <Description>Asp.net Core Application Framework</Description>
     <RepositoryUrl>
     </RepositoryUrl>
