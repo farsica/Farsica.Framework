@@ -119,13 +119,13 @@
             // .ReplaceService<IMigrator, Migrator>();
         }
 
-        private static Constants.AuditType Convert(EntityState entityState)
+        private static AuditType Convert(EntityState entityState)
         {
             return entityState switch
             {
-                EntityState.Deleted => Constants.AuditType.Deleted,
-                EntityState.Modified => Constants.AuditType.Modified,
-                EntityState.Added => Constants.AuditType.Added,
+                EntityState.Deleted => AuditType.Deleted,
+                EntityState.Modified => AuditType.Modified,
+                EntityState.Added => AuditType.Added,
                 _ => throw new ArgumentOutOfRangeException(nameof(entityState)),
             };
         }
@@ -248,7 +248,7 @@
                 audit.AuditEntries.Add(auditEntry);
             }
 
-            return audit.AuditEntries.Any(t => t.AuditType == Constants.AuditType.Deleted || t.AuditEntryProperties?.Any() is true) ? audit : null;
+            return audit.AuditEntries.Any(t => t.AuditType == AuditType.Deleted || t.AuditEntryProperties?.Any() is true) ? audit : null;
         }
 
         private void SaveAudit(Audit<TUser, TKey> audit)

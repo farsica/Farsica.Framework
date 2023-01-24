@@ -17,6 +17,7 @@
     using Farsica.Framework.Identity;
     using Farsica.Framework.Localization;
     using Farsica.Framework.Mapping;
+    using Farsica.Framework.ModelBinding;
     using Farsica.Framework.Mvc.Routing;
     using Farsica.Framework.Mvc.ViewFeatures;
     using Farsica.Framework.Resources;
@@ -294,6 +295,8 @@
                 options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(() => string.Format(GlobalResource.Validation_NonPropertyValueMustBeANumberAccessor));
 
                 options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+
+                options.ModelBinderProviders.Insert(0, new EnumerationQueryStringModelBinderProvider());
             };
             var mvcBuilder = views ? services.AddControllersWithViews(configureMvc) : services.AddControllers(configureMvc);
 

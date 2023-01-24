@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using Farsica.Framework.Data;
+    using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Entities;
+    using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -24,7 +26,8 @@
         public Audit<TUser, TKey>? Audit { get; set; }
 
         [Column(nameof(AuditType), DataType.Byte)]
-        public Core.Constants.AuditType AuditType { get; set; }
+        [Required]
+        public AuditType? AuditType { get; set; }
 
         [Column(nameof(EntityType), DataType.Int)]
         public int EntityType { get; set; }
@@ -36,6 +39,7 @@
 
         public void Configure(EntityTypeBuilder<AuditEntry<TUser, TKey>> builder)
         {
+            builder.OwnEnumeration(t => t.AuditType);
         }
     }
 }
