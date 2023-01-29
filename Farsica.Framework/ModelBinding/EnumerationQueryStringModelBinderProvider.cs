@@ -22,7 +22,7 @@
 
             var enumType = context.Metadata.ModelType.Assembly.GetType(fullyQualifiedAssemblyName, false);
 
-            if (enumType is null || !enumType.IsSubclassOf(typeof(Enumeration)))
+            if (enumType is null || !enumType.IsSubclassOf(typeof(Enumeration<>)))
             {
                 return null;
             }
@@ -35,7 +35,7 @@
 
             // var genericMethod = methodInfo.MakeGenericMethod(enumType);
             // return genericMethod.Invoke(null, null) as IModelBinder;
-            return Activator.CreateInstance(typeof(EnumerationQueryStringModelBinder<>).MakeGenericType(enumType)) as IModelBinder;
+            return Activator.CreateInstance(typeof(EnumerationQueryStringModelBinder<,>).MakeGenericType(enumType)) as IModelBinder;
         }
     }
 }

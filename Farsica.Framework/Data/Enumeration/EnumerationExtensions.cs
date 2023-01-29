@@ -10,15 +10,16 @@
 
     public static class EnumerationExtensions
     {
-        public static IEnumerable<T?>? GetAll<T>()
-            where T : Enumeration
+        public static IEnumerable<TEnum?>? GetAll<TEnum, TKey>()
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            var fields = typeof(T).GetFields(
+            var fields = typeof(TEnum).GetFields(
                 BindingFlags.Public |
                 BindingFlags.Static |
                 BindingFlags.DeclaredOnly);
 
-            return fields.Select(t => t.GetValue(null).As<T>());
+            return fields.Select(t => t.GetValue(null).As<TEnum>());
         }
 
         public static IEnumerable<object?>? GetAll(Type type)
@@ -31,23 +32,19 @@
             return fields.Select(t => t.GetValue(null));
         }
 
-        public static int AbsoluteDifference<T>(this T firstValue, Enumeration secondValue)
-            where T : Enumeration
+        public static bool TryGetFromNameOrValue<TEnum, TKey>(this string? nameOrValue, out TEnum? enumeration)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            return Math.Abs(firstValue.Value - secondValue.Value);
+            return TryParse<TEnum, TKey>(t => t.Name == nameOrValue, out enumeration) ||
+                   (int.TryParse(nameOrValue, out var value) && TryParse<TEnum, TKey>(t => t.Value.CompareTo((TKey)(object)value) == 0, out enumeration));
         }
 
-        public static bool TryGetFromValueOrName<T>(this string? nameOrValue, out T? enumeration)
-            where T : Enumeration
+        public static TEnum? ToEnumeration<TEnum, TKey>(this TKey value)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            return TryParse(t => t.Name == nameOrValue, out enumeration) ||
-                   (int.TryParse(nameOrValue, out var value) && TryParse(t => t.Value == value, out enumeration));
-        }
-
-        public static T? ToEnumeration<T>(this int value)
-            where T : Enumeration
-        {
-            var item = GetAll<T>()?.FirstOrDefault(t => t?.Value == value);
+            var item = GetAll<TEnum, TKey>()?.FirstOrDefault(t => value.Equals(t.Value));
             if (item is null)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
@@ -56,10 +53,11 @@
             return item;
         }
 
-        public static T? ToEnumeration<T>(this string? name)
-            where T : Enumeration
+        public static TEnum? ToEnumeration<TEnum, TKey>(this string? name)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            var item = GetAll<T>()?.FirstOrDefault(t => t?.Name == name);
+            var item = GetAll<TEnum, TKey>()?.FirstOrDefault(t => t?.Name?.Equals(name, StringComparison.OrdinalIgnoreCase) is true);
             if (item is null)
             {
                 throw new ArgumentOutOfRangeException(nameof(name));
@@ -68,17 +66,19 @@
             return item;
         }
 
-        public static void OwnEnumeration<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum?>> property)
+        public static PropertyBuilder<TEnum?> OwnEnumeration<TEntity, TEnum, TKey>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum?>> property)
             where TEntity : class
-            where TEnum : Enumeration
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            _ = builder.Property(property).HasConversion(t => t.Value, t => t.ToEnumeration<TEnum>());
+            return builder.Property(property).HasConversion(t => t.Value, t => t.ToEnumeration<TEnum, TKey>());
         }
 
-        private static bool TryParse<T>(Func<T, bool> predicate, out T? enumeration)
-            where T : Enumeration
+        private static bool TryParse<TEnum, TKey>(Func<TEnum, bool> predicate, out TEnum? enumeration)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            enumeration = GetAll<T>()?.FirstOrDefault(predicate);
+            enumeration = GetAll<TEnum, TKey>()?.FirstOrDefault(predicate);
             return enumeration is not null;
         }
     }

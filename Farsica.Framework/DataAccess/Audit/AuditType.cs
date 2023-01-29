@@ -2,7 +2,7 @@
 {
     using Farsica.Framework.Data.Enumeration;
 
-    public class AuditType : Enumeration
+    public class AuditType : Enumeration<byte>
     {
         public static readonly AuditType Added = new(nameof(Added), 0);
         public static readonly AuditType Modified = new(nameof(Modified), 1);
@@ -12,7 +12,7 @@
         {
         }
 
-        public AuditType(string name, int value)
+        public AuditType(string name, byte value)
             : base(name, value)
         {
         }

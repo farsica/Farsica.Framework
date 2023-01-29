@@ -6,17 +6,18 @@
     using System.Text.Json.Serialization;
     using Farsica.Framework.Data.Enumeration;
 
-    public class EnumerationJsonConverter<T> : JsonConverter<Enumeration>
-        where T : Enumeration
+    public class EnumerationJsonConverter<TEnum, TKey> : JsonConverter<TEnum>
+        where TEnum : Enumeration<TKey>
+        where TKey : IEquatable<TKey>, IComparable<TKey>
     {
         private const string NameProperty = "Name";
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType.IsSubclassOf(typeof(Enumeration));
+            return objectType.IsSubclassOf(typeof(Enumeration<TKey>));
         }
 
-        public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
@@ -37,7 +38,7 @@
         /// <param name="writer">The writer to write to.</param>
         /// <param name="value">The value to convert to the JSON.</param>
         /// <param name="options">An object that specifies serialization options to use.</param>
-        public override void Write(Utf8JsonWriter writer, Enumeration value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
             if (value is null)
             {
@@ -55,9 +56,9 @@
             }
         }
 
-        private static T? GetEnumerationFromJson(string nameOrValue)
+        private static TEnum? GetEnumerationFromJson(string nameOrValue)
         {
-            nameOrValue.TryGetFromValueOrName(out T? result);
+            nameOrValue.TryGetFromNameOrValue<TEnum, TKey>(out TEnum? result);
 
             return result;
         }

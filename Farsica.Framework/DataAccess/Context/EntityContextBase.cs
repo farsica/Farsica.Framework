@@ -7,6 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
+    using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
@@ -107,7 +108,11 @@
             }
 
             ConfigureShadowProperties(builder);
+
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
+
+            // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
+            _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -248,7 +253,7 @@
                 audit.AuditEntries.Add(auditEntry);
             }
 
-            return audit.AuditEntries.Any(t => t.AuditType == AuditType.Deleted || t.AuditEntryProperties?.Any() is true) ? audit : null;
+            return audit.AuditEntries.Any(t => t.AuditType?.Equals(AuditType.Deleted) is true || t.AuditEntryProperties?.Any() is true) ? audit : null;
         }
 
         private void SaveAudit(Audit<TUser, TKey> audit)
@@ -293,7 +298,7 @@
                     {
                         foreach (var property in auditEntry.AuditEntryProperties)
                         {
-                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType == auditEntry.AuditType && t.EntityType == auditEntry.EntityType);
+                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) is true && t.EntityType == auditEntry.EntityType);
                             if (item is not null)
                             {
                                 property.AuditEntryId = item.Id;
@@ -350,7 +355,7 @@
                     {
                         foreach (var property in auditEntry.AuditEntryProperties)
                         {
-                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType == auditEntry.AuditType && t.EntityType == auditEntry.EntityType);
+                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) is true && t.EntityType == auditEntry.EntityType);
                             if (item is not null)
                             {
                                 property.AuditEntryId = item.Id;

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using Farsica.Framework.Data;
     using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Entities;
@@ -39,7 +40,8 @@
 
         public void Configure(EntityTypeBuilder<AuditEntry<TUser, TKey>> builder)
         {
-            builder.OwnEnumeration(t => t.AuditType);
+            File.WriteAllText("D:\\Workspaces\\test.txt", "testtest");
+            _ = builder.OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
         }
     }
 }

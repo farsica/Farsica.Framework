@@ -5,16 +5,9 @@
     using Farsica.Framework.Data.Enumeration;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    // public static class EnumerationQueryStringModelBinder
-    // {
-    //    public static EnumerationQueryStringModelBinder<T> CreateInstance<T>()
-    //        where T : Enumeration
-    //    {
-    //        return new EnumerationQueryStringModelBinder<T>();
-    //    }
-    // }
-    public class EnumerationQueryStringModelBinder<T> : IModelBinder
-        where T : Enumeration
+    public class EnumerationQueryStringModelBinder<TEnum, TKey> : IModelBinder
+        where TEnum : Enumeration<TKey>
+        where TKey : IEquatable<TKey>, IComparable<TKey>
     {
         /// <inheritdoc />
         public Task BindModelAsync(ModelBindingContext bindingContext)
@@ -25,7 +18,7 @@
             }
 
             var enumerationName = bindingContext.ValueProvider.GetValue(bindingContext.FieldName);
-            if (enumerationName.FirstValue.TryGetFromValueOrName<T>(out var result))
+            if (enumerationName.FirstValue.TryGetFromNameOrValue<TEnum, TKey>(out var result))
             {
                 bindingContext.Result = ModelBindingResult.Success(result);
             }

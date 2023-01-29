@@ -542,18 +542,6 @@
             Limitation,
         }
 
-        public enum AuditType : byte
-        {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(AuditType))]
-            Added,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(AuditType))]
-            Modified,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(AuditType))]
-            Deleted,
-        }
-
         public enum SortType
         {
             Asc,
