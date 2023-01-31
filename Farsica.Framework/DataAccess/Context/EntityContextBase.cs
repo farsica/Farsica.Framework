@@ -163,14 +163,15 @@
             }
 
             var entries = ChangeTracker.Entries();
-
+            var i = 0;
             foreach (var entry in entries)
             {
-                if (entry.Entity is not IVersionableEntity<TUser, TKey, TKey> versionableEntity)
+                if (entry.Entity.GetType().GetInterface(typeof(IVersionableEntity<,,>).Name) is null)
                 {
                     continue;
                 }
 
+                dynamic versionableEntity = entry.Entity;
                 var userId = httpContextAccessor.HttpContext.UserId<TKey>();
                 if (entry.State is EntityState.Added)
                 {
@@ -190,6 +191,8 @@
 
                     versionableEntity.LastModifyDate = DateTimeOffset.Now;
                 }
+
+                i++;
             }
         }
 

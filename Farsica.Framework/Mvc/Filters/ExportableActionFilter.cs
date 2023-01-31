@@ -2,7 +2,6 @@
 {
     using System.Linq;
 
-    using Farsica.Framework.Core;
     using Farsica.Framework.Core.Utils.Export;
     using Farsica.Framework.Data;
     using Farsica.Framework.Service.Factory;
@@ -13,11 +12,11 @@
 
     public class ExportableActionFilter : IActionFilter
     {
-        private readonly IGenericFactory<ExportBase, Constants.ExportType> genericFactory;
+        private readonly IGenericFactory<ExportBase, ExportType> genericFactory;
         private PagingDto pagingDto;
         private ISearch search;
 
-        public ExportableActionFilter(IGenericFactory<ExportBase, Constants.ExportType> genericFactory)
+        public ExportableActionFilter(IGenericFactory<ExportBase, ExportType> genericFactory)
         {
             this.genericFactory = genericFactory;
         }
@@ -30,12 +29,12 @@
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            if (pagingDto?.PageFilter?.ExportType.HasValue is true)
+            if (pagingDto?.PageFilter?.ExportType is not null)
             {
                 if ((context.Result as ObjectResult)?.Value is GridDataSource gridDataSource)
                 {
                     var fileName = (context.ActionDescriptor as ControllerActionDescriptor)?.ActionName;
-                    context.Result = genericFactory.GetProvider(pagingDto.PageFilter.ExportType.Value, false).Export(gridDataSource, search, fileName);
+                    context.Result = genericFactory.GetProvider(pagingDto.PageFilter.ExportType, false).Export(gridDataSource, search, fileName);
                 }
             }
         }

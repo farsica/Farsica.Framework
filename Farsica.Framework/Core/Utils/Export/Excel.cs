@@ -11,6 +11,7 @@
     using DocumentFormat.OpenXml.Spreadsheet;
 
     using Farsica.Framework.Core.Utils.Export;
+    using Farsica.Framework.Data;
     using Farsica.Framework.Resources;
 
     using Border = DocumentFormat.OpenXml.Spreadsheet.Border;
@@ -23,7 +24,7 @@
 
     public class Excel : ExportBase
     {
-        public override Constants.ExportType ProviderType => Constants.ExportType.Excel;
+        public override ExportType ProviderType => ExportType.Excel;
 
         protected override string? Extension => ".xlsx";
 

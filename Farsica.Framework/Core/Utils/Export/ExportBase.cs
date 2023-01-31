@@ -19,11 +19,11 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Injectable]
-    public abstract class ExportBase : IProvider<Constants.ExportType>
+    public abstract class ExportBase : IProvider<ExportType>
     {
-        protected const string Key = "F@raB00m";
+        protected const string Key = "F@rsiCA";
 
-        public abstract Constants.ExportType ProviderType { get; }
+        public abstract ExportType ProviderType { get; }
 
         protected abstract string? Extension { get; }
 

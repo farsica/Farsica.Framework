@@ -217,18 +217,6 @@
             Client = 4,
         }
 
-        public enum ExportType : byte
-        {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(ExportType))]
-            Excel = 0,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(ExportType))]
-            Pdf = 1,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(ExportType))]
-            Csv = 2,
-        }
-
         public enum OperandType : byte
         {
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(OperandType))]
@@ -323,31 +311,6 @@
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(EntityState))]
             Modified = 4,
-        }
-
-        [Flags]
-        public enum DayOfWeek : byte
-        {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Sunday = 1,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Monday = 2,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Tuesday = 4,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Wednesday = 8,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Thursday = 16,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Friday = 32,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-            Saturday = 64,
         }
 
         public enum DayType : byte

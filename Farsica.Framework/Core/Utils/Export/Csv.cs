@@ -4,10 +4,11 @@
     using System.Text;
 
     using Farsica.Framework.Core.Utils.Export;
+    using Farsica.Framework.Data;
 
     public class Csv : ExportBase
     {
-        public override Constants.ExportType ProviderType => Constants.ExportType.Csv;
+        public override ExportType ProviderType => ExportType.Csv;
 
         protected override string? Extension => ".csv";
 

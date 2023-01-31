@@ -394,16 +394,16 @@
         {
             if (cultureCode.StartsWith("fa", StringComparison.InvariantCultureIgnoreCase))
             {
-                return new PersianCalendar().GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Saturday);
+                return new PersianCalendar().GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, System.DayOfWeek.Saturday);
             }
 
             var day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(date);
-            if (day is >= DayOfWeek.Monday and <= DayOfWeek.Wednesday)
+            if (day is >= System.DayOfWeek.Monday and <= System.DayOfWeek.Wednesday)
             {
                 date = date.AddDays(3);
             }
 
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, System.DayOfWeek.Monday);
         }
 
         public static DateTime FirstDateOfMonth(this DateTime dt, string cultureCode)
@@ -493,7 +493,7 @@
             info.AMDesignator = "ق.ظ";
             info.PMDesignator = "ب.ظ";
             info.ShortDatePattern = "yyyy/MM/dd";
-            info.FirstDayOfWeek = DayOfWeek.Saturday;
+            info.FirstDayOfWeek = System.DayOfWeek.Saturday;
             persianCalture.DateTimeFormat = info;
 
             persianCalture.NumberFormat.NumberDecimalDigits = 0;
@@ -933,7 +933,7 @@
                 }
             }
 
-            public override DayOfWeek GetDayOfWeek(DateTime time)
+            public override System.DayOfWeek GetDayOfWeek(DateTime time)
             {
                 try
                 {

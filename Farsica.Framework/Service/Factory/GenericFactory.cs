@@ -3,10 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Farsica.Framework.Data.Enumeration;
 
     public class GenericFactory<TProvider, TProviderType> : IGenericFactory<TProvider, TProviderType>
         where TProvider : IProvider<TProviderType>
-        where TProviderType : struct
+        where TProviderType : Enumeration<byte>
     {
         private readonly IEnumerable<TProvider> providers;
 
