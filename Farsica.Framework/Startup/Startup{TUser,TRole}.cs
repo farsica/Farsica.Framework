@@ -9,7 +9,7 @@
     using System.Reflection;
     using System.Text.Encodings.Web;
     using System.Text.Unicode;
-
+    using Farsica.Framework.Converter;
     using Farsica.Framework.Core;
     using Farsica.Framework.Data;
     using Farsica.Framework.DataAccess.Context;
@@ -280,7 +280,7 @@
 
             Action<MvcOptions> configureMvc = options =>
             {
-                options.ModelMetadataDetailsProviders.Add(new ModelBinding.DisplayMetadataProvider());
+                options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider());
 
                 options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor((v) => string.Format(GlobalResource.Validation_MissingBindRequiredValueAccessor, v));
                 options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(() => GlobalResource.Validation_MissingKeyOrValueAccessor);
@@ -299,6 +299,9 @@
                 options.ModelBinderProviders.Insert(0, new EnumerationQueryStringModelBinderProvider());
             };
             var mvcBuilder = views ? services.AddControllersWithViews(configureMvc) : services.AddControllers(configureMvc);
+
+            _ = mvcBuilder.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<int>()));
+            _ = mvcBuilder.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<byte>()));
 
             if (localization)
             {

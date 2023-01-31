@@ -17,9 +17,9 @@
             Name = name;
         }
 
-        public virtual string? Name { get; protected set; }
+        public string? Name { get; set; }
 
-        public virtual T Value { get; protected set; }
+        public T Value { get; set; }
 
         public static bool operator ==(Enumeration<T> left, Enumeration<T> right)
         {
