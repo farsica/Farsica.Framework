@@ -735,23 +735,23 @@
 
             expando.Data = dataList;
 
-            Dictionary<string, object?> validationList = new();
+            Dictionary<string, object?> coreList = new();
             var resourceSet = Resources.GlobalResource.ResourceManager.GetResourceSet(CultureInfo.CurrentCulture, true, true);
             if (resourceSet is not null)
             {
                 foreach (DictionaryEntry item in resourceSet)
                 {
                     var key = item.Key.ToString();
-                    if (key is null || key.StartsWith("Validation_") is false)
+                    if (key is null)
                     {
                         continue;
                     }
 
-                    validationList.Add(key.Replace("Validation_", string.Empty), item.Value);
+                    coreList.Add(key, item.Value);
                 }
             }
 
-            expando.Validation = validationList;
+            expando.Core = coreList;
 
             return expando;
         }
