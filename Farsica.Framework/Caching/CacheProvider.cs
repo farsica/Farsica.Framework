@@ -5,6 +5,7 @@
     using System.IO;
     using System.Text.Json;
     using System.Threading.Tasks;
+    using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAnnotation;
     using Microsoft.Extensions.Caching.Distributed;
 
@@ -18,8 +19,15 @@
             this.cache = cache;
         }
 
-        public async Task<TItem?> GetAsync<TItem, TKey>(TKey key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
-            where TKey : struct
+        public async Task<TItem?> GetAsync<TItem, TEnum, TKey>(TEnum key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return await GetAsync(key.Name, factory, options, tenant);
+        }
+
+        public async Task<TItem?> GetAsync<TItem, TEnum>(TEnum key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : struct
         {
             return await GetAsync(key.ToString(), factory, options, tenant);
         }
@@ -45,6 +53,13 @@
 
             using var stream = new MemoryStream(tmp);
             return await JsonSerializer.DeserializeAsync<TItem?>(stream);
+        }
+
+        public TItem? Get<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return Get(key.Name, factory, options, tenant);
         }
 
         public TItem? Get<TItem, TKey>(TKey key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
@@ -76,6 +91,13 @@
             return JsonSerializer.Deserialize<TItem?>(stream);
         }
 
+        public async Task RemoveAsync<TEnum, TKey>(TEnum key, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            await RemoveAsync(key.Name, tenant);
+        }
+
         public async Task RemoveAsync<TKey>(TKey key, string? tenant = null)
             where TKey : struct
         {
@@ -85,6 +107,13 @@
         public async Task RemoveAsync([NotNull] string key, string? tenant = null)
         {
             await cache.RemoveAsync(GenerateKey(key, tenant));
+        }
+
+        public void Remove<TEnum, TKey>(TEnum key, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            Remove(key.Name, tenant);
         }
 
         public void Remove<TKey>(TKey key, string? tenant = null)
@@ -98,6 +127,13 @@
             cache.Remove(GenerateKey(key, tenant));
         }
 
+        public async Task SetAsync<TItem, TEnum, TKey>(TEnum key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            await SetAsync(key.Name, value, options, tenant);
+        }
+
         public async Task SetAsync<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
@@ -109,6 +145,13 @@
             options ??= new DistributedCacheEntryOptions();
 
             await cache.SetAsync(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value), options);
+        }
+
+        public void Set<TItem, TEnum, TKey>(TEnum key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            Set(key.Name, value, options, tenant);
         }
 
         public void Set<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)

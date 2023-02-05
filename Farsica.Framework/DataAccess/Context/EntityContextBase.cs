@@ -175,7 +175,7 @@
                 var userId = httpContextAccessor.HttpContext.UserId<TKey>();
                 if (entry.State is EntityState.Added)
                 {
-                    if (userId is not null)
+                    if (userId is not null && userId.Equals(default) is false)
                     {
                         versionableEntity.CreationUserId = userId;
                     }
@@ -184,7 +184,7 @@
                 }
                 else if (entry.State is EntityState.Modified)
                 {
-                    if (userId is not null)
+                    if (userId is not null && userId.Equals(default) is false)
                     {
                         versionableEntity.LastModifyUserId = userId;
                     }
