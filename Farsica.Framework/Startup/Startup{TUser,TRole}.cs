@@ -278,30 +278,16 @@
                 options.LowercaseQueryStrings = true;
             });
 
-            Action<MvcOptions> configureMvc = options =>
+            var mvcBuilder = views ? services.AddControllersWithViews(ConfigureMvc) : services.AddControllers(ConfigureMvc);
+
+            _ = mvcBuilder.AddJsonOptions(options =>
             {
-                options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider());
+                options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<int>());
+                options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<byte>());
 
-                options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor((v) => string.Format(GlobalResource.Validation_MissingBindRequiredValueAccessor, v));
-                options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(() => GlobalResource.Validation_MissingKeyOrValueAccessor);
-                options.ModelBindingMessageProvider.SetMissingRequestBodyRequiredValueAccessor(() => GlobalResource.Validation_MissingRequestBodyRequiredValueAccessor);
-                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor((v) => string.Format(GlobalResource.Validation_ValueMustNotBeNullAccessor, v));
-                options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((v1, v2) => string.Format(GlobalResource.Validation_AttemptedValueIsInvalidAccessor, v1, v2));
-                options.ModelBindingMessageProvider.SetNonPropertyAttemptedValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_NonPropertyAttemptedValueIsInvalidAccessor, v));
-                options.ModelBindingMessageProvider.SetUnknownValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_UnknownValueIsInvalidAccessor, v));
-                options.ModelBindingMessageProvider.SetNonPropertyUnknownValueIsInvalidAccessor(() => GlobalResource.Validation_NonPropertyUnknownValueIsInvalidAccessor);
-                options.ModelBindingMessageProvider.SetValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_ValueIsInvalidAccessor, v));
-                options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor((v) => string.Format(GlobalResource.Validation_ValueMustBeANumberAccessor, v));
-                options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(() => string.Format(GlobalResource.Validation_NonPropertyValueMustBeANumberAccessor));
-
-                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-
-                options.ModelBinderProviders.Insert(0, new EnumerationQueryStringModelBinderProvider());
-            };
-            var mvcBuilder = views ? services.AddControllersWithViews(configureMvc) : services.AddControllers(configureMvc);
-
-            _ = mvcBuilder.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<int>()));
-            _ = mvcBuilder.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<byte>()));
+                options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<int>());
+                options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<byte>());
+            });
 
             if (localization)
             {
@@ -400,6 +386,27 @@
             });
 
             return mvcBuilder;
+
+            static void ConfigureMvc(MvcOptions options)
+            {
+                options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider());
+
+                options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor((v) => string.Format(GlobalResource.Validation_MissingBindRequiredValueAccessor, v));
+                options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(() => GlobalResource.Validation_MissingKeyOrValueAccessor);
+                options.ModelBindingMessageProvider.SetMissingRequestBodyRequiredValueAccessor(() => GlobalResource.Validation_MissingRequestBodyRequiredValueAccessor);
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor((v) => string.Format(GlobalResource.Validation_ValueMustNotBeNullAccessor, v));
+                options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((v1, v2) => string.Format(GlobalResource.Validation_AttemptedValueIsInvalidAccessor, v1, v2));
+                options.ModelBindingMessageProvider.SetNonPropertyAttemptedValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_NonPropertyAttemptedValueIsInvalidAccessor, v));
+                options.ModelBindingMessageProvider.SetUnknownValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_UnknownValueIsInvalidAccessor, v));
+                options.ModelBindingMessageProvider.SetNonPropertyUnknownValueIsInvalidAccessor(() => GlobalResource.Validation_NonPropertyUnknownValueIsInvalidAccessor);
+                options.ModelBindingMessageProvider.SetValueIsInvalidAccessor((v) => string.Format(GlobalResource.Validation_ValueIsInvalidAccessor, v));
+                options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor((v) => string.Format(GlobalResource.Validation_ValueMustBeANumberAccessor, v));
+                options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(() => string.Format(GlobalResource.Validation_NonPropertyValueMustBeANumberAccessor));
+
+                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+
+                options.ModelBinderProviders.Insert(0, new EnumerationQueryStringModelBinderProvider());
+            }
         }
 
         private void AddScopedDynamic(IServiceCollection services, Assembly frameworkAssembly, IEnumerable<string> assemblyFiles)

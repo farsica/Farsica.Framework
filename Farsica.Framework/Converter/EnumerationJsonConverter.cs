@@ -26,8 +26,7 @@
                 case JsonTokenType.Null:
                     return null;
                 default:
-                    throw new JsonException(
-                        $"Unexpected token {reader.TokenType} when parsing the enumeration.");
+                    throw new JsonException($"Unexpected token {reader.TokenType} when parsing the enumeration.");
             }
         }
 
@@ -42,17 +41,16 @@
             if (value is null)
             {
                 writer.WriteNull(NameProperty);
+                return;
             }
-            else
-            {
-                var name = value.GetType().GetProperty(NameProperty, BindingFlags.Public | BindingFlags.Instance);
-                if (name is null)
-                {
-                    throw new JsonException($"Error while writing JSON for {value}");
-                }
 
-                writer.WriteStringValue(name.GetValue(value)?.ToString());
+            var name = value.GetType().GetProperty(NameProperty, BindingFlags.Public | BindingFlags.Instance);
+            if (name is null)
+            {
+                throw new JsonException($"Error while writing JSON for {value}");
             }
+
+            writer.WriteStringValue(name.GetValue(value)?.ToString());
         }
 
         private static Enumeration<TKey>? GetEnumerationFromJson(string nameOrValue)
