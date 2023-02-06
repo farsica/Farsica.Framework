@@ -6,7 +6,8 @@
     using System.Text.Json.Serialization;
     using Farsica.Framework.Data.Enumeration;
 
-    public class EnumerationJsonConverter<TKey> : JsonConverter<Enumeration<TKey>>
+    public class EnumerationConverter<TEnum, TKey> : JsonConverter<TEnum>
+        where TEnum : Enumeration<TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
     {
         private const string NameProperty = "Name";
@@ -16,18 +17,16 @@
             return objectType.IsSubclassOf(typeof(Enumeration<TKey>));
         }
 
-        public override Enumeration<TKey>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            switch (reader.TokenType)
+            return reader.TokenType == JsonTokenType.Null ? null : GetEnumerationFromJson(reader.GetString());
+
+            /*return reader.TokenType switch
             {
-                case JsonTokenType.Number:
-                case JsonTokenType.String:
-                    return GetEnumerationFromJson(reader.GetString());
-                case JsonTokenType.Null:
-                    return null;
-                default:
-                    throw new JsonException($"Unexpected token {reader.TokenType} when parsing the enumeration.");
-            }
+                JsonTokenType.Number or JsonTokenType.String => GetEnumerationFromJson(reader.GetString()),
+                JsonTokenType.Null => null,
+                _ => throw new JsonException($"Unexpected token {reader.TokenType} when parsing the enumeration."),
+            };*/
         }
 
         /// <summary>
@@ -36,7 +35,7 @@
         /// <param name="writer">The writer to write to.</param>
         /// <param name="value">The value to convert to the JSON.</param>
         /// <param name="options">An object that specifies serialization options to use.</param>
-        public override void Write(Utf8JsonWriter writer, Enumeration<TKey> value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
             if (value is null)
             {
@@ -53,9 +52,9 @@
             writer.WriteStringValue(name.GetValue(value)?.ToString());
         }
 
-        private static Enumeration<TKey>? GetEnumerationFromJson(string nameOrValue)
+        private static TEnum? GetEnumerationFromJson(string? nameOrValue)
         {
-            nameOrValue.TryGetFromNameOrValue<Enumeration<TKey>, TKey>(out Enumeration<TKey>? result);
+            _ = nameOrValue.TryGetFromNameOrValue<TEnum, TKey>(out TEnum? result);
 
             return result;
         }

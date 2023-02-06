@@ -282,11 +282,9 @@
 
             _ = mvcBuilder.AddJsonOptions(options =>
             {
-                options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<int>());
-                options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<byte>());
-
-                options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<int>());
-                options.JsonSerializerOptions.Converters.Add(new EnumerationJsonConverter<byte>());
+                // options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<int>());
+                // options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<byte>());
+                options.JsonSerializerOptions.Converters.Add(new EnumerationConverterFactory());
             });
 
             if (localization)
