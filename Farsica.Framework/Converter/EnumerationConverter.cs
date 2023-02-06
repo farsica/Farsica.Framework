@@ -19,14 +19,13 @@
 
         public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return reader.TokenType == JsonTokenType.Null ? null : GetEnumerationFromJson(reader.GetString());
-
-            /*return reader.TokenType switch
+            return reader.TokenType switch
             {
-                JsonTokenType.Number or JsonTokenType.String => GetEnumerationFromJson(reader.GetString()),
+                JsonTokenType.Number => GetEnumerationFromJson(typeToConvert == typeof(int) ? reader.GetInt32().ToString() : reader.GetByte().ToString()),
+                JsonTokenType.String => GetEnumerationFromJson(reader.GetString()),
                 JsonTokenType.Null => null,
                 _ => throw new JsonException($"Unexpected token {reader.TokenType} when parsing the enumeration."),
-            };*/
+            };
         }
 
         /// <summary>
