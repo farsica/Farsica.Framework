@@ -23,12 +23,7 @@
             }
 
             var type = Nullable.GetUnderlyingType(typeof(T));
-            if (type is null)
-            {
-                throw new ArgumentException(nameof(T));
-            }
-
-            underlyingType = type;
+            underlyingType = type is null ? typeof(T) : type;
         }
 
         public override bool CanConvert(Type typeToConvert)
