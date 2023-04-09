@@ -315,4 +315,7 @@
   <data name="AuditType_Modified" xml:space="preserve">
     <value>ویرایش</value>
   </data>
+  <data name="Validation_FileSize" xml:space="preserve">
+    <value>اندازه فیلد {0} بایستی حداکثر {1} باشد</value>
+  </data>
 </root>

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -87,6 +88,11 @@
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-range", FormatErrorMessage(Core.Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-max", Maximum.ToString()));
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-min", Minimum.ToString()));
+        }
+
+        private string? FormatErrorMessage(string? modelDisplayName)
+        {
+            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, Minimum, Maximum);
         }
     }
 }

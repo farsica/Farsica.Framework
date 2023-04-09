@@ -315,4 +315,7 @@
   <data name="AuditType_Modified" xml:space="preserve">
     <value>Modified</value>
   </data>
+  <data name="Validation_FileSize" xml:space="preserve">
+    <value>Maximum Length of Field {0} Must Be {1}</value>
+  </data>
 </root>

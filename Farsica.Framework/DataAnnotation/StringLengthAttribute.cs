@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -90,6 +91,11 @@
             {
                 context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-length-min", MinimumLength.ToString()));
             }
+        }
+
+        private string? FormatErrorMessage(string? modelDisplayName)
+        {
+            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, MinimumLength, MaximumLength);
         }
     }
 }

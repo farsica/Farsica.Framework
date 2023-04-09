@@ -790,8 +790,21 @@
                 .Replace(".Common,", resourceAssembly + ",");
         }
 
-        internal static string GetLocalizedValueInternal(DisplayAttribute displayAttribute, string propertyName, Constants.ResourceKey resourceKey, ResourceManager? cachedResourceManager = null)
+        internal static string? GetLocalizedValueInternal(DisplayAttribute displayAttribute, string propertyName, Constants.ResourceKey resourceKey, ResourceManager? cachedResourceManager = null)
         {
+            var result = resourceKey switch
+            {
+                Constants.ResourceKey.ShortName => displayAttribute.ShortName,
+                Constants.ResourceKey.Description => displayAttribute.Description,
+                Constants.ResourceKey.Prompt => displayAttribute.Prompt,
+                Constants.ResourceKey.GroupName => displayAttribute.GroupName,
+                _ => displayAttribute.Name,
+            };
+            if (result is not null)
+            {
+                return result;
+            }
+
             if (cachedResourceManager is null)
             {
                 if (displayAttribute.ResourceType is not null)
@@ -810,7 +823,6 @@
                 }
             }
 
-            string? result = null;
             if (cachedResourceManager is not null)
             {
                 if (displayAttribute.EnumType is null)
@@ -848,18 +860,6 @@
                     }
                 }
             }*/
-
-            if (string.IsNullOrEmpty(result))
-            {
-                result = resourceKey switch
-                {
-                    Constants.ResourceKey.ShortName => displayAttribute.ShortName,
-                    Constants.ResourceKey.Description => displayAttribute.Description,
-                    Constants.ResourceKey.Prompt => displayAttribute.Prompt,
-                    Constants.ResourceKey.GroupName => displayAttribute.GroupName,
-                    _ => displayAttribute.Name,
-                };
-            }
 
             return result;
         }

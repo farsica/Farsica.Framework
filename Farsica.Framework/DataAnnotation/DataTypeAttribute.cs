@@ -93,7 +93,7 @@
             }
         }
 
-        public override string? GetDataTypeName()
+        public override string GetDataTypeName()
         {
             return ElementDataType.ToString();
         }

@@ -502,6 +502,15 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum Length of Field {0} Must Be {1}.
+        /// </summary>
+        public static string Validation_FileSize {
+            get {
+                return ResourceManager.GetString("Validation_FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1.
         /// </summary>
         public static string Validation_MinValue {
