@@ -142,11 +142,11 @@
             {
                 endpoints.MapControllerRoute(
                     name: "areaRoute",
-                    pattern: "{culture=fa}/{area:slugify:exists}/{controller:slugify=Home}/{action:slugify=Index}/{id?}");
+                    pattern: $"{(localization ? "{culture=fa}/" : string.Empty)}{{area:slugify:exists}}/{{controller:slugify=Home}}/{{action:slugify=Index}}/{{id?}}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{culture=fa}/{controller:slugify=Home}/{action:slugify=Index}/{id?}");
+                    pattern: $"{(localization ? "{culture=fa}/" : string.Empty)}{{controller:slugify=Home}}/{{action:slugify=Index}}/{{id?}}");
 
                 if (razorPages)
                 {
@@ -172,12 +172,7 @@
 
         private static void AddStores(IServiceCollection services, Type userType, Type roleType, Type contextType)
         {
-            var identityUserType = FindGenericBaseType(userType, typeof(IdentityUser<>));
-            if (identityUserType is null)
-            {
-                throw new InvalidOperationException("NotIdentityUser");
-            }
-
+            var identityUserType = FindGenericBaseType(userType, typeof(IdentityUser<>)) ?? throw new InvalidOperationException("NotIdentityUser");
             var keyType = identityUserType.GenericTypeArguments[0];
 
             if (roleType is not null)

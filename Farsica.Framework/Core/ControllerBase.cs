@@ -1,27 +1,18 @@
 ﻿namespace Farsica.Framework.Core
 {
     using System;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
 
-    public abstract class ControllerBase<TClass, TUser> : Controller
+    public abstract class ControllerBase<TClass> : Controller
         where TClass : class
-        where TUser : class
     {
-        protected ControllerBase(Lazy<UserManager<TUser>> userManager, Lazy<ILogger<TClass>> logger, Lazy<IStringLocalizer<TClass>> localizer)
+        protected ControllerBase(Lazy<ILogger<TClass>> logger)
         {
             Logger = logger;
-            UserManager = userManager;
-            Localizer = localizer;
         }
 
         protected Lazy<ILogger<TClass>> Logger { get; }
-
-        protected Lazy<UserManager<TUser>> UserManager { get; }
-
-        protected Lazy<IStringLocalizer<TClass>> Localizer { get; }
 
         [NonAction]
         public RedirectToPageResult RedirectToAreaPage(string? pageName, string? area, object? routeValues = null)

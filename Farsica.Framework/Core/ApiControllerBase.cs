@@ -3,32 +3,21 @@
     using System;
     using Farsica.Framework.Data;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
-    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
 
     [ApiController]
-
-    // [Route("api/[[area]]/[[controller]]/[[action]]")]
-    [Route("{culture=fa}/api/{area:slugify:exists}/{controller:slugify=Home}/{action:slugify=Index}/{id?}")]
-    public abstract class ApiControllerBase<TClass, TUser> : ControllerBase
+    [Route("api/{area:slugify:exists}/{controller:slugify=Home}/{action:slugify=Index}/{id?}")]
+    public abstract class ApiControllerBase<TClass> : ControllerBase
         where TClass : class
-        where TUser : class
     {
-        protected ApiControllerBase(Lazy<UserManager<TUser>> userManager, Lazy<ILogger<TClass>> logger, Lazy<IStringLocalizer<TClass>> localizer)
+        protected ApiControllerBase(Lazy<ILogger<TClass>> logger)
         {
             Logger = logger;
-            UserManager = userManager;
-            Localizer = localizer;
         }
 
         protected Lazy<ILogger<TClass>> Logger { get; }
-
-        protected Lazy<UserManager<TUser>> UserManager { get; }
-
-        protected Lazy<IStringLocalizer<TClass>> Localizer { get; }
 
         [NonAction]
         public RedirectToPageResult RedirectToAreaPage(string pageName, string? area, object? routeValues = null)

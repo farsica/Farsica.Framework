@@ -2,28 +2,18 @@
 {
     using System;
     using System.Linq;
-
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
 
-    public abstract class PageModel<TClass, TUser> : Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+    public abstract class PageModel<TClass> : Microsoft.AspNetCore.Mvc.RazorPages.PageModel
         where TClass : class
-        where TUser : class
     {
-        protected PageModel(Lazy<UserManager<TUser>> userManager, Lazy<ILogger<TClass>> logger, Lazy<IStringLocalizer<TClass>> localizer)
+        protected PageModel(Lazy<ILogger<TClass>> logger)
         {
             Logger = logger;
-            UserManager = userManager;
-            Localizer = localizer;
         }
 
         protected Lazy<ILogger<TClass>> Logger { get; }
-
-        protected Lazy<UserManager<TUser>> UserManager { get; }
-
-        protected Lazy<IStringLocalizer<TClass>> Localizer { get; }
 
         public override BadRequestObjectResult BadRequest(object error)
         {
@@ -82,16 +72,16 @@
         //        }
         //    }
         // }
-        public RedirectToPageResult RedirectToAreaPage(string pageName, string? area, object? routeValues = null)
-            => RedirectToPage(pageName.TrimEnd(Constants.PagePostfix), Globals.PrepareValues(routeValues, area));
+        public RedirectToPageResult RedirectToAreaPage(string? pageName, string? area, object? routeValues = null)
+            => RedirectToPage(pageName?.TrimEnd(Constants.PagePostfix), Globals.PrepareValues(routeValues, area));
 
-        public RedirectToActionResult RedirectToAreaAction(string actionName, string? controllerName, string? area, object? routeValues = null)
+        public RedirectToActionResult RedirectToAreaAction(string? actionName, string? controllerName, string? area, object? routeValues = null)
             => RedirectToAction(actionName, controllerName?.TrimEnd(Constants.ControllerPostfix), Globals.PrepareValues(routeValues, area));
 
-        public override RedirectToActionResult RedirectToAction(string actionName, string? controllerName, object routeValues, string? fragment)
+        public override RedirectToActionResult RedirectToAction(string? actionName, string? controllerName, object? routeValues, string? fragment)
             => base.RedirectToAction(actionName, controllerName?.TrimEnd(Constants.ControllerPostfix), Globals.PrepareValues(routeValues), fragment);
 
-        public override RedirectToPageResult RedirectToPage(string pageName, string? pageHandler, object routeValues, string? fragment)
-            => base.RedirectToPage(pageName.TrimEnd(Constants.PagePostfix), pageHandler, Globals.PrepareValues(routeValues), fragment);
+        public override RedirectToPageResult RedirectToPage(string? pageName, string? pageHandler, object? routeValues, string? fragment)
+            => base.RedirectToPage(pageName?.TrimEnd(Constants.PagePostfix), pageHandler, Globals.PrepareValues(routeValues), fragment);
     }
 }
