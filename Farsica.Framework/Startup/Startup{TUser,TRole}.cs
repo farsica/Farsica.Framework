@@ -360,6 +360,7 @@
                     return true;
                 },
                 AllowAutoRedirect = false,
+                UseProxy = false,
             });
             services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirectTls13).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -369,6 +370,7 @@
                     return true;
                 },
                 AllowAutoRedirect = false,
+                UseProxy = false,
                 SslProtocols = System.Security.Authentication.SslProtocols.Tls13,
             });
 

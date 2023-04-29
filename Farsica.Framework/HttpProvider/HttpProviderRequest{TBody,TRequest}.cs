@@ -18,5 +18,7 @@
         public TBody? Body { get; set; }
 
         public bool ForceTls13 { get; set; }
+
+        public int? Timeout { get; set; }
     }
 }

@@ -22,6 +22,10 @@
             where TResponse : IHttpResponse
         {
             var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
+            if (request.Timeout.HasValue)
+            {
+                client.Timeout = TimeSpan.FromMilliseconds(request.Timeout.Value);
+            }
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
@@ -80,6 +84,11 @@
             where TResponse : IHttpResponse
         {
             var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
+            if (request.Timeout.HasValue)
+            {
+                client.Timeout = TimeSpan.FromMilliseconds(request.Timeout.Value);
+            }
+
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
                 client.BaseAddress = new Uri(request.BaseAddress);
@@ -118,6 +127,10 @@
             where TResponse : IHttpResponse
         {
             var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
+            if (request.Timeout.HasValue)
+            {
+                client.Timeout = TimeSpan.FromMilliseconds(request.Timeout.Value);
+            }
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
@@ -170,6 +183,10 @@
             where TResponse : IHttpResponse
         {
             var client = httpClientFactory.Value.CreateHttpClient(request.ForceTls13);
+            if (request.Timeout.HasValue)
+            {
+                client.Timeout = TimeSpan.FromMilliseconds(request.Timeout.Value);
+            }
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
