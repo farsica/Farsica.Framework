@@ -48,5 +48,23 @@
 
             return index;
         }
+
+        public static T? Find<T>(this T[] list, Predicate<T> match)
+        {
+            if (match is null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (match(list[i]))
+                {
+                    return list[i];
+                }
+            }
+
+            return default;
+        }
     }
 }
