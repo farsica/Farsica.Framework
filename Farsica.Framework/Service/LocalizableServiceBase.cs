@@ -6,10 +6,10 @@
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
 
-    public abstract class ServiceBase<T>
+    public abstract class LocalizableServiceBase<T>
         where T : class
     {
-        protected ServiceBase(Lazy<IUnitOfWorkProvider> unitOfWorkProvider, Lazy<IHttpContextAccessor> httpContextAccessor, Lazy<IStringLocalizer<T>> localizer, Lazy<ILogger<T>> logger)
+        protected LocalizableServiceBase(Lazy<IUnitOfWorkProvider> unitOfWorkProvider, Lazy<IHttpContextAccessor> httpContextAccessor, Lazy<IStringLocalizer<T>> localizer, Lazy<ILogger<T>> logger)
         {
             UnitOfWorkProvider = unitOfWorkProvider;
             Logger = logger;
