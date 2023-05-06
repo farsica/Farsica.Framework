@@ -120,8 +120,6 @@
             optionsBuilder.EnableSensitiveDataLogging(SensitiveDataLoggingEnabled)
                 .EnableDetailedErrors(DetailedErrorsEnabled)
                 .UseLoggerFactory(LoggerFactory);
-
-            // .ReplaceService<IMigrator, Migrator>();
         }
 
         private static AuditType Convert(EntityState entityState)
