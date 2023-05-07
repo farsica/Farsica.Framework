@@ -51,9 +51,10 @@
         private readonly bool views;
         private readonly bool identity;
         private readonly string? defaultNamespace;
+        private readonly Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler;
 
         protected Startup(IConfiguration configuration, string? defaultNamespace = null, ExceptionHandlerOptions? exceptionHandlerOptions = null, bool localization = true, bool authentication = true,
-            bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true)
+            bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true, Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler = null)
         {
             Configuration = configuration;
             this.exceptionHandlerOptions = exceptionHandlerOptions;
@@ -65,6 +66,7 @@
             this.views = views;
             this.identity = identity;
             this.defaultNamespace = defaultNamespace ?? "Farsica";
+            this.httpClientMessageHandler = httpClientMessageHandler;
         }
 
         public IConfiguration Configuration { get; }
@@ -352,7 +354,7 @@
                 options.FileProviders.Add(embeddedFileProvider);
             });
 
-            services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirect).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            var httpClientBuilder = services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirect).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 ClientCertificateOptions = ClientCertificateOption.Manual,
                 ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) =>
@@ -362,7 +364,12 @@
                 AllowAutoRedirect = false,
                 UseProxy = false,
             });
-            services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirectTls13).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            if (httpClientMessageHandler is not null)
+            {
+                httpClientBuilder.AddHttpMessageHandler(httpClientMessageHandler);
+            }
+
+            var httpClientBuilder13 = services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirectTls13).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 ClientCertificateOptions = ClientCertificateOption.Manual,
                 ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) =>
@@ -373,6 +380,10 @@
                 UseProxy = false,
                 SslProtocols = System.Security.Authentication.SslProtocols.Tls13,
             });
+            if (httpClientMessageHandler is not null)
+            {
+                httpClientBuilder.AddHttpMessageHandler(httpClientMessageHandler);
+            }
 
             services.AddHttpContextAccessor();
             services.Configure<WebEncoderOptions>(options =>
