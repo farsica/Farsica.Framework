@@ -11,7 +11,7 @@
     using EFCore.BulkExtensions;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.Query;
-    using Farsica.Framework.DataAccess.Specification;
+    using Farsica.Framework.DataAccess.Specification.Queryable;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 

@@ -2,10 +2,9 @@
 {
     using System;
     using Farsica.Framework.DataAnnotation.Schema;
-    using Microsoft.EntityFrameworkCore;
 
-    public interface IEntity<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
-        where TEntity : class
+    public interface IIdentifiable<TClass, TKey>
+        where TClass : class
         where TKey : IEquatable<TKey>
     {
         [NotMapped]

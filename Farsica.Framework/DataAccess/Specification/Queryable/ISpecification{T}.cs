@@ -1,4 +1,4 @@
-﻿namespace Farsica.Framework.DataAccess.Specification
+﻿namespace Farsica.Framework.DataAccess.Specification.Queryable
 {
     using System;
     using System.Linq;

@@ -7,7 +7,7 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Farsica.Framework.DataAccess.Entities;
-    using Farsica.Framework.DataAccess.Specification;
+    using Farsica.Framework.DataAccess.Specification.Queryable;
 
     [DataAnnotation.Injectable]
     public interface IRepository<TEntity, TKey>

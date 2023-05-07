@@ -14,7 +14,7 @@
     <Authors>Fariborz khosravi</Authors>
     <Company>Farsica</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.18</Version>
+    <Version>2.0.19</Version>
     <Description>Asp.net Core Application Framework</Description>
     <RepositoryUrl>
     </RepositoryUrl>
@@ -40,7 +40,7 @@
     <PackageReference Include="Destructurama.Attributed" Version="3.0.0" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="DynamicExpresso.Core" Version="2.16.0" />
-    <PackageReference Include="EFCore.BulkExtensions" Version="7.0.4" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="7.1.0" />
     <PackageReference Include="Mapster" Version="7.3.0" />
     <PackageReference Include="Mapster.Async" Version="2.0.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />

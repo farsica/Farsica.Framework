@@ -1,11 +1,11 @@
-﻿namespace Farsica.Framework.DataAccess.Specification
+﻿namespace Farsica.Framework.DataAccess.Specification.Queryable
 {
     using System;
     using System.Linq;
     using System.Linq.Expressions;
     using Farsica.Framework.Data;
 
-    public abstract class SpecificationBase<T> : ISpecification<T>
+    public abstract class QueryableSpecification<T> : ISpecification<T>
     {
         public virtual Func<IQueryable<T>, IOrderedQueryable<T>>? Order => null;
 
