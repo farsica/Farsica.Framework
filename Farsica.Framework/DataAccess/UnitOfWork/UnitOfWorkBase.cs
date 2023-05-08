@@ -380,8 +380,10 @@
                 {
                     if (property.Name == nameof(Concurrency.IRowVersion.RowVersion) && property.PropertyType == typeof(long))
                     {
-                        var val = (long)property.GetValue(item.Entity, null);
-                        property.SetValue(item.Entity, val++, null);
+                        if (property.GetValue(item.Entity, null) is long val)
+                        {
+                            property.SetValue(item.Entity, val++, null);
+                        }
                     }
                     else if (property.PropertyType == typeof(string))
                     {
