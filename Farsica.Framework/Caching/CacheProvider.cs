@@ -36,20 +36,7 @@
         {
             var cacheKey = GenerateKey(key, tenant);
             var tmp = await cache.GetAsync(cacheKey);
-
-            if (factory is null)
-            {
-                return default;
-            }
-
-            options ??= new DistributedCacheEntryOptions();
-
-            var result = await factory();
-            await cache.SetAsync(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result), options);
-
-            return result;
-
-            /*if (tmp is null)
+            if (tmp is null)
             {
                 if (factory is null)
                 {
@@ -65,7 +52,7 @@
             }
 
             using var stream = new MemoryStream(tmp);
-            return await JsonSerializer.DeserializeAsync<TItem?>(stream);*/
+            return await JsonSerializer.DeserializeAsync<TItem?>(stream);
         }
 
         public TItem? Get<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
