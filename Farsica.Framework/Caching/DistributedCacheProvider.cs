@@ -10,11 +10,11 @@
     using Microsoft.Extensions.Caching.Distributed;
 
     [ServiceLifetime(Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton)]
-    public class CacheProvider : ICacheProvider
+    public class DistributedCacheProvider : ICacheProvider
     {
         private readonly IDistributedCache cache;
 
-        public CacheProvider(IDistributedCache cache)
+        public DistributedCacheProvider(IDistributedCache cache)
         {
             this.cache = cache;
         }
