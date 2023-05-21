@@ -19,9 +19,31 @@
 
         public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            string? value = null;
+            if (typeToConvert == typeof(byte))
+            {
+                value = reader.GetByte().ToString();
+            }
+            else if (typeToConvert == typeof(short))
+            {
+                value = reader.GetInt16().ToString();
+            }
+            else if (typeToConvert == typeof(int))
+            {
+                value = reader.GetInt32().ToString();
+            }
+            else if (typeToConvert == typeof(long))
+            {
+                value = reader.GetInt64().ToString();
+            }
+            else if (typeToConvert == typeof(double))
+            {
+                value = reader.GetDouble().ToString();
+            }
+
             return reader.TokenType switch
             {
-                JsonTokenType.Number => GetEnumerationFromJson(typeToConvert == typeof(int) ? reader.GetInt32().ToString() : reader.GetByte().ToString()),
+                JsonTokenType.Number => GetEnumerationFromJson(value),
                 JsonTokenType.String => GetEnumerationFromJson(reader.GetString()),
                 JsonTokenType.Null => null,
                 _ => throw new JsonException($"Unexpected token {reader.TokenType} when parsing the enumeration."),
@@ -42,12 +64,7 @@
                 return;
             }
 
-            var name = value.GetType().GetProperty(NameProperty, BindingFlags.Public | BindingFlags.Instance);
-            if (name is null)
-            {
-                throw new JsonException($"Error while writing JSON for {value}");
-            }
-
+            var name = value.GetType().GetProperty(NameProperty, BindingFlags.Public | BindingFlags.Instance) ?? throw new JsonException($"Error while writing JSON for {value}");
             writer.WriteStringValue(name.GetValue(value)?.ToString());
         }
 
