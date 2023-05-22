@@ -43,8 +43,8 @@
                 Types[t.Key] = t.Value;
             }
 
-            Name = string.Join(", ", Types.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Value)) + " Work Schedule";
-            Value = (byte)Types.Keys.Sum(t => t);
+            Name = string.Join(", ", Types.Select(t => t.Key));
+            Value = (byte)Types.Values.Sum(t => t);
         }
 
         protected override DayOfWeek Or(DayOfWeek other)

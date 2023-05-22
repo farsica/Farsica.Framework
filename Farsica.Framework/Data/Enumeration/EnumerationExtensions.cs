@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Numerics;
     using System.Reflection;
     using Farsica.Framework.Core.Extensions;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -45,25 +46,42 @@
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             var item = GetAll<TEnum, TKey>()?.FirstOrDefault(t => value.Equals(t.Value));
-            if (item is null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            return item;
+            return item is null ? throw new ArgumentOutOfRangeException(nameof(value)) : item;
         }
 
         public static TEnum? ToEnumeration<TEnum, TKey>(this string? name)
             where TEnum : Enumeration<TKey>
-            where TKey : IEquatable<TKey>, IComparable<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>?
         {
             var item = GetAll<TEnum, TKey>()?.FirstOrDefault(t => t?.Name?.Equals(name, StringComparison.OrdinalIgnoreCase) is true);
-            if (item is null)
+            return item is null ? throw new ArgumentOutOfRangeException(nameof(name)) : item;
+        }
+
+        public static IEnumerable<TEnum?>? FlagsEnumToList<TEnum, TKey>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum?, TKey>?
+            where TKey : IEquatable<TKey>, IComparable<TKey>?, IBitwiseOperators<TKey, TKey, TKey>?, IEqualityOperators<TKey, TKey, bool>?
+        {
+            return value?.Names.Select(t => t.ToEnumeration<TEnum, TKey>());
+        }
+
+        public static TEnum? ListToFlagsEnum<TEnum, TKey>(this IEnumerable<TEnum> values)
+            where TEnum : FlagsEnumeration<TEnum?, TKey>?
+            where TKey : IEquatable<TKey>, IComparable<TKey>?, IBitwiseOperators<TKey, TKey, TKey>?, IEqualityOperators<TKey, TKey, bool>?
+        {
+            TEnum? enumeration = null;
+            foreach (var item in values)
             {
-                throw new ArgumentOutOfRangeException(nameof(name));
+                if (enumeration is null)
+                {
+                    enumeration = item;
+                }
+                else
+                {
+                    enumeration |= item;
+                }
             }
 
-            return item;
+            return enumeration;
         }
 
         public static PropertyBuilder<TEnum?> OwnEnumeration<TEntity, TEnum, TKey>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum?>> property)

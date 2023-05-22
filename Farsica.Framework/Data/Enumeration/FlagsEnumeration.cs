@@ -2,25 +2,28 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Numerics;
 
     public abstract class FlagsEnumeration<TEnum, TKey> : Enumeration<TKey>
-        where TEnum : FlagsEnumeration<TEnum, TKey>
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IBitwiseOperators<TKey, TKey, TKey>, IEqualityOperators<TKey, TKey, bool>
+        where TEnum : FlagsEnumeration<TEnum, TKey>?
+        where TKey : IEquatable<TKey>, IComparable<TKey>?, IBitwiseOperators<TKey, TKey, TKey>?, IEqualityOperators<TKey, TKey, bool>?
     {
 #pragma warning disable SA1401 // Fields should be private
-        protected readonly IDictionary<TKey, string> Types = new SortedDictionary<TKey, string>();
+        protected readonly IDictionary<string, TKey> Types = new SortedDictionary<string, TKey>();
 #pragma warning restore SA1401 // Fields should be private
 
         protected FlagsEnumeration(string name, TKey value)
             : base(name, value)
         {
-            Types[value] = name;
+            Types[name] = value;
         }
 
         protected FlagsEnumeration()
         {
         }
+
+        internal IEnumerable<string> Names => Types.Select(t => t.Key);
 
         public static TEnum operator |(FlagsEnumeration<TEnum, TKey> left, TEnum right)
         {

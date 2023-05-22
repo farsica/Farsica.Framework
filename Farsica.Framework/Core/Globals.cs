@@ -9,6 +9,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Net.Http;
+    using System.Numerics;
     using System.Reflection;
     using System.Resources;
     using System.Security.Claims;
@@ -764,6 +765,18 @@
             expando.Core = coreList;
 
             return expando;
+        }
+
+        public static T ToPowerOf<T>(this int number, int powerOf)
+            where T : INumber<T>
+        {
+            T result = (T)(object)number;
+            for (int i = 2; i <= powerOf; i++)
+            {
+                result = result * (T)(object)number;
+            }
+
+            return result;
         }
 
         internal static string? PrepareResourcePath(this string? path)
