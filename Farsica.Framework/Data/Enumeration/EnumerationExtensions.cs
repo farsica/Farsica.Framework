@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Numerics;
@@ -49,24 +50,24 @@
             return item is null ? throw new ArgumentOutOfRangeException(nameof(value)) : item;
         }
 
-        public static TEnum? ToEnumeration<TEnum, TKey>(this string? name)
+        public static TEnum ToEnumeration<TEnum, TKey>([NotNull] this string name)
             where TEnum : Enumeration<TKey>
-            where TKey : IEquatable<TKey>, IComparable<TKey>?
+            where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             var item = GetAll<TEnum, TKey>()?.FirstOrDefault(t => t?.Name?.Equals(name, StringComparison.OrdinalIgnoreCase) is true);
             return item is null ? throw new ArgumentOutOfRangeException(nameof(name)) : item;
         }
 
-        public static IEnumerable<TEnum?>? FlagsEnumToList<TEnum, TKey>(this TEnum value)
-            where TEnum : FlagsEnumeration<TEnum?, TKey>?
-            where TKey : IEquatable<TKey>, IComparable<TKey>?, IBitwiseOperators<TKey, TKey, TKey>?, IEqualityOperators<TKey, TKey, bool>?
+        public static IEnumerable<TEnum>? FlagsEnumToList<TEnum, TKey>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum, TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IBitwiseOperators<TKey, TKey, TKey>, IEqualityOperators<TKey, TKey, bool>
         {
             return value?.Names.Select(t => t.ToEnumeration<TEnum, TKey>());
         }
 
         public static TEnum? ListToFlagsEnum<TEnum, TKey>(this IEnumerable<TEnum> values)
-            where TEnum : FlagsEnumeration<TEnum?, TKey>?
-            where TKey : IEquatable<TKey>, IComparable<TKey>?, IBitwiseOperators<TKey, TKey, TKey>?, IEqualityOperators<TKey, TKey, bool>?
+            where TEnum : FlagsEnumeration<TEnum, TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IBitwiseOperators<TKey, TKey, TKey>, IEqualityOperators<TKey, TKey, bool>
         {
             TEnum? enumeration = null;
             foreach (var item in values)

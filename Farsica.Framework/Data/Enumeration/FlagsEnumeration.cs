@@ -6,8 +6,8 @@
     using System.Numerics;
 
     public abstract class FlagsEnumeration<TEnum, TKey> : Enumeration<TKey>
-        where TEnum : FlagsEnumeration<TEnum, TKey>?
-        where TKey : IEquatable<TKey>, IComparable<TKey>?, IBitwiseOperators<TKey, TKey, TKey>?, IEqualityOperators<TKey, TKey, bool>?
+        where TEnum : FlagsEnumeration<TEnum, TKey>
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IBitwiseOperators<TKey, TKey, TKey>, IEqualityOperators<TKey, TKey, bool>
     {
 #pragma warning disable SA1401 // Fields should be private
         protected readonly IDictionary<string, TKey> Types = new SortedDictionary<string, TKey>();
