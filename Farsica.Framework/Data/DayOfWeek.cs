@@ -7,24 +7,24 @@
     public class DayOfWeek : FlagsEnumeration<DayOfWeek>
     {
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Sunday = new(0);
+        public static readonly Flag<DayOfWeek> Sunday = new(1);
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Monday = new(1);
+        public static readonly Flag<DayOfWeek> Monday = new(2);
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Tuesday = new(2);
+        public static readonly Flag<DayOfWeek> Tuesday = new(3);
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Wednesday = new(3);
+        public static readonly Flag<DayOfWeek> Wednesday = new(4);
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Thursday = new(4);
+        public static readonly Flag<DayOfWeek> Thursday = new(5);
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Friday = new(5);
+        public static readonly Flag<DayOfWeek> Friday = new(6);
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DayOfWeek))]
-        public static readonly Flag<DayOfWeek> Saturday = new(6);
+        public static readonly Flag<DayOfWeek> Saturday = new(7);
     }
 }

@@ -118,5 +118,30 @@
         {
             return builder.Property(property).HasConversion(t => t.ToUniqueId(), t => t.FromUniqueId<TEnum>());
         }
+
+        public static Flag<TEnum>? ListToFlagsEnum<TEnum>(this IEnumerable<string> names)
+            where TEnum : FlagsEnumeration<TEnum>
+        {
+            Flag<TEnum>? enumeration = null;
+            foreach (var name in names)
+            {
+                var item = FromName<TEnum>(name);
+                if (item is null)
+                {
+                    continue;
+                }
+
+                if (enumeration is null)
+                {
+                    enumeration = item;
+                }
+                else
+                {
+                    enumeration |= item;
+                }
+            }
+
+            return enumeration;
+        }
     }
 }
