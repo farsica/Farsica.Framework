@@ -767,7 +767,7 @@
             return expando;
         }
 
-        public static T ToPowerOf<T>(this int number, int powerOf)
+        public static dynamic ToPowerOf<T>(this int number, int powerOf)
             where T : INumber<T>
         {
             if (powerOf < 0)
@@ -782,13 +782,13 @@
                     throw new ArgumentException("Parameters number and powerOf cannot be 0 at the same time");
                 }
 
-                return (T)(object)1;
+                return 1;
             }
 
-            T result = (T)(object)number;
+            dynamic result = number;
             for (int i = 2; i <= powerOf; i++)
             {
-                result = result * (T)(object)number;
+                result = result * number;
             }
 
             return result;

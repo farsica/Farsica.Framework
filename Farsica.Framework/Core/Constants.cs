@@ -13,7 +13,9 @@
         public const string DelimiterAlternate = "|";
         public const char JoinDelimiter = ',';
         public const int ForeignKeySqlException = 547;
-        public const int DuplicateSqlException = 2627;
+        public const int DuplicatePrimaryKeySqlException = 2627;
+        public const int DuplicateKeySqlException = 2601;
+
         public const string ValidImageExtensions = "png,jpg,jpeg,gif";
         public const string ValidDocumentExtensions = "pdf,doc,docx";
         public const string ValidVideoExtensions = "mpeg,avi";
