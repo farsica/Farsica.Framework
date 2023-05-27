@@ -22,12 +22,7 @@
             }
 
             var type = Nullable.GetUnderlyingType(typeof(T));
-            if (type is null)
-            {
-                throw new ArgumentException(nameof(T));
-            }
-
-            underlyingType = type;
+            underlyingType = type is null ? typeof(T) : type;
         }
 
         public override bool CanConvert(Type typeToConvert)
@@ -49,16 +44,16 @@
             }
 
             // for performance, parse with ignoreCase:false first.
-            if (!System.Enum.TryParse(underlyingType, value, ignoreCase: false, out object? result)
-                && !System.Enum.TryParse(underlyingType, value, ignoreCase: true, out result))
+            if (System.Enum.TryParse(underlyingType, value, ignoreCase: false, out object? result)
+                || System.Enum.TryParse(underlyingType, value, ignoreCase: true, out result))
             {
-                throw new JsonException($"Unable to convert \"{value}\" to Enum \"{underlyingType}\".");
+                return (T?)result;
             }
 
-            return (T?)result;
+            throw new JsonException($"Unable to convert \"{value}\" to Enum \"{underlyingType}\".");
         }
 
-        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, T? value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(value?.ToString());
         }
