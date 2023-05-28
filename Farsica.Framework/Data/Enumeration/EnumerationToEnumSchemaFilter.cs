@@ -11,14 +11,21 @@
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            if (!IsSubclassOf(typeof(Enumeration<>), context.Type))
+            var flag = IsSubclassOf(typeof(Flag<>), context.Type);
+            if (flag is false && IsSubclassOf(typeof(Enumeration<>), context.Type) is false)
             {
                 return;
             }
 
-            var fields = context.Type.GetFields(BindingFlags.Static | BindingFlags.Public);
+            var type = context.Type;
+            if (flag)
+            {
+                type = context.Type.GenericTypeArguments[0];
+            }
 
-            schema.Enum = fields.Select(field => new OpenApiString(field.Name)).Cast<IOpenApiAny>().ToList();
+            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
+
+            schema.Enum = fields.Select(t => new OpenApiString(t.Name)).Cast<IOpenApiAny>().ToList();
             schema.Type = "string";
             schema.Properties = null;
             schema.AllOf = null;

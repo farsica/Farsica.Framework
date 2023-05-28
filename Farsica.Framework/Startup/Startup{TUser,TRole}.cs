@@ -282,6 +282,7 @@
                 // options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<int>());
                 // options.JsonSerializerOptions.Converters.Add(new DictionaryEnumerationConverter<byte>());
                 options.JsonSerializerOptions.Converters.Add(new EnumerationConverterFactory());
+                options.JsonSerializerOptions.Converters.Add(new FlagsEnumerationConverterFactory());
             });
 
             if (localization)

@@ -39,13 +39,7 @@
             return GetNames<TEnum>(enumFlag, BindingFlags.Public | BindingFlags.Static);
         }
 
-        public static Dictionary<string, Flag<TEnum>> GetKeyValues<TEnum>()
-            where TEnum : FlagsEnumeration<TEnum>
-        {
-            return GetKeyValues<TEnum>(BindingFlags.Public | BindingFlags.Static);
-        }
-
-        public static Dictionary<string, Flag<TEnum>> GetKeyValues<TEnum>(BindingFlags bindingFlags)
+        public static Dictionary<string, Flag<TEnum>> GetKeyValues<TEnum>(BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
             where TEnum : FlagsEnumeration<TEnum>
         {
             return typeof(TEnum)
@@ -54,13 +48,7 @@
                 .ToDictionary(f => f.Name, f => (Flag<TEnum>)f.GetValue(null)!);
         }
 
-        public static Flag<TEnum>? FromName<TEnum>(string name)
-            where TEnum : FlagsEnumeration<TEnum>
-        {
-            return FromName<TEnum>(name, BindingFlags.Public | BindingFlags.Static);
-        }
-
-        public static Flag<TEnum>? FromName<TEnum>(string name, BindingFlags bindingFlags)
+        public static Flag<TEnum>? FromName<TEnum>(this string name, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
             where TEnum : FlagsEnumeration<TEnum>
         {
             return typeof(TEnum).GetField(name, bindingFlags)?.GetValue(null) as Flag<TEnum>;
@@ -125,7 +113,7 @@
             Flag<TEnum>? enumeration = null;
             foreach (var name in names)
             {
-                var item = FromName<TEnum>(name);
+                var item = name.FromName<TEnum>();
                 if (item is null)
                 {
                     continue;
