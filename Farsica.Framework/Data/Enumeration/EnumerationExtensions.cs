@@ -1,12 +1,10 @@
 ﻿namespace Farsica.Framework.Data.Enumeration
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Numerics;
     using System.Reflection;
     using Farsica.Framework.Core.Extensions;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;

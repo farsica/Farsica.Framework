@@ -13,57 +13,54 @@
     public static class FlagsEnumerationExtensions
     {
         public static IEnumerable<string> GetNames<TEnum>()
-            where TEnum : FlagsEnumeration<TEnum>
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return GetNames<TEnum>(BindingFlags.Public | BindingFlags.Static);
         }
 
         public static IEnumerable<string> GetNames<TEnum>(BindingFlags bindingFlags)
-            where TEnum : FlagsEnumeration<TEnum>
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return typeof(TEnum)
                 .GetFields(bindingFlags)
-                .Where(f => f.FieldType == typeof(Flag<TEnum>))
                 .Select(f => f.Name);
         }
 
-        public static IEnumerable<string> GetNames<TEnum>(Flag<TEnum> enumFlag, BindingFlags bindingFlag)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static IEnumerable<string> GetNames<TEnum>(TEnum enumFlag, BindingFlags bindingFlag)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            return GetKeyValues<TEnum>(bindingFlag).Where(x => enumFlag.HasFlag(x.Value)).Select(x => x.Key);
+            return GetKeyValues<TEnum>(bindingFlag).Where(t => enumFlag.HasFlags(t.Value)).Select(t => t.Key);
         }
 
-        public static IEnumerable<string> GetNames<TEnum>(Flag<TEnum> enumFlag)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static IEnumerable<string> GetNames<TEnum>(TEnum enumFlag)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            return GetNames<TEnum>(enumFlag, BindingFlags.Public | BindingFlags.Static);
+            return GetNames(enumFlag, BindingFlags.Public | BindingFlags.Static);
         }
 
-        public static Dictionary<string, Flag<TEnum>> GetKeyValues<TEnum>(BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static Dictionary<string, TEnum> GetKeyValues<TEnum>(BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return typeof(TEnum)
                 .GetFields(bindingFlags)
-                .Where(f => f.FieldType == typeof(Flag<TEnum>))
-                .ToDictionary(f => f.Name, f => (Flag<TEnum>)f.GetValue(null)!);
+                .ToDictionary(t => t.Name, t => (TEnum)t.GetValue(null)!);
         }
 
-        public static Flag<TEnum>? FromName<TEnum>(this string name, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum? FromName<TEnum>(this string name, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            return typeof(TEnum).GetField(name, bindingFlags)?.GetValue(null) as Flag<TEnum>;
+            return typeof(TEnum).GetField(name, bindingFlags)?.GetValue(null) as TEnum;
         }
 
-        public static Flag<TEnum> GetAll<TEnum>()
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum GetAll<TEnum>()
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            var count = typeof(TEnum).GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Count(f => f.FieldType == typeof(Flag<TEnum>) || f.FieldType.BaseType == typeof(Flag<TEnum>));
-            return new Flag<TEnum>(new BitArray(count - 1, true));
+            var count = typeof(TEnum).GetFields(BindingFlags.Public | BindingFlags.Static).Length;
+            return new TEnum { Bits = new BitArray(count - 1, true) };
         }
 
-        public static Flag<TEnum> FromUniqueId<TEnum>(this string id)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum FromUniqueId<TEnum>(this string id)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             var data = Convert.FromBase64String(id);
             using var compressedStream = new MemoryStream(data);
@@ -73,44 +70,63 @@
             zipStream.Close();
             var bytes = outputStream.ToArray();
 
-            return new Flag<TEnum>(bytes);
+            return new TEnum { Bits = new BitArray(bytes) };
         }
 
-        public static bool HasFlag<TEnum>(this Flag<TEnum> left, Flag<TEnum> right)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static bool HasFlags<TEnum>(this TEnum left, TEnum right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            return (left & right) != new Flag<TEnum>(-1);
+            var index = -1;
+            index++;
+            int? length = null;
+            length ??= index + 1;
+
+            BitArray? bits;
+
+            // None
+            if (index == 0)
+            {
+                bits = new BitArray(length.Value, false);
+            }
+            else
+            {
+                // Items
+                bits = new BitArray(length.Value, false);
+                bits.Set(index - 1, true);
+            }
+
+            return (left & right) != new TEnum { Bits = bits };
         }
 
-        public static Flag<TEnum> SetFlag<TEnum>(this Flag<TEnum> left, params Flag<TEnum>[] right)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum SetFlags<TEnum>(this TEnum left, params TEnum[] right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return right.Aggregate(left, (current, item) => current | item);
         }
 
-        public static Flag<TEnum> UnsetFlag<TEnum>(this Flag<TEnum> left, params Flag<TEnum>[] right)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum UnsetFlags<TEnum>(this TEnum left, params TEnum[] right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return right.Aggregate(left, (current, item) => current & ~item);
         }
 
-        public static Flag<TEnum> ToggleFlag<TEnum>(this Flag<TEnum> left, params Flag<TEnum>[] right)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum ToggleFlags<TEnum>(this TEnum left, params TEnum[] right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return right.Aggregate(left, (current, item) => current ^ item);
         }
 
-        public static PropertyBuilder<Flag<TEnum>?> OwnFlagsEnumeration<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, Flag<TEnum>?>> property)
+        public static PropertyBuilder<TEnum?> OwnFlagsEnumeration<TEntity, TEnum>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TEnum?>> property)
             where TEntity : class
-            where TEnum : FlagsEnumeration<TEnum>
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return builder.Property(property).HasConversion(t => t.ToUniqueId(), t => t.FromUniqueId<TEnum>());
         }
 
-        public static Flag<TEnum>? ListToFlagsEnum<TEnum>(this IEnumerable<string> names)
-            where TEnum : FlagsEnumeration<TEnum>
+        public static TEnum? ListToFlagsEnum<TEnum>(this IEnumerable<string> names)
+            where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            Flag<TEnum>? enumeration = null;
+            TEnum? enumeration = null;
             foreach (var name in names)
             {
                 var item = name.FromName<TEnum>();
@@ -119,6 +135,30 @@
                     continue;
                 }
 
+                if (enumeration is null)
+                {
+                    enumeration = item;
+                }
+                else
+                {
+                    enumeration |= item;
+                }
+            }
+
+            return enumeration;
+        }
+
+        public static TEnum? ListToFlagsEnum<TEnum>(this IEnumerable<TEnum>? value)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            if (value is null)
+            {
+                return null;
+            }
+
+            TEnum? enumeration = null;
+            foreach (var item in value)
+            {
                 if (enumeration is null)
                 {
                     enumeration = item;
