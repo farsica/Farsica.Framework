@@ -12,13 +12,7 @@
 
     public static class FlagsEnumerationExtensions
     {
-        public static IEnumerable<string> GetNames<TEnum>()
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return GetNames<TEnum>(BindingFlags.Public | BindingFlags.Static);
-        }
-
-        public static IEnumerable<string> GetNames<TEnum>(BindingFlags bindingFlags)
+        public static IEnumerable<string> GetNames<TEnum>(BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return typeof(TEnum)
@@ -26,16 +20,10 @@
                 .Select(f => f.Name);
         }
 
-        public static IEnumerable<string> GetNames<TEnum>(TEnum enumFlag, BindingFlags bindingFlag)
+        public static IEnumerable<string> GetNames<TEnum>(this TEnum enumFlag, BindingFlags bindingFlag = BindingFlags.Public | BindingFlags.Static)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return GetKeyValues<TEnum>(bindingFlag).Where(t => enumFlag.HasFlags(t.Value)).Select(t => t.Key);
-        }
-
-        public static IEnumerable<string> GetNames<TEnum>(TEnum enumFlag)
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return GetNames(enumFlag, BindingFlags.Public | BindingFlags.Static);
         }
 
         public static Dictionary<string, TEnum> GetKeyValues<TEnum>(BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)

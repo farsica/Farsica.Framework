@@ -19,6 +19,9 @@
 
         public bool ForceTls13 { get; set; }
 
+        /// <summary>
+        /// Gets or sets Timeout in seconds.
+        /// </summary>
         public int? Timeout { get; set; }
     }
 }
