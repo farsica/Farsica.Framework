@@ -42,8 +42,8 @@
         {
         }
 
-        public DayOfWeek(int index, int? length = null)
-            : base(index, length)
+        public DayOfWeek(int index)
+            : base(index)
         {
         }
     }

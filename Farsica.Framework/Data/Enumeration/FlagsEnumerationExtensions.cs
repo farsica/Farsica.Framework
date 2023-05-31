@@ -64,26 +64,9 @@
         public static bool HasFlags<TEnum>(this TEnum left, TEnum right)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            var index = -1;
-            index++;
-            int? length = null;
-            length ??= index + 1;
-
-            BitArray? bits;
-
-            // None
-            if (index == 0)
-            {
-                bits = new BitArray(length.Value, false);
-            }
-            else
-            {
-                // Items
-                bits = new BitArray(length.Value, false);
-                bits.Set(index - 1, true);
-            }
-
-            return (left & right) != new TEnum { Bits = bits };
+            // BitArray? bits = new(1, false);
+            // return (left & right) != new TEnum { Bits = bits };
+            return (left & right) != new TEnum();
         }
 
         public static TEnum SetFlags<TEnum>(this TEnum left, params TEnum[] right)

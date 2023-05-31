@@ -14,26 +14,26 @@
             Bits = new BitArray(1, false);
         }
 
-        protected FlagsEnumeration(int index, int? length = null)
+        protected FlagsEnumeration(int index)
         {
             index++;
-            length ??= index + 1;
+            var length = index + 1;
 
             // None
             if (index == 0)
             {
-                Bits = new BitArray(length.Value, false);
+                Bits = new BitArray(length, false);
                 return;
             }
 
             // Items
-            Bits = new BitArray(length.Value, false);
+            Bits = new BitArray(length, false);
             Bits.Set(index - 1, true);
         }
 
         protected FlagsEnumeration(BitArray value)
         {
-            Bits = value;
+            Bits = new BitArray(value);
         }
 
         protected FlagsEnumeration(byte[] value)
@@ -41,19 +41,10 @@
             Bits = new BitArray(value);
         }
 
-        internal int Length => Bits.Length;
+        public int Length => Bits.Length;
 
-        internal BitArray Bits { get; init; }
+        public BitArray Bits { get; init; }
 
-        // public static explicit operator FlagsEnumeration(FlagsEnumeration<TEnum> item)
-        // {
-        //    return new FlagsEnumeration(item.bits);
-        // }
-
-        // public static explicit operator FlagsEnumeration<TEnum>(FlagsEnumeration item)
-        // {
-        //    return new FlagsEnumeration<TEnum>(item.bits);
-        // }
         public static bool operator ==(FlagsEnumeration<TEnum> item, FlagsEnumeration<TEnum> item2)
         {
             return item.Equals(item2);

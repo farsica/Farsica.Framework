@@ -5,6 +5,7 @@
     using System.IO;
     using System.Text.Json;
     using System.Threading.Tasks;
+    using Farsica.Framework.Converter;
     using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAnnotation;
     using Microsoft.Extensions.Caching.Distributed;
@@ -13,10 +14,13 @@
     public class DistributedCacheProvider : ICacheProvider
     {
         private readonly IDistributedCache cache;
+        private readonly JsonSerializerOptions jsonSerializerOptions;
 
         public DistributedCacheProvider(IDistributedCache cache)
         {
             this.cache = cache;
+            jsonSerializerOptions = new JsonSerializerOptions();
+            jsonSerializerOptions.Converters.Add(new BitArrayConverter());
         }
 
         public async Task<TItem?> GetAsync<TItem, TEnum, TKey>(TEnum key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
@@ -46,13 +50,13 @@
                 options ??= new DistributedCacheEntryOptions();
 
                 var result = await factory();
-                await cache.SetAsync(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result), options);
+                await cache.SetAsync(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result, jsonSerializerOptions), options);
 
                 return result;
             }
 
             using var stream = new MemoryStream(tmp);
-            return await JsonSerializer.DeserializeAsync<TItem?>(stream);
+            return await JsonSerializer.DeserializeAsync<TItem?>(stream, jsonSerializerOptions);
         }
 
         public TItem? Get<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
@@ -82,7 +86,7 @@
                 options ??= new DistributedCacheEntryOptions();
 
                 var result = factory();
-                cache.Set(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result), options);
+                cache.Set(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result, jsonSerializerOptions), options);
 
                 return result;
             }
@@ -144,7 +148,7 @@
         {
             options ??= new DistributedCacheEntryOptions();
 
-            await cache.SetAsync(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value), options);
+            await cache.SetAsync(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value, jsonSerializerOptions), options);
         }
 
         public void Set<TItem, TEnum, TKey>(TEnum key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
@@ -164,7 +168,7 @@
         {
             options ??= new DistributedCacheEntryOptions();
 
-            cache.Set(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value), options);
+            cache.Set(GenerateKey(key, tenant), JsonSerializer.SerializeToUtf8Bytes(value, jsonSerializerOptions), options);
         }
 
         private static string GenerateKey([NotNull] string key, string? tenant = null)
