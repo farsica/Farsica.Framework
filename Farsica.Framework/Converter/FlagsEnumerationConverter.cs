@@ -1,6 +1,7 @@
 ﻿namespace Farsica.Framework.Converter
 {
     using System;
+    using System.Collections.Generic;
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using Farsica.Framework.Data.Enumeration;
@@ -15,7 +16,25 @@
 
         public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return reader.GetString()?.FromName<TEnum>();
+            if (reader.TokenType is not JsonTokenType.StartArray)
+            {
+                reader.Skip();
+                return reader.GetString()?.FromName<TEnum>();
+            }
+
+            var list = new List<string>();
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+            {
+                var val = reader.GetString();
+                if (string.IsNullOrEmpty(val))
+                {
+                    continue;
+                }
+
+                list.Add(val);
+            }
+
+            return list.ListToFlagsEnum<TEnum>();
         }
 
         /// <summary>
@@ -26,7 +45,7 @@
         /// <param name="options">An object that specifies serialization options to use.</param>
         public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToUniqueId());
+            writer.WriteRawValue(JsonSerializer.Serialize(FlagsEnumerationExtensions.GetNames(value)));
         }
     }
 }
