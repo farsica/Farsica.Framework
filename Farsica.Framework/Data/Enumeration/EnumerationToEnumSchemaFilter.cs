@@ -11,17 +11,34 @@
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            if (IsSubclassOf(typeof(Enumeration<>), context.Type) is false && IsSubclassOf(typeof(FlagsEnumeration<>), context.Type) is false)
+            var isEnumeration = IsSubclassOf(typeof(Enumeration<>), context.Type);
+            if (isEnumeration is false && IsSubclassOf(typeof(FlagsEnumeration<>), context.Type) is false)
             {
                 return;
             }
 
             var fields = context.Type.GetFields(BindingFlags.Static | BindingFlags.Public);
 
-            schema.Enum = fields.Select(t => new OpenApiString(t.Name)).Cast<IOpenApiAny>().ToList();
-            schema.Type = "string";
-            schema.Properties = null;
-            schema.AllOf = null;
+            if (isEnumeration)
+            {
+                schema.Enum = fields.Select(t => new OpenApiString(t.Name)).Cast<IOpenApiAny>().ToList();
+                schema.Type = "string";
+                schema.Properties = null;
+                schema.AllOf = null;
+            }
+            else
+            {
+                schema.Properties = null;
+                schema.AllOf = null;
+                schema.Type = "array";
+                schema.Items = new OpenApiSchema
+                {
+                    Enum = fields.Select(t => new OpenApiString(t.Name)).Cast<IOpenApiAny>().ToList(),
+                    Type = "string",
+                    Properties = null,
+                    AllOf = null,
+                };
+            }
         }
 
         private static bool IsSubclassOf(Type? generic, Type? toCheck)
