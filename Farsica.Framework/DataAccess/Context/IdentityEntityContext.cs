@@ -20,7 +20,7 @@
     using Microsoft.Extensions.Logging;
 
 #pragma warning disable CA1005 // Avoid excessive parameters on generic types
-    public abstract class EntityContextBase<TContext, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>
+    public abstract class IdentityEntityContext<TContext, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>
 #pragma warning restore CA1005 // Avoid excessive parameters on generic types
         : IdentityDbContext<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>, IEntityContext
         where TContext : IdentityDbContext<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>
@@ -36,7 +36,7 @@
         private readonly string[] shadowProperties = new[] { nameof(IVersionableEntity<TUser, TKey, TKey>.CreationDate), nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId), nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyDate), nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId) };
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        protected EntityContextBase(IServiceProvider serviceProvider)
+        protected IdentityEntityContext(IServiceProvider serviceProvider)
             : base()
         {
             ServiceProvider = serviceProvider;
