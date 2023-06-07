@@ -417,8 +417,13 @@
             }
         }
 
-        private void AddScopedDynamic(IServiceCollection services, Assembly frameworkAssembly, IEnumerable<string> assemblyFiles)
+        private void AddScopedDynamic(IServiceCollection services, Assembly frameworkAssembly, IEnumerable<string>? assemblyFiles)
         {
+            if (assemblyFiles is null)
+            {
+                return;
+            }
+
             var assemblies = assemblyFiles.Select(Assembly.LoadFrom)
                 .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
                 .Union(new[] { frameworkAssembly });
@@ -437,7 +442,7 @@
                     var serviceLifetimeAttribute = implementationType.GetCustomAttribute<ServiceLifetimeAttribute>();
                     serviceLifetimeAttribute ??= new ServiceLifetimeAttribute(ServiceLifetime.Transient);
 
-                    if (serviceLifetimeAttribute.Parameters?.Any() == true)
+                    if (serviceLifetimeAttribute.Parameters?.Any() is true)
                     {
                         services.Add(new ServiceDescriptor(serviceType, provider =>
                         {
@@ -471,7 +476,7 @@
                     if (serviceType == typeof(IEntityContext))
                     {
                         var arguments = implementationType?.BaseType?.GetGenericArguments();
-                        if (arguments is not null)
+                        if (arguments is not null && identity)
                         {
                             AddStores(services, arguments[1], arguments[2], arguments[0]);
                         }

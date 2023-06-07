@@ -14,14 +14,14 @@
 #pragma warning restore CA1019 // Define accessors for attribute arguments
         {
             ServiceLifetime = serviceLifetime;
-            if (!string.IsNullOrEmpty(parameters))
+            if (string.IsNullOrEmpty(parameters) is false)
             {
-                Parameters = parameters.Split(Constants.Delimiter, StringSplitOptions.RemoveEmptyEntries)?.Select(t => Type.GetType(t));
+                Parameters = parameters.Split(Constants.Delimiter, StringSplitOptions.RemoveEmptyEntries)?.Select(Type.GetType);
             }
         }
 
         public ServiceLifetime ServiceLifetime { get; }
 
-        public IEnumerable<Type> Parameters { get; }
+        public IEnumerable<Type?>? Parameters { get; }
     }
 }
