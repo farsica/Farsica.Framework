@@ -51,8 +51,6 @@
                 .Replace("ة", "ه")
                 .Replace("أ", "ا")
                 .Replace("إ", "ا")
-                .Replace("آ", "ا")
-                .Replace("ئ", "ی")
                 .Replace("ٸ", "ی")
                 .Replace(" ", " ")
                 .Replace("‌", " ")
