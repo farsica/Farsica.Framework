@@ -728,7 +728,8 @@
             for (int i = 0; i < names.Length; i++)
             {
                 string? item = names[i];
-                if (item.StartsWith($"{defaultNamespace}.Resource.UI.Web.Api.") is false && item.StartsWith($"{defaultNamespace}.Resource.Data.ViewModel.") is false)
+                string[] validPrefixes = new[] { $"{defaultNamespace}.Resource.UI.Web.Api.", $"{defaultNamespace}.Resource.Data.ViewModel." };
+                if (validPrefixes.Any(item.StartsWith) is false)
                 {
                     continue;
                 }
@@ -749,7 +750,7 @@
                     nestedList.Add(key.Replace("_Name", string.Empty), manager.GetString(key, CultureInfo.CurrentCulture));
                 }
 
-                dataList.Add(baseName.Split(".").Last(), nestedList);
+                dataList.Add(baseName.Replace($"{defaultNamespace}.Resource.", string.Empty), nestedList);
             }
 
             expando.Data = dataList;
