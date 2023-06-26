@@ -6,11 +6,11 @@
     {
         [Required]
         [Range(1, int.MaxValue)]
-        public int CurrentPage { get; set; } = 1;
+        public int Skip { get; set; } = 0;
 
         [Required]
         [Range(1, int.MaxValue)]
-        public int PageSize { get; set; } = 1;
+        public int Size { get; set; } = 1;
 
         public ExportType? ExportType { get; set; }
 

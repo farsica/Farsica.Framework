@@ -21,8 +21,18 @@
             }
 
             var enumType = context.Metadata.ModelType.Assembly.GetType(fullyQualifiedAssemblyName, false);
+            if (enumType is null)
+            {
+                return null;
+            }
 
-            if (enumType is null || !enumType.IsSubclassOf(typeof(Enumeration<>)))
+            var typeOfEnumeration = typeof(Enumeration<>);
+            if (typeof(System.Collections.IEnumerable).IsAssignableFrom(enumType) && enumType.IsGenericType)
+            {
+                typeOfEnumeration = enumType.GenericTypeArguments[0];
+            }
+
+            if (enumType.IsSubclassOf(typeOfEnumeration) is false)
             {
                 return null;
             }

@@ -39,7 +39,7 @@
             var query = QueryDb(specification?.Expression(), specification?.Order, null, tracking);
             if (specification?.PageFilter is not null)
             {
-                query = query.Skip(specification.PageFilter.PageSize * (specification.PageFilter.CurrentPage - 1)).Take(specification.PageFilter.PageSize);
+                query = query.Skip(specification.PageFilter.Skip).Take(specification.PageFilter.Size);
             }
 
             return query;
@@ -97,7 +97,7 @@
             var query = QueryDb(specification?.Expression(), specification?.Order, null, tracking);
             if (specification?.PageFilter is not null)
             {
-                query = query.Skip(specification.PageFilter.PageSize * (specification.PageFilter.CurrentPage - 1)).Take(specification.PageFilter.PageSize);
+                query = query.Skip(specification.PageFilter.Skip).Take(specification.PageFilter.Size);
             }
 
             return query.ToList();
@@ -113,7 +113,7 @@
             var query = QueryDb(specification?.Expression(), specification?.Order, null, tracking);
             if (specification?.PageFilter is not null)
             {
-                query = query.Skip(specification.PageFilter.PageSize * (specification.PageFilter.CurrentPage - 1)).Take(specification.PageFilter.PageSize);
+                query = query.Skip(specification.PageFilter.Skip).Take(specification.PageFilter.Size);
             }
 
             return await query.ToListAsync();

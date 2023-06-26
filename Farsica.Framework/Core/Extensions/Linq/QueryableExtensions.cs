@@ -7,6 +7,7 @@
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Farsica.Framework.Data;
     using Microsoft.EntityFrameworkCore;
 
@@ -53,11 +54,11 @@
                 : query;
         }
 
-        public static async Task<(IQueryable<TSource> List, int? TotalRecordsCount)> FilterListAsync<TSource>(this IQueryable<TSource> lst, PagingDto? pagingDto)
+        public static async Task<(IQueryable<TSource> List, int? TotalRecordsCount, bool? HasNext)> FilterListAsync<TSource>(this IQueryable<TSource> lst, PagingDto? pagingDto)
         {
             if (pagingDto is null)
             {
-                return (lst, null);
+                return (lst, null, null);
             }
 
             var properties = typeof(TSource).GetProperties();
@@ -82,6 +83,7 @@
             }
 
             int? total = null;
+            bool? hasNext = null;
 
             if (pagingDto.PageFilter is not null)
             {
@@ -96,10 +98,23 @@
                     lst = lst.OrderBy(id);
                 }
 
-                lst = lst.Skip(pagingDto.PageFilter.PageSize * (pagingDto.PageFilter.CurrentPage - 1)).Take(pagingDto.PageFilter.PageSize);
+                if (pagingDto.PageFilter.ReturnTotalRecordsCount)
+                {
+                    lst = lst.Skip(pagingDto.PageFilter.Skip).Take(pagingDto.PageFilter.Size);
+                }
+                else
+                {
+                    var data = lst.Skip(pagingDto.PageFilter.Skip).Take(pagingDto.PageFilter.Size + 1).ToList();
+                    if (data?.Count > pagingDto.PageFilter.Size)
+                    {
+                        data.RemoveAt(data.Count - 1);
+                    }
+
+                    lst = data.AsQueryable();
+                }
             }
 
-            return (lst, total);
+            return (lst, total, hasNext);
 
             void ApplyFilter(SearchFilter searchFilter)
             {
