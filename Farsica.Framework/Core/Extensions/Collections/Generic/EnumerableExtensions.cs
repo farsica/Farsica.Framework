@@ -34,7 +34,7 @@
                 : source;
         }
 
-        public static async Task<(IEnumerable<TSource> List, int? TotalRecordsCount, bool? HasNext)> FilterListAsync<TSource>(this IEnumerable<TSource> lst, PagingDto? pagingDto)
+        public static async Task<(IEnumerable<TSource> List, int? TotalRecordsCount)> FilterListAsync<TSource>(this IEnumerable<TSource> lst, PagingDto? pagingDto)
         {
             return await QueryableExtensions.FilterListAsync(lst.AsQueryable(), pagingDto);
         }

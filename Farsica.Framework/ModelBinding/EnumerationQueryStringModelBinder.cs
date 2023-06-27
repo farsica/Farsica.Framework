@@ -26,17 +26,18 @@
                 {
                     lst.Add(result!);
                 }
+                else
+                {
+                    bindingContext.Result = ModelBindingResult.Failed();
+                    bindingContext.ModelState.AddModelError(bindingContext.FieldName, string.Format(Farsica.Framework.Resources.GlobalResource.Validation_AttemptedValueIsInvalidAccessor, item, bindingContext.ModelName));
+                    return Task.CompletedTask;
+                }
             }
 
+            var isEnumerable = typeof(System.Collections.IEnumerable).IsAssignableFrom(bindingContext.ModelType);
             if (lst.Count > 0)
             {
-                bindingContext.Result = typeof(System.Collections.IEnumerable).IsAssignableFrom(bindingContext.ModelType) ? ModelBindingResult.Success(lst) : ModelBindingResult.Success(lst[0]);
-            }
-            else
-            {
-                bindingContext.Result = ModelBindingResult.Failed();
-
-                bindingContext.ModelState.AddModelError(bindingContext.FieldName, $"{enumerationName.FirstValue} is not supported.");
+                bindingContext.Result = isEnumerable ? ModelBindingResult.Success(lst) : ModelBindingResult.Success(lst[0]);
             }
 
             return Task.CompletedTask;
