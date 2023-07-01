@@ -29,7 +29,7 @@
                 else
                 {
                     bindingContext.Result = ModelBindingResult.Failed();
-                    bindingContext.ModelState.AddModelError(bindingContext.FieldName, string.Format(Farsica.Framework.Resources.GlobalResource.Validation_AttemptedValueIsInvalidAccessor, item, bindingContext.ModelName));
+                    bindingContext.ModelState.AddModelError(bindingContext.FieldName, string.Format(Resources.GlobalResource.Validation_AttemptedValueIsInvalidAccessor, item, bindingContext.ModelName));
                     return Task.CompletedTask;
                 }
             }

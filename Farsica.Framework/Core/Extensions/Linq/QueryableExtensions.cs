@@ -7,7 +7,6 @@
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Farsica.Framework.Data;
     using Microsoft.EntityFrameworkCore;
 
