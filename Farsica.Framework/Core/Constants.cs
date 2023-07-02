@@ -393,7 +393,7 @@
 
         public enum BankType
         {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "CIYBIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "CIYBIR", Description = "061")]
             Shahr,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "SABCIR", Description = "056")]
@@ -408,22 +408,22 @@
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "SINAIR", Description = "059")]
             Sina,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "SRMBIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "SRMBIR", Description = "058")]
             Sarmayeh,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "IVBBIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "IVBBIR", Description = "095")]
             IranVenezoela,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "IRZAIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "IRZAIR", Description = "069")]
             IranZamin,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "MEHRIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "MEHRIR", Description = "060")]
             MehrIran,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "PBIRIR", Description = "021")]
             PostBank,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "REFAIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "REFAIR", Description = "013")]
             Refah,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BKMTIR", Description = "012")]
@@ -441,7 +441,7 @@
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "AYBKIR", Description = "062")]
             Ayandeh,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BTOSIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BTOSIR", Description = "051")]
             Tosee,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BOIMIR", Description = "011")]
@@ -453,19 +453,19 @@
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "KESHIR", Description = "016")]
             Keshavarzi,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BKMNIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BKMNIR", Description = "014")]
             Maskan,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "EDBIIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "EDBIIR", Description = "020")]
             ToseeSaderat,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "TTBIIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "TTBIIR", Description = "022")]
             ToseeTaavon,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "BKPAIR", Description = "054")]
             Parsian,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "KBIDIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "KBIDIR", Description = "053")]
             KarAfarin,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "KHMIIR", Description = "078")]
@@ -477,19 +477,10 @@
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "TOSMIR", Description = "064")]
             Gardeshgari,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "GHBIIR", Description = "")]
-            Ghavamin,
-
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "RQBAIR", Description = "070")]
             Resalat,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "KOSRIR", Description = "")]
-            Kosar,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "NOORIR", Description = "")]
-            Noor,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "MELBIR", Description = "")]
+            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "MELBIR", Description = "075")]
             Melal,
 
             [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(BankType), ShortName = "CASPIR", Description = "")]
