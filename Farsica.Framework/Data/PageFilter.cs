@@ -5,7 +5,7 @@
     public sealed class PageFilter
     {
         [Required]
-        [Range(1, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Skip { get; set; } = 0;
 
         [Required]
