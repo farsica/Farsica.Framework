@@ -66,20 +66,20 @@
                 .Replace("۹", "9");
         }
 
-        public static string? GetClientIpAddress(this HttpRequest httpRequest)
+        public static string? GetClientIpAddress(this HttpContext? httpContext)
         {
-            var xForwardedFor = httpRequest.Headers["X-Forwarded-For"];
+            var xForwardedFor = httpContext?.Request.Headers["X-Forwarded-For"];
             if (!string.IsNullOrEmpty(xForwardedFor))
             {
                 return xForwardedFor.ToString().Split(',').Last();
             }
 
-            return httpRequest.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            return httpContext?.Connection?.RemoteIpAddress?.ToString();
         }
 
-        public static string? GetHeaderParameter(this HttpRequest httpRequest, string key)
+        public static string? GetHeaderParameter(this HttpContext? httpContext, string key)
         {
-            return httpRequest.Headers.TryGetValue(key, out StringValues stringValues) ? stringValues.FirstOrDefault() : null;
+            return httpContext?.Request.Headers.TryGetValue(key, out StringValues stringValues) is true ? stringValues.FirstOrDefault() : null;
         }
 
         public static bool ValidateNationalCode(string nationalCode)
@@ -346,6 +346,11 @@
             {
                 throw new ArgumentException(value);
             }
+        }
+
+        public static string? UserAgent(this HttpContext? httpContext)
+        {
+            return httpContext?.Request.Headers["User-Agent"].ToString();
         }
 
         public static long UserId(this HttpContext? httpContext)

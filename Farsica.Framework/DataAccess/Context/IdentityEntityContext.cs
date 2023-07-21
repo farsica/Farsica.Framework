@@ -204,8 +204,8 @@
             var audit = new Audit<TUser, TKey>
             {
                 Date = DateTimeOffset.Now,
-                IpAddress = httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString(),
-                UserAgent = httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString(),
+                IpAddress = httpContextAccessor.HttpContext.GetClientIpAddress(),
+                UserAgent = httpContextAccessor.HttpContext.UserAgent(),
                 UserId = httpContextAccessor.HttpContext.UserId<TKey>(),
                 AuditEntries = new List<AuditEntry<TUser, TKey>>(),
             };
