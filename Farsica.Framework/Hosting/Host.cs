@@ -61,7 +61,12 @@
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<TStartup>()
-                    .UseSetting(WebHostDefaults.ApplicationKey, typeof(TStartup).GetTypeInfo().Assembly.FullName);
+                    .UseSetting(WebHostDefaults.ApplicationKey, typeof(TStartup).GetTypeInfo().Assembly.FullName)
+                    .UseKestrel(options =>
+                    {
+                        options.AddServerHeader = false;
+                    })
+                    .UseIIS();
                 }).Build();
         }
 

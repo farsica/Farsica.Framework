@@ -6,6 +6,7 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     [Table(nameof(AuditEntryProperty<TUser, TKey>))]
@@ -33,6 +34,9 @@
 
         [Column(nameof(NewValue), DataType.UnicodeMaxString)]
         public string? NewValue { get; set; }
+
+        [NotMapped]
+        public PropertyEntry? TemporaryProperty { get; set; }
 
         public void Configure(EntityTypeBuilder<AuditEntryProperty<TUser, TKey>> builder)
         {

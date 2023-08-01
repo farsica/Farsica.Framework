@@ -247,6 +247,7 @@
                             OldValue = property.OriginalValue?.ToString(),
                             NewValue = property.CurrentValue?.ToString(),
                             PropertyName = property.Metadata.Name,
+                            TemporaryProperty = property.IsTemporary ? property : null,
                         });
                     }
                 }
@@ -304,6 +305,11 @@
                             {
                                 property.AuditEntryId = item.Id;
                             }
+
+                            if (property.TemporaryProperty is not null)
+                            {
+                                property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
+                            }
                         }
 
                         properties.AddRange(auditEntry.AuditEntryProperties);
@@ -360,6 +366,11 @@
                             if (item is not null)
                             {
                                 property.AuditEntryId = item.Id;
+                            }
+
+                            if (property.TemporaryProperty is not null)
+                            {
+                                property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
                             }
                         }
 
