@@ -12,6 +12,7 @@
     using System.Numerics;
     using System.Reflection;
     using System.Resources;
+    using System.Runtime.CompilerServices;
     using System.Security.Claims;
     using System.Security.Cryptography;
     using System.Text;
@@ -25,6 +26,7 @@
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
 
     public static class Globals
@@ -733,7 +735,13 @@
             for (int i = 0; i < names.Length; i++)
             {
                 string? item = names[i];
-                string[] validPrefixes = new[] { $"{defaultNamespace}.Resource.UI.Web.Api.", $"{defaultNamespace}.Resource.Data.ViewModel." };
+                string[] validPrefixes = new[]
+                {
+                    $"{defaultNamespace}.Resource.UI.Web.Api.",
+                    $"{defaultNamespace}.Resource.Data.ViewModel.",
+                    $"{defaultNamespace}.Resource.Data.Enumeration.",
+                };
+
                 if (validPrefixes.Any(item.StartsWith) is false)
                 {
                     continue;
@@ -806,6 +814,96 @@
             }
 
             return result;
+        }
+
+        public static void LogException(this ILogger logger, Exception exc, [CallerMemberName] string? methodName = "")
+        {
+#pragma warning disable CA2254 // Template should be a static expression
+            logger.LogError(exc, methodName);
+#pragma warning restore CA2254 // Template should be a static expression
+        }
+
+        public static string GenerateRandomString(int length)
+        {
+            int numberOfNonAlphanumericCharacters = GenerateRandomNumber(0, length);
+            char[] punctuations = "!@#$%^&*()_-+=[{]};:>|./?".ToCharArray();
+
+            if (length is < 1 or > 128)
+            {
+                throw new ArgumentException($"{nameof(length)} parameter should be between 1 and 128");
+            }
+
+            if (numberOfNonAlphanumericCharacters > length || numberOfNonAlphanumericCharacters < 0)
+            {
+                throw new ArgumentException(nameof(numberOfNonAlphanumericCharacters));
+            }
+
+            using var rng = RandomNumberGenerator.Create();
+            var byteBuffer = new byte[length];
+            rng.GetBytes(byteBuffer);
+            var count = 0;
+            var characterBuffer = new char[length];
+
+            for (var iter = 0; iter < length; iter++)
+            {
+                var i = byteBuffer[iter] % 87;
+
+                if (i < 10)
+                {
+                    characterBuffer[iter] = (char)('0' + i);
+                }
+                else if (i < 36)
+                {
+                    characterBuffer[iter] = (char)('A' + i - 10);
+                }
+                else if (i < 62)
+                {
+                    characterBuffer[iter] = (char)('a' + i - 36);
+                }
+                else
+                {
+                    characterBuffer[iter] = punctuations[i - 62];
+                    count = count + 1;
+                }
+            }
+
+            if (count >= numberOfNonAlphanumericCharacters)
+            {
+                return new string(characterBuffer);
+            }
+
+            int j;
+
+            for (j = 0; j < numberOfNonAlphanumericCharacters - count; j++)
+            {
+                int k;
+                do
+                {
+                    k = GenerateRandomNumber(0, length - 1);
+                }
+                while (!char.IsLetterOrDigit(characterBuffer[k]));
+
+                characterBuffer[k] = punctuations[GenerateRandomNumber(0, punctuations.Length - 1)];
+            }
+
+            return new string(characterBuffer);
+
+            static int GenerateRandomNumber(int minValue, int maxValue)
+            {
+                using var rng = RandomNumberGenerator.Create();
+                byte[] randomNumber = new byte[1];
+                rng.GetBytes(randomNumber);
+
+                double doubleRandomNumber = Convert.ToDouble(randomNumber[0]);
+
+                double multiplier = Math.Max(0, (doubleRandomNumber / 255d) - 0.00000000001d);
+
+                int range = maxValue - minValue + 1;
+
+                double randomValueInRange = Math.Floor(multiplier * range);
+
+                return (int)(minValue + randomValueInRange);
+            }
         }
 
         internal static string? PrepareResourcePath(this string? path)

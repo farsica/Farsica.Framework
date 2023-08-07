@@ -14,12 +14,12 @@
     <Authors>Fariborz khosravi</Authors>
     <Company>Farsica</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.49</Version>
+    <Version>2.0.50</Version>
     <Description>Asp.net Core Application Framework</Description>
     <RepositoryUrl>
     </RepositoryUrl>
     <RepositoryType>public</RepositoryType>
-    <PackageProjectUrl>http://Farsica.com</PackageProjectUrl>
+    <PackageProjectUrl>https://Farsica.com</PackageProjectUrl>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
