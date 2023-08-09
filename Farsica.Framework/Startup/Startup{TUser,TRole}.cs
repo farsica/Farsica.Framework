@@ -82,14 +82,7 @@
 
             var files = Directory.GetFiles(dir, $"{defaultNamespace}.*.dll").Where(t => !t.Contains(frameworkAssembly.ManifestModule.Name));
 
-            var uiAssembly = files.FirstOrDefault(t => t.EndsWith(".UI.Web.dll"));
-            if (string.IsNullOrEmpty(uiAssembly))
-            {
-                return;
-            }
-
-            var applicationName = Path.GetFileNameWithoutExtension(uiAssembly);
-            var mvcBuilder = ConfigureServicesInternal(services, dir, applicationName);
+            var mvcBuilder = ConfigureServicesInternal(services, dir);
 
             AddScopedDynamic(services, frameworkAssembly, files);
             ConfigureServicesCore(services, mvcBuilder);
@@ -251,7 +244,7 @@
             return null;
         }
 
-        private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, string dir, string applicationName)
+        private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, string dir)
         {
             services.AddTransient(typeof(Lazy<>));
 
@@ -343,12 +336,13 @@
                 {
                     options.Cookie.Name = Constants.RequestVerificationTokenCookie;
                 });
-                var keysFolder = Path.Combine(dir, "frb-keys");
-                services.AddDataProtection()
-                    .SetApplicationName(applicationName)
-                    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
-                    .SetDefaultKeyLifetime(TimeSpan.FromDays(12));
             }
+
+            var keysFolder = Path.Combine(dir, "frb-keys");
+            services.AddDataProtection()
+                .SetApplicationName(defaultNamespace)
+                .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(12));
 
             var embeddedFileProvider = new EmbeddedFileProvider(Assembly.GetCallingAssembly(), "Farsica.Framework");
             services.Configure<MvcRazorRuntimeCompilationOptions>(options =>

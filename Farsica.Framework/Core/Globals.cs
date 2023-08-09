@@ -29,7 +29,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
 
-    public static class Globals
+    public static partial class Globals
     {
         private static readonly char[] Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
 
@@ -110,7 +110,7 @@
                 var b = num0 + num2 + num3 + num4 + num5 + num6 + num7 + num8 + num9;
                 var c = b % 11;
 
-                return ((c < 2) && (a == c)) || ((c >= 2) && ((11 - c) == a));
+                return (c < 2 && a == c) || (c >= 2 && 11 - c == a);
             }
             catch
             {
@@ -230,12 +230,12 @@
         public static T? ValueOf<T>(this Dictionary<string, string> dictionary, string key, T? defaultValue = default)
         {
             dictionary.TryGetValue(key, out string? tmp);
-            return ValueOf(tmp, defaultValue);
+            return tmp.ValueOf(defaultValue);
         }
 
         public static T? ValueOf<T>(this string? value, T? defaultValue = default)
         {
-            return ValueOf(value, typeof(T), defaultValue);
+            return value.ValueOf(typeof(T), defaultValue);
         }
 
         public static dynamic? ValueOf(this string? value, Type type, dynamic? defaultValue)
@@ -357,18 +357,18 @@
 
         public static long UserId(this HttpContext? httpContext)
         {
-            return UserId<long>(httpContext);
+            return httpContext.UserId<long>();
         }
 
         public static T? UserId<T>(this HttpContext? httpContext)
             where T : IEquatable<T>
         {
-            return UserId<T>(httpContext?.User);
+            return (httpContext?.User).UserId<T>();
         }
 
         public static long UserId(this ClaimsPrincipal? claimsPrincipal)
         {
-            return UserId<long>(claimsPrincipal);
+            return claimsPrincipal.UserId<long>();
         }
 
         public static T? UserId<T>(this ClaimsPrincipal? claimsPrincipal)
@@ -908,12 +908,17 @@
 
         internal static string? PrepareResourcePath(this string? path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+
             const string resourceAssembly = ".Resource";
 
-            return path?
-                .Replace(".UI.Web.", resourceAssembly + ".UI.Web.")
-                .Replace(".UI.Web,", resourceAssembly + ",")
+            var str = UiDotRegex().Replace(path, resourceAssembly + "$0");
+            str = UiCommaRegex().Replace(str, resourceAssembly + "$0");
 
+            return str
                 .Replace(".Infrastructure.", resourceAssembly + ".Infrastructure.")
                 .Replace(".Infrastructure,", resourceAssembly + ",")
 
@@ -1030,6 +1035,12 @@
 
             return rootValueDictionary;
         }
+
+        [GeneratedRegex("\\.UI\\..*?\\.")]
+        private static partial Regex UiCommaRegex();
+
+        [GeneratedRegex("\\.UI\\..*?\\,")]
+        private static partial Regex UiDotRegex();
 
         #region Inner Classes
 
