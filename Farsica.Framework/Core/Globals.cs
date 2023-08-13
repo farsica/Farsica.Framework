@@ -760,7 +760,24 @@
                 foreach (DictionaryEntry entry in resources)
                 {
                     var key = (string)entry.Key;
-                    nestedList.Add(key.Replace("_Name", string.Empty), manager.GetString(key, CultureInfo.CurrentCulture));
+                    var text = manager.GetString(key, CultureInfo.CurrentCulture);
+
+                    var lst = key.Replace("_Name", string.Empty).Split("_", 2, StringSplitOptions.RemoveEmptyEntries);
+                    if (lst.Length == 1)
+                    {
+                        nestedList.Add(lst[0], text);
+                    }
+                    else
+                    {
+                        if (nestedList.ContainsKey(lst[0]))
+                        {
+                            _ = (nestedList[lst[0]] as Dictionary<string, object?>)?.TryAdd(lst[1], text);
+                        }
+                        else
+                        {
+                            nestedList.Add(lst[0], new Dictionary<string, object?> { { lst[1], text } });
+                        }
+                    }
                 }
 
                 dataList.Add(baseName.Replace($"{defaultNamespace}.Resource.", string.Empty), nestedList);
@@ -780,7 +797,22 @@
                         continue;
                     }
 
-                    coreList.Add(key, item.Value);
+                    var lst = key.Replace("_Name", string.Empty).Split("_", 2, StringSplitOptions.RemoveEmptyEntries);
+                    if (lst.Length == 1)
+                    {
+                        coreList.Add(lst[0], item.Value);
+                    }
+                    else
+                    {
+                        if (coreList.ContainsKey(lst[0]))
+                        {
+                            _ = (coreList[lst[0]] as Dictionary<string, object?>)?.TryAdd(lst[1], item.Value);
+                        }
+                        else
+                        {
+                            coreList.Add(lst[0], new Dictionary<string, object?> { { lst[1], item.Value } });
+                        }
+                    }
                 }
             }
 

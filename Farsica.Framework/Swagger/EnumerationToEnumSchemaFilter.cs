@@ -1,8 +1,9 @@
-﻿namespace Farsica.Framework.Data.Enumeration
+﻿namespace Farsica.Framework.Swagger
 {
     using System;
     using System.Linq;
     using System.Reflection;
+    using Farsica.Framework.Data.Enumeration;
     using Microsoft.OpenApi.Any;
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;

@@ -102,13 +102,13 @@
             }
             else
             {
-                if (exceptionHandlerOptions is not null)
+                if (exceptionHandlerOptions is null)
                 {
-                    app.UseExceptionHandler(exceptionHandlerOptions);
+                    app.UseExceptionHandler("/error");
                 }
                 else
                 {
-                    app.UseExceptionHandler("/error");
+                    app.UseExceptionHandler(exceptionHandlerOptions);
                 }
 
                 if (https)

@@ -2,6 +2,14 @@
 {
     public sealed class DisplayNameAttribute : System.ComponentModel.DisplayNameAttribute
     {
-        public override string? DisplayName => base.DisplayName;
+        public DisplayNameAttribute()
+            : base()
+        {
+        }
+
+        public DisplayNameAttribute(string? displayName)
+            : base(displayName ?? string.Empty)
+        {
+        }
     }
 }

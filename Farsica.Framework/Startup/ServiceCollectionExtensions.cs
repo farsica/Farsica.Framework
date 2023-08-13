@@ -2,7 +2,7 @@
 {
     using System;
     using Farsica.Framework.Cookie;
-    using Farsica.Framework.Data.Enumeration;
+    using Farsica.Framework.Swagger;
     using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.Extensions.DependencyInjection;
     using Swashbuckle.AspNetCore.SwaggerGen;
@@ -33,9 +33,14 @@
 
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services, Action<SwaggerGenOptions>? setupAction = null)
         {
-            Action<SwaggerGenOptions> baseSetupAction = options => options.SchemaFilter<EnumerationToEnumSchemaFilter>();
-            return services.AddEndpointsApiExplorer()
-                .AddSwaggerGen(baseSetupAction + setupAction);
+            Action<SwaggerGenOptions> baseSetupAction = options =>
+            {
+                options.SchemaFilter<EnumerationToEnumSchemaFilter>();
+                options.DocumentFilter<DisplayNameDocumentFilter>();
+                options.OperationFilter<DisplayNameOperationFilter>();
+            };
+
+            return services.AddEndpointsApiExplorer().AddSwaggerGen(baseSetupAction + setupAction);
         }
     }
 }
