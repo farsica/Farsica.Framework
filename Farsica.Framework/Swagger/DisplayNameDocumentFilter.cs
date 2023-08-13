@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Farsica.Framework.DataAnnotation;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;
@@ -13,31 +15,27 @@
         {
             swaggerDoc.Tags ??= new List<OpenApiTag>();
 
-            var controllerNamesAndAttributes = context.ApiDescriptions
-                .Select(t => t.ActionDescriptor as ControllerActionDescriptor)
-                .Where(t => t != null)
-                .GroupBy(t => t!.ControllerName)
-                .Select(t => new KeyValuePair<string, IEnumerable<object>>(t.Key, t.First()!.ControllerTypeInfo.GetCustomAttributes(true)));
-
-            foreach (var entry in controllerNamesAndAttributes)
+            foreach (var item in context.ApiDescriptions)
             {
-                ApplySwaggerTagAttribute(swaggerDoc, entry.Key, entry.Value);
+                if (item.ActionDescriptor is not ControllerActionDescriptor descriptor)
+                {
+                    continue;
+                }
+
+                var displayNameAttribute = descriptor.ControllerTypeInfo.GetCustomAttributes<DisplayNameAttribute>().FirstOrDefault();
+                var description = displayNameAttribute is null ? string.Empty : displayNameAttribute.DisplayName;
+
+                var areaAttribute = descriptor.ControllerTypeInfo.GetCustomAttributes<AreaAttribute>().FirstOrDefault();
+                var name = areaAttribute is null ? descriptor.ControllerName : $"{areaAttribute.RouteValue} - {descriptor.ControllerName}";
+
+                swaggerDoc.Tags.Add(new OpenApiTag
+                {
+                    Name = name,
+                    Description = description,
+                });
             }
-        }
 
-        private static void ApplySwaggerTagAttribute(OpenApiDocument swaggerDoc, string controllerName, IEnumerable<object> customAttributes)
-        {
-            var displayNameAttribute = customAttributes.OfType<DisplayNameAttribute>().FirstOrDefault();
-            if (displayNameAttribute is null)
-            {
-                return;
-            }
-
-            swaggerDoc.Tags.Add(new OpenApiTag
-            {
-                Name = controllerName,
-                Description = displayNameAttribute.DisplayName,
-            });
+            swaggerDoc.Tags = swaggerDoc.Tags.OrderBy(t => t.Name).ToList();
         }
     }
 }

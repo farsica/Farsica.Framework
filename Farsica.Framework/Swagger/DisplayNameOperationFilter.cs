@@ -5,6 +5,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Farsica.Framework.DataAnnotation;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -17,6 +19,15 @@
 
             var actionAndEndpointAttribtues = actionAttributes.Union(metadataAttributes).Distinct();
             ApplySwaggerOperationAttribute(operation, actionAndEndpointAttribtues);
+
+            if (context.ApiDescription?.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+            {
+                var areaName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AreaAttribute), true)
+                    .Cast<AreaAttribute>().FirstOrDefault();
+                operation.Tags = areaName != null
+                    ? new List<OpenApiTag> { new OpenApiTag { Name = $"{areaName.RouteValue} - {controllerActionDescriptor.ControllerName}" } }
+                    : (IList<OpenApiTag>)new List<OpenApiTag> { new OpenApiTag { Name = controllerActionDescriptor.ControllerName } };
+            }
         }
 
         private static void ApplySwaggerOperationAttribute(OpenApiOperation operation, IEnumerable<object> actionAttributes)
