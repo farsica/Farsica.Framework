@@ -238,7 +238,7 @@
                 {
                     foreach (var property in entry.Properties)
                     {
-                        if (property.GetType().GetCustomAttribute<AuditIgnoreAttribute>() is not null)
+                        if (entry.Entity.GetType().GetProperty(property.Metadata.Name).GetCustomAttribute<AuditIgnoreAttribute>() is not null)
                         {
                             continue;
                         }
