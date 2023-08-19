@@ -83,7 +83,7 @@
             return default;
         }
 
-        public static T? Find<T>(this IReadOnlyList<T> list, Predicate<T> match)
+        public static bool Exists<T>(this ReadOnlyCollection<T> list, Predicate<T> match)
         {
             if (match is null)
             {
@@ -94,11 +94,11 @@
             {
                 if (match(list[i]))
                 {
-                    return list[i];
+                    return true;
                 }
             }
 
-            return default;
+            return false;
         }
     }
 }

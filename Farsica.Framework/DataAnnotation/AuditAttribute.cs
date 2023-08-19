@@ -2,7 +2,7 @@
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class AuditAttribute : Attribute
     {
         public AuditAttribute(int entityType)

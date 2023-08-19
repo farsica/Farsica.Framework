@@ -32,6 +32,7 @@
     public static partial class Globals
     {
         private static readonly char[] Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+        private static readonly Regex MatchIranianPostalCode = new(@"\b(?!(\d)\1{3})[13-9]{4}[1346-9][013-9]{5}\b", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromMinutes(1));
 
         public static CultureInfo CurrentCulture => Thread.CurrentThread.CurrentUICulture;
 
@@ -116,6 +117,11 @@
             {
                 return false;
             }
+        }
+
+        public static bool ValidatePostalCode(string? postalCode)
+        {
+            return !string.IsNullOrEmpty(postalCode) && MatchIranianPostalCode.IsMatch(postalCode);
         }
 
         public static string? GetLocalizedDisplayName(MemberInfo? member)

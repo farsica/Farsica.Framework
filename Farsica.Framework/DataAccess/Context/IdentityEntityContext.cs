@@ -11,6 +11,7 @@
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
+    using Farsica.Framework.DataAnnotation;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -218,7 +219,7 @@
                     continue;
                 }
 
-                var auditAttribute = entry.Entity.GetType().GetCustomAttribute<DataAnnotation.AuditAttribute>();
+                var auditAttribute = entry.Entity.GetType().GetCustomAttribute<AuditAttribute>();
                 if (auditAttribute is null)
                 {
                     continue;
@@ -237,6 +238,11 @@
                 {
                     foreach (var property in entry.Properties)
                     {
+                        if (property.GetType().GetCustomAttribute<AuditIgnoreAttribute>() is not null)
+                        {
+                            continue;
+                        }
+
                         if (property.OriginalValue?.ToString() == property.CurrentValue?.ToString() || shadowProperties.Contains(property.Metadata.Name))
                         {
                             continue;
