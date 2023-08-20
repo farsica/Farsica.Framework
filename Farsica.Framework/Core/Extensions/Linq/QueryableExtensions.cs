@@ -7,6 +7,7 @@
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data;
     using Microsoft.EntityFrameworkCore;
 
@@ -73,7 +74,7 @@
             var sort = false;
             if (pagingDto.SortFilter?.Any() is true)
             {
-                var items = pagingDto.SortFilter.Where(t => properties.Any(p => p.Name.Equals(t.Column, StringComparison.InvariantCultureIgnoreCase)));
+                var items = pagingDto.SortFilter.Where(t => properties.Exists(p => p.Name.Equals(t.Column, StringComparison.InvariantCultureIgnoreCase)));
                 if (items?.Any() is true)
                 {
                     sort = true;

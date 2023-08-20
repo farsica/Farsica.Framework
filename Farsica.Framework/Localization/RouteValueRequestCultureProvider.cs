@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using Farsica.Framework.Core;
-
+    using Farsica.Framework.Core.Extensions.Collections;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
 
@@ -34,7 +34,7 @@
                 return Task.FromResult(new ProviderCultureResult(Constants.DefaultLanguageCode));
             }
 
-            if (!cultures.Any(t => t.Name.Equals(routeValues[1], StringComparison.InvariantCultureIgnoreCase)))
+            if (!cultures.Exists(t => t.Name.Equals(routeValues[1], StringComparison.InvariantCultureIgnoreCase)))
             {
                 return Task.FromResult(new ProviderCultureResult(Constants.DefaultLanguageCode));
             }

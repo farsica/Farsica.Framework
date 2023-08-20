@@ -60,7 +60,7 @@
                     throw new NotImplementedException(ProviderType.ToString());
             }
 
-            if (Parameters?.Any() == true)
+            if (Parameters?.Any() is true)
             {
                 sb.AppendJoin(";", Parameters.Keys.Select(t => $"{t}={Parameters[t]}"));
             }

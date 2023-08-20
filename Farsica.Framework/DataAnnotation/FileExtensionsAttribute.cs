@@ -4,16 +4,19 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     public sealed class FileExtensionsAttribute : ValidationAttribute, IClientModelValidator
     {
-        public FileExtensionsAttribute(string[] extensions)
+#pragma warning disable CA1019 // Define accessors for attribute arguments
+        public FileExtensionsAttribute(string extensions)
+#pragma warning restore CA1019 // Define accessors for attribute arguments
         {
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_FileExtensions);
-            Extensions = extensions;
+            Extensions = extensions.Split(Constants.JoinDelimiter);
         }
 
         public string[] Extensions { get; }
@@ -27,12 +30,12 @@
 
             if (value is List<IFormFile> lst)
             {
-                return lst.All(t => t is null || Extensions.Any(e => e.Equals(Path.GetExtension(t.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase)));
+                return lst.All(t => t is null || Extensions.Exists(e => e.Equals(Path.GetExtension(t.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase)));
             }
 
             if (value is IFormFile file)
             {
-                return Extensions.Any(t => t.Equals(Path.GetExtension(file.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase));
+                return Extensions.Exists(t => t.Equals(Path.GetExtension(file.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase));
             }
 
             return false;
@@ -41,13 +44,13 @@
         public void AddValidation(ClientModelValidationContext context)
         {
             _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-extensions", FormatErrorMessage(Core.Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-extensions", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
             _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-extensions-extension", string.Join(",", Extensions)));
         }
 
-        private string? FormatErrorMessage(string? modelDisplayName)
+        public override string FormatErrorMessage(string name)
         {
-            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, string.Join(",", Extensions));
+            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, string.Join(",", Extensions));
         }
     }
 }

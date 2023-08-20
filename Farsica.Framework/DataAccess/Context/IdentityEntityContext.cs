@@ -7,6 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
+    using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
@@ -139,7 +140,7 @@
             var types = EntityAssembly.GetTypes();
             foreach (var type in types)
             {
-                if (type.GetInterfaces().Any(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
+                if (type.GetInterfaces().Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
                 {
                     builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
                             .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);

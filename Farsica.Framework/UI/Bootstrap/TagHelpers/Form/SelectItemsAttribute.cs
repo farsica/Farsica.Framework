@@ -20,7 +20,7 @@
         {
             var properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) is true).ToList();
 
-            while (!properties.Any())
+            while (properties.Count == 0)
             {
                 explorer = explorer.Container;
                 if (explorer.Container is null)

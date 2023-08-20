@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Farsica.Framework.UI.Bootstrap.TagHelpers.Grid;
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -89,7 +90,7 @@
 
         protected virtual void SetActiveTab(IReadOnlyList<TabItem> items)
         {
-            if (!items.Any(it => it.Active) && items.Count > 0)
+            if (!items.Exists(t => t.Active) && items.Count > 0)
             {
                 var firstItem = items.FirstOrDefault(i => !i.IsDropdown);
                 if (firstItem is not null)

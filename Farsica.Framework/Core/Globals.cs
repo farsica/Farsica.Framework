@@ -21,6 +21,7 @@
     using System.Threading.Tasks;
 
     using Farsica.Framework.Core.Extensions;
+    using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data;
     using Farsica.Framework.DataAnnotation;
 
@@ -748,7 +749,7 @@
                     $"{defaultNamespace}.Resource.Data.Enumeration.",
                 };
 
-                if (validPrefixes.Any(item.StartsWith) is false)
+                if (validPrefixes.Exists(item.StartsWith) is false)
                 {
                     continue;
                 }
