@@ -43,7 +43,7 @@
                 .AddEnvironmentVariables()
                 .Build();
 
-            Globals.ProviderType = config.GetValue<ProviderType>("Connection:ProviderType");
+            Globals.ProviderType = config.GetValue<DbProviderType>("Connection:ProviderType");
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(config)
                 .Destructure.UsingAttributes()

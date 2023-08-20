@@ -38,7 +38,7 @@
 
         public static bool IsRtl => CurrentCulture.TextInfo.IsRightToLeft;
 
-        public static ProviderType ProviderType { get; set; }
+        public static DbProviderType ProviderType { get; set; }
 
         public static string? NormalizePersian(this string? str)
         {

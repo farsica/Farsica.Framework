@@ -17,10 +17,10 @@
 
                 switch (Globals.ProviderType)
                 {
-                    case ProviderType.SqlServer:
+                    case DbProviderType.SqlServer:
                         factory = new SqlServerProvider();
                         break;
-                    case ProviderType.DevartOracle:
+                    case DbProviderType.DevartOracle:
                         factory = new DevartOracleProvider();
                         break;
                     default:

@@ -1,6 +1,6 @@
 ﻿namespace Farsica.Framework.Data
 {
-    public enum ProviderType
+    public enum DbProviderType
     {
         SqlServer,
 

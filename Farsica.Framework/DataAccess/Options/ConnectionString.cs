@@ -8,7 +8,7 @@
 
     public class ConnectionString
     {
-        public ConnectionString(ProviderType providerType, string? host, string? dbIdentifier, string? user, string? password, ushort? port = null, Dictionary<string, string>? parameters = null)
+        public ConnectionString(DbProviderType providerType, string? host, string? dbIdentifier, string? user, string? password, ushort? port = null, Dictionary<string, string>? parameters = null)
         {
             ProviderType = providerType;
             Host = host;
@@ -19,7 +19,7 @@
             Parameters = parameters;
         }
 
-        public ProviderType ProviderType { get; set; }
+        public DbProviderType ProviderType { get; set; }
 
         public string? Host { get; set; }
 
@@ -38,7 +38,7 @@
             var sb = new StringBuilder();
             switch (ProviderType)
             {
-                case ProviderType.SqlServer:
+                case DbProviderType.SqlServer:
                     sb.Append($"Server={Host};Database={DbIdentifier};User Id={User};Password={Password};");
 
                     if (Port.HasValue)
@@ -47,7 +47,7 @@
                     }
 
                     break;
-                case ProviderType.DevartOracle:
+                case DbProviderType.DevartOracle:
                     if (!Port.HasValue)
                     {
                         Port = 1521;
