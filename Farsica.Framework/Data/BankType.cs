@@ -1,5 +1,6 @@
 ﻿namespace Farsica.Framework.Data
 {
+    using Farsica.Framework.Core;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Resources;
 
@@ -105,5 +106,7 @@
         public string SwiftCode { get; set; }
 
         public string Ban { get; set; }
+
+        public string? LocalizedName => Globals.DisplayNameFor<BankType>(t => t.Value == Value) ?? Name;
     }
 }
