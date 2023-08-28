@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
+    using Farsica.Framework.Core;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public static class FlagsEnumerationExtensions
@@ -141,6 +142,36 @@
             }
 
             return enumeration;
+        }
+
+        public static string? LocalizedDisplayName<TEnum>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return Globals.GetLocalizedDisplayName(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedShortName<TEnum>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return Globals.GetLocalizedShortName(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedDescription<TEnum>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return Globals.GetLocalizedDescription(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedPromt<TEnum>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return Globals.GetLocalizedPromt(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedGroupName<TEnum>(this TEnum value)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return Globals.GetLocalizedGroupName(typeof(TEnum).GetField(value.ToString()!));
         }
     }
 }

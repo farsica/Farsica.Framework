@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
+    using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -63,6 +64,41 @@
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             return builder.Property(property).HasConversion(t => t.Value, t => t.ToEnumeration<TEnum, TKey>());
+        }
+
+        public static string? LocalizedDisplayName<TEnum, TKey>(this TEnum value)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return Globals.GetLocalizedDisplayName(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedShortName<TEnum, TKey>(this TEnum value)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return Globals.GetLocalizedShortName(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedDescription<TEnum, TKey>(this TEnum value)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return Globals.GetLocalizedDescription(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedPromt<TEnum, TKey>(this TEnum value)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return Globals.GetLocalizedPromt(typeof(TEnum).GetField(value.ToString()!));
+        }
+
+        public static string? LocalizedGroupName<TEnum, TKey>(this TEnum value)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return Globals.GetLocalizedGroupName(typeof(TEnum).GetField(value.ToString()!));
         }
 
         private static bool TryParse<TEnum, TKey>(Func<TEnum, bool> predicate, out TEnum? enumeration)

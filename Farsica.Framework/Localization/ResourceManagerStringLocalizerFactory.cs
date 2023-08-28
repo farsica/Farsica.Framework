@@ -36,18 +36,15 @@
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            if (resourceSource is null)
-            {
-                throw new ArgumentNullException(nameof(resourceSource));
-            }
+            ArgumentNullException.ThrowIfNull(nameof(resourceSource));
 
             var typeInfo = resourceSource.GetTypeInfo();
             var baseName = GetResourcePrefix(typeInfo).PrepareResourcePath();
 
             var assemblyName = typeInfo.Assembly.FullName.PrepareResourcePath();
-            var assembly = Assembly.Load(assemblyName);
+            var assembly = Assembly.Load(assemblyName!);
 
-            return localizerCache.GetOrAdd(baseName, _ => CreateResourceManagerStringLocalizer(assembly, baseName));
+            return localizerCache.GetOrAdd(baseName!, _ => CreateResourceManagerStringLocalizer(assembly, baseName));
         }
 
         public IStringLocalizer Create(string baseName, string? location)

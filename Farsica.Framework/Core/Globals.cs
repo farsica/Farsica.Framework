@@ -136,7 +136,7 @@
             var displayAttribute = member.GetCustomAttribute<DisplayAttribute>(false);
             if (displayAttribute is not null)
             {
-                name = GetLocalizedValueInternal(displayAttribute, member.Name, Constants.ResourceKey.Name);
+                name = GetLocalizedValueInternal(displayAttribute, member.Name, Constants.ResourceKey.Name, member: member);
                 return !name.IsNullOrEmpty() ? name : member.Name;
             }
 
@@ -176,7 +176,7 @@
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
             if (customDisplay is not null)
             {
-                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.ShortName);
+                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.ShortName, member: member);
             }
 
             var customAttribute = member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(false);
@@ -193,7 +193,7 @@
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
             if (customDisplay is not null)
             {
-                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.Description);
+                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.Description, member: member);
             }
 
             var customAttribute = member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(false);
@@ -210,7 +210,7 @@
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
             if (customDisplay is not null)
             {
-                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.Prompt);
+                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.Prompt, member: member);
             }
 
             var customAttribute = member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(false);
@@ -227,7 +227,7 @@
             var customDisplay = member.GetCustomAttribute<DisplayAttribute>(false);
             if (customDisplay is not null)
             {
-                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.GroupName);
+                return GetLocalizedValueInternal(customDisplay, member.Name, Constants.ResourceKey.GroupName, member: member);
             }
 
             var customAttribute = member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(false);
@@ -971,10 +971,11 @@
                 .Replace(".Data,", resourceAssembly + ",")
 
                 .Replace(".Common.", resourceAssembly + ".Common.")
-                .Replace(".Common,", resourceAssembly + ",");
+                .Replace(".Common,", resourceAssembly + ",")
+                .Replace(resourceAssembly + resourceAssembly, resourceAssembly);
         }
 
-        internal static string? GetLocalizedValueInternal(DisplayAttribute displayAttribute, string propertyName, Constants.ResourceKey resourceKey, ResourceManager? cachedResourceManager = null)
+        internal static string? GetLocalizedValueInternal(DisplayAttribute displayAttribute, string propertyName, Constants.ResourceKey resourceKey, ResourceManager? cachedResourceManager = null, MemberInfo? member = null)
         {
             var result = resourceKey switch
             {
@@ -997,13 +998,16 @@
                 }
                 else if (displayAttribute.ResourceTypeName is not null)
                 {
-                    var type = Type.GetType(displayAttribute.ResourceTypeName);
-                    if (type is null)
-                    {
-                        throw new ArgumentException(nameof(DisplayAttribute.ResourceTypeName));
-                    }
-
+                    var type = Type.GetType(displayAttribute.ResourceTypeName) ?? throw new ArgumentException(nameof(DisplayAttribute.ResourceTypeName));
                     cachedResourceManager = new ResourceManager(type);
+                }
+                else if (member is not null)
+                {
+                    var type = Type.GetType(member.DeclaringType?.AssemblyQualifiedName.PrepareResourcePath()!);
+                    if (type is not null)
+                    {
+                        cachedResourceManager = new ResourceManager(type);
+                    }
                 }
             }
 
