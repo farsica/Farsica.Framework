@@ -55,39 +55,6 @@
         internal const string HttpClientIgnoreSslAndAutoRedirect = "HttpClientIgnoreSslAndAutoRedirect";
         internal const string HttpClientIgnoreSslAndAutoRedirectTls13 = "HttpClientIgnoreSslAndAutoRedirectTls13";
 
-        public enum DegreeType : byte
-        {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            Diploma = 0,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            Associate = 1,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            Bachelor = 2,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            Master = 3,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            Phd = 4,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            PostDoc = 5,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
-            Other = 6,
-        }
-
-        public enum GenderType : byte
-        {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(GenderType))]
-            Male = 0,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(GenderType))]
-            Female = 1,
-        }
-
         public enum OperationResult : byte
         {
             NotFound = 0,
@@ -175,15 +142,6 @@
             Deleted = 2,
         }
 
-        public enum UserType : byte
-        {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(UserType))]
-            Real = 0,
-
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(UserType))]
-            Legal = 1,
-        }
-
         public enum DenyLevel
         {
             Read,
@@ -194,28 +152,21 @@
 
         public enum Status : byte
         {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(Status))]
             Failed = 0,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(Status))]
             Succeed = 1,
         }
 
         public enum OAuthGrantType : byte
         {
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(OAuthGrantType))]
             AuthorizationCode = 0,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(OAuthGrantType))]
             RefreshToken = 1,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(OAuthGrantType))]
             Implicit = 2,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(OAuthGrantType))]
             Password = 3,
 
-            [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(OAuthGrantType))]
             Client = 4,
         }
 
@@ -417,6 +368,6 @@
             GroupName,
         }
 
-        public static Tenant DefaultTenant => new() { Name = DefaultTenantIdentifier, Code = "BOOMIR", Schema = "Farsica", ArchiveSchema = "Farsica_ARCHIVE" };
+        public static Tenant DefaultTenant => new() { Name = DefaultTenantIdentifier, Code = "FRBZIR", Schema = "Farsica", ArchiveSchema = "Farsica_ARCHIVE" };
     }
 }

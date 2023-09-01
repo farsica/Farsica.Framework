@@ -88,6 +88,276 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ayandeh.
+        /// </summary>
+        public static string BankType_Ayandeh_Name {
+            get {
+                return ResourceManager.GetString("BankType_Ayandeh_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day.
+        /// </summary>
+        public static string BankType_Day_Name {
+            get {
+                return ResourceManager.GetString("BankType_Day_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EghtesadNovin.
+        /// </summary>
+        public static string BankType_EghtesadNovin_Name {
+            get {
+                return ResourceManager.GetString("BankType_EghtesadNovin_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gardeshgari.
+        /// </summary>
+        public static string BankType_Gardeshgari_Name {
+            get {
+                return ResourceManager.GetString("BankType_Gardeshgari_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iran Venezoela.
+        /// </summary>
+        public static string BankType_IranVenezoela_Name {
+            get {
+                return ResourceManager.GetString("BankType_IranVenezoela_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iran Zamin.
+        /// </summary>
+        public static string BankType_IranZamin_Name {
+            get {
+                return ResourceManager.GetString("BankType_IranZamin_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kar Afarin.
+        /// </summary>
+        public static string BankType_KarAfarin_Name {
+            get {
+                return ResourceManager.GetString("BankType_KarAfarin_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keshavarzi.
+        /// </summary>
+        public static string BankType_Keshavarzi_Name {
+            get {
+                return ResourceManager.GetString("BankType_Keshavarzi_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Khavar Mianeh.
+        /// </summary>
+        public static string BankType_KhavarMianeh_Name {
+            get {
+                return ResourceManager.GetString("BankType_KhavarMianeh_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maskan.
+        /// </summary>
+        public static string BankType_Maskan_Name {
+            get {
+                return ResourceManager.GetString("BankType_Maskan_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mehr Iran.
+        /// </summary>
+        public static string BankType_MehrIran_Name {
+            get {
+                return ResourceManager.GetString("BankType_MehrIran_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Melal.
+        /// </summary>
+        public static string BankType_Melal_Name {
+            get {
+                return ResourceManager.GetString("BankType_Melal_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mellat.
+        /// </summary>
+        public static string BankType_Mellat_Name {
+            get {
+                return ResourceManager.GetString("BankType_Mellat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Melli.
+        /// </summary>
+        public static string BankType_Melli_Name {
+            get {
+                return ResourceManager.GetString("BankType_Melli_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parsian.
+        /// </summary>
+        public static string BankType_Parsian_Name {
+            get {
+                return ResourceManager.GetString("BankType_Parsian_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pasargad.
+        /// </summary>
+        public static string BankType_Pasargad_Name {
+            get {
+                return ResourceManager.GetString("BankType_Pasargad_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post Bank.
+        /// </summary>
+        public static string BankType_PostBank_Name {
+            get {
+                return ResourceManager.GetString("BankType_PostBank_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refah.
+        /// </summary>
+        public static string BankType_Refah_Name {
+            get {
+                return ResourceManager.GetString("BankType_Refah_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resalat.
+        /// </summary>
+        public static string BankType_Resalat_Name {
+            get {
+                return ResourceManager.GetString("BankType_Resalat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saderat.
+        /// </summary>
+        public static string BankType_Saderat_Name {
+            get {
+                return ResourceManager.GetString("BankType_Saderat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saman.
+        /// </summary>
+        public static string BankType_Saman_Name {
+            get {
+                return ResourceManager.GetString("BankType_Saman_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sanat Madan.
+        /// </summary>
+        public static string BankType_SanatMadan_Name {
+            get {
+                return ResourceManager.GetString("BankType_SanatMadan_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sarmayeh.
+        /// </summary>
+        public static string BankType_Sarmayeh_Name {
+            get {
+                return ResourceManager.GetString("BankType_Sarmayeh_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sepah.
+        /// </summary>
+        public static string BankType_Sepah_Name {
+            get {
+                return ResourceManager.GetString("BankType_Sepah_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shahr.
+        /// </summary>
+        public static string BankType_Shahr_Name {
+            get {
+                return ResourceManager.GetString("BankType_Shahr_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sina.
+        /// </summary>
+        public static string BankType_Sina_Name {
+            get {
+                return ResourceManager.GetString("BankType_Sina_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tejarat.
+        /// </summary>
+        public static string BankType_Tejarat_Name {
+            get {
+                return ResourceManager.GetString("BankType_Tejarat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tosee.
+        /// </summary>
+        public static string BankType_Tosee_Name {
+            get {
+                return ResourceManager.GetString("BankType_Tosee_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tosee Saderat.
+        /// </summary>
+        public static string BankType_ToseeSaderat_Name {
+            get {
+                return ResourceManager.GetString("BankType_ToseeSaderat_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tosee Taavon.
+        /// </summary>
+        public static string BankType_ToseeTaavon_Name {
+            get {
+                return ResourceManager.GetString("BankType_ToseeTaavon_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optimistic concurrency failure, object has been modified..
         /// </summary>
         public static string ConcurrencyFailure {
@@ -102,6 +372,69 @@ namespace Farsica.Framework.Resources {
         public static string DefaultIdentityError {
             get {
                 return ResourceManager.GetString("DefaultIdentityError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate.
+        /// </summary>
+        public static string DegreeType_Associate_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_Associate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bachelor.
+        /// </summary>
+        public static string DegreeType_Bachelor_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_Bachelor_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diploma.
+        /// </summary>
+        public static string DegreeType_Diploma_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_Diploma_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master.
+        /// </summary>
+        public static string DegreeType_Master_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_Master_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string DegreeType_Other_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_Other_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phd.
+        /// </summary>
+        public static string DegreeType_Phd_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_Phd_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PostDoc.
+        /// </summary>
+        public static string DegreeType_PostDoc_Name {
+            get {
+                return ResourceManager.GetString("DegreeType_PostDoc_Name", resourceCulture);
             }
         }
         
@@ -129,6 +462,24 @@ namespace Farsica.Framework.Resources {
         public static string DuplicateUserName {
             get {
                 return ResourceManager.GetString("DuplicateUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Female.
+        /// </summary>
+        public static string GenderType_Female_Name {
+            get {
+                return ResourceManager.GetString("GenderType_Female_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Male.
+        /// </summary>
+        public static string GenderType_Male_Name {
+            get {
+                return ResourceManager.GetString("GenderType_Male_Name", resourceCulture);
             }
         }
         
@@ -408,6 +759,24 @@ namespace Farsica.Framework.Resources {
         public static string UserNotInRole {
             get {
                 return ResourceManager.GetString("UserNotInRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legal.
+        /// </summary>
+        public static string UserType_Legal_Name {
+            get {
+                return ResourceManager.GetString("UserType_Legal_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Real.
+        /// </summary>
+        public static string UserType_Real_Name {
+            get {
+                return ResourceManager.GetString("UserType_Real_Name", resourceCulture);
             }
         }
         

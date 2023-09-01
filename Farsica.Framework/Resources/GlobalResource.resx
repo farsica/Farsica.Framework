@@ -318,4 +318,127 @@
   <data name="Validation_FileSize" xml:space="preserve">
     <value>Maximum Length of Field {0} Must Be {1}</value>
   </data>
+  <data name="BankType_Ayandeh_Name" xml:space="preserve">
+    <value>Ayandeh</value>
+  </data>
+  <data name="BankType_Day_Name" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="BankType_EghtesadNovin_Name" xml:space="preserve">
+    <value>EghtesadNovin</value>
+  </data>
+  <data name="BankType_Gardeshgari_Name" xml:space="preserve">
+    <value>Gardeshgari</value>
+  </data>
+  <data name="BankType_IranVenezoela_Name" xml:space="preserve">
+    <value>Iran Venezoela</value>
+  </data>
+  <data name="BankType_IranZamin_Name" xml:space="preserve">
+    <value>Iran Zamin</value>
+  </data>
+  <data name="BankType_KarAfarin_Name" xml:space="preserve">
+    <value>Kar Afarin</value>
+  </data>
+  <data name="BankType_Keshavarzi_Name" xml:space="preserve">
+    <value>Keshavarzi</value>
+  </data>
+  <data name="BankType_KhavarMianeh_Name" xml:space="preserve">
+    <value>Khavar Mianeh</value>
+  </data>
+  <data name="BankType_Maskan_Name" xml:space="preserve">
+    <value>Maskan</value>
+  </data>
+  <data name="BankType_MehrIran_Name" xml:space="preserve">
+    <value>Mehr Iran</value>
+  </data>
+  <data name="BankType_Melal_Name" xml:space="preserve">
+    <value>Melal</value>
+  </data>
+  <data name="BankType_Mellat_Name" xml:space="preserve">
+    <value>Mellat</value>
+  </data>
+  <data name="BankType_Melli_Name" xml:space="preserve">
+    <value>Melli</value>
+  </data>
+  <data name="BankType_Parsian_Name" xml:space="preserve">
+    <value>Parsian</value>
+  </data>
+  <data name="BankType_Pasargad_Name" xml:space="preserve">
+    <value>Pasargad</value>
+  </data>
+  <data name="BankType_PostBank_Name" xml:space="preserve">
+    <value>Post Bank</value>
+  </data>
+  <data name="BankType_Refah_Name" xml:space="preserve">
+    <value>Refah</value>
+  </data>
+  <data name="BankType_Resalat_Name" xml:space="preserve">
+    <value>Resalat</value>
+  </data>
+  <data name="BankType_Saderat_Name" xml:space="preserve">
+    <value>Saderat</value>
+  </data>
+  <data name="BankType_Saman_Name" xml:space="preserve">
+    <value>Saman</value>
+  </data>
+  <data name="BankType_SanatMadan_Name" xml:space="preserve">
+    <value>Sanat Madan</value>
+  </data>
+  <data name="BankType_Sarmayeh_Name" xml:space="preserve">
+    <value>Sarmayeh</value>
+  </data>
+  <data name="BankType_Sepah_Name" xml:space="preserve">
+    <value>Sepah</value>
+  </data>
+  <data name="BankType_Shahr_Name" xml:space="preserve">
+    <value>Shahr</value>
+  </data>
+  <data name="BankType_Sina_Name" xml:space="preserve">
+    <value>Sina</value>
+  </data>
+  <data name="BankType_Tejarat_Name" xml:space="preserve">
+    <value>Tejarat</value>
+  </data>
+  <data name="BankType_ToseeSaderat_Name" xml:space="preserve">
+    <value>Tosee Saderat</value>
+  </data>
+  <data name="BankType_ToseeTaavon_Name" xml:space="preserve">
+    <value>Tosee Taavon</value>
+  </data>
+  <data name="BankType_Tosee_Name" xml:space="preserve">
+    <value>Tosee</value>
+  </data>
+  <data name="DegreeType_Associate_Name" xml:space="preserve">
+    <value>Associate</value>
+  </data>
+  <data name="DegreeType_Bachelor_Name" xml:space="preserve">
+    <value>Bachelor</value>
+  </data>
+  <data name="DegreeType_Diploma_Name" xml:space="preserve">
+    <value>Diploma</value>
+  </data>
+  <data name="DegreeType_Master_Name" xml:space="preserve">
+    <value>Master</value>
+  </data>
+  <data name="DegreeType_Other_Name" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="DegreeType_Phd_Name" xml:space="preserve">
+    <value>Phd</value>
+  </data>
+  <data name="DegreeType_PostDoc_Name" xml:space="preserve">
+    <value>PostDoc</value>
+  </data>
+  <data name="GenderType_Female_Name" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="GenderType_Male_Name" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="UserType_Legal_Name" xml:space="preserve">
+    <value>Legal</value>
+  </data>
+  <data name="UserType_Real_Name" xml:space="preserve">
+    <value>Real</value>
+  </data>
 </root>

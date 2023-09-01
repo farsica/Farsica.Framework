@@ -318,4 +318,127 @@
   <data name="Validation_FileSize" xml:space="preserve">
     <value>اندازه فیلد {0} بایستی حداکثر {1} باشد</value>
   </data>
+  <data name="BankType_Ayandeh_Name" xml:space="preserve">
+    <value>آینده</value>
+  </data>
+  <data name="BankType_Saman_Name" xml:space="preserve">
+    <value>سامان</value>
+  </data>
+  <data name="BankType_Shahr_Name" xml:space="preserve">
+    <value>شهر</value>
+  </data>
+  <data name="BankType_Day_Name" xml:space="preserve">
+    <value>دی</value>
+  </data>
+  <data name="BankType_EghtesadNovin_Name" xml:space="preserve">
+    <value>اقتصاد نوین</value>
+  </data>
+  <data name="BankType_Gardeshgari_Name" xml:space="preserve">
+    <value>گردشگری</value>
+  </data>
+  <data name="BankType_IranVenezoela_Name" xml:space="preserve">
+    <value>ایران ونزوئلا</value>
+  </data>
+  <data name="BankType_IranZamin_Name" xml:space="preserve">
+    <value>ایران زمین</value>
+  </data>
+  <data name="BankType_KarAfarin_Name" xml:space="preserve">
+    <value>کارآفرین</value>
+  </data>
+  <data name="BankType_Keshavarzi_Name" xml:space="preserve">
+    <value>کشاورزی</value>
+  </data>
+  <data name="BankType_KhavarMianeh_Name" xml:space="preserve">
+    <value>خاورمیانه</value>
+  </data>
+  <data name="BankType_Maskan_Name" xml:space="preserve">
+    <value>مسکن</value>
+  </data>
+  <data name="BankType_MehrIran_Name" xml:space="preserve">
+    <value>مهر ایران</value>
+  </data>
+  <data name="BankType_Melal_Name" xml:space="preserve">
+    <value>ملل</value>
+  </data>
+  <data name="BankType_Mellat_Name" xml:space="preserve">
+    <value>ملت</value>
+  </data>
+  <data name="BankType_Melli_Name" xml:space="preserve">
+    <value>ملی</value>
+  </data>
+  <data name="BankType_Parsian_Name" xml:space="preserve">
+    <value>پارسیان</value>
+  </data>
+  <data name="BankType_Pasargad_Name" xml:space="preserve">
+    <value>پاسارگاد</value>
+  </data>
+  <data name="BankType_PostBank_Name" xml:space="preserve">
+    <value>پست بانک</value>
+  </data>
+  <data name="BankType_Refah_Name" xml:space="preserve">
+    <value>رفاه</value>
+  </data>
+  <data name="BankType_Resalat_Name" xml:space="preserve">
+    <value>رسالت</value>
+  </data>
+  <data name="BankType_Saderat_Name" xml:space="preserve">
+    <value>صادرات</value>
+  </data>
+  <data name="BankType_SanatMadan_Name" xml:space="preserve">
+    <value>صنعت و معدن</value>
+  </data>
+  <data name="BankType_Sarmayeh_Name" xml:space="preserve">
+    <value>سرمایه</value>
+  </data>
+  <data name="BankType_Sepah_Name" xml:space="preserve">
+    <value>سپه</value>
+  </data>
+  <data name="BankType_Sina_Name" xml:space="preserve">
+    <value>سینا</value>
+  </data>
+  <data name="BankType_Tejarat_Name" xml:space="preserve">
+    <value>تجارت</value>
+  </data>
+  <data name="BankType_Tosee_Name" xml:space="preserve">
+    <value>توسعه</value>
+  </data>
+  <data name="BankType_ToseeSaderat_Name" xml:space="preserve">
+    <value>توسعه صادرات</value>
+  </data>
+  <data name="BankType_ToseeTaavon_Name" xml:space="preserve">
+    <value>توسعه تعاون</value>
+  </data>
+  <data name="DegreeType_Associate_Name" xml:space="preserve">
+    <value>فوق دیپلم</value>
+  </data>
+  <data name="DegreeType_Bachelor_Name" xml:space="preserve">
+    <value>کارشناسی</value>
+  </data>
+  <data name="DegreeType_Diploma_Name" xml:space="preserve">
+    <value>دیپلم</value>
+  </data>
+  <data name="DegreeType_Master_Name" xml:space="preserve">
+    <value>کارشناسی ارشد</value>
+  </data>
+  <data name="DegreeType_Other_Name" xml:space="preserve">
+    <value>سایر</value>
+  </data>
+  <data name="DegreeType_Phd_Name" xml:space="preserve">
+    <value>دکترا</value>
+  </data>
+  <data name="DegreeType_PostDoc_Name" xml:space="preserve">
+    <value>پست دکترا</value>
+  </data>
+  <data name="GenderType_Female_Name" xml:space="preserve">
+    <value>زن</value>
+  </data>
+  <data name="GenderType_Male_Name" xml:space="preserve">
+    <value>مرد</value>
+  </data>
+  <data name="UserType_Legal_Name" xml:space="preserve">
+    <value>حقوقی</value>
+  </data>
+  <data name="UserType_Real_Name" xml:space="preserve">
+    <value>حقیقی</value>
+  </data>
 </root>
