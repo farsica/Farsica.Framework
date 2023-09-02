@@ -113,5 +113,33 @@
         }
 
         #endregion
+
+        public static async Task BulkInsertOrUpdateAsync<TContext, TEntity>(this TContext context, IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
+            where TContext : DbContext
+            where TEntity : class
+        {
+            await EFCore.BulkExtensions.DbContextBulkExtensions.BulkInsertOrUpdateAsync(context, entities, bulkConfig, progress, type, cancellationToken);
+        }
+
+        public static void BulkInsertOrUpdate<TContext, TEntity>(this TContext context, IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
+            where TContext : DbContext
+            where TEntity : class
+        {
+            EFCore.BulkExtensions.DbContextBulkExtensions.BulkInsertOrUpdate(context, entities, bulkConfig, progress, type);
+        }
+
+        public static async Task BulkInsertOrUpdateOrDeleteAsync<TContext, TEntity>(this TContext context, IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
+            where TContext : DbContext
+            where TEntity : class
+        {
+            await EFCore.BulkExtensions.DbContextBulkExtensions.BulkInsertOrUpdateOrDeleteAsync(context, entities, bulkConfig, progress, type, cancellationToken);
+        }
+
+        public static void BulkInsertOrUpdateOrDelete<TContext, TEntity>(this TContext context, IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
+            where TContext : DbContext
+            where TEntity : class
+        {
+            EFCore.BulkExtensions.DbContextBulkExtensions.BulkInsertOrUpdateOrDelete(context, entities, bulkConfig, progress, type);
+        }
     }
 }

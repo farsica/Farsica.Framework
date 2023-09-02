@@ -66,12 +66,44 @@
             await Context.BulkInsertAsync(entities, bulkConfig, progress, type, cancellationToken);
         }
 
+        public async Task BulkInsertOrUpdateAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
+            where TEntity : class
+        {
+            CheckDisposed();
+            NormalizePersian(entities);
+            await Context.BulkInsertOrUpdateAsync(entities, bulkConfig, progress, type, cancellationToken);
+        }
+
+        public async Task BulkInsertOrUpdateOrDeleteAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
+            where TEntity : class
+        {
+            CheckDisposed();
+            NormalizePersian(entities);
+            await Context.BulkInsertOrUpdateOrDeleteAsync(entities, bulkConfig, progress, type, cancellationToken);
+        }
+
         public void BulkInsert<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
             where TEntity : class
         {
             CheckDisposed();
             NormalizePersian(entities);
             Context.BulkInsert(entities, bulkConfig, progress, type);
+        }
+
+        public void BulkInsertOrUpdate<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
+            where TEntity : class
+        {
+            CheckDisposed();
+            NormalizePersian(entities);
+            Context.BulkInsertOrUpdate(entities, bulkConfig, progress, type);
+        }
+
+        public void BulkInsertOrUpdateOrDelete<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
+            where TEntity : class
+        {
+            CheckDisposed();
+            NormalizePersian(entities);
+            Context.BulkInsertOrUpdateOrDelete(entities, bulkConfig, progress, type);
         }
 
         public async Task BulkUpdateAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
