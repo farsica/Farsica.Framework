@@ -6,10 +6,10 @@
 
     public sealed class GenderType : Enumeration<byte>
     {
-        [Display(ResourceType = typeof(GlobalResource))]
+        [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(GenderType))]
         public static readonly GenderType Male = new(nameof(Male), 0);
 
-        [Display(ResourceType = typeof(GlobalResource))]
+        [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(GenderType))]
         public static readonly GenderType Female = new(nameof(Female), 1);
 
         public GenderType(string name, byte value)
