@@ -8,7 +8,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Farsica.Framework.Core;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public static class FlagsEnumerationExtensions
@@ -22,6 +21,12 @@
         }
 
         public static IEnumerable<string> GetNames<TEnum>(this TEnum enumFlag, BindingFlags bindingFlag = BindingFlags.Public | BindingFlags.Static)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return GetKeyValues<TEnum>(bindingFlag).Where(t => enumFlag.HasFlags(t.Value)).Select(t => t.Key);
+        }
+
+        public static IEnumerable<string> GetNames<TEnum>(this FlagsEnumeration<TEnum> enumFlag, BindingFlags bindingFlag = BindingFlags.Public | BindingFlags.Static)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
             return GetKeyValues<TEnum>(bindingFlag).Where(t => enumFlag.HasFlags(t.Value)).Select(t => t.Key);
@@ -67,6 +72,12 @@
         {
             // BitArray? bits = new(1, false);
             // return (left & right) != new TEnum { Bits = bits };
+            return (left & right) != new TEnum();
+        }
+
+        public static bool HasFlags<TEnum>(this FlagsEnumeration<TEnum> left, TEnum right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
             return (left & right) != new TEnum();
         }
 
@@ -142,36 +153,6 @@
             }
 
             return enumeration;
-        }
-
-        public static string? LocalizedDisplayName<TEnum>(this TEnum value)
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return Globals.GetLocalizedDisplayName(typeof(TEnum).GetField(value.ToString()!));
-        }
-
-        public static string? LocalizedShortName<TEnum>(this TEnum value)
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return Globals.GetLocalizedShortName(typeof(TEnum).GetField(value.ToString()!));
-        }
-
-        public static string? LocalizedDescription<TEnum>(this TEnum value)
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return Globals.GetLocalizedDescription(typeof(TEnum).GetField(value.ToString()!));
-        }
-
-        public static string? LocalizedPromt<TEnum>(this TEnum value)
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return Globals.GetLocalizedPromt(typeof(TEnum).GetField(value.ToString()!));
-        }
-
-        public static string? LocalizedGroupName<TEnum>(this TEnum value)
-            where TEnum : FlagsEnumeration<TEnum>, new()
-        {
-            return Globals.GetLocalizedGroupName(typeof(TEnum).GetField(value.ToString()!));
         }
     }
 }

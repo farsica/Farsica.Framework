@@ -5,6 +5,8 @@
     using System.IO;
     using System.IO.Compression;
     using System.Linq;
+    using System.Reflection;
+    using Farsica.Framework.Core;
 
     public abstract class FlagsEnumeration<TEnum>
         where TEnum : FlagsEnumeration<TEnum>, new()
@@ -44,6 +46,51 @@
         public int Length => Bits.Length;
 
         public BitArray Bits { get; init; }
+
+        public string? LocalizedDisplayName
+        {
+            get
+            {
+                var names = this.GetNames();
+                return string.Join(", ", GetType().GetFields(BindingFlags.Public | BindingFlags.Static).Where(t => names!.Contains(t.Name)).Select(Globals.GetLocalizedDisplayName));
+            }
+        }
+
+        public string? LocalizedShortName
+        {
+            get
+            {
+                var names = this.GetNames();
+                return string.Join(", ", GetType().GetFields(BindingFlags.Public | BindingFlags.Static).Where(t => names!.Contains(t.Name)).Select(Globals.GetLocalizedShortName));
+            }
+        }
+
+        public string? LocalizedDescription
+        {
+            get
+            {
+                var names = this.GetNames();
+                return string.Join(", ", GetType().GetFields(BindingFlags.Public | BindingFlags.Static).Where(t => names!.Contains(t.Name)).Select(Globals.GetLocalizedDescription));
+            }
+        }
+
+        public string? LocalizedPromt
+        {
+            get
+            {
+                var names = this.GetNames();
+                return string.Join(", ", GetType().GetFields(BindingFlags.Public | BindingFlags.Static).Where(t => names!.Contains(t.Name)).Select(Globals.GetLocalizedPromt));
+            }
+        }
+
+        public string? LocalizedGroupName
+        {
+            get
+            {
+                var names = this.GetNames();
+                return string.Join(", ", GetType().GetFields(BindingFlags.Public | BindingFlags.Static).Where(t => names!.Contains(t.Name)).Select(Globals.GetLocalizedGroupName));
+            }
+        }
 
         public static bool operator ==(FlagsEnumeration<TEnum> item, FlagsEnumeration<TEnum> item2)
         {

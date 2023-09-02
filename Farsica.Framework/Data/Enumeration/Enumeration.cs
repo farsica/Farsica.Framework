@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using Farsica.Framework.Core;
 
     public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>, IComparable<Enumeration<T>>
         where T : IEquatable<T>, IComparable<T>
@@ -20,6 +21,16 @@
         public string Name { get; set; }
 
         public T Value { get; set; }
+
+        public string? LocalizedDisplayName => Globals.GetLocalizedDisplayName(GetType().GetField(Name));
+
+        public string? LocalizedShortName => Globals.GetLocalizedShortName(GetType().GetField(Name));
+
+        public string? LocalizedDescription => Globals.GetLocalizedDescription(GetType().GetField(Name));
+
+        public string? LocalizedPromt => Globals.GetLocalizedPromt(GetType().GetField(Name));
+
+        public string? LocalizedGroupName => Globals.GetLocalizedGroupName(GetType().GetField(Name));
 
         public static bool operator ==(Enumeration<T> left, Enumeration<T> right)
         {
