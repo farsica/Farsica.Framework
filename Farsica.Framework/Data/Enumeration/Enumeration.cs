@@ -32,12 +32,12 @@
 
         public string? LocalizedGroupName => Globals.GetLocalizedGroupName(GetType().GetField(Name));
 
-        public static bool operator ==(Enumeration<T> left, Enumeration<T> right)
+        public static bool operator ==(Enumeration<T>? left, Enumeration<T>? right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Enumeration<T> left, Enumeration<T> right)
+        public static bool operator !=(Enumeration<T>? left, Enumeration<T>? right)
         {
             return !Equals(left, right);
         }

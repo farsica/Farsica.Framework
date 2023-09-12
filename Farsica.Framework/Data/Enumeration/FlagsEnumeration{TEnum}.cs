@@ -92,12 +92,12 @@
             }
         }
 
-        public static bool operator ==(FlagsEnumeration<TEnum> item, FlagsEnumeration<TEnum> item2)
+        public static bool operator ==(FlagsEnumeration<TEnum>? item, FlagsEnumeration<TEnum>? item2)
         {
-            return item.Equals(item2);
+            return (item is null && item2 is null) || item?.Equals(item2) is true;
         }
 
-        public static bool operator !=(FlagsEnumeration<TEnum> item, FlagsEnumeration<TEnum> item2)
+        public static bool operator !=(FlagsEnumeration<TEnum>? item, FlagsEnumeration<TEnum>? item2)
         {
             return !(item == item2);
         }
