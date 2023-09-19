@@ -5,7 +5,7 @@
     using Farsica.Framework.DataAccess.Entities;
 
     public sealed class EnabledSpecification<TClass> : SpecificationBase<TClass>
-        where TClass : class, IEnableable<TClass>
+        where TClass : class, IEnablable<TClass>
     {
         private readonly bool enabled;
 

@@ -3,7 +3,7 @@
     using System;
     using Farsica.Framework.Core;
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Method)]
     public sealed class DisplayAttribute : Attribute
     {
         public Type? ResourceType { get; set; }

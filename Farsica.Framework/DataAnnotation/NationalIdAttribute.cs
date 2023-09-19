@@ -2,7 +2,7 @@
 {
     using Farsica.Framework.Core;
 
-    public sealed class NationalCodeAttribute : ValidationAttribute
+    public sealed class NationalIdAttribute : ValidationAttribute
     {
         public override bool IsValid(object? value)
         {
@@ -11,7 +11,7 @@
                 return true;
             }
 
-            return Globals.ValidateNationalCode(value.ToString()!);
+            return Globals.ValidateNationalId(value.ToString()!);
         }
     }
 }

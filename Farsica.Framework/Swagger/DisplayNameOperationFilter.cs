@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Reflection;
     using Farsica.Framework.DataAnnotation;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,25 +22,29 @@
 
             if (context.ApiDescription?.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                var areaName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AreaAttribute), true)
-                    .Cast<AreaAttribute>().FirstOrDefault();
-                operation.Tags = areaName != null
-                    ? new List<OpenApiTag> { new OpenApiTag { Name = $"{areaName.RouteValue} - {controllerActionDescriptor.ControllerName}" } }
-                    : (IList<OpenApiTag>)new List<OpenApiTag> { new OpenApiTag { Name = controllerActionDescriptor.ControllerName } };
+                var area = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<AreaAttribute>()?.AreaName;
+                if (string.IsNullOrEmpty(area))
+                {
+                    area = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<Microsoft.AspNetCore.Mvc.AreaAttribute>()?.RouteValue;
+                }
+
+                operation.Tags = string.IsNullOrEmpty(area)
+                    ? (IList<OpenApiTag>)new List<OpenApiTag> { new OpenApiTag { Name = controllerActionDescriptor.ControllerName } }
+                    : new List<OpenApiTag> { new OpenApiTag { Name = $"{area} - {controllerActionDescriptor.ControllerName}" } };
             }
         }
 
         private static void ApplySwaggerOperationAttribute(OpenApiOperation operation, IEnumerable<object> actionAttributes)
         {
-            var displayNameAttribute = actionAttributes.OfType<DisplayNameAttribute>().FirstOrDefault();
-            if (displayNameAttribute is null)
+            var displayAttribute = actionAttributes.OfType<DisplayAttribute>().FirstOrDefault();
+            if (displayAttribute is null)
             {
                 return;
             }
 
-            if (displayNameAttribute.DisplayName != null)
+            if (!string.IsNullOrEmpty(displayAttribute.Name))
             {
-                operation.Summary = displayNameAttribute.DisplayName;
+                operation.Summary = displayAttribute.Name;
             }
         }
     }

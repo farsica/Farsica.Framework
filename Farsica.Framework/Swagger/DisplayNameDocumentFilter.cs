@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Reflection;
     using Farsica.Framework.DataAnnotation;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,11 +21,16 @@
                     continue;
                 }
 
-                var displayNameAttribute = descriptor.ControllerTypeInfo.GetCustomAttributes<DisplayNameAttribute>().FirstOrDefault();
-                var description = displayNameAttribute is null ? string.Empty : displayNameAttribute.DisplayName;
+                var displayAttribute = descriptor.ControllerTypeInfo.GetCustomAttribute<DisplayAttribute>();
+                var description = displayAttribute is null ? string.Empty : displayAttribute.Name;
 
-                var areaAttribute = descriptor.ControllerTypeInfo.GetCustomAttributes<AreaAttribute>().FirstOrDefault();
-                var name = areaAttribute is null ? descriptor.ControllerName : $"{areaAttribute.RouteValue} - {descriptor.ControllerName}";
+                var area = descriptor.ControllerTypeInfo.GetCustomAttribute<AreaAttribute>()?.AreaName;
+                if (string.IsNullOrEmpty(area))
+                {
+                    area = descriptor.ControllerTypeInfo.GetCustomAttribute<Microsoft.AspNetCore.Mvc.AreaAttribute>()?.RouteValue;
+                }
+
+                var name = string.IsNullOrEmpty(area) ? descriptor.ControllerName : $"{area} - {descriptor.ControllerName}";
 
                 swaggerDoc.Tags.Add(new OpenApiTag
                 {

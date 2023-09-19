@@ -86,7 +86,7 @@
             return httpContext?.Request.Headers.TryGetValue(key, out StringValues stringValues) is true ? stringValues.FirstOrDefault() : null;
         }
 
-        public static bool ValidateNationalCode(string nationalCode)
+        public static bool ValidateNationalCode(string? nationalCode)
         {
             try
             {
@@ -123,6 +123,52 @@
         public static bool ValidatePostalCode(string? postalCode)
         {
             return !string.IsNullOrEmpty(postalCode) && MatchIranianPostalCode.IsMatch(postalCode);
+        }
+
+        public static bool ValidateNationalId(string? nationalId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(nationalId))
+                {
+                    return false;
+                }
+
+                nationalId = nationalId.NormalizePersian()!;
+                const int initialZeros = 3;
+                const int nationalIdLength = 11;
+
+                if (nationalId.Length is < nationalIdLength - initialZeros or > nationalIdLength)
+                {
+                    return false;
+                }
+
+                nationalId = nationalId.PadLeft(11, '0');
+
+                if (!nationalId.All(char.IsDigit))
+                {
+                    return false;
+                }
+
+                var beforeControlNumber = (int)char.GetNumericValue(nationalId[9]) + 2;
+                int[] coefficientStatic = { 29, 27, 23, 19, 17, 29, 27, 23, 19, 17 };
+
+                var sum = 0;
+                for (var i = 0; i < nationalId.Length - 1; i++)
+                {
+                    sum += ((int)char.GetNumericValue(nationalId[i]) + beforeControlNumber) * coefficientStatic[i];
+                }
+
+                var remainder = sum % 11;
+                var controlNumber = (int)char.GetNumericValue(nationalId[10]);
+                remainder = remainder == 10 ? 0 : remainder;
+
+                return controlNumber == remainder;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static string? GetLocalizedDisplayName(MemberInfo? member)

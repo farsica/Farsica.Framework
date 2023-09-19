@@ -5,7 +5,7 @@
     using Farsica.Framework.DataAccess.Entities;
 
     public sealed class DeletedSpecification<TClass> : SpecificationBase<TClass>
-        where TClass : class, IDeleteable<TClass>
+        where TClass : class, IDeletable<TClass>
     {
         private readonly bool deleted;
 

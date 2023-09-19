@@ -37,7 +37,7 @@
             where TEnum : Enumeration<TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
-            return TryParse<TEnum, TKey>(t => t.Name == nameOrValue, out enumeration) ||
+            return TryParse<TEnum, TKey>(t => t.Name.Equals(nameOrValue, StringComparison.OrdinalIgnoreCase), out enumeration) ||
                    (int.TryParse(nameOrValue, out var value) && TryParse<TEnum, TKey>(t => t.Value.CompareTo((TKey)(object)value) == 0, out enumeration));
         }
 

@@ -2,10 +2,10 @@
 {
     using Farsica.Framework.DataAnnotation.Schema;
 
-    public interface IDeleteable<TClass>
+    public interface IEnablable<TClass>
         where TClass : class
     {
         [NotMapped]
-        bool Deleted { get; set; }
+        bool Enabled { get; set; }
     }
 }
