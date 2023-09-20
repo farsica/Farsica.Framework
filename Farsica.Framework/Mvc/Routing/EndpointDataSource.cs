@@ -25,9 +25,9 @@
                 return new Endpoint
                 {
                     EndpointName = t.DisplayName,
-                    Area = new(area?.AreaName, area?.DisplayName ?? area?.AreaName),
-                    Controller = new(controller?.ControllerName, display.FirstOrDefault()?.Name ?? controller?.ControllerName),
-                    Action = new(controller?.ActionName, display.LastOrDefault()?.Name ?? controller?.ActionName),
+                    Area = area is null ? null : new(area.AreaName, area.DisplayName ?? area.AreaName),
+                    Controller = controller is null ? null : new(controller.ControllerName, display.FirstOrDefault()?.Name ?? controller.ControllerName),
+                    Action = controller is null ? null : new(controller.ActionName, display.LastOrDefault()?.Name ?? controller.ActionName),
                 };
             });
         }

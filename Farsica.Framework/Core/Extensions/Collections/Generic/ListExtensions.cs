@@ -218,6 +218,24 @@
             return false;
         }
 
+        public static bool Exists<T>(this IList<T> list, Predicate<T> match)
+        {
+            if (match is null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (match(list[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private static void SortByDependenciesVisit<T>(T item, Func<T, IEnumerable<T>> getDependencies, List<T> sorted, Dictionary<T, bool> visited)
         {
             var alreadyVisited = visited.TryGetValue(item, out bool inProcess);
