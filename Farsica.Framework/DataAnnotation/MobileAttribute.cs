@@ -1,4 +1,4 @@
-namespace Farsica.Framework.DataAnnotation
+﻿namespace Farsica.Framework.DataAnnotation
 {
     using System.Collections.Generic;
     using System.Linq;
