@@ -70,15 +70,13 @@
         public static bool HasFlags<TEnum>(this TEnum left, TEnum right)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            // BitArray? bits = new(1, false);
-            // return (left & right) != new TEnum { Bits = bits };
-            return (left & right) != new TEnum();
+            return (left & right) == right;
         }
 
         public static bool HasFlags<TEnum>(this FlagsEnumeration<TEnum> left, TEnum right)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
-            return (left & right) != new TEnum();
+            return (left & right) == right;
         }
 
         public static TEnum SetFlags<TEnum>(this TEnum left, params TEnum[] right)
