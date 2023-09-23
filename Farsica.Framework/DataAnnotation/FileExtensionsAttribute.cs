@@ -16,19 +16,19 @@
 #pragma warning restore CA1019 // Define accessors for attribute arguments
         {
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_FileExtensions);
-            Extensions = extensions.Split(Constants.JoinDelimiter);
+            Extensions = extensions.Split(Constants.JoinDelimiter, System.StringSplitOptions.RemoveEmptyEntries);
         }
 
         public string[] Extensions { get; }
 
         public override bool IsValid(object? value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return true;
             }
 
-            if (value is List<IFormFile> lst)
+            if (value is IEnumerable<IFormFile> lst)
             {
                 return lst.All(t => t is null || Extensions.Exists(e => e.Equals(Path.GetExtension(t.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase)));
             }

@@ -21,12 +21,12 @@
 
         public override bool IsValid(object? value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return true;
             }
 
-            if (value is List<IFormFile> lst)
+            if (value is IEnumerable<IFormFile> lst)
             {
                 if (MaximumTotalLength.HasValue && lst.Where(t => t is not null).Sum(t => t.Length) > MaximumTotalLength)
                 {

@@ -93,7 +93,7 @@
                 .Append('}').ToString();
         }
 
-        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
             if (otherPropertyInfo is null)
@@ -101,7 +101,7 @@
                 return new ValidationResult(string.Format(CultureInfo.CurrentCulture, GlobalResource.Validation_Compare_UnknownProperty, OtherProperty));
             }
 
-            ValidationResult result = null;
+            ValidationResult? result = null;
 
             if (value is IComparable firstComparable && otherPropertyInfo?.GetValue(validationContext.ObjectInstance, null) is IComparable otherComparable)
             {

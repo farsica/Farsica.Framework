@@ -5,18 +5,22 @@
 
     public sealed class IpAddressAttribute : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
 
-            var lst = value as List<string>;
-            return lst?.All(Validate) ?? Validate(value.ToString());
+            if (value is IEnumerable<string> lst)
+            {
+                return lst.All(t => string.IsNullOrEmpty(t) || Validate(t));
+            }
+
+            return Validate(value.ToString());
         }
 
-        private static bool Validate(string value)
+        private static bool Validate(string? value)
         {
             if (string.IsNullOrEmpty(value))
             {

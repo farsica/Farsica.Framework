@@ -15,7 +15,7 @@
             }
 
             var attribute = new System.ComponentModel.DataAnnotations.PhoneAttribute();
-            if (value is List<string> lst)
+            if (value is IEnumerable<string> lst)
             {
                 return lst.All(t => string.IsNullOrEmpty(t) || attribute.IsValid(t));
             }

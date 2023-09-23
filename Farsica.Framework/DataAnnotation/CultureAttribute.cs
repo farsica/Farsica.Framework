@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -12,9 +13,20 @@
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_Culture);
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
-            return !string.IsNullOrEmpty(value?.ToString()) && CultureInfo.GetCultures(CultureTypes.AllCultures).Exists(t => t.Name == value.ToString());
+            if (string.IsNullOrEmpty(value?.ToString()))
+            {
+                return true;
+            }
+
+            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            if (value is IEnumerable<string> lst)
+            {
+                return lst.All(t => string.IsNullOrEmpty(t) || cultures.Exists(c => c.Name.Equals(t, System.StringComparison.OrdinalIgnoreCase)));
+            }
+
+            return cultures.Exists(t => t.Name == value.ToString());
         }
 
         public void AddValidation(ClientModelValidationContext context)

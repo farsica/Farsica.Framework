@@ -2,14 +2,25 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     public sealed class UrlAttribute : ValidationAttribute, IClientModelValidator
     {
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
-            return string.IsNullOrEmpty(value?.ToString()) || Uri.TryCreate(value.ToString(), UriKind.Absolute, out _);
+            if (string.IsNullOrEmpty(value?.ToString()))
+            {
+                return true;
+            }
+
+            if (value is IEnumerable<string> lst)
+            {
+                return lst.All(t => string.IsNullOrEmpty(t) || Uri.TryCreate(t, UriKind.Absolute, out _));
+            }
+
+            return Uri.TryCreate(value.ToString(), UriKind.Absolute, out _);
         }
 
         public void AddValidation(ClientModelValidationContext context)

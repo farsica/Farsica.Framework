@@ -1,6 +1,7 @@
 ﻿namespace Farsica.Framework.DataAnnotation
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -13,7 +14,18 @@
 
         public override bool IsValid(object? value)
         {
-            return string.IsNullOrEmpty(value?.ToString()) || new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(value);
+            if (string.IsNullOrEmpty(value?.ToString()))
+            {
+                return true;
+            }
+
+            var attribute = new System.ComponentModel.DataAnnotations.EmailAddressAttribute();
+            if (value is IEnumerable<string> lst)
+            {
+                return lst.All(t => string.IsNullOrEmpty(t) || attribute.IsValid(t));
+            }
+
+            return attribute.IsValid(value);
         }
 
         public void AddValidation(ClientModelValidationContext context)

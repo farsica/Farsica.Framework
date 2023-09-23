@@ -30,8 +30,14 @@
             return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, otherName, MaxDistance);
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
+            var castValue = value as DateTime?;
+            if (castValue is null)
+            {
+                return null;
+            }
+
             if (!string.IsNullOrEmpty(Expression))
             {
                 var properties = validationContext.ObjectType.GetProperties();
@@ -39,17 +45,20 @@
                 MaxDistance = interpreter.Eval<int>(Expression, (from info in properties
                                                                  where Expression.Contains(info.Name)
                                                                  select
-                                                                 new Parameter(info.Name, info.PropertyType, info.GetValue(validationContext.ObjectInstance, null)))
-                    .ToArray());
+                                                                 new Parameter(info.Name, info.PropertyType, info.GetValue(validationContext.ObjectInstance, null))).ToArray());
             }
 
             var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
-            var otherValue = (DateTime)otherPropertyInfo?.GetValue(validationContext.ObjectInstance, null);
+            var otherValue = otherPropertyInfo?.GetValue(validationContext.ObjectInstance, null) as DateTime?;
+            if (otherValue is null)
+            {
+                return null;
+            }
 
             var displayName = Globals.GetLocalizedDisplayName(validationContext.ObjectType.GetProperty(validationContext.MemberName));
             var otherDisplayName = Globals.GetLocalizedDisplayName(otherPropertyInfo);
 
-            return ((DateTime)value - otherValue).TotalDays > MaxDistance
+            return (castValue.Value - otherValue.Value).TotalDays > MaxDistance
                 ? new ValidationResult(FormatErrorMessage(displayName, otherDisplayName))
                 : null;
         }

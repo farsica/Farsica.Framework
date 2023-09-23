@@ -20,7 +20,7 @@
                 return lst.All(t => string.IsNullOrEmpty(t) || attribute.IsValid(t));
             }
 
-            return string.IsNullOrEmpty(value.ToString()) || attribute.IsValid(value);
+            return attribute.IsValid(value);
         }
 
         public void AddValidation(ClientModelValidationContext context)

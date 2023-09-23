@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -77,6 +78,11 @@
             if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
+            }
+
+            if (value is IEnumerable<string> lst)
+            {
+                return lst.All(t => string.IsNullOrEmpty(t) || base.IsValid(t));
             }
 
             return base.IsValid(value);

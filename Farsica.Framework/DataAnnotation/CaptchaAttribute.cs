@@ -21,13 +21,13 @@
 
         public override bool IsValid(object? value)
         {
-            if (!ValidationContext.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string? cookieData))
+            if (ValidationContext?.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string? cookieData) != true)
             {
                 return false;
             }
 
-            var hashCookie = cookieData.Split(Constants.DelimiterAlternate.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            if (hashCookie.Length != 2)
+            var hashCookie = cookieData?.Split(Constants.DelimiterAlternate.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (hashCookie?.Length != 2)
             {
                 return false;
             }
@@ -43,7 +43,7 @@
                 return false;
             }
 
-            var hashValue = SecurityExtensions.Encrypt((string)value);
+            var hashValue = SecurityExtensions.Encrypt((string?)value);
 
             return Equals(hashCookie[1], hashValue);
         }

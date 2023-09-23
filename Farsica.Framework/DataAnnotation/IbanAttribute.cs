@@ -8,19 +8,19 @@
 
     public sealed class IbanAttribute : ValidationAttribute, IClientModelValidator
     {
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {
                 return true;
             }
 
-            if (value is List<string> lst)
+            if (value is IEnumerable<string> lst)
             {
                 return lst.All(t => string.IsNullOrEmpty(t) || t.ValidateIban());
             }
 
-            return string.IsNullOrEmpty(value.ToString()) || value.ToString().ValidateIban();
+            return value.ToString().ValidateIban();
         }
 
         public void AddValidation(ClientModelValidationContext context)
