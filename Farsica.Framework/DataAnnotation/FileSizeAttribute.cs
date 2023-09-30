@@ -56,9 +56,9 @@
             }
         }
 
-        private string? FormatErrorMessage(string? modelDisplayName)
+        public override string FormatErrorMessage(string name)
         {
-            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, MaximumLength);
+            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, MaximumLength);
         }
     }
 }
