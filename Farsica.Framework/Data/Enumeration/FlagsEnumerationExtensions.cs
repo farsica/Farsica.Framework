@@ -79,6 +79,18 @@
             return (left & right) == right;
         }
 
+        public static bool ExistInFlags<TEnum>(this TEnum left, TEnum right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return (left & right) != new TEnum();
+        }
+
+        public static bool ExistInFlags<TEnum>(this FlagsEnumeration<TEnum> left, TEnum right)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return (left & right) != new TEnum();
+        }
+
         public static TEnum SetFlags<TEnum>(this TEnum left, params TEnum[] right)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
