@@ -383,12 +383,12 @@
 
                         if (type.Name == nameof(TimeOnly))
                         {
-                            return TimeOnly.TryParse(value, out TimeOnly timeOnlyTmp) ? timeOnlyTmp : defaultValue;
+                            return TimeOnly.TryParse(value, CultureInfo.InvariantCulture, out TimeOnly timeOnlyTmp) ? timeOnlyTmp : defaultValue;
                         }
 
                         if (type.Name == nameof(DateOnly))
                         {
-                            return DateOnly.TryParse(value, out DateOnly dateOnlyTmp) ? dateOnlyTmp : defaultValue;
+                            return DateOnly.TryParse(value, CultureInfo.InvariantCulture, out DateOnly dateOnlyTmp) ? dateOnlyTmp : defaultValue;
                         }
 
                         throw new ArgumentException(typeCode.ToString());
