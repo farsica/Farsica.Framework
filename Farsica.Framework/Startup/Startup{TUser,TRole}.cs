@@ -296,7 +296,7 @@
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
                 {
-                    return new BadRequestObjectResult(new ApiResponse<object>(actionContext.ModelState));
+                    return new OkObjectResult(new ApiResponse<object>(actionContext.ModelState));
 
                     // var error = new Dictionary<string, string>();
                     // foreach (var key in actionContext.ModelState.Keys)
