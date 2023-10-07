@@ -1001,7 +1001,7 @@
             const string resourceAssembly = ".Resource";
 
             var str = UiDotRegex().Replace(path, resourceAssembly + "$0");
-            str = UiCommaRegex().Replace(str, resourceAssembly + "$0");
+            str = UiCommaRegex().Replace(str, resourceAssembly + ",");
 
             return str
                 .Replace(".Infrastructure.", resourceAssembly + ".Infrastructure.")
@@ -1125,10 +1125,10 @@
             return rootValueDictionary;
         }
 
-        [GeneratedRegex("\\.UI\\..*?\\.")]
+        [GeneratedRegex(".UI..*?,")]
         private static partial Regex UiCommaRegex();
 
-        [GeneratedRegex("\\.UI\\..*?\\,")]
+        [GeneratedRegex(".UI..*?.")]
         private static partial Regex UiDotRegex();
 
         #region Inner Classes
