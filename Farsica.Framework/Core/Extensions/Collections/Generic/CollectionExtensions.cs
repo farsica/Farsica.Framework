@@ -100,5 +100,23 @@
 
             return false;
         }
+
+        public static bool Exists<T>(this Collection<T> list, Predicate<T> match)
+        {
+            if (match is null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (match(list[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

@@ -229,11 +229,11 @@
 
                 if (param is not null)
                 {
-                    foreach (var (parameterName, value) in param)
+                    for (int i = 0; i < param.Count; i++)
                     {
                         var parameter = command.CreateParameter();
-                        parameter.ParameterName = parameterName;
-                        parameter.Value = value;
+                        parameter.ParameterName = param[i].ParameterName;
+                        parameter.Value = param[i].Value;
                         command.Parameters.Add(parameter);
                     }
                 }
@@ -246,7 +246,7 @@
                     dt.Load(reader);
                     dataSet.Tables.Add(dt);
                 }
-                while (reader.NextResult());
+                while (!reader.IsClosed && reader.NextResult());
 
                 return dataSet;
             }
