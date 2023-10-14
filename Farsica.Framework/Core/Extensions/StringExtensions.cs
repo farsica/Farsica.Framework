@@ -182,12 +182,12 @@
             return str.Substring(str.Length - len, len);
         }
 
-        public static string[]? Split(this string? str, string? separator)
+        public static string[]? Split(this string? str, string separator)
         {
             return str?.Split(new[] { separator }, StringSplitOptions.None);
         }
 
-        public static string[]? Split(this string? str, string? separator, StringSplitOptions options)
+        public static string[]? Split(this string? str, string separator, StringSplitOptions options)
         {
             return str?.Split(new[] { separator }, options);
         }
