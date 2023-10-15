@@ -277,6 +277,8 @@
                 options.JsonSerializerOptions.Converters.Add(new EnumerationConverterFactory());
                 options.JsonSerializerOptions.Converters.Add(new FlagsEnumerationConverterFactory());
                 options.JsonSerializerOptions.Converters.Add(new BitArrayConverter());
+                options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter());
+                options.JsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
             });
 
             if (localization)
