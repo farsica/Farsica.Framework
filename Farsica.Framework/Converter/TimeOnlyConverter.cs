@@ -7,7 +7,7 @@
 
     public class TimeOnlyConverter : JsonConverter<TimeOnly>
     {
-        private const string TimeFormat = "HH:mm:ss.FFFFFFF";
+        private const string TimeFormat = "HH:mm:ss";
 
         public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => TimeOnly.ParseExact(reader.GetString()!, TimeFormat, CultureInfo.InvariantCulture);
 
