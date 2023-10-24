@@ -388,6 +388,7 @@
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
+            services.ConfigureOptions<ConfigureJsonOptions>();
 
             return mvcBuilder;
 

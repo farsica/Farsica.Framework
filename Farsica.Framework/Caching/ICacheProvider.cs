@@ -19,6 +19,15 @@
 
         Task<TItem?> GetAsync<TItem>(string? key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null);
 
+        Task<TItem?> GetAsync<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>;
+
+        Task<TItem?> GetAsync<TItem, TKey>(TKey key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TKey : struct;
+
+        Task<TItem?> GetAsync<TItem>(string key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null);
+
         public TItem? Get<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TEnum : Enumeration<TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>;

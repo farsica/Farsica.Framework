@@ -1,5 +1,6 @@
 ﻿namespace Farsica.Framework.Data
 {
+    using System.Collections.Generic;
     using static Farsica.Framework.Core.Constants;
 
     public struct ResultData<T>
@@ -13,6 +14,6 @@
 
         public OperationResult OperationResult { get; set; }
 
-        public string? Error { get; set; }
+        public IEnumerable<Error>? Errors { get; set; }
     }
 }

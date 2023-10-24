@@ -59,6 +59,42 @@
             return await JsonSerializer.DeserializeAsync<TItem?>(stream, jsonSerializerOptions);
         }
 
+        public async Task<TItem?> GetAsync<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey>
+        {
+            return await GetAsync(key.Name, factory, options, tenant);
+        }
+
+        public async Task<TItem?> GetAsync<TItem, TEnum>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+            where TEnum : struct
+        {
+            return await GetAsync(key.ToString(), factory, options, tenant);
+        }
+
+        public async Task<TItem?> GetAsync<TItem>([NotNull] string key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+        {
+            var cacheKey = GenerateKey(key, tenant);
+            var tmp = await cache.GetAsync(cacheKey);
+            if (tmp is null)
+            {
+                if (factory is null)
+                {
+                    return default;
+                }
+
+                options ??= new DistributedCacheEntryOptions();
+
+                var result = factory();
+                await cache.SetAsync(cacheKey, JsonSerializer.SerializeToUtf8Bytes(result, jsonSerializerOptions), options);
+
+                return result;
+            }
+
+            using var stream = new MemoryStream(tmp);
+            return await JsonSerializer.DeserializeAsync<TItem?>(stream, jsonSerializerOptions);
+        }
+
         public TItem? Get<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TEnum : Enumeration<TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>

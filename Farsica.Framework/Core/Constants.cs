@@ -15,7 +15,6 @@
         public const int ForeignKeySqlException = 547;
         public const int DuplicatePrimaryKeySqlException = 2627;
         public const int DuplicateKeySqlException = 2601;
-
         public const string ValidImageExtensions = "png,jpg,jpeg,gif";
         public const string ValidDocumentExtensions = "pdf,doc,docx";
         public const string ValidVideoExtensions = "mpeg,avi";
@@ -52,6 +51,10 @@
         public const int DisplayOrder = 10000;
         public const string ControllerPostfix = "Controller";
         public const string PagePostfix = "Model";
+        public const string IranTimeZoneId = "Iran Standard Time";
+        public const string TimeZoneIdClaim = "TimeZoneId";
+        public static readonly TimeSpan IranBaseUtcOffset = new(3, 30, 0);
+
         internal const string HttpClientIgnoreSslAndAutoRedirect = "HttpClientIgnoreSslAndAutoRedirect";
         internal const string HttpClientIgnoreSslAndAutoRedirectTls13 = "HttpClientIgnoreSslAndAutoRedirectTls13";
 
