@@ -72,13 +72,14 @@
 
         public static string? GetClientIpAddress(this HttpContext? httpContext)
         {
+            var ip = httpContext?.Connection?.RemoteIpAddress?.ToString();
             var xForwardedFor = httpContext?.Request.Headers["X-Forwarded-For"];
-            if (!string.IsNullOrEmpty(xForwardedFor))
+            if (xForwardedFor.HasValue)
             {
-                return xForwardedFor.ToString().Split(',').Last();
+                ip = xForwardedFor.Value.ToString().Split(',').Last();
             }
 
-            return httpContext?.Connection?.RemoteIpAddress?.ToString();
+            return ip?.AsSpan().Contains('.') == true && ip.AsSpan().Contains(':') ? ip.AsSpan(0, ip.AsSpan().IndexOf(':')).ToString() : ip;
         }
 
         public static string? GetHeaderParameter(this HttpContext? httpContext, string key)
