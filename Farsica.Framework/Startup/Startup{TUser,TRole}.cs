@@ -412,6 +412,7 @@
 
                 options.ModelBinderProviders.Insert(0, new EnumerationQueryStringModelBinderProvider());
                 options.ModelBinderProviders.Insert(0, new FlagsEnumerationQueryStringModelBinderProvider());
+                options.ModelBinderProviders.Insert(0, new DateTimeOffsetQueryStringModelBinderProvider());
             }
         }
 

@@ -34,10 +34,7 @@
 
         public static byte[] FromBase32(string input)
         {
-            if (input is null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
+            ArgumentNullException.ThrowIfNull(input, nameof(input));
 
             input = input.TrimEnd('=').ToUpperInvariant();
             if (input.Length == 0)

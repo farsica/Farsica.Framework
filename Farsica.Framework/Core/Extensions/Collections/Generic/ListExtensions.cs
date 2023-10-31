@@ -184,10 +184,7 @@
 
         public static T? Find<T>(this IReadOnlyList<T> list, Predicate<T> match)
         {
-            if (match is null)
-            {
-                throw new ArgumentNullException(nameof(match));
-            }
+            ArgumentNullException.ThrowIfNull(match, nameof(match));
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -202,10 +199,7 @@
 
         public static bool Exists<T>(this IReadOnlyList<T> list, Predicate<T> match)
         {
-            if (match is null)
-            {
-                throw new ArgumentNullException(nameof(match));
-            }
+            ArgumentNullException.ThrowIfNull(match, nameof(match));
 
             for (int i = 0; i < list.Count; i++)
             {

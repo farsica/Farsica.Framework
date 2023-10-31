@@ -6,6 +6,7 @@
     using System.Reflection;
     using System.Resources;
     using Farsica.Framework.Core;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -19,13 +20,11 @@
 
         public ResourceManagerStringLocalizerFactory(IOptions<LocalizationOptions> localizationOptions, ILoggerFactory loggerFactory)
         {
-            if (localizationOptions is null)
-            {
-                throw new ArgumentNullException(nameof(localizationOptions));
-            }
+            ArgumentNullException.ThrowIfNull(localizationOptions, nameof(localizationOptions));
+            ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
 
             resourcesRelativePath = localizationOptions.Value.ResourcesPath ?? string.Empty;
-            this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+            this.loggerFactory = loggerFactory;
 
             if (!string.IsNullOrEmpty(resourcesRelativePath))
             {
@@ -49,15 +48,8 @@
 
         public IStringLocalizer Create(string baseName, string? location)
         {
-            if (baseName is null)
-            {
-                throw new ArgumentNullException(nameof(baseName));
-            }
-
-            if (location is null)
-            {
-                throw new ArgumentNullException(nameof(location));
-            }
+            ArgumentNullException.ThrowIfNull(baseName, nameof(baseName));
+            ArgumentNullException.ThrowIfNull(location, nameof(location));
 
             baseName = GetResourcePrefix(baseName, location).PrepareResourcePath();
             location = location.PrepareResourcePath();
@@ -73,30 +65,16 @@
 
         protected virtual string? GetResourcePrefix(TypeInfo typeInfo)
         {
-            if (typeInfo is null)
-            {
-                throw new ArgumentNullException(nameof(typeInfo));
-            }
+            ArgumentNullException.ThrowIfNull(typeInfo, nameof(typeInfo));
 
             return GetResourcePrefix(typeInfo, GetRootNamespace(typeInfo.Assembly), GetResourcePath(typeInfo.Assembly));
         }
 
         protected virtual string? GetResourcePrefix(TypeInfo typeInfo, string? baseNamespace, string? resourcesRelativePath)
         {
-            if (typeInfo is null)
-            {
-                throw new ArgumentNullException(nameof(typeInfo));
-            }
-
-            if (string.IsNullOrEmpty(baseNamespace))
-            {
-                throw new ArgumentNullException(nameof(baseNamespace));
-            }
-
-            if (string.IsNullOrEmpty(typeInfo.FullName))
-            {
-                throw new ArgumentException(nameof(TypeInfo));
-            }
+            ArgumentNullException.ThrowIfNull(typeInfo, nameof(typeInfo));
+            ArgumentNullException.ThrowIfNull(baseNamespace, nameof(baseNamespace));
+            ArgumentException.ThrowIfNullOrEmpty(typeInfo.FullName, nameof(typeInfo.FullName));
 
             if (string.IsNullOrEmpty(resourcesRelativePath))
             {
@@ -112,15 +90,8 @@
 
         protected virtual string? GetResourcePrefix(string baseResourceName, string? baseNamespace)
         {
-            if (string.IsNullOrEmpty(baseResourceName))
-            {
-                throw new ArgumentNullException(nameof(baseResourceName));
-            }
-
-            if (string.IsNullOrEmpty(baseNamespace))
-            {
-                throw new ArgumentNullException(nameof(baseNamespace));
-            }
+            ArgumentNullException.ThrowIfNull(baseResourceName, nameof(baseResourceName));
+            ArgumentNullException.ThrowIfNull(baseNamespace, nameof(baseNamespace));
 
             var assemblyName = new AssemblyName(baseNamespace);
             var assembly = Assembly.Load(assemblyName);

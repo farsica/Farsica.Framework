@@ -316,20 +316,14 @@
 
         public static IHtmlContent FileInputTemplate(IHtmlHelper htmlHelper)
         {
-            if (htmlHelper is null)
-            {
-                throw new ArgumentNullException(nameof(htmlHelper));
-            }
+            ArgumentNullException.ThrowIfNull(htmlHelper, nameof(htmlHelper));
 
             return GenerateTextBox(htmlHelper, inputType: "file");
         }
 
         public static IHtmlContent FileCollectionInputTemplate(IHtmlHelper htmlHelper)
         {
-            if (htmlHelper is null)
-            {
-                throw new ArgumentNullException(nameof(htmlHelper));
-            }
+            ArgumentNullException.ThrowIfNull(htmlHelper, nameof(htmlHelper));
 
             var htmlAttributes =
                 CreateHtmlAttributes(htmlHelper, className: "text-box single-line", inputType: "file");

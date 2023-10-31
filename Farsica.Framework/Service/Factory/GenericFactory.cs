@@ -18,10 +18,7 @@
 
         public TProvider GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = true)
         {
-            if (providers is null)
-            {
-                throw new Exception("providers is null");
-            }
+            ArgumentNullException.ThrowIfNull(providers, nameof(providers));
 
             var provider = providers.FirstOrDefault(t => t.ProviderType.Equals(providerType));
             if (provider is null && returnFirstItemIfNotMatch)

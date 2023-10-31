@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using EFCore.BulkExtensions;
@@ -133,10 +134,7 @@
 
         public void Add(TEntity entity)
         {
-            if (entity is null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
             Context.Set<TEntity>().Add(entity);
         }
@@ -148,10 +146,7 @@
 
         public TEntity? Update(TEntity entity)
         {
-            if (entity is null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
             return Context.Set<TEntity>().Update(entity).Entity;
         }
@@ -169,10 +164,7 @@
 
         public void Remove(TEntity entity)
         {
-            if (entity is null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
             Context.Set<TEntity>().Attach(entity);
             Context.Entry(entity).State = EntityState.Deleted;

@@ -61,10 +61,7 @@
 
         private void SetFields(string otherProperty, short? minCountOtherProperty, short? maxCountOtherProperty)
         {
-            if (string.IsNullOrEmpty(otherProperty))
-            {
-                throw new ArgumentNullException(nameof(otherProperty));
-            }
+            ArgumentNullException.ThrowIfNull(otherProperty, nameof(otherProperty));
 
             OtherProperty = otherProperty;
             MinCountOtherProperty = minCountOtherProperty ?? 0;

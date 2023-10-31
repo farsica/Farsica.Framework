@@ -6,15 +6,8 @@
     {
         public static int BinarySearch<TValue, TKey>(this TValue[] list, TKey key, Func<TValue, TKey, int> comparer)
         {
-            if (list is null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            if (comparer is null)
-            {
-                throw new ArgumentNullException(nameof(comparer));
-            }
+            ArgumentNullException.ThrowIfNull(list, nameof(list));
+            ArgumentNullException.ThrowIfNull(comparer, nameof(comparer));
 
             int low = 0;
             int high = list.Length - 1;
@@ -51,10 +44,7 @@
 
         public static T? Find<T>(this T[] list, Predicate<T> match)
         {
-            if (match is null)
-            {
-                throw new ArgumentNullException(nameof(match));
-            }
+            ArgumentNullException.ThrowIfNull(match, nameof(match));
 
             for (int i = 0; i < list.Length; i++)
             {
@@ -69,10 +59,7 @@
 
         public static bool Exists<T>(this T[] list, Predicate<T> match)
         {
-            if (match is null)
-            {
-                throw new ArgumentNullException(nameof(match));
-            }
+            ArgumentNullException.ThrowIfNull(match, nameof(match));
 
             for (int i = 0; i < list.Length; i++)
             {

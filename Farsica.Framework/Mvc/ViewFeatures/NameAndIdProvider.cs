@@ -9,15 +9,8 @@
 
         public static string? CreateSanitizedId(ViewContext? viewContext, string? fullName, string? invalidCharReplacement)
         {
-            if (viewContext is null)
-            {
-                throw new ArgumentNullException(nameof(viewContext));
-            }
-
-            if (invalidCharReplacement is null)
-            {
-                throw new ArgumentNullException(nameof(invalidCharReplacement));
-            }
+            ArgumentNullException.ThrowIfNull(viewContext, nameof(viewContext));
+            ArgumentNullException.ThrowIfNull(invalidCharReplacement, nameof(invalidCharReplacement));
 
             if (string.IsNullOrEmpty(fullName))
             {
@@ -55,20 +48,9 @@
 
         public static void GenerateId(ViewContext viewContext, TagBuilder tagBuilder, string? fullName, string? invalidCharReplacement)
         {
-            if (viewContext is null)
-            {
-                throw new ArgumentNullException(nameof(viewContext));
-            }
-
-            if (tagBuilder is null)
-            {
-                throw new ArgumentNullException(nameof(tagBuilder));
-            }
-
-            if (invalidCharReplacement is null)
-            {
-                throw new ArgumentNullException(nameof(invalidCharReplacement));
-            }
+            ArgumentNullException.ThrowIfNull(tagBuilder, nameof(tagBuilder));
+            ArgumentNullException.ThrowIfNull(tagBuilder, nameof(tagBuilder));
+            ArgumentNullException.ThrowIfNull(invalidCharReplacement, nameof(invalidCharReplacement));
 
             if (string.IsNullOrEmpty(fullName))
             {
