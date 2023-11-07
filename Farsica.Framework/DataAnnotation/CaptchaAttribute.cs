@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Farsica.Framework.Captcha;
     using Farsica.Framework.Cookie;
     using Farsica.Framework.Core;
@@ -19,39 +20,39 @@
             ErrorMessageResourceName = nameof(GlobalResource.Validation_Expression);
         }
 
-        public override bool IsValid(object? value)
+        public void AddValidation(ClientModelValidationContext context)
         {
-            if (ValidationContext?.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string? cookieData) != true)
+            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
+            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-captcha", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+        }
+
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            if (validationContext?.GetRequiredService<ICookieProvider>().TryGetValue(SecurityExtensions.Captcha, out string? cookieData) != true)
             {
-                return false;
+                return new ValidationResult(ErrorMessage);
             }
 
             var hashCookie = cookieData?.Split(Constants.DelimiterAlternate.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             if (hashCookie?.Length != 2)
             {
-                return false;
+                return new ValidationResult(ErrorMessage);
             }
 
             var ticks = Globals.ValueOf<long?>(hashCookie[0]);
             if (!ticks.HasValue)
             {
-                return false;
+                return new ValidationResult(ErrorMessage);
             }
 
             if (Math.Abs(DateTime.UtcNow.Ticks - ticks.Value) > RequestMaxAgeInSeconds)
             {
-                return false;
+                return new ValidationResult(ErrorMessage);
             }
 
             var hashValue = SecurityExtensions.Encrypt((string?)value);
 
-            return Equals(hashCookie[1], hashValue);
-        }
-
-        public void AddValidation(ClientModelValidationContext context)
-        {
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-captcha", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+            return Equals(hashCookie[1], hashValue) ? ValidationResult.Success : new ValidationResult(ErrorMessage);
         }
     }
 }
