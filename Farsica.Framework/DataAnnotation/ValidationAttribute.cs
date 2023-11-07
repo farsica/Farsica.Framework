@@ -64,16 +64,14 @@
             }
         }
 
-        protected ValidationContext? ValidationContext { get; }
-
-        public override bool IsValid(object? value)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (string.IsNullOrEmpty(value?.ToString()))
             {
-                return true;
+                return ValidationResult.Success;
             }
 
-            return base.IsValid(value);
+            return base.IsValid(value, validationContext);
         }
     }
 }
