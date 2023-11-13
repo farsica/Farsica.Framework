@@ -13,23 +13,25 @@
     {
         protected FlagsEnumeration()
         {
-            Bits = new BitArray(1, false);
+            // None
+            Bits = new BitArray(0, false);
         }
 
         protected FlagsEnumeration(int index)
         {
-            index++;
-            var length = index + 1;
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
 
             // None
             if (index == 0)
             {
-                Bits = new BitArray(length, false);
+                Bits = new BitArray(0, false);
                 return;
             }
 
-            // Items
-            Bits = new BitArray(length, false);
+            Bits = new BitArray(index, false);
             Bits.Set(index - 1, true);
         }
 

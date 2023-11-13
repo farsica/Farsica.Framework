@@ -50,7 +50,7 @@
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
             var count = typeof(TEnum).GetFields(BindingFlags.Public | BindingFlags.Static).Length;
-            return new TEnum { Bits = new BitArray(count - 1, true) };
+            return new TEnum { Bits = new BitArray(count, true) };
         }
 
         public static TEnum FromUniqueId<TEnum>(this string id)
