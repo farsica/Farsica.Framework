@@ -275,7 +275,7 @@
                 .OrderBy(t => t)
                 .Select(t => t);
 
-            List<(string Version, string? Query)> result = new();
+            List<(string Version, string? Query)> result = [];
             foreach (var item in lst)
             {
                 var file = await File.ReadAllTextAsync(item, System.Text.Encoding.UTF8, cancellationToken);

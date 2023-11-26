@@ -27,7 +27,7 @@
         private const int CaptchaFontSize = 16;
 
         private static readonly Color[] TextColors =
-        {
+        [
             Color.Black,
             Color.Blue,
             Color.Brown,
@@ -41,7 +41,7 @@
             Color.DarkRed,
             Color.DarkSlateBlue,
             Color.DarkTurquoise,
-        };
+        ];
 
         // رنگ پس زمینه
         private static readonly Color BackgroundColor = Color.FromArgb(255, 255, 255, 255);

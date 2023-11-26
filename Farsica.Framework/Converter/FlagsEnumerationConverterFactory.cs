@@ -15,7 +15,7 @@
             Type elementType = typeToConvert.GetGenericArguments()[0];
 
             JsonConverter converter = (JsonConverter)Activator.CreateInstance(
-                typeof(FlagsEnumerationConverter<>).MakeGenericType(new Type[] { elementType }),
+                typeof(FlagsEnumerationConverter<>).MakeGenericType([elementType]),
                 BindingFlags.Instance | BindingFlags.Public,
                 binder: null,
                 args: null,

@@ -181,11 +181,11 @@
             anchorTagHelper.RouteValues.Add("currentPage", currentPage);
             anchorTagHelper.RouteValues.Add("sort", TagHelper.For.Sort);
 
-            attributeList = new TagHelperAttributeList
-            {
+            attributeList =
+            [
                 new TagHelperAttribute("tabindex", "-1"),
                 new TagHelperAttribute("class", "page-link"),
-            };
+            ];
 
             return anchorTagHelper;
         }

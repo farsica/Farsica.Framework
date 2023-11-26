@@ -29,7 +29,7 @@
                 }
 
                 operation.Tags = string.IsNullOrEmpty(area)
-                    ? (IList<OpenApiTag>)new List<OpenApiTag> { new OpenApiTag { Name = controllerActionDescriptor.ControllerName } }
+                    ? (IList<OpenApiTag>)[new OpenApiTag { Name = controllerActionDescriptor.ControllerName }]
                     : new List<OpenApiTag> { new OpenApiTag { Name = $"{area} - {controllerActionDescriptor.ControllerName}" } };
             }
         }

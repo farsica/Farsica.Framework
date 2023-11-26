@@ -233,12 +233,12 @@
         // Will soon need to be shared with the default editor templates implementations.
         internal static List<SelectListItem> TriStateValues(bool? value)
         {
-            return new List<SelectListItem>
-            {
+            return
+            [
                 new SelectListItem("NotSet", string.Empty, !value.HasValue),
                 new SelectListItem("True", "true", value == true),
                 new SelectListItem("False", "false", value == false),
-            };
+            ];
         }
 
         private static bool ShouldShow(ModelExplorer modelExplorer, TemplateInfo templateInfo)

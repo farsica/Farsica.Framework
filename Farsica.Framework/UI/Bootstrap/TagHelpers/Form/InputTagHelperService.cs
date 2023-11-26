@@ -434,7 +434,7 @@
 
         protected virtual void AddGroupToFormGroupContents(TagHelperContext context, string? propertyName, string? html, int order, out bool suppress)
         {
-            var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? new List<FormGroupItem>();
+            var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? [];
             suppress = list is null;
 
             if (list is not null && propertyName is not null && !list.Exists(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))

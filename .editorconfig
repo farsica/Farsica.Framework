@@ -319,7 +319,7 @@ dotnet_diagnostic.SA1008.severity = error
 dotnet_diagnostic.SA1009.severity = error
 
 # SA1010: Opening square brackets should be spaced correctly
-dotnet_diagnostic.SA1010.severity = error
+dotnet_diagnostic.SA1010.severity = suggestion
 
 # SA1011: Closing square brackets should be spaced correctly
 dotnet_diagnostic.SA1011.severity = error
@@ -802,6 +802,7 @@ csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_throw_expression = true:suggestion
 dotnet_diagnostic.SA1602.severity = suggestion
 csharp_style_prefer_null_check_over_type_check = true:suggestion
+csharp_style_prefer_primary_constructors = true:suggestion
 
 [*.{cs,vb}]
 indent_style=space
@@ -871,3 +872,4 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_prefer_collection_expression = true:suggestion

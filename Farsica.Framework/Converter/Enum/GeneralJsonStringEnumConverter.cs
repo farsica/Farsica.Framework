@@ -37,7 +37,7 @@
             var flagged = enumType.IsDefined(typeof(FlagsAttribute), true);
             JsonConverter enumConverter;
             TryOverrideName tryOverrideName = TryOverrideName;
-            var converterType = (flagged ? typeof(FlaggedJsonEnumConverter<>) : typeof(UnflaggedJsonEnumConverter<>)).MakeGenericType(new[] { enumType });
+            var converterType = (flagged ? typeof(FlaggedJsonEnumConverter<>) : typeof(UnflaggedJsonEnumConverter<>)).MakeGenericType([enumType]);
             enumConverter = (JsonConverter)Activator.CreateInstance(
                 converterType,
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
@@ -51,7 +51,7 @@
             else
             {
                 var nullableConverter = (JsonConverter)Activator.CreateInstance(
-                    typeof(NullableConverterDecorator<>).MakeGenericType(new[] { enumType }),
+                    typeof(NullableConverterDecorator<>).MakeGenericType([enumType]),
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     binder: null,
                     args: new object[] { enumConverter },

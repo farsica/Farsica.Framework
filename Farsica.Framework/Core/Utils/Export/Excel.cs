@@ -209,110 +209,101 @@
         {
             var isImage = false;
             var appendCell = true;
-            switch (dataType)
+            if (dataType == CellValues.Boolean)
             {
-                case CellValues.Boolean:
+                if (bool.TryParse(cellStringValue, out bool cellBooleanValue))
+                {
+                    cellStringValue = cellBooleanValue ? GlobalResource.Yes : GlobalResource.No;
+                    dataType = CellValues.String;
+                }
+                else
+                {
+                    appendCell = false;
+                }
+            }
+            else if (dataType == CellValues.Number)
+            {
+                if (double.TryParse(cellStringValue, out double cellNumericValue))
+                {
+                    cellStringValue = cellNumericValue.ToString();
+                }
+                else
+                {
+                    appendCell = false;
+                }
+            }
+            else if (dataType == CellValues.String)
+            {
+                if (cellStringValue.StartsWith("data:image/") /*|| cellStringValue.Equals("logo-admin.png")*/)
+                {
+                    isImage = true;
+
+                    var contentType = "image/png";
+                    var imageFormat = ImageFormat.Png;
+                    if (cellStringValue.StartsWith("data:image/jpeg"))
                     {
-                        if (bool.TryParse(cellStringValue, out bool cellBooleanValue))
-                        {
-                            cellStringValue = cellBooleanValue ? GlobalResource.Yes : GlobalResource.No;
-                            dataType = CellValues.String;
-                        }
-                        else
-                        {
-                            appendCell = false;
-                        }
+                        contentType = "image/jpeg";
+                        imageFormat = ImageFormat.Jpeg;
                     }
 
-                    break;
-                case CellValues.Number:
+                    DrawingsPart drawingsPart = null;
+                    Xdr.WorksheetDrawing worksheetDrawing = new Xdr.WorksheetDrawing();
+                    if (worksheetPart.DrawingsPart is null)
                     {
-                        if (double.TryParse(cellStringValue, out double cellNumericValue))
-                        {
-                            cellStringValue = cellNumericValue.ToString();
-                        }
-                        else
-                        {
-                            appendCell = false;
-                        }
+                        drawingsPart = worksheetPart.AddNewPart<DrawingsPart>("IdDrawingsPart");
+                        drawingsPart.WorksheetDrawing = worksheetDrawing;
+                    }
+                    else if (worksheetPart.DrawingsPart is not null
+                                    && worksheetPart.DrawingsPart.WorksheetDrawing is not null)
+                    {
+                        drawingsPart = worksheetPart.DrawingsPart;
+                        worksheetDrawing = worksheetPart.DrawingsPart.WorksheetDrawing;
                     }
 
-                    break;
-                case CellValues.String:
-                    {
-                        if (cellStringValue.StartsWith("data:image/") /*|| cellStringValue.Equals("logo-admin.png")*/)
-                        {
-                            isImage = true;
+                    var imageId = "Id" + rowIndex;
 
-                            var contentType = "image/png";
-                            var imageFormat = ImageFormat.Png;
-                            if (cellStringValue.StartsWith("data:image/jpeg"))
-                            {
-                                contentType = "image/jpeg";
-                                imageFormat = ImageFormat.Jpeg;
-                            }
+                    Xdr.TwoCellAnchor cellAnchor = AddTwoCellAnchor(rowIndex - 1, colInx, rowIndex, colInx + 1, imageId);
 
-                            DrawingsPart drawingsPart = null;
-                            Xdr.WorksheetDrawing worksheetDrawing = new Xdr.WorksheetDrawing();
-                            if (worksheetPart.DrawingsPart is null)
-                            {
-                                drawingsPart = worksheetPart.AddNewPart<DrawingsPart>("IdDrawingsPart");
-                                drawingsPart.WorksheetDrawing = worksheetDrawing;
-                            }
-                            else if (worksheetPart.DrawingsPart is not null
-                                            && worksheetPart.DrawingsPart.WorksheetDrawing is not null)
-                            {
-                                drawingsPart = worksheetPart.DrawingsPart;
-                                worksheetDrawing = worksheetPart.DrawingsPart.WorksheetDrawing;
-                            }
+                    worksheetDrawing.Append(cellAnchor);
 
-                            var imageId = "Id" + rowIndex;
+                    byte[] imageBytes = null;
 
-                            Xdr.TwoCellAnchor cellAnchor = AddTwoCellAnchor(rowIndex - 1, colInx, rowIndex, colInx + 1, imageId);
+                    // if (cellStringValue.Equals("logo-admin.png"))
+                    // {
+                    // var request = System.Web.HttpContext.Current.Request;
+                    // var appBaseUrl = string.Format("{0}://{1}", request.Url.Scheme, request.Url.Authority);
 
-                            worksheetDrawing.Append(cellAnchor);
+                    // var imageUrl = string.Format("{0}/images/Tenants/BoomMarket/{1}", appBaseUrl, cellStringValue);
 
-                            byte[] imageBytes = null;
+                    // using (WebResponse wrFileResponse = WebRequest.Create(imageUrl).GetResponse())
+                    // {
+                    // using (Stream objWebStream = wrFileResponse.GetResponseStream())
+                    // {
+                    // MemoryStream ms = new MemoryStream();
+                    // objWebStream.CopyTo(ms, 8192);
+                    // imageBytes = ms.ToArray();
+                    // }
+                    // }
+                    // }
+                    // else
+                    // {
+                    cellStringValue = cellStringValue.Split(' ')[1];
+                    imageBytes = Convert.FromBase64String(cellStringValue);
 
-                            // if (cellStringValue.Equals("logo-admin.png"))
-                            // {
-                            // var request = System.Web.HttpContext.Current.Request;
-                            // var appBaseUrl = string.Format("{0}://{1}", request.Url.Scheme, request.Url.Authority);
+                    // }
+                    using var ms = new MemoryStream(imageBytes);
+                    var image = System.Drawing.Image.FromStream(ms);
 
-                            // var imageUrl = string.Format("{0}/images/Tenants/BoomMarket/{1}", appBaseUrl, cellStringValue);
+                    var stream = new MemoryStream();
+                    image.Save(stream, imageFormat);
+                    stream.Position = 0;
 
-                            // using (WebResponse wrFileResponse = WebRequest.Create(imageUrl).GetResponse())
-                            // {
-                            // using (Stream objWebStream = wrFileResponse.GetResponseStream())
-                            // {
-                            // MemoryStream ms = new MemoryStream();
-                            // objWebStream.CopyTo(ms, 8192);
-                            // imageBytes = ms.ToArray();
-                            // }
-                            // }
-                            // }
-                            // else
-                            // {
-                            cellStringValue = cellStringValue.Split(' ')[1];
-                            imageBytes = Convert.FromBase64String(cellStringValue);
+                    ImagePart imagePart = drawingsPart.AddNewPart<ImagePart>(contentType, imageId);
+                    imagePart.FeedData(stream);
 
-                            // }
-                            using var ms = new MemoryStream(imageBytes);
-                            var image = System.Drawing.Image.FromStream(ms);
-
-                            var stream = new MemoryStream();
-                            image.Save(stream, imageFormat);
-                            stream.Position = 0;
-
-                            ImagePart imagePart = drawingsPart.AddNewPart<ImagePart>(contentType, imageId);
-                            imagePart.FeedData(stream);
-
-                            excelRow.Height = image.Size.Height <= 40 ? image.Size.Height : 40;
-                            excelRow.CustomHeight = true;
-                        }
-                    }
-
-                    break;
+                    excelRow.Height = image.Size.Height <= 40 ? image.Size.Height : 40;
+                    excelRow.CustomHeight = true;
+                }
             }
 
             if (appendCell && !isImage)

@@ -150,7 +150,7 @@
                     }
                     else
                     {
-                        localizedGridColumnNames = new Dictionary<string, string>();
+                        localizedGridColumnNames = [];
                         var type = gridDataSource.Data[0].GetType();
                         properties = type.GetProperties().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is null && (t.GetCustomAttribute<ExportInfoAttribute>() is null || !t.GetCustomAttribute<ExportInfoAttribute>().Ignore));
                         var i = 0;

@@ -362,6 +362,12 @@
             Desc,
         }
 
+        public enum FormatProvider
+        {
+            CurrentCulture,
+            InvariantCulture,
+        }
+
         internal enum ResourceKey
         {
             Name,

@@ -19,6 +19,7 @@
         public void Configure(JsonOptions options)
         {
             options.JsonSerializerOptions.Converters.Add(new ServiceProviderDummyConverter(httpContextAccessor, serviceProvider));
+            options.JsonSerializerOptions.TypeInfoResolver = new CustomtJsonTypeInfoResolver();
         }
     }
 }

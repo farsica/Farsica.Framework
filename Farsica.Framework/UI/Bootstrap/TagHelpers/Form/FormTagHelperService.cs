@@ -194,7 +194,7 @@
                 GetRadioInputTagHelper(model) :
                 GetSelectTagHelper(model);
 
-            await selectTagHelper.RenderAsync(new TagHelperAttributeList(), context, htmlEncoder, "div", TagMode.StartTagAndEndTag);
+            await selectTagHelper.RenderAsync([], context, htmlEncoder, "div", TagMode.StartTagAndEndTag);
         }
 
         private async Task ProcessInputGroupAsync(TagHelperContext context, TagHelperOutput output, ModelExpression model)
@@ -204,7 +204,7 @@
             inputTagHelper.ViewContext = TagHelper.ViewContext;
             inputTagHelper.DisplayRequiredSymbol = TagHelper.DisplayRequiredSymbol;
 
-            await inputTagHelper.RenderAsync(new TagHelperAttributeList(), context, htmlEncoder, "div", TagMode.StartTagAndEndTag);
+            await inputTagHelper.RenderAsync([], context, htmlEncoder, "div", TagMode.StartTagAndEndTag);
         }
 
         private void RemoveFormGroupItemsNotInModel(TagHelperContext context, TagHelperOutput output, List<FormGroupItem> items)

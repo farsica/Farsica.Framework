@@ -45,7 +45,7 @@
             MethodCallExpression resultExp = System.Linq.Expressions.Expression.Call(
                 typeof(Queryable),
                 methodName,
-                new Type[] { typeof(TEntity), entityType },
+                [typeof(TEntity), entityType],
                 outerExpression.Body,
                 System.Linq.Expressions.Expression.Quote(lambda));
 

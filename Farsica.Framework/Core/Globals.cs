@@ -19,12 +19,10 @@
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
-
     using Farsica.Framework.Core.Extensions;
     using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data;
     using Farsica.Framework.DataAnnotation;
-
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Logging;
@@ -152,7 +150,7 @@
                 }
 
                 var beforeControlNumber = (int)char.GetNumericValue(nationalId[9]) + 2;
-                int[] coefficientStatic = { 29, 27, 23, 19, 17, 29, 27, 23, 19, 17 };
+                int[] coefficientStatic = [29, 27, 23, 19, 17, 29, 27, 23, 19, 17];
 
                 var sum = 0;
                 for (var i = 0; i < nationalId.Length - 1; i++)
@@ -501,18 +499,18 @@
             if (cultureCode.StartsWith("fa", StringComparison.InvariantCultureIgnoreCase))
             {
                 var cal = new MyPersianCalendar();
-                return new[]
-                {
+                return
+                [
                     cal.ToDateTime(int.Parse(dt.ToString("yyyy")), 1, 1, 0, 0, 0, 0),
                     cal.ToDateTime(int.Parse(dt.ToString("yyyy")) + 1, 1, 1, 0, 0, 0, 0).AddMilliseconds(-1),
-                };
+                ];
             }
 
-            return new[]
-                {
+            return
+                [
                     new DateTime(dt.Year, 1, 1),
                     new DateTime(dt.Year + 1, 1, 1).AddMilliseconds(-1),
-                };
+                ];
         }
 
         public static DateTime[] GetPriodOfMonth(this DateTime dt, string cultureCode)
@@ -520,18 +518,18 @@
             if (cultureCode.StartsWith("fa", StringComparison.InvariantCultureIgnoreCase))
             {
                 var cal = new MyPersianCalendar();
-                return new[]
-                {
+                return
+                [
                     cal.ToDateTime(int.Parse(dt.ToString("yyyy")), int.Parse(dt.ToString("MM")), 1, 0, 0, 0, 0),
                     cal.ToDateTime(int.Parse(dt.ToString("yyyy")), int.Parse(dt.ToString("MM")), 1, 0, 0, 0, 0).AddMonths(1).AddDays(-1),
-                };
+                ];
             }
 
-            return new[]
-                {
+            return
+                [
                     new DateTime(dt.Year, dt.Month, 1),
                     new DateTime(dt.Year, dt.Month, 1).AddMonths(1).AddDays(-1),
-                };
+                ];
         }
 
         public static CultureInfo GetCulture(string name)
@@ -785,16 +783,16 @@
             var names = assembly.GetManifestResourceNames();
             dynamic expando = new ExpandoObject();
 
-            Dictionary<string, object?> dataList = new();
+            Dictionary<string, object?> dataList = [];
             for (int i = 0; i < names.Length; i++)
             {
                 string? item = names[i];
-                string[] validPrefixes = new[]
-                {
+                string[] validPrefixes =
+                [
                     $"{defaultNamespace}.Resource.UI.Web.Api.",
                     $"{defaultNamespace}.Resource.Data.ViewModel.",
                     $"{defaultNamespace}.Resource.Data.Enumeration.",
-                };
+                ];
 
                 if (validPrefixes.Exists(item.StartsWith) is false)
                 {
@@ -810,7 +808,7 @@
                 var baseName = item.TrimEnd(".resources");
                 var manager = new ResourceManager(baseName, assembly);
                 using var resources = new ResourceReader(cultureResourceStream);
-                Dictionary<string, object?> nestedList = new();
+                Dictionary<string, object?> nestedList = [];
                 foreach (DictionaryEntry entry in resources)
                 {
                     var key = (string)entry.Key;
@@ -839,7 +837,7 @@
 
             expando.Data = dataList;
 
-            Dictionary<string, object?> coreList = new();
+            Dictionary<string, object?> coreList = [];
             var resourceSet = Resources.GlobalResource.ResourceManager.GetResourceSet(CultureInfo.CurrentCulture, true, true);
             if (resourceSet is not null)
             {
