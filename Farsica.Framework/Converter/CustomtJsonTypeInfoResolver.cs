@@ -24,19 +24,35 @@
                         continue;
                     }
 
-                    if (prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
+                    if (prop.PropertyType == typeof(DateTime))
+                    {
+                        prop.CustomConverter = new DateTimeConverter<DateTime>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                    }
+                    else if (prop.PropertyType == typeof(DateTime?))
                     {
                         prop.CustomConverter = new DateTimeConverter<DateTime?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
                     }
-                    else if (prop.PropertyType == typeof(DateTimeOffset) || prop.PropertyType == typeof(DateTimeOffset?))
+                    else if (prop.PropertyType == typeof(DateTimeOffset))
+                    {
+                        prop.CustomConverter = new DateTimeConverter<DateTimeOffset>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                    }
+                    else if (prop.PropertyType == typeof(DateTimeOffset?))
                     {
                         prop.CustomConverter = new DateTimeConverter<DateTimeOffset?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
                     }
-                    else if (prop.PropertyType == typeof(DateOnly) || prop.PropertyType == typeof(DateOnly?))
+                    else if (prop.PropertyType == typeof(DateOnly))
+                    {
+                        prop.CustomConverter = new DateTimeConverter<DateOnly>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                    }
+                    else if (prop.PropertyType == typeof(DateOnly?))
                     {
                         prop.CustomConverter = new DateTimeConverter<DateOnly?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
                     }
-                    else if (prop.PropertyType == typeof(TimeOnly) || prop.PropertyType == typeof(TimeOnly?))
+                    else if (prop.PropertyType == typeof(TimeOnly))
+                    {
+                        prop.CustomConverter = new DateTimeConverter<TimeOnly>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                    }
+                    else if (prop.PropertyType == typeof(TimeOnly?))
                     {
                         prop.CustomConverter = new DateTimeConverter<TimeOnly?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
                     }
