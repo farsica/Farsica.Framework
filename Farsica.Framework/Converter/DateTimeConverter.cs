@@ -6,7 +6,6 @@
     using System.Security.Claims;
     using System.Text.Json;
     using System.Text.Json.Serialization;
-    using Farsica.Framework.Core;
     using Farsica.Framework.TimeZone;
     using Microsoft.Extensions.DependencyInjection;
     using static Farsica.Framework.Core.Constants;
@@ -82,8 +81,8 @@
         private static TimeSpan GetTimeSpan(JsonSerializerOptions options)
         {
             var converter = options.Converters.OfType<ServiceProviderDummyConverter>().FirstOrDefault();
-            var timeZoneId = converter?.HttpContextAccessor.HttpContext?.User.FindFirstValue(Constants.TimeZoneIdClaim) ?? Constants.IranTimeZoneId;
-            return converter?.ServiceProvider?.GetRequiredService<ITimeZoneProvider>().GetTimeZones()?.FirstOrDefault(t => t.Id == timeZoneId)?.BaseUtcOffset ?? Constants.IranBaseUtcOffset;
+            var timeZoneId = converter?.HttpContextAccessor.HttpContext?.User.FindFirstValue(TimeZoneIdClaim) ?? IranTimeZoneId;
+            return converter?.ServiceProvider?.GetRequiredService<ITimeZoneProvider>().GetTimeZones()?.FirstOrDefault(t => t.Id == timeZoneId)?.BaseUtcOffset ?? IranBaseUtcOffset;
         }
     }
 }

@@ -18,43 +18,47 @@
             {
                 foreach (var prop in lst)
                 {
+                    var formatProvider = Core.Constants.FormatProvider.CurrentCulture;
+                    string? dataFormatString = null;
+
                     var displayFormat = (prop.AttributeProvider as MemberInfo)?.GetCustomAttribute<DisplayFormatAttribute>();
-                    if (displayFormat is null)
+                    if (displayFormat is not null)
                     {
-                        continue;
+                        formatProvider = displayFormat.FormatProvider;
+                        dataFormatString = displayFormat.DataFormatString;
                     }
 
                     if (prop.PropertyType == typeof(DateTime))
                     {
-                        prop.CustomConverter = new DateTimeConverter<DateTime>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<DateTime>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(DateTime?))
                     {
-                        prop.CustomConverter = new DateTimeConverter<DateTime?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<DateTime?>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(DateTimeOffset))
                     {
-                        prop.CustomConverter = new DateTimeConverter<DateTimeOffset>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<DateTimeOffset>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(DateTimeOffset?))
                     {
-                        prop.CustomConverter = new DateTimeConverter<DateTimeOffset?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<DateTimeOffset?>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(DateOnly))
                     {
-                        prop.CustomConverter = new DateTimeConverter<DateOnly>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<DateOnly>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(DateOnly?))
                     {
-                        prop.CustomConverter = new DateTimeConverter<DateOnly?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<DateOnly?>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(TimeOnly))
                     {
-                        prop.CustomConverter = new DateTimeConverter<TimeOnly>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<TimeOnly>(dataFormatString, formatProvider);
                     }
                     else if (prop.PropertyType == typeof(TimeOnly?))
                     {
-                        prop.CustomConverter = new DateTimeConverter<TimeOnly?>(displayFormat.DataFormatString, displayFormat.FormatProvider);
+                        prop.CustomConverter = new DateTimeConverter<TimeOnly?>(dataFormatString, formatProvider);
                     }
                 }
             }
