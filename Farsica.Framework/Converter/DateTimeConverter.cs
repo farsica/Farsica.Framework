@@ -29,21 +29,51 @@
 
             if (typeToConvert == typeof(DateTime) || typeToConvert == typeof(DateTime?))
             {
-                return (T?)(object?)reader.GetDateTime();
+                if (reader.TryGetDateTime(out var dt))
+                {
+                    return (T?)(object?)dt;
+                }
+
+                return (T?)(object?)null;
             }
             else if (typeToConvert == typeof(DateTimeOffset) || typeToConvert == typeof(DateTimeOffset?))
             {
-                return (T?)(object?)new DateTimeOffset(reader.GetDateTime(), GetTimeSpan(options));
+                if (reader.TryGetDateTime(out var dt))
+                {
+                    return (T?)(object?)new DateTimeOffset(dt, GetTimeSpan(options));
+                }
+
+                return (T?)(object?)null;
             }
             else if (typeToConvert == typeof(DateOnly) || typeToConvert == typeof(DateOnly?))
             {
                 var val = reader.GetString();
-                return string.IsNullOrEmpty(val) ? (T?)(object?)null : (T?)(object?)DateOnly.ParseExact(val, format ?? "yyyy/MM/dd", provider);
+                if (string.IsNullOrEmpty(val))
+                {
+                    return (T?)(object?)null;
+                }
+
+                if (string.IsNullOrEmpty(format))
+                {
+                    return (T?)(object?)DateOnly.Parse(val, provider);
+                }
+
+                return (T?)(object?)DateOnly.ParseExact(val, format ?? "yyyy/MM/dd", provider);
             }
             else if (typeToConvert == typeof(TimeOnly) || typeToConvert == typeof(TimeOnly?))
             {
                 var val = reader.GetString();
-                return string.IsNullOrEmpty(val) ? (T?)(object?)null : (T?)(object?)TimeOnly.ParseExact(val, format ?? "HH:mm:ss", provider);
+                if (string.IsNullOrEmpty(val))
+                {
+                    return (T?)(object?)null;
+                }
+
+                if (string.IsNullOrEmpty(format))
+                {
+                    return (T?)(object?)TimeOnly.Parse(val, provider);
+                }
+
+                return (T?)(object?)TimeOnly.ParseExact(val, format ?? "HH:mm:ss", provider);
             }
 
             throw new NotSupportedException();
