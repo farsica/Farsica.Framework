@@ -47,33 +47,21 @@
             }
             else if (typeToConvert == typeof(DateOnly) || typeToConvert == typeof(DateOnly?))
             {
-                var val = reader.GetString();
-                if (string.IsNullOrEmpty(val))
+                if (reader.TryGetDateTime(out var dt))
                 {
-                    return (T?)(object?)null;
+                    return (T?)(object?)DateOnly.FromDateTime(dt);
                 }
 
-                if (string.IsNullOrEmpty(format))
-                {
-                    return (T?)(object?)DateOnly.Parse(val, provider);
-                }
-
-                return (T?)(object?)DateOnly.ParseExact(val, format ?? "yyyy/MM/dd", provider);
+                return (T?)(object?)null;
             }
             else if (typeToConvert == typeof(TimeOnly) || typeToConvert == typeof(TimeOnly?))
             {
-                var val = reader.GetString();
-                if (string.IsNullOrEmpty(val))
+                if (reader.TryGetDateTime(out var dt))
                 {
-                    return (T?)(object?)null;
+                    return (T?)(object?)TimeOnly.FromDateTime(dt);
                 }
 
-                if (string.IsNullOrEmpty(format))
-                {
-                    return (T?)(object?)TimeOnly.Parse(val, provider);
-                }
-
-                return (T?)(object?)TimeOnly.ParseExact(val, format ?? "HH:mm:ss", provider);
+                return (T?)(object?)null;
             }
 
             throw new NotSupportedException();
