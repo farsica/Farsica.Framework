@@ -491,7 +491,7 @@
                             .AddDefaultTokenProviders()
                             .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
 
-                        services.Configure<SecurityStampValidatorOptions>(options => Configuration.Bind("IdentityOptions.SecurityStampValidator", options));
+                        services.Configure<SecurityStampValidatorOptions>(options => Configuration.Bind("IdentityOptions:SecurityStampValidator", options));
                     }
                 }
             }
