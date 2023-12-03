@@ -487,9 +487,11 @@
                     if (serviceType == typeof(IEntityContext))
                     {
                         services
-                            .AddIdentity<TUser, TRole>(options => { Configuration.Bind("IdentityOptions", options); })
+                            .AddIdentity<TUser, TRole>(options => Configuration.Bind("IdentityOptions", options))
                             .AddDefaultTokenProviders()
                             .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
+
+                        services.Configure<SecurityStampValidatorOptions>(options => Configuration.Bind("IdentityOptions.SecurityStampValidator", options));
                     }
                 }
             }
