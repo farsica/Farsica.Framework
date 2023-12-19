@@ -61,6 +61,13 @@
                     return (T?)(object?)TimeOnly.FromDateTime(dt);
                 }
 
+                var val = reader.GetString();
+                var timeFormat = string.IsNullOrEmpty(format) ? "HH:mm:ss" : format;
+                if (!string.IsNullOrEmpty(val) && TimeOnly.TryParseExact(val, timeFormat, provider, DateTimeStyles.None, out TimeOnly result))
+                {
+                    return (T?)(object?)result;
+                }
+
                 return (T?)(object?)null;
             }
 
