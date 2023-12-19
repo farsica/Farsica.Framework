@@ -63,7 +63,7 @@
         // {
         //    base.OnPageHandlerExecuted(context);
 
-        // if (pagingDto?.Export is true)
+        // if (pagingDto?.Export == true)
         //    {
         //        if ((context.Result as ObjectResult)?.Value is GridDataSource gridDataSource)
         //        {

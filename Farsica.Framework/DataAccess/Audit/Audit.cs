@@ -7,17 +7,18 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     [Table(nameof(Audit<TUser, TKey>))]
-    public class Audit<TUser, TKey> : IEntity<Audit<TUser, TKey>, long>
+    public class Audit<TUser, TKey> : IEntity<Audit<TUser, TKey>, Guid>
         where TUser : IdentityUser<TKey>
         where TKey : IEquatable<TKey>
     {
         [System.ComponentModel.DataAnnotations.Key]
-        [Column(nameof(Id), DataType.Long)]
+        [Column(nameof(Id), DataType.Guid)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         [Column(nameof(UserId))]
         public TKey? UserId { get; set; }
@@ -41,6 +42,7 @@
 
         public void Configure(EntityTypeBuilder<Audit<TUser, TKey>> builder)
         {
+            _ = builder.Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
         }
     }
 }

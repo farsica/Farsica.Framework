@@ -18,7 +18,7 @@
 
         public IEnumerable<SelectListItem>? GetItems(ModelExplorer explorer)
         {
-            var properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) is true).ToList();
+            var properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) == true).ToList();
 
             while (properties.Count == 0)
             {
@@ -28,7 +28,7 @@
                     return null;
                 }
 
-                properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) is true).ToList();
+                properties = explorer.Container.Properties.Where(p => p.Metadata.PropertyName?.Equals(ItemsListPropertyName) == true).ToList();
             }
 
             return properties.First().Model as IEnumerable<SelectListItem>;

@@ -18,22 +18,22 @@
 
         protected virtual string? GetBorderDirection(TagHelperContext context, TagHelperOutput output, string? borderAttributeAsString)
         {
-            if (borderAttributeAsString?.Contains("top") is true)
+            if (borderAttributeAsString?.Contains("top") == true)
             {
                 return "-top";
             }
 
-            if (borderAttributeAsString?.Contains("right") is true)
+            if (borderAttributeAsString?.Contains("right") == true)
             {
                 return "-right";
             }
 
-            if (borderAttributeAsString?.Contains("left") is true)
+            if (borderAttributeAsString?.Contains("left") == true)
             {
                 return "-left";
             }
 
-            if (borderAttributeAsString?.Contains("bottom") is true)
+            if (borderAttributeAsString?.Contains("bottom") == true)
             {
                 return "-bottom";
             }
@@ -43,7 +43,7 @@
 
         protected virtual string? GetExtensionIfBorderIsSubtractive(TagHelperContext context, TagHelperOutput output, string? borderAttributeAsString)
         {
-            if (borderAttributeAsString?.Contains("_0") is true)
+            if (borderAttributeAsString?.Contains("_0") == true)
             {
                 return "-0";
             }
@@ -53,47 +53,47 @@
 
         protected virtual void SetBorderType(TagHelperContext context, TagHelperOutput output, string? borderAttributeAsString)
         {
-            if (borderAttributeAsString?.Contains("primary") is true)
+            if (borderAttributeAsString?.Contains("primary") == true)
             {
                 output.Attributes.AddClass("border-primary");
             }
 
-            if (borderAttributeAsString?.Contains("secondary") is true)
+            if (borderAttributeAsString?.Contains("secondary") == true)
             {
                 output.Attributes.AddClass("border-secondary");
             }
 
-            if (borderAttributeAsString?.Contains("success") is true)
+            if (borderAttributeAsString?.Contains("success") == true)
             {
                 output.Attributes.AddClass("border-success");
             }
 
-            if (borderAttributeAsString?.Contains("danger") is true)
+            if (borderAttributeAsString?.Contains("danger") == true)
             {
                 output.Attributes.AddClass("border-danger");
             }
 
-            if (borderAttributeAsString?.Contains("warning") is true)
+            if (borderAttributeAsString?.Contains("warning") == true)
             {
                 output.Attributes.AddClass("border-warning");
             }
 
-            if (borderAttributeAsString?.Contains("info") is true)
+            if (borderAttributeAsString?.Contains("info") == true)
             {
                 output.Attributes.AddClass("border-info");
             }
 
-            if (borderAttributeAsString?.Contains("light") is true)
+            if (borderAttributeAsString?.Contains("light") == true)
             {
                 output.Attributes.AddClass("border-light");
             }
 
-            if (borderAttributeAsString?.Contains("dark") is true)
+            if (borderAttributeAsString?.Contains("dark") == true)
             {
                 output.Attributes.AddClass("border-dark");
             }
 
-            if (borderAttributeAsString?.Contains("white") is true)
+            if (borderAttributeAsString?.Contains("white") == true)
             {
                 output.Attributes.AddClass("border-white");
             }

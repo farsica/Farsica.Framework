@@ -123,7 +123,7 @@
                 contentBuilder.AppendLine(item.HtmlContent);
             }
 
-            if (childContent?.Contains(FormContentPlaceHolder) is true)
+            if (childContent?.Contains(FormContentPlaceHolder) == true)
             {
                 output.Content.SetHtmlContent(childContent.Replace(FormContentPlaceHolder, contentBuilder.ToString()));
             }

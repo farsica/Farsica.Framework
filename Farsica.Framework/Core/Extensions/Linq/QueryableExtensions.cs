@@ -63,7 +63,7 @@
 
             var properties = typeof(TSource).GetProperties();
 
-            if (pagingDto.SearchFilter?.Any() is true)
+            if (pagingDto.SearchFilter?.Any() == true)
             {
                 foreach (var item in pagingDto.SearchFilter)
                 {
@@ -72,10 +72,10 @@
             }
 
             var sort = false;
-            if (pagingDto.SortFilter?.Any() is true)
+            if (pagingDto.SortFilter?.Any() == true)
             {
                 var items = pagingDto.SortFilter.Where(t => properties.Exists(p => p.Name.Equals(t.Column, StringComparison.InvariantCultureIgnoreCase)));
-                if (items?.Any() is true)
+                if (items?.Any() == true)
                 {
                     sort = true;
                     lst = lst.OrderBy(string.Join(",", items.Select(t => $"{t.Column} {t.SortType.ToString().ToLower()}")));

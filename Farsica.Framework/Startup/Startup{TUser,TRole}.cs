@@ -478,7 +478,7 @@
                     var serviceLifetimeAttribute = implementationType.GetCustomAttribute<ServiceLifetimeAttribute>();
                     serviceLifetimeAttribute ??= new ServiceLifetimeAttribute(ServiceLifetime.Transient);
 
-                    if (serviceLifetimeAttribute.Parameters?.Any() is true)
+                    if (serviceLifetimeAttribute.Parameters?.Any() == true)
                     {
                         services.Add(new ServiceDescriptor(serviceType, provider =>
                         {

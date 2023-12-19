@@ -212,7 +212,6 @@
                 AuditEntries = new List<AuditEntry<TUser, TKey>>(),
             };
             var entries = ChangeTracker.Entries();
-
             foreach (var entry in entries)
             {
                 if (entry.Entity is Audit<TUser, TKey> || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
@@ -226,43 +225,45 @@
                     continue;
                 }
 
-                _ = long.TryParse(entry.Properties.FirstOrDefault(t => t.Metadata.IsPrimaryKey())?.CurrentValue?.ToString(), out long id);
                 var auditEntry = new AuditEntry<TUser, TKey>
                 {
                     EntityType = auditAttribute.EntityType,
                     AuditEntryProperties = new List<AuditEntryProperty<TUser, TKey>>(),
                     AuditType = Convert(entry.State),
-                    IdentifierId = id,
+                    IdentifierId = entry.Properties.FirstOrDefault(t => t.Metadata.IsPrimaryKey())?.CurrentValue?.ToString(),
                 };
 
                 if (entry.State is not EntityState.Deleted)
                 {
                     foreach (var property in entry.Properties)
                     {
-                        if (entry.Entity.GetType().GetProperty(property.Metadata.Name).GetCustomAttribute<AuditIgnoreAttribute>() is not null)
+                        if (entry.Entity.GetType().GetProperty(property.Metadata.Name)?.GetCustomAttribute<AuditIgnoreAttribute>() is not null)
                         {
                             continue;
                         }
 
-                        if (property.OriginalValue?.ToString() == property.CurrentValue?.ToString() || shadowProperties.Contains(property.Metadata.Name))
+                        if (shadowProperties.Contains(property.Metadata.Name))
                         {
                             continue;
                         }
 
-                        auditEntry.AuditEntryProperties.Add(new AuditEntryProperty<TUser, TKey>
+                        if (entry.State == EntityState.Added || property.OriginalValue?.ToString() != property.CurrentValue?.ToString())
                         {
-                            OldValue = property.OriginalValue?.ToString(),
-                            NewValue = property.CurrentValue?.ToString(),
-                            PropertyName = property.Metadata.Name,
-                            TemporaryProperty = property.IsTemporary ? property : null,
-                        });
+                            auditEntry.AuditEntryProperties.Add(new AuditEntryProperty<TUser, TKey>
+                            {
+                                OldValue = property.OriginalValue?.ToString(),
+                                NewValue = property.CurrentValue?.ToString(),
+                                PropertyName = property.Metadata.Name,
+                                TemporaryProperty = property.IsTemporary ? property : null,
+                            });
+                        }
                     }
                 }
 
                 audit.AuditEntries.Add(auditEntry);
             }
 
-            return audit.AuditEntries.Any(t => t.AuditType?.Equals(AuditType.Deleted) is true || t.AuditEntryProperties?.Any() is true) ? audit : null;
+            return audit.AuditEntries.Any(t => t.AuditType?.Equals(AuditType.Deleted) == true || t.AuditEntryProperties?.Count > 0) ? audit : null;
         }
 
         private void SaveAudit(Audit<TUser, TKey> audit)
@@ -274,7 +275,7 @@
 
             var auditLst = new List<Audit<TUser, TKey>>
             {
-                new Audit<TUser, TKey>
+                new()
                 {
                     Date = audit.Date,
                     UserId = audit.UserId,
@@ -307,7 +308,7 @@
                     {
                         foreach (var property in auditEntry.AuditEntryProperties)
                         {
-                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) is true && t.EntityType == auditEntry.EntityType);
+                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) == true && t.EntityType == auditEntry.EntityType);
                             if (item is not null)
                             {
                                 property.AuditEntryId = item.Id;
@@ -336,7 +337,7 @@
 
             var auditLst = new List<Audit<TUser, TKey>>
             {
-                new Audit<TUser, TKey>
+                new()
                 {
                     Date = audit.Date,
                     UserId = audit.UserId,
@@ -369,7 +370,7 @@
                     {
                         foreach (var property in auditEntry.AuditEntryProperties)
                         {
-                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) is true && t.EntityType == auditEntry.EntityType);
+                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) == true && t.EntityType == auditEntry.EntityType);
                             if (item is not null)
                             {
                                 property.AuditEntryId = item.Id;

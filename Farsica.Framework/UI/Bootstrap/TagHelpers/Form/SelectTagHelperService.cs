@@ -213,7 +213,7 @@
 
             if (enumType is not null)
             {
-                var ignoreFields = enumType.GetFields().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is not null || t.GetCustomAttribute<DisplayAttribute>(false)?.Hidden is true).Select(t => (t.GetValue(null) as Enum)?.ToString());
+                var ignoreFields = enumType.GetFields().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is not null || t.GetCustomAttribute<DisplayAttribute>(false)?.Hidden == true).Select(t => (t.GetValue(null) as Enum)?.ToString());
                 foreach (var enumValue in enumType.GetEnumValues())
                 {
                     if (!ignoreFields.Contains(enumValue.ToString()))
@@ -331,7 +331,7 @@
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? [];
             suppress = list is null;
 
-            if (list is not null && propertyName is not null && !list.Exists(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
+            if (list is not null && propertyName is not null && !list.Exists(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") == true))
             {
                 list.Add(new FormGroupItem
                 {

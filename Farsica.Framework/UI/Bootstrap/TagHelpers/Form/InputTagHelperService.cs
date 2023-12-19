@@ -437,7 +437,7 @@
             var list = context.GetValue<List<FormGroupItem>>(FormGroupContents) ?? [];
             suppress = list is null;
 
-            if (list is not null && propertyName is not null && !list.Exists(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") is true))
+            if (list is not null && propertyName is not null && !list.Exists(igc => igc.HtmlContent?.Contains("id=\"" + propertyName.Replace('.', '_') + "\"") == true))
             {
                 list.Add(new FormGroupItem
                 {

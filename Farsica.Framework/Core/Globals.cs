@@ -82,7 +82,7 @@
 
         public static string? GetHeaderParameter(this HttpContext? httpContext, string key)
         {
-            return httpContext?.Request.Headers.TryGetValue(key, out StringValues stringValues) is true ? stringValues.FirstOrDefault() : null;
+            return httpContext?.Request.Headers.TryGetValue(key, out StringValues stringValues) == true ? stringValues.FirstOrDefault() : null;
         }
 
         public static bool ValidateNationalCode(string? nationalCode)
@@ -774,7 +774,7 @@
 
         public static dynamic GetAllResourceString(string defaultNamespace)
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies()?.FirstOrDefault(t => t.FullName?.Contains($"{defaultNamespace}.Resource") is true);
+            var assembly = AppDomain.CurrentDomain.GetAssemblies()?.FirstOrDefault(t => t.FullName?.Contains($"{defaultNamespace}.Resource") == true);
             if (assembly == null)
             {
                 return string.Empty;

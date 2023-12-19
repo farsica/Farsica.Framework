@@ -248,7 +248,7 @@
                 return null;
             }
 
-            if (Directory.GetFiles(migrationDirectory)?.All(t => Path.GetExtension(t).ToUpper() is not ".SQL") is true)
+            if (Directory.GetFiles(migrationDirectory)?.All(t => Path.GetExtension(t).ToUpper() is not ".SQL") == true)
             {
                 return null;
             }

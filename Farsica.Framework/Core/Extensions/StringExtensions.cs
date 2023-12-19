@@ -12,7 +12,7 @@
     {
         public static string? EnsureEndsWith(this string? str, char c, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            if (str?.EndsWith(c.ToString(), comparisonType) is true)
+            if (str?.EndsWith(c.ToString(), comparisonType) == true)
             {
                 return str;
             }
@@ -22,7 +22,7 @@
 
         public static string? EnsureStartsWith(this string? str, char c, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            if (str?.StartsWith(c.ToString(), comparisonType) is true)
+            if (str?.StartsWith(c.ToString(), comparisonType) == true)
             {
                 return str;
             }
@@ -108,7 +108,7 @@
 
             foreach (var postFix in postFixes)
             {
-                if (str?.EndsWith(postFix, comparisonType) is true)
+                if (str?.EndsWith(postFix, comparisonType) == true)
                 {
                     return str.Left(str.Length - postFix.Length);
                 }
@@ -151,7 +151,7 @@
             {
                 foreach (var preFix in preFixes)
                 {
-                    if (str?.StartsWith(preFix, comparisonType) is true)
+                    if (str?.StartsWith(preFix, comparisonType) == true)
                     {
                         return str.Right(str.Length - preFix.Length);
                     }

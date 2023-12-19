@@ -45,7 +45,7 @@
             var isEnum = For.Metadata.IsEnum || For.Metadata.ElementMetadata.IsEnum;
             var isPrimitive = isEnum is false && For.Metadata.ElementType.IsSimpleType();
             var placeholder = For.Metadata.Placeholder ?? Resources.GlobalResource.Select;
-            var isFlagsEnum = isEnum && (For.Metadata.IsFlagsEnum is true || For.Metadata.ElementMetadata?.IsFlagsEnum is true);
+            var isFlagsEnum = isEnum && (For.Metadata.IsFlagsEnum || For.Metadata.ElementMetadata?.IsFlagsEnum == true);
 
             IEnumerable<SelectListItem>? items = null;
             IEnumerable<string>? currentValues = null;
@@ -213,7 +213,7 @@
         private (IEnumerable<SelectListItem> Items, IEnumerable<string> CurrentValues) GenerateEnumItems(IEnumerable<Enum> values, bool flags)
         {
             var type = For.Metadata.ElementMetadata?.UnderlyingOrModelType ?? For.Metadata.UnderlyingOrModelType;
-            var ignoreFields = type.GetFields().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is not null || t.GetCustomAttribute<DisplayAttribute>(false)?.Hidden is true).Select(t => (t.GetValue(null) as Enum)?.ToString("d"));
+            var ignoreFields = type.GetFields().Where(t => t.GetCustomAttribute<JsonIgnoreAttribute>(false) is not null || t.GetCustomAttribute<DisplayAttribute>(false)?.Hidden == true).Select(t => (t.GetValue(null) as Enum)?.ToString("d"));
 
             var groupedDisplayNamesAndValues = For.Metadata.ElementMetadata?.EnumGroupedDisplayNamesAndValues ?? For.Metadata.EnumGroupedDisplayNamesAndValues;
             var lst = from t in groupedDisplayNamesAndValues
@@ -224,7 +224,7 @@
                           Text = t.Key.Name,
                           Value = t.Value,
 #pragma warning disable CA2248 // Provide correct 'enum' argument to 'Enum.HasFlag'
-                          Selected = values is not null && (flags ? values.Any(v => v?.HasFlag(Enum.Parse(type, t.Value) as Enum) is true) : values.Any(v => v?.ToString("d") == t.Value)),
+                          Selected = values is not null && (flags ? values.Any(v => v?.HasFlag(Enum.Parse(type, t.Value) as Enum) == true) : values.Any(v => v?.ToString("d") == t.Value)),
 #pragma warning restore CA2248 // Provide correct 'enum' argument to 'Enum.HasFlag'
                       };
             return (lst, lst?.Where(t => t.Selected).Select(t => t?.Value));

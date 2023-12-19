@@ -69,8 +69,8 @@
 
         protected override TagBuilder GenerateLink(string linkText, string? url, object htmlAttributes)
         {
-            var lst = url.Split("/", StringSplitOptions.RemoveEmptyEntries).ToList();
-            if (lst?.Count > 0 is true)
+            var lst = url?.Split("/", StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (lst?.Count > 0)
             {
                 // if (!lst[0].Equals("api", StringComparison.InvariantCultureIgnoreCase))
                 {
