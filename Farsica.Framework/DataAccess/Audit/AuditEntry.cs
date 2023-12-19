@@ -21,7 +21,7 @@
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Column(nameof(AuditId), DataType.Long)]
+        [Column(nameof(AuditId), DataType.Guid)]
         public Guid AuditId { get; set; }
 
         public Audit<TUser, TKey>? Audit { get; set; }
