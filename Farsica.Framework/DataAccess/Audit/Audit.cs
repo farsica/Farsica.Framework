@@ -42,6 +42,7 @@
 
         public void Configure(EntityTypeBuilder<Audit<TUser, TKey>> builder)
         {
+            // not working, go to IdentityEntityContext
             _ = builder.Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
         }
     }

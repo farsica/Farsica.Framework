@@ -114,7 +114,12 @@
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
 
             // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
+            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+
+            _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
+
+            _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
