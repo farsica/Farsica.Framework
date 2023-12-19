@@ -12,30 +12,32 @@
 
         public ApiResponse(ModelStateDictionary modelState)
         {
-            if (modelState.ErrorCount > 0)
+            if (modelState.ErrorCount == 0)
             {
-                List<Error>? lst = new(modelState.ErrorCount);
-                foreach (var key in modelState.Keys)
-                {
-                    var value = modelState[key];
-                    if (value?.Errors is null)
-                    {
-                        continue;
-                    }
+                return;
+            }
 
-                    foreach (var error in value.Errors)
-                    {
-                        lst.Add(new Error
-                        {
-                            Value = value.RawValue,
-                            Reference = key,
-                            Message = error.ErrorMessage,
-                        });
-                    }
+            List<Error>? lst = new(modelState.ErrorCount);
+            foreach (var key in modelState.Keys)
+            {
+                var value = modelState[key];
+                if (value?.Errors is null)
+                {
+                    continue;
                 }
 
-                Errors = lst;
+                for (int i = 0; i < value.Errors.Count; i++)
+                {
+                    lst.Add(new Error
+                    {
+                        Value = value.RawValue,
+                        Reference = key,
+                        Message = value.Errors[i].ErrorMessage,
+                    });
+                }
             }
+
+            Errors = lst;
         }
 
         public ApiResponse(IEnumerable<Error>? errors)

@@ -907,6 +907,13 @@
 #pragma warning restore CA2254 // Template should be a static expression
         }
 
+        public static void LogMessage(this ILogger logger, LogLevel logLevel, string? message, [CallerMemberName] string? methodName = "")
+        {
+#pragma warning disable CA2254 // Template should be a static expression
+            logger.Log(logLevel, message + " " + methodName);
+#pragma warning restore CA2254 // Template should be a static expression
+        }
+
         public static string GenerateRandomString(int length)
         {
             int numberOfNonAlphanumericCharacters = GenerateRandomNumber(0, length);

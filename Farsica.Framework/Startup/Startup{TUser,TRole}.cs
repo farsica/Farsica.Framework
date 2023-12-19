@@ -11,6 +11,7 @@
     using System.Text.Unicode;
     using Farsica.Framework.Converter;
     using Farsica.Framework.Core;
+    using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data;
     using Farsica.Framework.DataAccess.Context;
     using Farsica.Framework.DataAnnotation;
@@ -24,6 +25,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.DataProtection;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
@@ -50,7 +52,7 @@
         private readonly bool https;
         private readonly bool views;
         private readonly bool identity;
-        private readonly string? defaultNamespace;
+        private readonly string defaultNamespace;
         private readonly Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler;
 
         protected Startup(IConfiguration configuration, string? defaultNamespace = null, ExceptionHandlerOptions? exceptionHandlerOptions = null, bool localization = true, bool authentication = true,
@@ -344,7 +346,7 @@
             services.AddDataProtection()
                 .SetApplicationName(defaultNamespace)
                 .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(12));
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(365));
 
             var embeddedFileProvider = new EmbeddedFileProvider(Assembly.GetCallingAssembly(), "Farsica.Framework");
             services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
@@ -389,6 +391,41 @@
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
             services.ConfigureOptions<ConfigureJsonOptions>();
+
+            if (authentication)
+            {
+                _ = services.AddAuthorization(options => options.AddPolicy(PermissionConstants.PermissionPolicy, policy => policy.RequireAssertion(context =>
+                {
+                    if (context.Resource is not HttpContext httpContext)
+                    {
+                        return false;
+                    }
+
+                    var endPoint = httpContext.GetEndpoint();
+                    if (endPoint is null)
+                    {
+                        return false;
+                    }
+
+                    var permission = endPoint.Metadata.OfType<PermissionAttribute>().LastOrDefault();
+                    if (permission is null)
+                    {
+                        return false;
+                    }
+
+                    if (permission.Roles?.Exists(t => context.User.IsInRole(t)) == true)
+                    {
+                        return true;
+                    }
+
+                    var claims = context.User.Claims.Where(t => t.Type == PermissionConstants.PermissionPolicy);
+                    return claims.Any(t => t.Value.Equals(endPoint?.DisplayName, StringComparison.OrdinalIgnoreCase));
+                })));
+
+                _ = services.AddAuthentication().AddScheme<TokenAuthenticationSchemeOptions, TokenAuthenticationHandler>(PermissionConstants.TokenAuthenticationScheme, t => { });
+                _ = services.Configure<ApiDataProtectorTokenProviderOptions>(Configuration.GetSection("IdentityOptions:Tokens:ApiDataProtectorTokenProviderOptions"));
+                _ = services.Configure<IdentityOptions>(options => options.Tokens.ProviderMap[PermissionConstants.ApiDataProtectorTokenProvider] = new TokenProviderDescriptor(typeof(IApiDataProtectorTokenProvider<,>)));
+            }
 
             return mvcBuilder;
 

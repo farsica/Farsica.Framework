@@ -1,10 +1,9 @@
-﻿namespace Farsica.Framework.Startup
+﻿namespace Farsica.Framework.Localization
 {
     using System.Collections.Generic;
     using System.Linq;
 
     using Farsica.Framework.Core;
-    using Farsica.Framework.Localization;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Localization;
@@ -16,7 +15,7 @@
         {
             get
             {
-                var supportedCultures = CultureExtensions.GetAtomicValues().Select(t => Globals.GetCulture(t)).ToArray();
+                var supportedCultures = CultureExtensions.GetAtomicValues().Select(Globals.GetCulture).ToArray();
                 return new RequestLocalizationOptions
                 {
                     DefaultRequestCulture = new RequestCulture(Constants.DefaultLanguageCode),
@@ -29,7 +28,7 @@
 
         public static void ConfigureRequestLocalization(this IServiceCollection services)
         {
-            var supportedCultures = CultureExtensions.GetAtomicValues().Select(t => Globals.GetCulture(t)).ToArray();
+            var supportedCultures = CultureExtensions.GetAtomicValues().Select(Globals.GetCulture).ToArray();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
