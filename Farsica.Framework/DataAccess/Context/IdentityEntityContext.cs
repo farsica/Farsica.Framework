@@ -256,7 +256,7 @@
                         {
                             auditEntry.AuditEntryProperties.Add(new AuditEntryProperty<TUser, TKey>
                             {
-                                OldValue = property.OriginalValue?.ToString(),
+                                OldValue = entry.State == EntityState.Added ? null : property.OriginalValue?.ToString(),
                                 NewValue = property.CurrentValue?.ToString(),
                                 PropertyName = property.Metadata.Name,
                                 TemporaryProperty = property.IsTemporary ? property : null,
@@ -322,6 +322,11 @@
                             if (property.TemporaryProperty is not null)
                             {
                                 property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
+                                if (property.TemporaryProperty.Metadata.IsPrimaryKey())
+                                {
+                                    auditEntry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
+                                    AuditEntries.Where(t => t.Id == auditEntry.Id).ExecuteUpdate(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
+                                }
                             }
                         }
 
@@ -384,6 +389,11 @@
                             if (property.TemporaryProperty is not null)
                             {
                                 property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
+                                if (property.TemporaryProperty.Metadata.IsPrimaryKey())
+                                {
+                                    auditEntry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
+                                    await AuditEntries.Where(t => t.Id == auditEntry.Id).ExecuteUpdateAsync(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
+                                }
                             }
                         }
 
