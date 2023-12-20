@@ -325,7 +325,7 @@
                                 if (property.TemporaryProperty.Metadata.IsPrimaryKey())
                                 {
                                     auditEntry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
-                                    AuditEntries.Where(t => t.Id == auditEntry.Id).ExecuteUpdate(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
+                                    AuditEntries.Where(t => t.Id == property.AuditEntryId).ExecuteUpdate(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
                                 }
                             }
                         }
@@ -392,7 +392,7 @@
                                 if (property.TemporaryProperty.Metadata.IsPrimaryKey())
                                 {
                                     auditEntry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
-                                    await AuditEntries.Where(t => t.Id == auditEntry.Id).ExecuteUpdateAsync(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
+                                    await AuditEntries.Where(t => t.Id == property.AuditEntryId).ExecuteUpdateAsync(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
                                 }
                             }
                         }
