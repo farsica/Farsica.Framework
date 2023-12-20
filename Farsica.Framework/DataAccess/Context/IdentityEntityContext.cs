@@ -235,7 +235,7 @@
                     EntityType = auditAttribute.EntityType,
                     AuditEntryProperties = new List<AuditEntryProperty<TUser, TKey>>(),
                     AuditType = Convert(entry.State),
-                    IdentifierId = entry.Properties.FirstOrDefault(t => t.Metadata.IsPrimaryKey())?.CurrentValue?.ToString(),
+                    IdentifierId = entry.State == EntityState.Added ? null : string.Join(" , ", entry.Properties.Where(t => t.Metadata.IsPrimaryKey()).Select(t => t.CurrentValue?.ToString())),
                 };
 
                 if (entry.State is not EntityState.Deleted)
@@ -345,7 +345,7 @@
                 return;
             }
 
-            var auditLst = new List<Audit<TUser, TKey>>
+            var auditList = new List<Audit<TUser, TKey>>
             {
                 new()
                 {
@@ -355,32 +355,38 @@
                     UserAgent = audit.UserAgent,
                 },
             };
-            await this.BulkInsertAsync(auditLst, new BulkConfig { SetOutputIdentity = true, });
+            await this.BulkInsertAsync(auditList, new BulkConfig { SetOutputIdentity = true, });
 
             if (audit.AuditEntries?.Count > 0)
             {
-                var auditEntries = new List<AuditEntry<TUser, TKey>>();
+                var insertedEntries = new List<AuditEntry<TUser, TKey>>();
                 foreach (var auditEntry in audit.AuditEntries)
                 {
-                    auditEntries.Add(new AuditEntry<TUser, TKey>
+                    insertedEntries.Add(new AuditEntry<TUser, TKey>
                     {
-                        AuditId = auditLst[0].Id,
+                        AuditId = auditList[0].Id,
                         AuditType = auditEntry.AuditType,
                         EntityType = auditEntry.EntityType,
                         IdentifierId = auditEntry.IdentifierId,
                     });
                 }
 
-                await this.BulkInsertAsync(auditEntries, new BulkConfig { SetOutputIdentity = true });
+                await this.BulkInsertAsync(insertedEntries, new BulkConfig { SetOutputIdentity = true });
 
                 var properties = new List<AuditEntryProperty<TUser, TKey>>();
+                var j = 0;
                 foreach (var auditEntry in audit.AuditEntries)
                 {
                     if (auditEntry.AuditEntryProperties?.Count > 0)
                     {
                         foreach (var property in auditEntry.AuditEntryProperties)
                         {
-                            var item = auditEntries.Find(t => t.IdentifierId == auditEntry.IdentifierId && t.AuditType?.Equals(auditEntry.AuditType) == true && t.EntityType == auditEntry.EntityType);
+                            if (insertedEntries.Count <= j)
+                            {
+                                continue;
+                            }
+
+                            var item = insertedEntries[j];
                             if (item is not null)
                             {
                                 property.AuditEntryId = item.Id;
@@ -392,7 +398,10 @@
                                 if (property.TemporaryProperty.Metadata.IsPrimaryKey())
                                 {
                                     auditEntry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
-                                    await AuditEntries.Where(t => t.Id == property.AuditEntryId).ExecuteUpdateAsync(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
+                                    if (item?.Id is not null)
+                                    {
+                                        await AuditEntries.Where(t => t.Id == item.Id).ExecuteUpdateAsync(t => t.SetProperty(p => p.IdentifierId, auditEntry.IdentifierId));
+                                    }
                                 }
                             }
                         }
