@@ -424,7 +424,7 @@
 
                 _ = services.AddAuthentication().AddScheme<TokenAuthenticationSchemeOptions, TokenAuthenticationHandler>(PermissionConstants.TokenAuthenticationScheme, t => { });
                 _ = services.Configure<ApiDataProtectorTokenProviderOptions>(Configuration.GetSection("IdentityOptions:Tokens:ApiDataProtectorTokenProviderOptions"));
-                _ = services.Configure<IdentityOptions>(options => options.Tokens.ProviderMap[PermissionConstants.ApiDataProtectorTokenProvider] = new TokenProviderDescriptor(typeof(ApiDataProtectorTokenProvider<TUser>)));
+                _ = services.Configure<IdentityOptions>(options => options.Tokens.ProviderMap[PermissionConstants.ApiDataProtectorTokenProvider] = new TokenProviderDescriptor(typeof(IApiDataProtectorTokenProvider<TUser>)));
             }
 
             return mvcBuilder;
