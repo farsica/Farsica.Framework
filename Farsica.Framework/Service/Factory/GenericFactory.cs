@@ -5,18 +5,11 @@
     using System.Linq;
     using Farsica.Framework.Data.Enumeration;
 
-    public class GenericFactory<TProvider, TProviderType> : IGenericFactory<TProvider, TProviderType>
+    public class GenericFactory<TProvider, TProviderType>(IEnumerable<TProvider> providers) : IGenericFactory<TProvider, TProviderType>
         where TProvider : IProvider<TProviderType>
         where TProviderType : Enumeration<byte>
     {
-        private readonly IEnumerable<TProvider> providers;
-
-        public GenericFactory(IEnumerable<TProvider> providers)
-        {
-            this.providers = providers;
-        }
-
-        public TProvider GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = true)
+        public TProvider? GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = false)
         {
             ArgumentNullException.ThrowIfNull(providers, nameof(providers));
 
@@ -26,7 +19,7 @@
                 provider = providers.First();
             }
 
-            return provider ?? throw new ArgumentNullException(nameof(providerType));
+            return provider;
         }
     }
 }

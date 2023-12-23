@@ -1,8 +1,10 @@
 ﻿namespace Farsica.Framework.Data
 {
-    public struct Error
+    using System;
+
+    public struct Error(Exception exception)
     {
-        public string? Message { get; set; }
+        public string? Message { get; set; } = exception.Message;
 
         public string? Code { get; set; }
 

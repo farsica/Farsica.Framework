@@ -7,6 +7,6 @@
         where TProvider : IProvider<TProviderType>
         where TProviderType : Enumeration<byte>
     {
-        TProvider GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = true);
+        TProvider? GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = false);
     }
 }
