@@ -17,6 +17,7 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Identity;
     using Farsica.Framework.Localization;
+    using Farsica.Framework.Logging;
     using Farsica.Framework.Mapping;
     using Farsica.Framework.ModelBinding;
     using Farsica.Framework.Mvc.Routing;
@@ -44,7 +45,6 @@
         where TUser : class
         where TRole : class
     {
-        private readonly ExceptionHandlerOptions? exceptionHandlerOptions;
         private readonly bool localization;
         private readonly bool authentication;
         private readonly bool razorPages;
@@ -55,11 +55,10 @@
         private readonly string defaultNamespace;
         private readonly Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler;
 
-        protected Startup(IConfiguration configuration, string? defaultNamespace = null, ExceptionHandlerOptions? exceptionHandlerOptions = null, bool localization = true, bool authentication = true,
+        protected Startup(IConfiguration configuration, string? defaultNamespace = null, bool localization = true, bool authentication = true,
             bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true, Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler = null)
         {
             Configuration = configuration;
-            this.exceptionHandlerOptions = exceptionHandlerOptions;
             this.localization = localization;
             this.authentication = authentication;
             this.razorPages = razorPages;
@@ -98,21 +97,9 @@
                 app.UseRequestLocalization(LocalizationExtensions.RequestLocalizationOptions);
             }
 
-            if (env.IsDevelopment())
+            app.UseExceptionHandler();
+            if (!env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                if (exceptionHandlerOptions is null)
-                {
-                    app.UseExceptionHandler("/error");
-                }
-                else
-                {
-                    app.UseExceptionHandler(exceptionHandlerOptions);
-                }
-
                 if (https)
                 {
                     app.UseHsts();
@@ -249,6 +236,8 @@
         private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, string dir)
         {
             services.AddTransient(typeof(Lazy<>));
+
+            services.AddExceptionHandler<GlobalExceptionHandler>();
 
             if (localization)
             {
