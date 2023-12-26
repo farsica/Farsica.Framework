@@ -97,7 +97,8 @@
                 app.UseRequestLocalization(LocalizationExtensions.RequestLocalizationOptions);
             }
 
-            app.UseExceptionHandler();
+            app.UseExceptionHandler(_ => { });
+
             if (!env.IsDevelopment())
             {
                 if (https)
