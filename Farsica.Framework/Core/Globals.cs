@@ -25,6 +25,8 @@
     using Farsica.Framework.DataAnnotation;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
 
@@ -995,6 +997,24 @@
 
                 return (int)(minValue + randomValueInRange);
             }
+        }
+
+        public static IndexBuilder Include<TEntity>(this IndexBuilder indexBuilder, Expression<Func<TEntity, object>> indexExpression)
+        {
+            var includeStatement = new StringBuilder();
+            foreach (var column in indexExpression.GetPropertyAccessList())
+            {
+                if (includeStatement.Length > 0)
+                {
+                    includeStatement.Append(", ");
+                }
+
+                includeStatement.AppendFormat("[{0}]", column.Name);
+            }
+
+            indexBuilder.HasAnnotation("SqlServer:IncludeIndex", includeStatement.ToString());
+
+            return indexBuilder;
         }
 
         internal static string? PrepareResourcePath(this string? path)
