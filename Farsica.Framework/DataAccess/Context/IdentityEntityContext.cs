@@ -265,7 +265,10 @@
                     }
                 }
 
-                audit.AuditEntries.Add(auditEntry);
+                if (entry.State is EntityState.Deleted || auditEntry.AuditEntryProperties.Count > 0)
+                {
+                    audit.AuditEntries.Add(auditEntry);
+                }
             }
 
             return audit.AuditEntries.Any(t => t.AuditType?.Equals(AuditType.Deleted) == true || t.AuditEntryProperties?.Count > 0) ? audit : null;
