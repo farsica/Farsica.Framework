@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+    using Microsoft.AspNetCore.StaticFiles;
 
     public sealed class FileExtensionsAttribute : ValidationAttribute, IClientModelValidator
     {
@@ -30,12 +30,39 @@
 
             if (value is IEnumerable<IFormFile> lst)
             {
-                return lst.All(t => t is null || Extensions.Exists(e => e.Equals(Path.GetExtension(t.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase)));
+                var provider = new FileExtensionContentTypeProvider();
+                foreach (var item in lst)
+                {
+                    if (!Extensions.Exists(t => t.Equals(Path.GetExtension(item.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase)))
+                    {
+                        return false;
+                    }
+
+                    _ = provider.TryGetContentType(item.FileName, out var contentType);
+                    if (item.ContentType != contentType)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             if (value is IFormFile file)
             {
-                return Extensions.Exists(t => t.Equals(Path.GetExtension(file.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase));
+                var provider = new FileExtensionContentTypeProvider();
+                if (!Extensions.Exists(t => t.Equals(Path.GetExtension(file.FileName).TrimStart('.'), System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    return false;
+                }
+
+                _ = provider.TryGetContentType(file.FileName, out var contentType);
+                if (file.ContentType != contentType)
+                {
+                    return false;
+                }
+
+                return true;
             }
 
             return false;
