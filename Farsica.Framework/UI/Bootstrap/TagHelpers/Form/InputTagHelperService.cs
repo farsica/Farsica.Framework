@@ -14,17 +14,11 @@
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
     [Injectable]
-    public class InputTagHelperService : TagHelperService<InputTagHelper>
+    public class InputTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder) : TagHelperService<InputTagHelper>
     {
-        private readonly IHtmlGenerator generator;
-        private readonly HtmlEncoder encoder;
+        private readonly IHtmlGenerator generator = generator;
+        private readonly HtmlEncoder encoder = encoder;
         private IEnumerable<Attribute>? cachedModelAttributes;
-
-        public InputTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder)
-        {
-            this.generator = generator;
-            this.encoder = encoder;
-        }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

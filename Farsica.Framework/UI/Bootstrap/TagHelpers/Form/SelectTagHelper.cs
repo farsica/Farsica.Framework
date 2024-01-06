@@ -9,13 +9,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-select2")]
-    public class SelectTagHelper : TagHelper<SelectTagHelper, SelectTagHelperService>
+    public class SelectTagHelper(SelectTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<SelectTagHelper, SelectTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public SelectTagHelper(SelectTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-label")]
         public string? Label { get; set; }
 

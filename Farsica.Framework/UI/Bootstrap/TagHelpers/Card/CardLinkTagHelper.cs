@@ -7,11 +7,7 @@
     [DataAnnotation.Injectable]
     [HtmlTargetElement("a", Attributes = "frb-card-link")]
     [HtmlTargetElement("frb-card-link")]
-    public class CardLinkTagHelper : TagHelper<CardLinkTagHelper, CardLinkTagHelperService>
+    public class CardLinkTagHelper(CardLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardLinkTagHelper, CardLinkTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardLinkTagHelper(CardLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-bread-crumb")]
-    public class BreadcrumbTagHelper : TagHelper<BreadcrumbTagHelper, BreadcrumbTagHelperService>
+    public class BreadcrumbTagHelper(BreadcrumbTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<BreadcrumbTagHelper, BreadcrumbTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public BreadcrumbTagHelper(BreadcrumbTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

@@ -9,13 +9,8 @@
     [HtmlTargetElement("frb-card-header", Attributes = "frb-background")]
     [HtmlTargetElement("frb-card-body", Attributes = "frb-background")]
     [HtmlTargetElement("frb-card-footer", Attributes = "frb-background")]
-    public class CardBackgroundTagHelper : TagHelper<CardBackgroundTagHelper, CardBackgroundTagHelperService>
+    public class CardBackgroundTagHelper(CardBackgroundTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardBackgroundTagHelper, CardBackgroundTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardBackgroundTagHelper(CardBackgroundTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-background")]
         public CardBackgroundType Background { get; set; } = CardBackgroundType.Default;
     }

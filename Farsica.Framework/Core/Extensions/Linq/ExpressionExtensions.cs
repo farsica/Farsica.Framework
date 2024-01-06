@@ -68,16 +68,10 @@
             return Expression.Lambda<Func<T, bool>>(Expression.Not(left), parameter);
         }
 
-        private class ReplaceExpressionVisitor : ExpressionVisitor
+        private class ReplaceExpressionVisitor(Expression oldValue, Expression newValue) : ExpressionVisitor
         {
-            private readonly Expression oldValue;
-            private readonly Expression newValue;
-
-            public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
-            {
-                this.oldValue = oldValue;
-                this.newValue = newValue;
-            }
+            private readonly Expression oldValue = oldValue;
+            private readonly Expression newValue = newValue;
 
             [return: NotNullIfNotNull("node")]
             public override Expression? Visit(Expression? node)

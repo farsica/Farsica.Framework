@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-nav")]
-    public class NavTagHelper : TagHelper<NavTagHelper, NavTagHelperService>
+    public class NavTagHelper(NavTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<NavTagHelper, NavTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public NavTagHelper(NavTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-align")]
         public NavAlign Align { get; set; } = NavAlign.Default;
 

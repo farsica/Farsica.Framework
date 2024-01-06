@@ -16,13 +16,8 @@
     [HtmlTargetElement("frb-button", Attributes = "frb-popover-top")]
     [HtmlTargetElement("frb-button", Attributes = "frb-popover-bottom")]
     [HtmlTargetElement("frb-popover")]
-    public class PopoverTagHelper : TagHelper<PopoverTagHelper, PopoverTagHelperService>
+    public class PopoverTagHelper(PopoverTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<PopoverTagHelper, PopoverTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public PopoverTagHelper(PopoverTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-disabled")]
         public bool? Disabled { get; set; }
 

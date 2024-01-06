@@ -3,13 +3,8 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class SuggestionsUrlAttribute : Attribute
+    public sealed class SuggestionsUrlAttribute(string url) : Attribute
     {
-        public SuggestionsUrlAttribute(string url)
-        {
-            Url = url;
-        }
-
-        public string? Url { get; }
+        public string? Url { get; } = url;
     }
 }

@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-tab-dropdown")]
-    public class TabDropdownTagHelper : TagHelper<TabDropdownTagHelper, TabDropdownTagHelperService>
+    public class TabDropdownTagHelper(TabDropdownTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TabDropdownTagHelper, TabDropdownTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TabDropdownTagHelper(TabDropdownTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-title")]
         public string? Title { get; set; }
     }

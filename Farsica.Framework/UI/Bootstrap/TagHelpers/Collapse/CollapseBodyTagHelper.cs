@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-collapse-body")]
-    public class CollapseBodyTagHelper : TagHelper<CollapseBodyTagHelper, CollapseBodyTagHelperService>
+    public class CollapseBodyTagHelper(CollapseBodyTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CollapseBodyTagHelper, CollapseBodyTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CollapseBodyTagHelper(CollapseBodyTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-id")]
         public string? Id { get; set; }
 

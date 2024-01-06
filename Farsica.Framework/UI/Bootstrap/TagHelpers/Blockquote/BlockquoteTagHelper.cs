@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-blockquote", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class BlockquoteTagHelper : TagHelper<BlockquoteTagHelper, BlockquoteTagHelperService>
+    public class BlockquoteTagHelper(BlockquoteTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<BlockquoteTagHelper, BlockquoteTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public BlockquoteTagHelper(BlockquoteTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

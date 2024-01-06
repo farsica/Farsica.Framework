@@ -3,13 +3,8 @@
     using System;
     using System.Linq;
 
-    public class Includes<TEntity>
+    public class Includes<TEntity>(Func<IQueryable<TEntity>, IQueryable<TEntity>> expression)
     {
-        public Includes(Func<IQueryable<TEntity>, IQueryable<TEntity>> expression)
-        {
-            Expression = expression;
-        }
-
-        public Func<IQueryable<TEntity>, IQueryable<TEntity>> Expression { get; private set; }
+        public Func<IQueryable<TEntity>, IQueryable<TEntity>> Expression { get; private set; } = expression;
     }
 }

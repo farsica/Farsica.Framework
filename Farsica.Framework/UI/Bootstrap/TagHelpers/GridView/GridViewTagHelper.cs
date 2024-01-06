@@ -5,17 +5,8 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-grid-view", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class GridViewTagHelper : TagHelper<GridViewTagHelper, GridViewTagHelperService>
+    public class GridViewTagHelper(GridViewTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<GridViewTagHelper, GridViewTagHelperService>(tagHelperService, optionsAccessor)
     {
-        #region Constructors
-
-        public GridViewTagHelper(GridViewTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
-        #endregion
-
         [HtmlAttributeName("frb-entity-type")]
         public string? EntityType { get; set; }
 

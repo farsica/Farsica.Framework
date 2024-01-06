@@ -12,17 +12,10 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-editor", TagStructure = TagStructure.WithoutEndTag)]
-    public class HtmlEditorTagHelper : UI.Bootstrap.TagHelpers.TagHelper
+    public class HtmlEditorTagHelper(IHtmlGenerator generator, HtmlEncoder encoder, IOptions<MvcViewOptions> optionsAccessor) : UI.Bootstrap.TagHelpers.TagHelper(optionsAccessor)
     {
-        private readonly IHtmlGenerator generator;
-        private readonly HtmlEncoder encoder;
-
-        public HtmlEditorTagHelper(IHtmlGenerator generator, HtmlEncoder encoder, IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-            this.generator = generator;
-            this.encoder = encoder;
-        }
+        private readonly IHtmlGenerator generator = generator;
+        private readonly HtmlEncoder encoder = encoder;
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

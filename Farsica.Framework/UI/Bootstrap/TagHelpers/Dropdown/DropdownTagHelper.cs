@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-dropdown")]
-    public class DropdownTagHelper : TagHelper<DropdownTagHelper, DropdownTagHelperService>
+    public class DropdownTagHelper(DropdownTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<DropdownTagHelper, DropdownTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public DropdownTagHelper(DropdownTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         public DropdownDirection Direction { get; set; } = DropdownDirection.Down;
     }
 }

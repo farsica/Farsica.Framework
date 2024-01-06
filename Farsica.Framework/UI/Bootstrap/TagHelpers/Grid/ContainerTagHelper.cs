@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-container")]
-    public class ContainerTagHelper : TagHelper<ContainerTagHelper, ContainerTagHelperService>
+    public class ContainerTagHelper(ContainerTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ContainerTagHelper, ContainerTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ContainerTagHelper(ContainerTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

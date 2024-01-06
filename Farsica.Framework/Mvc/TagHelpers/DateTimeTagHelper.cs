@@ -20,17 +20,10 @@
     }
 
     [HtmlTargetElement("frb-date-time", TagStructure = TagStructure.WithoutEndTag)]
-    public class DateTimeTagHelper : UI.Bootstrap.TagHelpers.TagHelper
+    public class DateTimeTagHelper(IHtmlGenerator generator, HtmlEncoder encoder, IOptions<MvcViewOptions> optionsAccessor) : UI.Bootstrap.TagHelpers.TagHelper(optionsAccessor)
     {
-        private readonly IHtmlGenerator generator;
-        private readonly HtmlEncoder encoder;
-
-        public DateTimeTagHelper(IHtmlGenerator generator, HtmlEncoder encoder, IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-            this.generator = generator;
-            this.encoder = encoder;
-        }
+        private readonly IHtmlGenerator generator = generator;
+        private readonly HtmlEncoder encoder = encoder;
 
         [HtmlAttributeName("frb-type")]
         public PickerType PickerType { get; set; }

@@ -3,13 +3,8 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public sealed class AuditAttribute : Attribute
+    public sealed class AuditAttribute(int entityType) : Attribute
     {
-        public AuditAttribute(int entityType)
-        {
-            EntityType = entityType;
-        }
-
-        public int EntityType { get; }
+        public int EntityType { get; } = entityType;
     }
 }

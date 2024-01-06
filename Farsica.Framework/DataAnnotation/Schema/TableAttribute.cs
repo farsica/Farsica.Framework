@@ -2,17 +2,10 @@
 {
     using Farsica.Framework.Data;
 
-    public sealed class TableAttribute : System.ComponentModel.DataAnnotations.Schema.TableAttribute
+    public sealed class TableAttribute(string name, string? prefix = null, bool pluralize = true) : System.ComponentModel.DataAnnotations.Schema.TableAttribute(DbProviderFactories.GetFactory.GetObjectName(name, prefix, pluralize))
     {
-        public TableAttribute(string name, string? prefix = null, bool pluralize = true)
-            : base(DbProviderFactories.GetFactory.GetObjectName(name, prefix, pluralize))
-        {
-            Prefix = prefix;
-            Pluralize = pluralize;
-        }
+        public string? Prefix { get; } = prefix;
 
-        public string? Prefix { get; }
-
-        public bool Pluralize { get; }
+        public bool Pluralize { get; } = pluralize;
     }
 }

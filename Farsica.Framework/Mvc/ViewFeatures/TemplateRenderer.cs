@@ -14,7 +14,13 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
     using Microsoft.Extensions.DependencyInjection;
 
-    internal class TemplateRenderer
+    internal class TemplateRenderer(
+        IViewEngine viewEngine,
+        IViewBufferScope bufferScope,
+        ViewContext viewContext,
+        ViewDataDictionary viewData,
+        string? templateName,
+        bool readOnly)
     {
         public const string IEnumerableOfIFormFileName = "IEnumerable`" + nameof(IFormFile);
         private const string DisplayTemplateViewPath = "DisplayTemplates";
@@ -69,28 +75,12 @@
                 { IEnumerableOfIFormFileName, DefaultEditorTemplates.FileCollectionInputTemplate },
             };
 
-        private readonly IViewEngine viewEngine;
-        private readonly IViewBufferScope bufferScope;
-        private readonly ViewContext viewContext;
-        private readonly ViewDataDictionary viewData;
-        private readonly string? templateName;
-        private readonly bool readOnly;
-
-        public TemplateRenderer(
-            IViewEngine viewEngine,
-            IViewBufferScope bufferScope,
-            ViewContext viewContext,
-            ViewDataDictionary viewData,
-            string? templateName,
-            bool readOnly)
-        {
-            this.viewEngine = viewEngine ?? throw new ArgumentNullException(nameof(viewEngine));
-            this.bufferScope = bufferScope ?? throw new ArgumentNullException(nameof(bufferScope));
-            this.viewContext = viewContext ?? throw new ArgumentNullException(nameof(viewContext));
-            this.viewData = viewData ?? throw new ArgumentNullException(nameof(viewData));
-            this.templateName = templateName;
-            this.readOnly = readOnly;
-        }
+        private readonly IViewEngine viewEngine = viewEngine ?? throw new ArgumentNullException(nameof(viewEngine));
+        private readonly IViewBufferScope bufferScope = bufferScope ?? throw new ArgumentNullException(nameof(bufferScope));
+        private readonly ViewContext viewContext = viewContext ?? throw new ArgumentNullException(nameof(viewContext));
+        private readonly ViewDataDictionary viewData = viewData ?? throw new ArgumentNullException(nameof(viewData));
+        private readonly string? templateName = templateName;
+        private readonly bool readOnly = readOnly;
 
         public static IEnumerable<string> GetTypeNames(ModelMetadata modelMetadata, Type fieldType)
         {

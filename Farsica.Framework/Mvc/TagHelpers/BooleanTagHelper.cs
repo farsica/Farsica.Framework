@@ -8,13 +8,8 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-boolean", TagStructure = TagStructure.WithoutEndTag)]
-    public class BooleanTagHelper : UI.Bootstrap.TagHelpers.TagHelper
+    public class BooleanTagHelper(IOptions<MvcViewOptions> optionsAccessor) : UI.Bootstrap.TagHelpers.TagHelper(optionsAccessor)
     {
-        public BooleanTagHelper(IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-label")]
         public string? Label { get; set; }
 

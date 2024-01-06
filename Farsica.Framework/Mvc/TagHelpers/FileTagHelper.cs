@@ -14,15 +14,9 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-file", TagStructure = TagStructure.WithoutEndTag)]
-    public class FileTagHelper : UI.Bootstrap.TagHelpers.TagHelper
+    public class FileTagHelper(IHtmlGenerator generator, IOptions<MvcViewOptions> optionsAccessor) : UI.Bootstrap.TagHelpers.TagHelper(optionsAccessor)
     {
-        private readonly IHtmlGenerator generator;
-
-        public FileTagHelper(IHtmlGenerator generator, IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-            this.generator = generator;
-        }
+        private readonly IHtmlGenerator generator = generator;
 
         [HtmlAttributeName("frb-old-for")]
         public ModelExpression OldFor { get; set; }

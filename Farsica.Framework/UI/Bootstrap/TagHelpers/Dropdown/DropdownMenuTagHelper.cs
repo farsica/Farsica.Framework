@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-dropdown-menu")]
-    public class DropdownMenuTagHelper : TagHelper<DropdownMenuTagHelper, DropdownMenuTagHelperService>
+    public class DropdownMenuTagHelper(DropdownMenuTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<DropdownMenuTagHelper, DropdownMenuTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public DropdownMenuTagHelper(DropdownMenuTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         public DropdownAlign Align { get; set; } = DropdownAlign.Left;
     }
 }

@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-table-header")]
-    public class TableHeaderTagHelper : TagHelper<TableHeaderTagHelper, TableHeaderTagHelperService>
+    public class TableHeaderTagHelper(TableHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TableHeaderTagHelper, TableHeaderTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TableHeaderTagHelper(TableHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         public TableHeaderTheme Theme { get; set; } = TableHeaderTheme.Default;
     }
 }

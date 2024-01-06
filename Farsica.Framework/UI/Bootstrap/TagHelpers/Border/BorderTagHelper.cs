@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement(Attributes = "frb-border")]
-    public class BorderTagHelper : TagHelper<BorderTagHelper, BorderTagHelperService>
+    public class BorderTagHelper(BorderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<BorderTagHelper, BorderTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public BorderTagHelper(BorderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-border")]
         public BorderType Border { get; set; } = BorderType.Default;
     }

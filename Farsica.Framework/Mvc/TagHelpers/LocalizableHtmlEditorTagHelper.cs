@@ -16,15 +16,9 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-localizable-editor", TagStructure = TagStructure.WithoutEndTag)]
-    public class LocalizableHtmlEditorTagHelper : UI.Bootstrap.TagHelpers.TagHelper
+    public class LocalizableHtmlEditorTagHelper(IHtmlGenerator generator, IOptions<MvcViewOptions> optionsAccessor) : UI.Bootstrap.TagHelpers.TagHelper(optionsAccessor)
     {
-        private readonly IHtmlGenerator generator;
-
-        public LocalizableHtmlEditorTagHelper(IHtmlGenerator generator, IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-            this.generator = generator;
-        }
+        private readonly IHtmlGenerator generator = generator;
 
         [HtmlAttributeName("frb-languages")]
         public IEnumerable<Language> Languages { get; set; }

@@ -4,11 +4,9 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
-    public class UnitOfWork : UnitOfWorkBase<DbContext>, IUnitOfWork
+    public class UnitOfWork<T>(T context, IServiceProvider provider, ILogger<DataAccess> logger)
+        : UnitOfWorkBase<T>(context, provider, logger), IUnitOfWork
+        where T : DbContext
     {
-        public UnitOfWork(DbContext context, IServiceProvider provider, ILogger<DataAccess> logger)
-            : base(context, provider, logger)
-        {
-        }
     }
 }

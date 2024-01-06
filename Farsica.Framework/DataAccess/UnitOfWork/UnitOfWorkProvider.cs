@@ -4,9 +4,10 @@
     using Farsica.Framework.DataAccess.Context;
     using Farsica.Framework.DataAnnotation;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    [ServiceLifetime(Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped)]
+    [ServiceLifetime(ServiceLifetime.Scoped)]
     public class UnitOfWorkProvider : IUnitOfWorkProvider
     {
         private readonly ILogger<DataAccess> logger;
@@ -24,27 +25,27 @@
 
         public IUnitOfWork CreateUnitOfWork(bool trackChanges = true, bool enableLogging = false)
         {
-            var context = serviceProvider.GetService(typeof(IEntityContext)) as DbContext;
+            var context = serviceProvider.GetRequiredService<IEntityContext>() as DbContext;
 
             if (!trackChanges)
             {
-                context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                context!.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             }
 
-            return new UnitOfWork(context, serviceProvider, logger);
+            return new UnitOfWork<DbContext>(context!, serviceProvider, logger);
         }
 
-        public IUnitOfWork CreateUnitOfWork<TEntityContext>(bool trackChanges = true, bool enableLogging = false)
-            where TEntityContext : DbContext
+        public IUnitOfWork CreateUnitOfWork<T>(bool trackChanges = true, bool enableLogging = false)
+            where T : DbContext
         {
-            var context = serviceProvider.GetService(typeof(IEntityContext)) as TEntityContext;
+            var context = serviceProvider.GetRequiredService<T>();
 
             if (!trackChanges)
             {
                 context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             }
 
-            return new UnitOfWork(context, serviceProvider, logger);
+            return new UnitOfWork<T>(context, serviceProvider, logger);
         }
     }
 }

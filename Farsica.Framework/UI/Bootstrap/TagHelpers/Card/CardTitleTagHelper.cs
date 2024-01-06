@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-card-title")]
-    public class CardTitleTagHelper : TagHelper<CardTitleTagHelper, CardTitleTagHelperService>
+    public class CardTitleTagHelper(CardTitleTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardTitleTagHelper, CardTitleTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardTitleTagHelper(CardTitleTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-default-heading")]
         public static HtmlHeadingType DefaultHeading { get; set; } = HtmlHeadingType.H5;
 

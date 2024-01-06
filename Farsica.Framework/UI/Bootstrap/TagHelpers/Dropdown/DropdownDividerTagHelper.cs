@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-dropdown-divider")]
-    public class DropdownDividerTagHelper : TagHelper<DropdownDividerTagHelper, DropdownDividerTagHelperService>
+    public class DropdownDividerTagHelper(DropdownDividerTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<DropdownDividerTagHelper, DropdownDividerTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public DropdownDividerTagHelper(DropdownDividerTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

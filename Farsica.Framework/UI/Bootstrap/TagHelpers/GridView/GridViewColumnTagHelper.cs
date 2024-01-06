@@ -5,17 +5,8 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-grid-view-column", ParentTag = "frb-grid-view-column")]
-    public class GridViewColumnTagHelper : TagHelper<GridViewColumnTagHelper, GridViewColumnTagHelperService>
+    public class GridViewColumnTagHelper(GridViewColumnTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<GridViewColumnTagHelper, GridViewColumnTagHelperService>(tagHelperService, optionsAccessor)
     {
-        #region Constructors
-
-        public GridViewColumnTagHelper(GridViewColumnTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
-        #endregion
-
         [HtmlAttributeName("frb-entity-type")]
         public string? EntityType { get; set; }
     }

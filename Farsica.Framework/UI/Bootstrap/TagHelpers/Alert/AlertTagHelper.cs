@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-alert", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class AlertTagHelper : TagHelper<AlertTagHelper, AlertTagHelperService>
+    public class AlertTagHelper(AlertTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<AlertTagHelper, AlertTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public AlertTagHelper(AlertTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-alert-type")]
         public AlertType AlertType { get; set; } = AlertType.Default;
 

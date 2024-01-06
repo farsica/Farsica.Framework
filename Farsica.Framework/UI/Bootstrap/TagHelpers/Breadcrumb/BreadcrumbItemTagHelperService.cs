@@ -6,14 +6,9 @@
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
     [DataAnnotation.Injectable]
-    public class BreadcrumbItemTagHelperService : TagHelperService<BreadcrumbItemTagHelper>
+    public class BreadcrumbItemTagHelperService(HtmlEncoder encoder) : TagHelperService<BreadcrumbItemTagHelper>
     {
-        private readonly HtmlEncoder encoder;
-
-        public BreadcrumbItemTagHelperService(HtmlEncoder encoder)
-        {
-            this.encoder = encoder;
-        }
+        private readonly HtmlEncoder encoder = encoder;
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

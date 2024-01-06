@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-tab-link", TagStructure = TagStructure.WithoutEndTag)]
-    public class TabLinkTagHelper : TagHelper<TabLinkTagHelper, TabLinkTagHelperService>
+    public class TabLinkTagHelper(TabLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TabLinkTagHelper, TabLinkTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TabLinkTagHelper(TabLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-title")]
         public string? Title { get; set; }
 

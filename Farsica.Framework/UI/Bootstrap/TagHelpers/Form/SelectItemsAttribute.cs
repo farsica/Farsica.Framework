@@ -7,14 +7,9 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class SelectItemsAttribute : Attribute
+    public class SelectItemsAttribute(string itemsListPropertyName) : Attribute
     {
-        public SelectItemsAttribute(string itemsListPropertyName)
-        {
-            ItemsListPropertyName = itemsListPropertyName;
-        }
-
-        public string? ItemsListPropertyName { get; internal set; }
+        public string? ItemsListPropertyName { get; internal set; } = itemsListPropertyName;
 
         public IEnumerable<SelectListItem>? GetItems(ModelExplorer explorer)
         {

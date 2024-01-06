@@ -7,13 +7,8 @@
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-row")]
     [HtmlTargetElement("frb-form-row")]
-    public class RowTagHelper : TagHelper<RowTagHelper, RowTagHelperService>
+    public class RowTagHelper(RowTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<RowTagHelper, RowTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public RowTagHelper(RowTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-vertical-align")]
         public VerticalAlign VerticalAlign { get; set; } = VerticalAlign.Default;
 

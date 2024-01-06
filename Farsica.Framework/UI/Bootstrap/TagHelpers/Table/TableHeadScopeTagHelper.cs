@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-th")]
-    public class TableHeadScopeTagHelper : TagHelper<TableHeadScopeTagHelper, TableHeadScopeTagHelperService>
+    public class TableHeadScopeTagHelper(TableHeadScopeTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TableHeadScopeTagHelper, TableHeadScopeTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TableHeadScopeTagHelper(TableHeadScopeTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-scope")]
         public ThScope Scope { get; set; } = ThScope.Default;
     }

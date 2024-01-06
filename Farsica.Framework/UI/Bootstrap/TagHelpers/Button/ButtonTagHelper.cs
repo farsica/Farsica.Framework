@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-button", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class ButtonTagHelper : TagHelper<ButtonTagHelper, ButtonTagHelperService>, IButtonTagHelperBase
+    public class ButtonTagHelper(ButtonTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ButtonTagHelper, ButtonTagHelperService>(tagHelperService, optionsAccessor), IButtonTagHelperBase
     {
-        public ButtonTagHelper(ButtonTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-button-type")]
         public ButtonType ButtonType { get; set; } = ButtonType.Default;
 

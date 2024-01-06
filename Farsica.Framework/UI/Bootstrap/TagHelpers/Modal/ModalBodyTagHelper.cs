@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-modal-body")]
-    public class ModalBodyTagHelper : TagHelper<ModalBodyTagHelper, ModalBodyTagHelperService>
+    public class ModalBodyTagHelper(ModalBodyTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ModalBodyTagHelper, ModalBodyTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ModalBodyTagHelper(ModalBodyTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

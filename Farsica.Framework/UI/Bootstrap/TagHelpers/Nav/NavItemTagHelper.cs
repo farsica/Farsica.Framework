@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-nav-item")]
-    public class NavItemTagHelper : TagHelper<NavItemTagHelper, NavItemTagHelperService>
+    public class NavItemTagHelper(NavItemTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<NavItemTagHelper, NavItemTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public NavItemTagHelper(NavItemTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-dropdown")]
         public bool? Dropdown { get; set; }
     }

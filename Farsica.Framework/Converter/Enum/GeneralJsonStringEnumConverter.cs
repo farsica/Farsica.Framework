@@ -66,16 +66,11 @@
             return false;
         }
 
-        public class FlaggedJsonEnumConverter<TEnum> : JsonEnumConverterBase<TEnum>
+        public class FlaggedJsonEnumConverter<TEnum>(JsonNamingPolicy? namingPolicy, bool allowNumbers, TryOverrideName? tryOverrideName) : JsonEnumConverterBase<TEnum>(namingPolicy, allowNumbers, tryOverrideName)
             where TEnum : struct, Enum
         {
             private const char FlagSeparatorChar = ',';
             private const string FlagSeparatorString = ", ";
-
-            public FlaggedJsonEnumConverter(JsonNamingPolicy? namingPolicy, bool allowNumbers, TryOverrideName? tryOverrideName)
-                : base(namingPolicy, allowNumbers, tryOverrideName)
-            {
-            }
 
             protected override bool TryFormatAsString(EnumData<TEnum>[] enumData, TEnum value, out ReadOnlyMemory<char> name)
             {
@@ -142,14 +137,9 @@
             }
         }
 
-        public class UnflaggedJsonEnumConverter<TEnum> : JsonEnumConverterBase<TEnum>
+        public class UnflaggedJsonEnumConverter<TEnum>(JsonNamingPolicy? namingPolicy, bool allowNumbers, TryOverrideName? tryOverrideName) : JsonEnumConverterBase<TEnum>(namingPolicy, allowNumbers, tryOverrideName)
             where TEnum : struct, Enum
         {
-            public UnflaggedJsonEnumConverter(JsonNamingPolicy? namingPolicy, bool allowNumbers, TryOverrideName? tryOverrideName)
-                : base(namingPolicy, allowNumbers, tryOverrideName)
-            {
-            }
-
             protected override bool TryFormatAsString(EnumData<TEnum>[] enumData, TEnum value, out ReadOnlyMemory<char> name)
             {
                 var index = enumData.BinarySearchFirst(JsonEnumExtensions.ToUInt64(value, EnumTypeCode), EntryComparer);

@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-carousel")]
-    public class CarouselTagHelper : TagHelper<CarouselTagHelper, CarouselTagHelperService>
+    public class CarouselTagHelper(CarouselTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CarouselTagHelper, CarouselTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CarouselTagHelper(CarouselTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-id")]
         public string? Id { get; set; }
 

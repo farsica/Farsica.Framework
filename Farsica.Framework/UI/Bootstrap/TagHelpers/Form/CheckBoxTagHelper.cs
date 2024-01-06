@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-checkbox")]
-    public class CheckBoxTagHelper : TagHelper<CheckBoxTagHelper, CheckBoxTagHelperService>
+    public class CheckBoxTagHelper(CheckBoxTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CheckBoxTagHelper, CheckBoxTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CheckBoxTagHelper(CheckBoxTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-label")]
         public string? Label { get; set; }
 

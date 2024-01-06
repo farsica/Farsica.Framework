@@ -17,17 +17,11 @@
     using Microsoft.CodeAnalysis;
 
     [Injectable]
-    public class SelectTagHelperService : TagHelperService<SelectTagHelper>
+    public class SelectTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder) : TagHelperService<SelectTagHelper>
     {
-        private readonly IHtmlGenerator generator;
-        private readonly HtmlEncoder encoder;
+        private readonly IHtmlGenerator generator = generator;
+        private readonly HtmlEncoder encoder = encoder;
         private IEnumerable<Attribute>? cachedModelAttributes;
-
-        public SelectTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder)
-        {
-            this.generator = generator;
-            this.encoder = encoder;
-        }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

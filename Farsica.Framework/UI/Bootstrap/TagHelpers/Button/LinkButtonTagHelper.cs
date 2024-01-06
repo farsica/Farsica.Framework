@@ -8,13 +8,8 @@
     [HtmlTargetElement("a", Attributes = "frb-button", TagStructure = TagStructure.NormalOrSelfClosing)]
     [HtmlTargetElement("input", Attributes = "frb-button", TagStructure = TagStructure.WithoutEndTag)]
     [HtmlTargetElement("frb-link-button", TagStructure = TagStructure.WithoutEndTag)]
-    public class LinkButtonTagHelper : TagHelper<LinkButtonTagHelper, LinkButtonTagHelperService>, IButtonTagHelperBase
+    public class LinkButtonTagHelper(LinkButtonTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<LinkButtonTagHelper, LinkButtonTagHelperService>(tagHelperService, optionsAccessor), IButtonTagHelperBase
     {
-        public LinkButtonTagHelper(LinkButtonTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-button")]
         public ButtonType ButtonType { get; set; }
 

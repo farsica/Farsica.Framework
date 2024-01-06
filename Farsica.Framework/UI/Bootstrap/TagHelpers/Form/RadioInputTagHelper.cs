@@ -9,13 +9,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-radio")]
-    public class RadioInputTagHelper : TagHelper<RadioInputTagHelper, RadioInputTagHelperService>
+    public class RadioInputTagHelper(RadioInputTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<RadioInputTagHelper, RadioInputTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public RadioInputTagHelper(RadioInputTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-label")]
         public string? Label { get; set; }
 

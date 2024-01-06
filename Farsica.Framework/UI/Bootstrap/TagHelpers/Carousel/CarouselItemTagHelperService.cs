@@ -7,14 +7,9 @@
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
     [DataAnnotation.Injectable]
-    public class CarouselItemTagHelperService : TagHelperService<CarouselItemTagHelper>
+    public class CarouselItemTagHelperService(HtmlEncoder encoder) : TagHelperService<CarouselItemTagHelper>
     {
-        private readonly HtmlEncoder encoder;
-
-        public CarouselItemTagHelperService(HtmlEncoder encoder)
-        {
-            this.encoder = encoder;
-        }
+        private readonly HtmlEncoder encoder = encoder;
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

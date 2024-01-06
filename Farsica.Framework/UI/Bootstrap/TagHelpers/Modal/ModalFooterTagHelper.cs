@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-modal-footer")]
-    public class ModalFooterTagHelper : TagHelper<ModalFooterTagHelper, ModalFooterTagHelperService>
+    public class ModalFooterTagHelper(ModalFooterTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ModalFooterTagHelper, ModalFooterTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ModalFooterTagHelper(ModalFooterTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-buttons")]
         public ModalButtons Buttons { get; set; }
 

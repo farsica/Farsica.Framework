@@ -9,13 +9,8 @@
     [HtmlTargetElement("frb-card-header", Attributes = "frb-text-color")]
     [HtmlTargetElement("frb-card-body", Attributes = "frb-text-color")]
     [HtmlTargetElement("frb-card-footer", Attributes = "frb-text-color")]
-    public class CardTextColorTagHelper : TagHelper<CardTextColorTagHelper, CardTextColorTagHelperService>
+    public class CardTextColorTagHelper(CardTextColorTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardTextColorTagHelper, CardTextColorTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardTextColorTagHelper(CardTextColorTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-text-color")]
         public CardTextColorType TextColor { get; set; } = CardTextColorType.Default;
     }

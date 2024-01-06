@@ -7,13 +7,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-dropdown-button")]
-    public class DropdownButtonTagHelper : TagHelper<DropdownButtonTagHelper, DropdownButtonTagHelperService>
+    public class DropdownButtonTagHelper(DropdownButtonTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<DropdownButtonTagHelper, DropdownButtonTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public DropdownButtonTagHelper(DropdownButtonTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-text")]
         public string? Text { get; set; }
 

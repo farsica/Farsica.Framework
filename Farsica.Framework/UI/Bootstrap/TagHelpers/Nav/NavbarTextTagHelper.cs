@@ -7,11 +7,7 @@
     [DataAnnotation.Injectable]
     [HtmlTargetElement("span", Attributes = "frb-navbar-text")]
     [HtmlTargetElement("frb-navbar-text")]
-    public class NavbarTextTagHelper : TagHelper<NavbarTextTagHelper, NavbarTextTagHelperService>
+    public class NavbarTextTagHelper(NavbarTextTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<NavbarTextTagHelper, NavbarTextTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public NavbarTextTagHelper(NavbarTextTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

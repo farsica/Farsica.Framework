@@ -7,13 +7,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-list-group-item")]
-    public class ListGroupItemTagHelper : TagHelper<ListGroupItemTagHelper, ListGroupItemTagHelperService>
+    public class ListGroupItemTagHelper(ListGroupItemTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ListGroupItemTagHelper, ListGroupItemTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ListGroupItemTagHelper(ListGroupItemTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-active")]
         public bool? Active { get; set; }
 

@@ -11,14 +11,9 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
 
-    public class LocalizationMiddleware
+    public class LocalizationMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate next;
-
-        public LocalizationMiddleware(RequestDelegate next)
-        {
-            this.next = next;
-        }
+        private readonly RequestDelegate next = next;
 
         public Task Invoke(HttpContext httpContext)
         {

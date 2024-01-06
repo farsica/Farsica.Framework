@@ -2,14 +2,9 @@
 {
     using System.Text.Json.Serialization;
 
-    public struct Paging
+    public readonly struct Paging(bool moreRecords)
     {
-        public Paging(bool moreRecords)
-        {
-            MoreRecords = moreRecords;
-        }
-
         [JsonPropertyName("more")]
-        public bool MoreRecords { get; }
+        public bool MoreRecords { get; } = moreRecords;
     }
 }

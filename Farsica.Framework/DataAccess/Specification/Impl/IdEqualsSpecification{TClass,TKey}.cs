@@ -4,16 +4,11 @@
     using System.Linq.Expressions;
     using Farsica.Framework.DataAccess.Entities;
 
-    public sealed class IdEqualsSpecification<TClass, TKey> : SpecificationBase<TClass>
+    public sealed class IdEqualsSpecification<TClass, TKey>(TKey id) : SpecificationBase<TClass>
         where TClass : class, IIdentifiable<TClass, TKey>
         where TKey : IEquatable<TKey>
     {
-        private readonly TKey id;
-
-        public IdEqualsSpecification(TKey id)
-        {
-            this.id = id;
-        }
+        private readonly TKey id = id;
 
         public override Expression<Func<TClass, bool>> Expression() => t => t.Id.Equals(id);
     }

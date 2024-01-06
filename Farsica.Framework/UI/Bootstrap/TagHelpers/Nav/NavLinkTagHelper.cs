@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-nav-link")]
-    public class NavLinkTagHelper : TagHelper<NavLinkTagHelper, NavLinkTagHelperService>
+    public class NavLinkTagHelper(NavLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<NavLinkTagHelper, NavLinkTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public NavLinkTagHelper(NavLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-active")]
         public bool? Active { get; set; }
 

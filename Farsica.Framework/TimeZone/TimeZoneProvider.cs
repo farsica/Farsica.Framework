@@ -7,14 +7,9 @@
     using Farsica.Framework.Data;
     using static Farsica.Framework.Core.Constants;
 
-    public class TimeZoneProvider : ITimeZoneProvider
+    public class TimeZoneProvider(Lazy<ICacheProvider> cacheProvider) : ITimeZoneProvider
     {
-        private readonly Lazy<ICacheProvider> cacheProvider;
-
-        public TimeZoneProvider(Lazy<ICacheProvider> cacheProvider)
-        {
-            this.cacheProvider = cacheProvider;
-        }
+        private readonly Lazy<ICacheProvider> cacheProvider = cacheProvider;
 
         public IEnumerable<TimeZoneDto>? GetTimeZones()
         {

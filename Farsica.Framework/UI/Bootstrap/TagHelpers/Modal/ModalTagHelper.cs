@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-modal")]
-    public class ModalTagHelper : TagHelper<ModalTagHelper, ModalTagHelperService>
+    public class ModalTagHelper(ModalTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ModalTagHelper, ModalTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ModalTagHelper(ModalTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-size")]
         public ModalSize Size { get; set; } = ModalSize.Default;
 

@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement(Attributes = "frb-auto-focus")]
-    public class AutoFocusTagHelper : TagHelpers.TagHelper
+    public class AutoFocusTagHelper(IOptions<MvcViewOptions> optionsAccessor) : TagHelpers.TagHelper(optionsAccessor)
     {
-        public AutoFocusTagHelper(IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-auto-focus")]
         public bool AutoFocus { get; set; }
 

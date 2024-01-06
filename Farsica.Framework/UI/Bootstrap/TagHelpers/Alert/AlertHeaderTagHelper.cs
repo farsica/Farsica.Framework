@@ -11,11 +11,7 @@
     [HtmlTargetElement("h4", ParentTag = "frb-alert", TagStructure = TagStructure.NormalOrSelfClosing)]
     [HtmlTargetElement("h5", ParentTag = "frb-alert", TagStructure = TagStructure.NormalOrSelfClosing)]
     [HtmlTargetElement("h6", ParentTag = "frb-alert", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class AlertHeaderTagHelper : TagHelper<AlertHeaderTagHelper, AlertHeaderTagHelperService>
+    public class AlertHeaderTagHelper(AlertHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<AlertHeaderTagHelper, AlertHeaderTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public AlertHeaderTagHelper(AlertHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

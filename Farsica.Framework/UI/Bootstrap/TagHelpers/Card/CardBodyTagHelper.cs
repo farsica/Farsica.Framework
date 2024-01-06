@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-card-body")]
-    public class CardBodyTagHelper : TagHelper<CardBodyTagHelper, CardBodyTagHelperService>
+    public class CardBodyTagHelper(CardBodyTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardBodyTagHelper, CardBodyTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardBodyTagHelper(CardBodyTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-title")]
         public string? Title { get; set; }
 

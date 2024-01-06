@@ -3,16 +3,10 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public sealed class HasPrecisionAttribute : Attribute
+    public sealed class HasPrecisionAttribute(byte precision, byte scale) : Attribute
     {
-        public HasPrecisionAttribute(byte precision, byte scale)
-        {
-            Precision = precision;
-            Scale = scale;
-        }
+        public byte Precision { get; } = precision;
 
-        public byte Precision { get; }
-
-        public byte Scale { get; }
+        public byte Scale { get; } = scale;
     }
 }

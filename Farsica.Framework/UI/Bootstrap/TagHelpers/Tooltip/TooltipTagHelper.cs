@@ -15,13 +15,8 @@
     [HtmlTargetElement("frb-button", Attributes = "frb-tooltip-left")]
     [HtmlTargetElement("frb-button", Attributes = "frb-tooltip-top")]
     [HtmlTargetElement("frb-button", Attributes = "frb-tooltip-bottom")]
-    public class TooltipTagHelper : TagHelper<TooltipTagHelper, TooltipTagHelperService>
+    public class TooltipTagHelper(TooltipTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TooltipTagHelper, TooltipTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TooltipTagHelper(TooltipTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-tooltip")]
         public string? Tooltip { get; set; }
 

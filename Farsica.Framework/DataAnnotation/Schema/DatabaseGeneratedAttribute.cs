@@ -2,18 +2,11 @@
 {
     using System;
 
-    public sealed class DatabaseGeneratedAttribute : System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedAttribute
+    public sealed class DatabaseGeneratedAttribute(DatabaseGeneratedOption databaseGeneratedOption, string? sequenceName = null) : System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedAttribute(Convert(databaseGeneratedOption))
     {
-        public DatabaseGeneratedAttribute(DatabaseGeneratedOption databaseGeneratedOption, string? sequenceName = null)
-            : base(Convert(databaseGeneratedOption))
-        {
-            SequenceName = sequenceName;
-            DatabaseGeneratedOption = databaseGeneratedOption;
-        }
+        public string? SequenceName { get; } = sequenceName;
 
-        public string? SequenceName { get; }
-
-        public new DatabaseGeneratedOption DatabaseGeneratedOption { get; }
+        public new DatabaseGeneratedOption DatabaseGeneratedOption { get; } = databaseGeneratedOption;
 
         private static System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption Convert(DatabaseGeneratedOption databaseGeneratedOption)
         {

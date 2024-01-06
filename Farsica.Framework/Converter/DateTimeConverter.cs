@@ -10,16 +10,10 @@
     using Microsoft.Extensions.DependencyInjection;
     using static Farsica.Framework.Core.Constants;
 
-    public class DateTimeConverter<T> : JsonConverter<T>
+    public class DateTimeConverter<T>(string? format, FormatProvider? formatProvider) : JsonConverter<T>
     {
-        private readonly string? format;
-        private readonly FormatProvider formatProvider;
-
-        public DateTimeConverter(string? format, FormatProvider? formatProvider)
-        {
-            this.format = format;
-            this.formatProvider = formatProvider ?? FormatProvider.CurrentCulture;
-        }
+        private readonly string? format = format;
+        private readonly FormatProvider formatProvider = formatProvider ?? FormatProvider.CurrentCulture;
 
         public override bool HandleNull => true;
 

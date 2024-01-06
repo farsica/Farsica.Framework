@@ -13,16 +13,10 @@
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
     [DataAnnotation.Injectable]
-    public class PaginationTagHelperService : TagHelperService<PaginationTagHelper>
+    public class PaginationTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder) : TagHelperService<PaginationTagHelper>
     {
-        private readonly IHtmlGenerator generator;
-        private readonly HtmlEncoder encoder;
-
-        public PaginationTagHelperService(IHtmlGenerator generator, HtmlEncoder encoder)
-        {
-            this.generator = generator;
-            this.encoder = encoder;
-        }
+        private readonly IHtmlGenerator generator = generator;
+        private readonly HtmlEncoder encoder = encoder;
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

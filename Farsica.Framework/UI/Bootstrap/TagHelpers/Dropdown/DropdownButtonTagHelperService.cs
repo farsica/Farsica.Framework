@@ -10,18 +10,12 @@
     using Microsoft.Extensions.DependencyInjection;
 
     [DataAnnotation.Injectable]
-    public class DropdownButtonTagHelperService : TagHelperService<DropdownButtonTagHelper>
+    public class DropdownButtonTagHelperService(
+        HtmlEncoder htmlEncoder,
+        IServiceProvider serviceProvider) : TagHelperService<DropdownButtonTagHelper>
     {
-        private readonly HtmlEncoder htmlEncoder;
-        private readonly IServiceProvider serviceProvider;
-
-        public DropdownButtonTagHelperService(
-            HtmlEncoder htmlEncoder,
-            IServiceProvider serviceProvider)
-        {
-            this.htmlEncoder = htmlEncoder;
-            this.serviceProvider = serviceProvider;
-        }
+        private readonly HtmlEncoder htmlEncoder = htmlEncoder;
+        private readonly IServiceProvider serviceProvider = serviceProvider;
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

@@ -6,32 +6,21 @@
     using System.Text;
     using Farsica.Framework.Data;
 
-    public class ConnectionString
+    public class ConnectionString(DbProviderType providerType, string? host, string? dbIdentifier, string? user, string? password, ushort? port = null, Dictionary<string, string>? parameters = null)
     {
-        public ConnectionString(DbProviderType providerType, string? host, string? dbIdentifier, string? user, string? password, ushort? port = null, Dictionary<string, string>? parameters = null)
-        {
-            ProviderType = providerType;
-            Host = host;
-            Port = port;
-            DbIdentifier = dbIdentifier;
-            User = user;
-            Password = password;
-            Parameters = parameters;
-        }
+        public DbProviderType ProviderType { get; set; } = providerType;
 
-        public DbProviderType ProviderType { get; set; }
+        public string? Host { get; set; } = host;
 
-        public string? Host { get; set; }
+        public ushort? Port { get; set; } = port;
 
-        public ushort? Port { get; set; }
+        public string? DbIdentifier { get; set; } = dbIdentifier;
 
-        public string? DbIdentifier { get; set; }
+        public string? User { get; set; } = user;
 
-        public string? User { get; set; }
+        public string? Password { get; set; } = password;
 
-        public string? Password { get; set; }
-
-        public Dictionary<string, string> Parameters { get; set; }
+        public Dictionary<string, string> Parameters { get; set; } = parameters;
 
         public override string? ToString()
         {

@@ -7,13 +7,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-paginator")]
-    public class PaginationTagHelper : TagHelper<PaginationTagHelper, PaginationTagHelperService>
+    public class PaginationTagHelper(PaginationTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<PaginationTagHelper, PaginationTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public PaginationTagHelper(PaginationTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [NotNull]
         [HtmlAttributeName("frb-for")]
         public new PagerModel? For { get; set; }

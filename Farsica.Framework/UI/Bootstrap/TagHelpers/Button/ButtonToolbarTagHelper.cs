@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-button-toolbar")]
-    public class ButtonToolbarTagHelper : TagHelper<ButtonToolbarTagHelper, ButtonToolbarTagHelperService>
+    public class ButtonToolbarTagHelper(ButtonToolbarTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ButtonToolbarTagHelper, ButtonToolbarTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ButtonToolbarTagHelper(ButtonToolbarTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

@@ -4,7 +4,7 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Resources;
 
-    public sealed class DegreeType : Enumeration<byte>
+    public sealed class DegreeType(string name, byte value) : Enumeration<byte>(name, value)
     {
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
         public static readonly DegreeType Diploma = new(nameof(Diploma), 0);
@@ -26,10 +26,5 @@
 
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(DegreeType))]
         public static readonly DegreeType Other = new(nameof(Other), 6);
-
-        public DegreeType(string name, byte value)
-            : base(name, value)
-        {
-        }
     }
 }

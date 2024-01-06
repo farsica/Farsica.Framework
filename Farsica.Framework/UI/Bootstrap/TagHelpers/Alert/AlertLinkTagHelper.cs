@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("a", Attributes = "frb-alert-link", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class AlertLinkTagHelper : TagHelper<AlertLinkTagHelper, AlertLinkTagHelperService>
+    public class AlertLinkTagHelper(AlertLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<AlertLinkTagHelper, AlertLinkTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public AlertLinkTagHelper(AlertLinkTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-modal-header")]
-    public class ModalHeaderTagHelper : TagHelper<ModalHeaderTagHelper, ModalHeaderTagHelperService>
+    public class ModalHeaderTagHelper(ModalHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ModalHeaderTagHelper, ModalHeaderTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ModalHeaderTagHelper(ModalHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-title")]
         public string? Title { get; set; }
     }

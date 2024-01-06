@@ -14,13 +14,8 @@
     using Microsoft.AspNetCore.Razor.TagHelpers;
     using Microsoft.Extensions.Options;
 
-    public class HtmlGenerator : DefaultHtmlGenerator
+    public class HtmlGenerator(IAntiforgery antiforgery, IOptions<MvcViewOptions> optionsAccessor, IModelMetadataProvider metadataProvider, IUrlHelperFactory urlHelperFactory, HtmlEncoder htmlEncoder, ValidationHtmlAttributeProvider validationAttributeProvider) : DefaultHtmlGenerator(antiforgery, optionsAccessor, metadataProvider, urlHelperFactory, htmlEncoder, validationAttributeProvider)
     {
-        public HtmlGenerator(IAntiforgery antiforgery, IOptions<MvcViewOptions> optionsAccessor, IModelMetadataProvider metadataProvider, IUrlHelperFactory urlHelperFactory, HtmlEncoder htmlEncoder, ValidationHtmlAttributeProvider validationAttributeProvider)
-            : base(antiforgery, optionsAccessor, metadataProvider, urlHelperFactory, htmlEncoder, validationAttributeProvider)
-        {
-        }
-
         public override TagBuilder GenerateSelect(ViewContext viewContext, ModelExplorer modelExplorer, string? optionLabel, string? expression, IEnumerable<SelectListItem> selectList, ICollection<string> currentValues, bool allowMultiple, object htmlAttributes)
         {
             htmlAttributes = (htmlAttributes as TagHelperAttributeList)?.ToDictionary(k => k.Name, v => v.Value) ?? htmlAttributes;

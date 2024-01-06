@@ -2,16 +2,10 @@
 {
     using System.Linq.Expressions;
 
-    public class ReplaceExpressionVisitor : ExpressionVisitor
+    public class ReplaceExpressionVisitor(Expression oldValue, Expression newValue) : ExpressionVisitor
     {
-        private readonly Expression oldValue;
-        private readonly Expression newValue;
-
-        public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
-        {
-            this.oldValue = oldValue;
-            this.newValue = newValue;
-        }
+        private readonly Expression oldValue = oldValue;
+        private readonly Expression newValue = newValue;
 
         public override Expression Visit(Expression node)
         {

@@ -7,17 +7,8 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-form", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class FormTagHelper : TagHelper<FormTagHelper, FormTagHelperService>
+    public class FormTagHelper(FormTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<FormTagHelper, FormTagHelperService>(tagHelperService, optionsAccessor)
     {
-        #region Constructors
-
-        public FormTagHelper(FormTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
-        #endregion
-
         [HtmlAttributeName("frb-display-submit-button")]
         public bool? DisplaySubmitButton { get; set; } = true;
 

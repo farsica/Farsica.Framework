@@ -7,13 +7,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-tabs")]
-    public class TabsTagHelper : TagHelper<TabsTagHelper, TabsTagHelperService>
+    public class TabsTagHelper(TabsTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TabsTagHelper, TabsTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TabsTagHelper(TabsTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-tab-style")]
         public TabStyle TabStyle { get; set; } = TabStyle.Tab;
 

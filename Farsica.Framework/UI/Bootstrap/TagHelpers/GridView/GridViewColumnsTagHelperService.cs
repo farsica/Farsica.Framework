@@ -10,21 +10,14 @@
     using Microsoft.AspNetCore.Razor.TagHelpers;
 
     [Injectable]
-    public class GridViewColumnsTagHelperService : TagHelperService<GridViewColumnsTagHelper>
+    public class GridViewColumnsTagHelperService(
+        HtmlEncoder htmlEncoder,
+        IHtmlGenerator htmlGenerator,
+        IServiceProvider serviceProvider) : TagHelperService<GridViewColumnsTagHelper>
     {
-        private readonly HtmlEncoder htmlEncoder;
-        private readonly IHtmlGenerator htmlGenerator;
-        private readonly IServiceProvider serviceProvider;
-
-        public GridViewColumnsTagHelperService(
-            HtmlEncoder htmlEncoder,
-            IHtmlGenerator htmlGenerator,
-            IServiceProvider serviceProvider)
-        {
-            this.htmlEncoder = htmlEncoder;
-            this.htmlGenerator = htmlGenerator;
-            this.serviceProvider = serviceProvider;
-        }
+        private readonly HtmlEncoder htmlEncoder = htmlEncoder;
+        private readonly IHtmlGenerator htmlGenerator = htmlGenerator;
+        private readonly IServiceProvider serviceProvider = serviceProvider;
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

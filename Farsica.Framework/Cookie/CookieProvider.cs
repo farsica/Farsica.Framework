@@ -14,16 +14,10 @@
     using Microsoft.Extensions.Hosting;
 
     [ServiceLifetime(Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton)]
-    public class CookieProvider : ICookieProvider
+    public class CookieProvider(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) : ICookieProvider
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IWebHostEnvironment webHostEnvironment;
-
-        public CookieProvider(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
-        {
-            this.httpContextAccessor = httpContextAccessor;
-            this.webHostEnvironment = webHostEnvironment;
-        }
+        private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
+        private readonly IWebHostEnvironment webHostEnvironment = webHostEnvironment;
 
         public bool TryGetValue<TItem, TKey>(TKey key, out TItem? value)
             where TKey : struct

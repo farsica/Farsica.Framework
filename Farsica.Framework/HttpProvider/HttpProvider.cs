@@ -8,14 +8,9 @@
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
 
-    public sealed class HttpProvider : IHttpProvider
+    public sealed class HttpProvider(Lazy<IHttpClientFactory> httpClientFactory) : IHttpProvider
     {
-        private readonly Lazy<IHttpClientFactory> httpClientFactory;
-
-        public HttpProvider(Lazy<IHttpClientFactory> httpClientFactory)
-        {
-            this.httpClientFactory = httpClientFactory;
-        }
+        private readonly Lazy<IHttpClientFactory> httpClientFactory = httpClientFactory;
 
         public async Task<TResponse?> DeleteAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest?, TResponse?, Task<TResponse?>>? failHandler = null)
             where TRequest : IHttpRequest

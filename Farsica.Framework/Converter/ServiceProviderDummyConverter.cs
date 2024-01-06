@@ -5,17 +5,11 @@
     using System.Text.Json.Serialization;
     using Microsoft.AspNetCore.Http;
 
-    public class ServiceProviderDummyConverter : JsonConverter<object>
+    public class ServiceProviderDummyConverter(IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider) : JsonConverter<object>
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceProvider serviceProvider = serviceProvider;
 
-        public ServiceProviderDummyConverter(IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider)
-        {
-            HttpContextAccessor = httpContextAccessor;
-            this.serviceProvider = serviceProvider;
-        }
-
-        public IHttpContextAccessor HttpContextAccessor { get; }
+        public IHttpContextAccessor HttpContextAccessor { get; } = httpContextAccessor;
 
         public IServiceProvider ServiceProvider => HttpContextAccessor.HttpContext?.RequestServices ?? serviceProvider;
 

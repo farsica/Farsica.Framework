@@ -9,44 +9,28 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 
-    internal class TemplateBuilder
+    internal class TemplateBuilder(
+        IViewEngine viewEngine,
+        IViewBufferScope bufferScope,
+        ViewContext viewContext,
+        ViewDataDictionary viewData,
+        ModelExplorer modelExplorer,
+        string? htmlFieldName,
+        string? templateName,
+        bool readOnly,
+        object additionalViewData)
     {
-        private readonly IViewEngine viewEngine;
-        private readonly IViewBufferScope bufferScope;
-        private readonly ViewContext viewContext;
-        private readonly ViewDataDictionary viewData;
-        private readonly ModelExplorer modelExplorer;
-        private readonly ModelMetadata metadata;
-        private readonly string? htmlFieldName;
-        private readonly string? templateName;
-        private readonly bool readOnly;
-        private readonly object additionalViewData;
-        private object model;
-
-        public TemplateBuilder(
-            IViewEngine viewEngine,
-            IViewBufferScope bufferScope,
-            ViewContext viewContext,
-            ViewDataDictionary viewData,
-            ModelExplorer modelExplorer,
-            string? htmlFieldName,
-            string? templateName,
-            bool readOnly,
-            object additionalViewData)
-        {
-            this.viewEngine = viewEngine ?? throw new ArgumentNullException(nameof(viewEngine));
-            this.bufferScope = bufferScope ?? throw new ArgumentNullException(nameof(bufferScope));
-            this.viewContext = viewContext ?? throw new ArgumentNullException(nameof(viewContext));
-            this.viewData = viewData ?? throw new ArgumentNullException(nameof(viewData));
-            this.modelExplorer = modelExplorer ?? throw new ArgumentNullException(nameof(modelExplorer));
-            this.htmlFieldName = htmlFieldName;
-            this.templateName = templateName;
-            this.readOnly = readOnly;
-            this.additionalViewData = additionalViewData;
-
-            model = modelExplorer.Model;
-            metadata = modelExplorer.Metadata;
-        }
+        private readonly IViewEngine viewEngine = viewEngine ?? throw new ArgumentNullException(nameof(viewEngine));
+        private readonly IViewBufferScope bufferScope = bufferScope ?? throw new ArgumentNullException(nameof(bufferScope));
+        private readonly ViewContext viewContext = viewContext ?? throw new ArgumentNullException(nameof(viewContext));
+        private readonly ViewDataDictionary viewData = viewData ?? throw new ArgumentNullException(nameof(viewData));
+        private readonly ModelExplorer modelExplorer = modelExplorer ?? throw new ArgumentNullException(nameof(modelExplorer));
+        private readonly ModelMetadata metadata = modelExplorer.Metadata;
+        private readonly string? htmlFieldName = htmlFieldName;
+        private readonly string? templateName = templateName;
+        private readonly bool readOnly = readOnly;
+        private readonly object additionalViewData = additionalViewData;
+        private object model = modelExplorer.Model;
 
         public IHtmlContent Build()
         {

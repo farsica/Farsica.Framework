@@ -363,14 +363,9 @@
             Clear();
         }
 
-        private class EncodingWrapper : IHtmlContent
+        private class EncodingWrapper(string unencoded) : IHtmlContent
         {
-            private readonly string? unencoded;
-
-            public EncodingWrapper(string unencoded)
-            {
-                this.unencoded = unencoded;
-            }
+            private readonly string? unencoded = unencoded;
 
             public void WriteTo(TextWriter writer, HtmlEncoder encoder)
             {

@@ -6,14 +6,9 @@
     using Farsica.Framework.DataAnnotation;
     using Microsoft.AspNetCore.Mvc.Controllers;
 
-    public class EndpointDataSource : IEndpointDataSource
+    public class EndpointDataSource(Lazy<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>> endpointSources) : IEndpointDataSource
     {
-        private readonly Lazy<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>> endpointSources;
-
-        public EndpointDataSource(Lazy<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>> endpointSources)
-        {
-            this.endpointSources = endpointSources;
-        }
+        private readonly Lazy<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>> endpointSources = endpointSources;
 
         public IEnumerable<Endpoint>? GetEndpoints()
         {

@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-list-group")]
-    public class ListGroupTagHelper : TagHelper<ListGroupTagHelper, ListGroupTagHelperService>
+    public class ListGroupTagHelper(ListGroupTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ListGroupTagHelper, ListGroupTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ListGroupTagHelper(ListGroupTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-flush")]
         public bool? Flush { get; set; }
     }

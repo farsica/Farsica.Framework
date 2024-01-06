@@ -4,13 +4,11 @@
     using System.Text.Json;
     using System.Text.Json.Serialization;
 
-    public sealed class NullableConverterDecorator<T> : JsonConverter<T?>
+    public sealed class NullableConverterDecorator<T>(JsonConverter<T> innerConverter) : JsonConverter<T?>
         where T : struct
     {
         // Read() and Write() are never called with null unless HandleNull is overwridden -- which it is not.
-        private readonly JsonConverter<T> innerConverter;
-
-        public NullableConverterDecorator(JsonConverter<T> innerConverter) => this.innerConverter = innerConverter ?? throw new ArgumentNullException(nameof(innerConverter));
+        private readonly JsonConverter<T> innerConverter = innerConverter ?? throw new ArgumentNullException(nameof(innerConverter));
 
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => innerConverter.Read(ref reader, Nullable.GetUnderlyingType(typeToConvert)!, options);
 

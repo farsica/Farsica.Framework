@@ -17,15 +17,9 @@
     using Microsoft.Extensions.Options;
 
     [HtmlTargetElement("frb-select", TagStructure = TagStructure.WithoutEndTag)]
-    public class SelectTagHelper : UI.Bootstrap.TagHelpers.TagHelper
+    public class SelectTagHelper(IHtmlGenerator generator, IOptions<MvcViewOptions> optionsAccessor) : UI.Bootstrap.TagHelpers.TagHelper(optionsAccessor)
     {
-        private readonly IHtmlGenerator generator;
-
-        public SelectTagHelper(IHtmlGenerator generator, IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-            this.generator = generator;
-        }
+        private readonly IHtmlGenerator generator = generator;
 
         [HtmlAttributeName("frb-multiple")]
         public bool Multiple { get; set; } = false;

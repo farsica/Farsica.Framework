@@ -4,16 +4,10 @@
     using System.Linq.Expressions;
     using Farsica.Framework.Core.Extensions.Linq;
 
-    public class AndSpecification<T> : SpecificationBase<T>
+    public class AndSpecification<T>(ISpecification<T> left, ISpecification<T> right) : SpecificationBase<T>
     {
-        private readonly ISpecification<T> left;
-        private readonly ISpecification<T> right;
-
-        public AndSpecification(ISpecification<T> left, ISpecification<T> right)
-        {
-            this.left = left;
-            this.right = right;
-        }
+        private readonly ISpecification<T> left = left;
+        private readonly ISpecification<T> right = right;
 
         public override Expression<Func<T, bool>> Expression()
         {

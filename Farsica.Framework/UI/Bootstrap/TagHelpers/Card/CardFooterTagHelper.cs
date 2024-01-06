@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-card-footer")]
-    public class CardFooterTagHelper : TagHelper<CardFooterTagHelper, CardFooterTagHelperService>
+    public class CardFooterTagHelper(CardFooterTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardFooterTagHelper, CardFooterTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardFooterTagHelper(CardFooterTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

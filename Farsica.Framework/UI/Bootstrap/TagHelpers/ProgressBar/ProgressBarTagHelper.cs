@@ -7,13 +7,8 @@
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-progress-bar")]
     [HtmlTargetElement("frb-progress-part")]
-    public class ProgressBarTagHelper : TagHelper<ProgressBarTagHelper, ProgressBarTagHelperService>
+    public class ProgressBarTagHelper(ProgressBarTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ProgressBarTagHelper, ProgressBarTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ProgressBarTagHelper(ProgressBarTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-min-value")]
         public double MinValue { get; set; } = 0;
 

@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-column-breaker")]
-    public class ColumnBreakerTagHelper : TagHelper<ColumnBreakerTagHelper, ColumnBreakerTagHelperService>
+    public class ColumnBreakerTagHelper(ColumnBreakerTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ColumnBreakerTagHelper, ColumnBreakerTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ColumnBreakerTagHelper(ColumnBreakerTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

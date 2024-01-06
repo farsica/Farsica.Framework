@@ -3,11 +3,7 @@
     using System;
 
     [DataAnnotation.ServiceLifetime(Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped)]
-    public class ServiceMapper : MapsterMapper.ServiceMapper, IMapper
+    public class ServiceMapper(IServiceProvider serviceProvider, TypeAdapterConfig config) : MapsterMapper.ServiceMapper(serviceProvider, config), IMapper
     {
-        public ServiceMapper(IServiceProvider serviceProvider, TypeAdapterConfig config)
-            : base(serviceProvider, config)
-        {
-        }
     }
 }

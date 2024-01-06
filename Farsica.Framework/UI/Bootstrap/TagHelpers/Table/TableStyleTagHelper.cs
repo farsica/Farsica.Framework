@@ -7,13 +7,8 @@
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-tr")]
     [HtmlTargetElement("frb-td")]
-    public class TableStyleTagHelper : TagHelper<TableStyleTagHelper, TableStyleTagHelperService>
+    public class TableStyleTagHelper(TableStyleTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TableStyleTagHelper, TableStyleTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TableStyleTagHelper(TableStyleTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-table-style")]
         public TableStyle TableStyle { get; set; } = TableStyle.Default;
     }

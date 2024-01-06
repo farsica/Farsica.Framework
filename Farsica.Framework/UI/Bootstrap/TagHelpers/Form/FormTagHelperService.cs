@@ -15,18 +15,11 @@
     using Microsoft.Extensions.DependencyInjection;
 
     [Injectable]
-    public class FormTagHelperService : TagHelperService<FormTagHelper>
+    public class FormTagHelperService(HtmlEncoder htmlEncoder, IHtmlGenerator htmlGenerator, IServiceProvider serviceProvider) : TagHelperService<FormTagHelper>
     {
-        private readonly HtmlEncoder htmlEncoder;
-        private readonly IHtmlGenerator htmlGenerator;
-        private readonly IServiceProvider serviceProvider;
-
-        public FormTagHelperService(HtmlEncoder htmlEncoder, IHtmlGenerator htmlGenerator, IServiceProvider serviceProvider)
-        {
-            this.htmlEncoder = htmlEncoder;
-            this.htmlGenerator = htmlGenerator;
-            this.serviceProvider = serviceProvider;
-        }
+        private readonly HtmlEncoder htmlEncoder = htmlEncoder;
+        private readonly IHtmlGenerator htmlGenerator = htmlGenerator;
+        private readonly IServiceProvider serviceProvider = serviceProvider;
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

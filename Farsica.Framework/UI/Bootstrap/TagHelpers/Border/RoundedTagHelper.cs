@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement(Attributes = "frb-rounded")]
-    public class RoundedTagHelper : TagHelper<RoundedTagHelper, RoundedTagHelperService>
+    public class RoundedTagHelper(RoundedTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<RoundedTagHelper, RoundedTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public RoundedTagHelper(RoundedTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-rounded")]
         public RoundedType Rounded { get; set; } = RoundedType.Default;
     }

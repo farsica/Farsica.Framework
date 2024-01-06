@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-navbar-toggle")]
-    public class NavbarToggleTagHelper : TagHelper<NavbarToggleTagHelper, NavbarToggleTagHelperService>
+    public class NavbarToggleTagHelper(NavbarToggleTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<NavbarToggleTagHelper, NavbarToggleTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public NavbarToggleTagHelper(NavbarToggleTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-id")]
         public string? Id { get; set; }
     }

@@ -2,11 +2,7 @@
 {
     using Farsica.Framework.Data;
 
-    public sealed class InversePropertyAttribute : System.ComponentModel.DataAnnotations.Schema.InversePropertyAttribute
+    public sealed class InversePropertyAttribute(string property) : System.ComponentModel.DataAnnotations.Schema.InversePropertyAttribute(DbProviderFactories.GetFactory.GetObjectName(property))
     {
-        public InversePropertyAttribute(string property)
-            : base(DbProviderFactories.GetFactory.GetObjectName(property))
-        {
-        }
     }
 }

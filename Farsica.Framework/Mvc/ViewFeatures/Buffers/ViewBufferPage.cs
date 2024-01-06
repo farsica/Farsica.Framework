@@ -3,14 +3,9 @@
     using System.Runtime.CompilerServices;
     using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 
-    internal class ViewBufferPage
+    internal class ViewBufferPage(ViewBufferValue[] buffer)
     {
-        public ViewBufferPage(ViewBufferValue[] buffer)
-        {
-            Buffer = buffer;
-        }
-
-        public ViewBufferValue[] Buffer { get; }
+        public ViewBufferValue[] Buffer { get; } = buffer;
 
         public int Capacity => Buffer.Length;
 

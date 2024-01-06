@@ -10,16 +10,11 @@
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.Filters;
 
-    public class ExportableActionFilter : IActionFilter
+    public class ExportableActionFilter(IGenericFactory<ExportBase, ExportType> genericFactory) : IActionFilter
     {
-        private readonly IGenericFactory<ExportBase, ExportType> genericFactory;
+        private readonly IGenericFactory<ExportBase, ExportType> genericFactory = genericFactory;
         private PagingDto pagingDto;
         private ISearch search;
-
-        public ExportableActionFilter(IGenericFactory<ExportBase, ExportType> genericFactory)
-        {
-            this.genericFactory = genericFactory;
-        }
 
         public void OnActionExecuting(ActionExecutingContext context)
         {

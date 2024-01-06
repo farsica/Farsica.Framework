@@ -7,11 +7,7 @@
     [DataAnnotation.Injectable]
     [HtmlTargetElement(Attributes = "frb-validation-for")]
     [HtmlTargetElement(Attributes = "frb-validation-summary")]
-    public class ValidationAttributeTagHelper : TagHelper<ValidationAttributeTagHelper, ValidationAttributeTagHelperService>
+    public class ValidationAttributeTagHelper(ValidationAttributeTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ValidationAttributeTagHelper, ValidationAttributeTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ValidationAttributeTagHelper(ValidationAttributeTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

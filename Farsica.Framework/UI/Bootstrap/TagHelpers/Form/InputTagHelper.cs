@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-input")]
-    public class InputTagHelper : TagHelper<InputTagHelper, InputTagHelperService>
+    public class InputTagHelper(InputTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<InputTagHelper, InputTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public InputTagHelper(InputTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-label")]
         public string? Label { get; set; }
 

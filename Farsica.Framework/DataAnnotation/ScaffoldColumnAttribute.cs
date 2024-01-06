@@ -3,11 +3,7 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class ScaffoldColumnAttribute : System.ComponentModel.DataAnnotations.ScaffoldColumnAttribute
+    public sealed class ScaffoldColumnAttribute(bool scaffold) : System.ComponentModel.DataAnnotations.ScaffoldColumnAttribute(scaffold)
     {
-        public ScaffoldColumnAttribute(bool scaffold)
-            : base(scaffold)
-        {
-        }
     }
 }

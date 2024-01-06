@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-column")]
-    public class ColumnTagHelper : TagHelper<ColumnTagHelper, ColumnTagHelperService>
+    public class ColumnTagHelper(ColumnTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ColumnTagHelper, ColumnTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ColumnTagHelper(ColumnTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-size")]
         public ColumnSize Size { get; set; }
 

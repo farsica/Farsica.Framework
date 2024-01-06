@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-image", ParentTag = "frb-figure")]
-    public class FigureImageTagHelper : TagHelper<FigureImageTagHelper, FigureImageTagHelperService>
+    public class FigureImageTagHelper(FigureImageTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<FigureImageTagHelper, FigureImageTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public FigureImageTagHelper(FigureImageTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

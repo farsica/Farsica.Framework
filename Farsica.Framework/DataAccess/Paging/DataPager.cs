@@ -8,17 +8,10 @@
     using Farsica.Framework.DataAccess.Query;
     using Farsica.Framework.DataAccess.UnitOfWork;
 
-    public class DataPager<TEntity, TKey> : IDataPager<TEntity, TKey>
+    public class DataPager<TEntity, TKey>(Lazy<IUnitOfWorkProvider> unitOfWorkProvider) : IDataPager<TEntity, TKey>
         where TEntity : class, IEntity<TEntity, TKey>
         where TKey : IEquatable<TKey>
     {
-        private readonly Lazy<IUnitOfWorkProvider> unitOfWorkProvider;
-
-        public DataPager(Lazy<IUnitOfWorkProvider> unitOfWorkProvider)
-        {
-            this.unitOfWorkProvider = unitOfWorkProvider;
-        }
-
         public DataPage<TEntity> Get(int pageNumber, int pageLength, OrderBy<TEntity>? orderby = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
         {
             using var uow = unitOfWorkProvider.Value.CreateUnitOfWork(false);

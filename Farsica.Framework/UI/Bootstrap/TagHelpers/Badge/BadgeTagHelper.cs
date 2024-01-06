@@ -9,13 +9,8 @@
     [HtmlTargetElement("span", Attributes = "frb-badge")]
     [HtmlTargetElement("a", Attributes = "frb-badge-pill")]
     [HtmlTargetElement("span", Attributes = "frb-badge-pill")]
-    public class BadgeTagHelper : TagHelper<BadgeTagHelper, BadgeTagHelperService>
+    public class BadgeTagHelper(BadgeTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<BadgeTagHelper, BadgeTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public BadgeTagHelper(BadgeTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-badge")]
         public BadgeType BadgeType { get; set; } = BadgeType._;
 

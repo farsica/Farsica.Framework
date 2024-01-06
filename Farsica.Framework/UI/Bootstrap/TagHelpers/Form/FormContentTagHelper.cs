@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-form-content", TagStructure = TagStructure.WithoutEndTag)]
-    public class FormContentTagHelper : TagHelper<FormContentTagHelper, FormContentTagHelperService>
+    public class FormContentTagHelper(FormContentTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<FormContentTagHelper, FormContentTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public FormContentTagHelper(FormContentTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

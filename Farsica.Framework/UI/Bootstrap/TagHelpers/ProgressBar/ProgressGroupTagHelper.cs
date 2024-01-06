@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-progress-group")]
-    public class ProgressGroupTagHelper : TagHelper<ProgressGroupTagHelper, ProgressGroupTagHelperService>
+    public class ProgressGroupTagHelper(ProgressGroupTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ProgressGroupTagHelper, ProgressGroupTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ProgressGroupTagHelper(ProgressGroupTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

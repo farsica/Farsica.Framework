@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-accordion")]
-    public class AccordionTagHelper : TagHelper<AccordionTagHelper, AccordionTagHelperService>
+    public class AccordionTagHelper(AccordionTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<AccordionTagHelper, AccordionTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public AccordionTagHelper(AccordionTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-id")]
         public string? Id { get; set; }
     }

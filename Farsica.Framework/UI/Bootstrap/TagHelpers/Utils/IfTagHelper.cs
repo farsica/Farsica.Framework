@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement(Attributes = "frb-if")]
-    public class IfTagHelper : TagHelpers.TagHelper
+    public class IfTagHelper(IOptions<MvcViewOptions> optionsAccessor) : TagHelpers.TagHelper(optionsAccessor)
     {
-        public IfTagHelper(IOptions<MvcViewOptions> optionsAccessor)
-            : base(optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-if")]
         public bool Condition { get; set; }
 

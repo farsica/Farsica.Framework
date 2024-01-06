@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-table")]
-    public class TableTagHelper : TagHelper<TableTagHelper, TableTagHelperService>
+    public class TableTagHelper(TableTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<TableTagHelper, TableTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public TableTagHelper(TableTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-        : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("frb-responsive")]
         public bool? Responsive { get; set; }
 

@@ -3,14 +3,9 @@
     using System;
     using System.Linq.Expressions;
 
-    public class Filter<TEntity>
+    public class Filter<TEntity>(Expression<Func<TEntity, bool>> expression)
     {
-        public Filter(Expression<Func<TEntity, bool>> expression)
-        {
-            Expression = expression;
-        }
-
-        public Expression<Func<TEntity, bool>> Expression { get; private set; }
+        public Expression<Func<TEntity, bool>> Expression { get; private set; } = expression;
 
         public void AddExpression(Expression<Func<TEntity, bool>> newExpression)
         {

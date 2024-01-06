@@ -2,11 +2,7 @@
 {
     using Farsica.Framework.Data;
 
-    public sealed class ForeignKeyAttribute : System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute
+    public sealed class ForeignKeyAttribute(string name) : System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute(DbProviderFactories.GetFactory.GetObjectName(name))
     {
-        public ForeignKeyAttribute(string name)
-            : base(DbProviderFactories.GetFactory.GetObjectName(name))
-        {
-        }
     }
 }

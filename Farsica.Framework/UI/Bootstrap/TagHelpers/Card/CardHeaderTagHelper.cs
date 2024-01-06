@@ -6,11 +6,7 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-card-header")]
-    public class CardHeaderTagHelper : TagHelper<CardHeaderTagHelper, CardHeaderTagHelperService>
+    public class CardHeaderTagHelper(CardHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<CardHeaderTagHelper, CardHeaderTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public CardHeaderTagHelper(CardHeaderTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
     }
 }

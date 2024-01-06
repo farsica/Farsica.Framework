@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-button-group")]
-    public class ButtonGroupTagHelper : TagHelper<ButtonGroupTagHelper, ButtonGroupTagHelperService>
+    public class ButtonGroupTagHelper(ButtonGroupTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<ButtonGroupTagHelper, ButtonGroupTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public ButtonGroupTagHelper(ButtonGroupTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         [HtmlAttributeName("fab-direction")]
         public ButtonGroupDirection Direction { get; set; } = ButtonGroupDirection.Horizontal;
 

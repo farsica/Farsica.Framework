@@ -6,13 +6,8 @@
 
     [DataAnnotation.Injectable]
     [HtmlTargetElement("frb-navbar")]
-    public class NavBarTagHelper : TagHelper<NavBarTagHelper, NavBarTagHelperService>
+    public class NavBarTagHelper(NavBarTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor) : TagHelper<NavBarTagHelper, NavBarTagHelperService>(tagHelperService, optionsAccessor)
     {
-        public NavBarTagHelper(NavBarTagHelperService tagHelperService, IOptions<MvcViewOptions> optionsAccessor)
-            : base(tagHelperService, optionsAccessor)
-        {
-        }
-
         public NavbarSize Size { get; set; } = NavbarSize.Default;
 
         public NavbarStyle NavbarStyle { get; set; } = NavbarStyle.Default;
