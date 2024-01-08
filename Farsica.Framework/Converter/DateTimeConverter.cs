@@ -34,7 +34,7 @@
             {
                 if (reader.TryGetDateTime(out var dt))
                 {
-                    return (T?)(object?)new DateTimeOffset(dt, GetTimeSpan(options));
+                    return (T?)(object?)new DateTimeOffset(new DateTime(dt.Ticks, DateTimeKind.Unspecified), GetTimeSpan(options));
                 }
 
                 return (T?)(object?)null;
