@@ -38,7 +38,7 @@
         [Required]
         public string? IpAddress { get; set; }
 
-        public ICollection<AuditEntry<TUser, TKey>>? AuditEntries { get; set; }
+        public IList<AuditEntry<TUser, TKey>>? AuditEntries { get; set; }
 
         public void Configure(EntityTypeBuilder<Audit<TUser, TKey>> builder)
         {

@@ -37,7 +37,7 @@
         [StringLength(100)]
         public string? IdentifierId { get; set; }
 
-        public ICollection<AuditEntryProperty<TUser, TKey>>? AuditEntryProperties { get; set; }
+        public IList<AuditEntryProperty<TUser, TKey>>? AuditEntryProperties { get; set; }
 
         public void Configure(EntityTypeBuilder<AuditEntry<TUser, TKey>> builder)
         {

@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using EFCore.BulkExtensions;
