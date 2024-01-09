@@ -115,6 +115,11 @@
                 app.UseAuthentication().UseAuthorization();
             }
 
+            if (antiforgery)
+            {
+                app.UseAntiforgery();
+            }
+
             // env.WebRootFileProvider = new CompositeFileProvider(env.WebRootFileProvider, new ManifestEmbeddedFileProvider(Assembly.GetCallingAssembly(), "wwwroot"));
             if (views || razorPages)
             {
