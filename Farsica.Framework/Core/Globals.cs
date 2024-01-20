@@ -16,6 +16,7 @@
     using System.Security.Claims;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Text.Json.Serialization;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -445,7 +446,7 @@
 
             if (value is not null)
             {
-                dictionary = value.GetType().GetProperties().ToDictionary(t => t.Name, t => t.GetValue(value, null));
+                dictionary = value.GetType().GetProperties().ToDictionary(t => t.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name ?? t.Name, t => t.GetValue(value, null));
             }
 
             return dictionary;

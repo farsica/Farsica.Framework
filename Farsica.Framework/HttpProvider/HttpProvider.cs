@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Json;
     using System.Threading.Tasks;
+    using System.Web;
     using Farsica.Framework.Core;
 
     public sealed class HttpProvider(Lazy<IHttpClientFactory> httpClientFactory) : IHttpProvider
@@ -86,7 +88,7 @@
 
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
-                client.BaseAddress = new Uri(request.BaseAddress);
+                request.Uri = $"{request.BaseAddress.TrimEnd('/')}/{request.Uri}";
             }
 
             if (request.HeaderParameters?.Count > 0)
@@ -95,6 +97,11 @@
                 {
                     client.DefaultRequestHeaders.Add(request.HeaderParameters[i].Key, request.HeaderParameters[i].Value);
                 }
+            }
+
+            if (request.Body is not null)
+            {
+                request.Uri = Microsoft.AspNetCore.WebUtilities.QueryHelpers.AddQueryString(request.Uri!, Globals.ObjectToDictionary(request.Body)!.Select(t => new KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues>(t.Key, t.Value?.ToString())));
             }
 
             var response = await client.GetAsync(request.Uri);
