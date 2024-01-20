@@ -16,21 +16,7 @@
 
     public sealed class FileExtensionsAttribute : ValidationAttribute, IClientModelValidator
     {
-        private readonly Lazy<(ContentInspector ContentInspector, FileExtensionContentTypeProvider ContentTypeProvider)> inspector = new(() =>
-        {
-            var definitions = new MimeDetective.Definitions.ExhaustiveBuilder
-            {
-                UsageType = MimeDetective.Definitions.Licensing.UsageType.PersonalNonCommercial,
-            }.Build();
-
-            var contentInspector = new ContentInspectorBuilder
-            {
-                Definitions = definitions.ScopeExtensions(Extensions!).TrimMeta().TrimDescription().ToImmutableArray(),
-                Parallel = true,
-            }.Build();
-
-            return (contentInspector, new FileExtensionContentTypeProvider());
-        });
+        private readonly Lazy<(ContentInspector ContentInspector, FileExtensionContentTypeProvider ContentTypeProvider)> inspector;
 
 #pragma warning disable CA1019 // Define accessors for attribute arguments
         public FileExtensionsAttribute(string extensions)
@@ -38,9 +24,25 @@
         {
             ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_FileExtensions);
             Extensions = extensions.Split(Constants.JoinDelimiter, StringSplitOptions.RemoveEmptyEntries);
+
+            inspector = new(() =>
+            {
+                var definitions = new MimeDetective.Definitions.ExhaustiveBuilder
+                {
+                    UsageType = MimeDetective.Definitions.Licensing.UsageType.PersonalNonCommercial,
+                }.Build();
+
+                var contentInspector = new ContentInspectorBuilder
+                {
+                    Definitions = definitions.ScopeExtensions(Extensions!).TrimMeta().TrimDescription().ToImmutableArray(),
+                    Parallel = true,
+                }.Build();
+
+                return (contentInspector, new FileExtensionContentTypeProvider());
+            });
         }
 
-        public static string[]? Extensions { get; private set; }
+        public string[]? Extensions { get; private set; }
 
         public override bool IsValid(object? value)
         {
