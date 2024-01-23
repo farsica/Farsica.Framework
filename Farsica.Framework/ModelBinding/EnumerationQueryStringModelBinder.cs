@@ -19,6 +19,27 @@
             }
 
             var enumerationName = bindingContext.ValueProvider.GetValue(bindingContext.FieldName);
+            if (enumerationName.Length == 0)
+            {
+                // 100000 is just temporary
+                List<string> list = [];
+                for (var i = 0; i < 100000; i++)
+                {
+                    var tmp = bindingContext.ValueProvider.GetValue(bindingContext.FieldName + $"[{i}]");
+                    if (tmp.Length == 0)
+                    {
+                        break;
+                    }
+
+                    list.AddRange(tmp.Values);
+                }
+
+                if (list.Count > 0)
+                {
+                    enumerationName = new ValueProviderResult(new Microsoft.Extensions.Primitives.StringValues(list.ToArray()));
+                }
+            }
+
             List<TEnum> lst = new(enumerationName.Length);
             foreach (var item in enumerationName)
             {

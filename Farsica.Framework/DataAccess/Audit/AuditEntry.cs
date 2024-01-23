@@ -8,21 +8,23 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using NUlid;
 
     [Table(nameof(AuditEntry<TUser, TKey>))]
-    public class AuditEntry<TUser, TKey> : IEntity<AuditEntry<TUser, TKey>, Guid>
+    public class AuditEntry<TUser, TKey> : IEntity<AuditEntry<TUser, TKey>, Ulid>
         where TUser : IdentityUser<TKey>
         where TKey : IEquatable<TKey>
     {
         [System.ComponentModel.DataAnnotations.Key]
-        [Column(nameof(Id), DataType.Guid)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Column(nameof(Id), DataType.Char)]
+        [StringLength(26)]
+        public Ulid Id { get; set; }
 
-        [Column(nameof(AuditId), DataType.Guid)]
-        public Guid AuditId { get; set; }
+        [Column(nameof(AuditId), DataType.Char)]
+        [StringLength(26)]
+        public Ulid AuditId { get; set; }
 
         public Audit<TUser, TKey>? Audit { get; set; }
 
@@ -42,7 +44,6 @@
         public void Configure(EntityTypeBuilder<AuditEntry<TUser, TKey>> builder)
         {
             // not working, go to IdentityEntityContext
-            _ = builder.Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             _ = builder.OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
         }
     }

@@ -12,6 +12,7 @@
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
+    using Farsica.Framework.DataAccess.ValueConversion;
     using Farsica.Framework.DataAnnotation;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using NUlid;
 
 #pragma warning disable CA1005 // Avoid excessive parameters on generic types
     public abstract class IdentityEntityContext<TContext, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>
@@ -108,12 +110,14 @@
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
 
             // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
-            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
-
-            _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
+        }
 
-            _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            base.ConfigureConventions(configurationBuilder);
+
+            configurationBuilder.Properties<Ulid>().HaveConversion<UlidConverter>();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -132,6 +136,36 @@
                 EntityState.Added => AuditType.Added,
                 _ => throw new ArgumentOutOfRangeException(nameof(entityState)),
             };
+        }
+
+        private static void PrepareAuditIdentifierIds(Audit<TUser, TKey>? audit)
+        {
+            if (audit?.AuditEntries is null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < audit.AuditEntries.Count; i++)
+            {
+                AuditEntry<TUser, TKey>? entry = audit.AuditEntries[i];
+                if (entry.AuditEntryProperties is null)
+                {
+                    continue;
+                }
+
+                for (int j = 0; j < entry.AuditEntryProperties.Count; j++)
+                {
+                    var property = entry.AuditEntryProperties[j];
+                    if (property.TemporaryProperty is not null)
+                    {
+                        property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
+                        if (property.TemporaryProperty.Metadata.IsPrimaryKey())
+                        {
+                            entry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
+                        }
+                    }
+                }
+            }
         }
 
         private void ConfigureShadowProperties(ModelBuilder builder)
@@ -204,6 +238,7 @@
 
             var audit = new Audit<TUser, TKey>
             {
+                Id = Ulid.NewUlid(),
                 Date = DateTimeOffset.Now,
                 IpAddress = httpContextAccessor.HttpContext.GetClientIpAddress(),
                 UserAgent = httpContextAccessor.HttpContext.UserAgent(),
@@ -226,6 +261,8 @@
 
                 var auditEntry = new AuditEntry<TUser, TKey>
                 {
+                    Id = Ulid.NewUlid(),
+                    AuditId = audit.Id,
                     EntityType = auditAttribute.EntityType,
                     AuditEntryProperties = new List<AuditEntryProperty<TUser, TKey>>(),
                     AuditType = Convert(entry.State),
@@ -254,6 +291,8 @@
                                 NewValue = property.CurrentValue?.ToString(),
                                 PropertyName = property.Metadata.Name,
                                 TemporaryProperty = property.IsTemporary ? property : null,
+                                Id = Ulid.NewUlid(),
+                                AuditEntryId = auditEntry.Id,
                             });
                         }
                     }
@@ -270,146 +309,14 @@
 
         private void SaveAudit(Audit<TUser, TKey>? audit)
         {
-            if (audit is null)
-            {
-                return;
-            }
-
-            List<Audit<TUser, TKey>> auditList =
-            [
-                new()
-                {
-                    Date = audit.Date,
-                    UserId = audit.UserId,
-                    IpAddress = audit.IpAddress,
-                    UserAgent = audit.UserAgent,
-                },
-            ];
-            this.BulkInsert(auditList, new BulkConfig { SetOutputIdentity = true });
-
-            if (audit.AuditEntries is null)
-            {
-                return;
-            }
-
-            List<AuditEntry<TUser, TKey>> insertingEntries = new(audit.AuditEntries.Count);
-            int propertiesCount = 0;
-            for (int i = 0; i < audit.AuditEntries.Count; i++)
-            {
-                var item = audit.AuditEntries[i];
-                propertiesCount += item.AuditEntryProperties?.Count ?? 0;
-                insertingEntries.Add(new AuditEntry<TUser, TKey>
-                {
-                    AuditId = auditList[0].Id,
-                    AuditType = item.AuditType,
-                    EntityType = item.EntityType,
-                    IdentifierId = item.IdentifierId,
-                });
-            }
-
-            this.BulkInsert(insertingEntries, new BulkConfig { SetOutputIdentity = true });
-
-            List<AuditEntryProperty<TUser, TKey>> properties = new(propertiesCount);
-            for (int i = 0; i < audit.AuditEntries.Count; i++)
-            {
-                AuditEntry<TUser, TKey>? entry = audit.AuditEntries[i];
-                if (entry.AuditEntryProperties is null)
-                {
-                    continue;
-                }
-
-                for (int j = 0; j < entry.AuditEntryProperties.Count; j++)
-                {
-                    var property = entry.AuditEntryProperties[j];
-                    property.AuditEntryId = insertingEntries[i].Id;
-
-                    if (property.TemporaryProperty is not null)
-                    {
-                        property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
-                        if (property.TemporaryProperty.Metadata.IsPrimaryKey())
-                        {
-                            entry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
-                            AuditEntries.Where(t => t.Id == insertingEntries[i].Id).ExecuteUpdate(t => t.SetProperty(p => p.IdentifierId, entry.IdentifierId));
-                        }
-                    }
-                }
-
-                properties.AddRange(entry.AuditEntryProperties);
-            }
-
-            this.BulkInsert(properties);
+            PrepareAuditIdentifierIds(audit);
+            this.BulkInsert([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
         }
 
         private async Task SaveAuditAsync(Audit<TUser, TKey>? audit)
         {
-            if (audit is null)
-            {
-                return;
-            }
-
-            List<Audit<TUser, TKey>> auditList =
-            [
-                new()
-                {
-                    Date = audit.Date,
-                    UserId = audit.UserId,
-                    IpAddress = audit.IpAddress,
-                    UserAgent = audit.UserAgent,
-                },
-            ];
-            await this.BulkInsertAsync(auditList, new BulkConfig { SetOutputIdentity = true, });
-
-            if (audit.AuditEntries is null)
-            {
-                return;
-            }
-
-            List<AuditEntry<TUser, TKey>> insertingEntries = new(audit.AuditEntries.Count);
-            int propertiesCount = 0;
-            for (int i = 0; i < audit.AuditEntries.Count; i++)
-            {
-                var item = audit.AuditEntries[i];
-                propertiesCount += item.AuditEntryProperties?.Count ?? 0;
-                insertingEntries.Add(new AuditEntry<TUser, TKey>
-                {
-                    AuditId = auditList[0].Id,
-                    AuditType = item.AuditType,
-                    EntityType = item.EntityType,
-                    IdentifierId = item.IdentifierId,
-                });
-            }
-
-            await this.BulkInsertAsync(insertingEntries, new BulkConfig { SetOutputIdentity = true });
-
-            List<AuditEntryProperty<TUser, TKey>> properties = new(propertiesCount);
-            for (int i = 0; i < audit.AuditEntries.Count; i++)
-            {
-                AuditEntry<TUser, TKey>? entry = audit.AuditEntries[i];
-                if (entry.AuditEntryProperties is null)
-                {
-                    continue;
-                }
-
-                for (int j = 0; j < entry.AuditEntryProperties.Count; j++)
-                {
-                    var property = entry.AuditEntryProperties[j];
-                    property.AuditEntryId = insertingEntries[i].Id;
-
-                    if (property.TemporaryProperty is not null)
-                    {
-                        property.NewValue = property.TemporaryProperty.CurrentValue?.ToString();
-                        if (property.TemporaryProperty.Metadata.IsPrimaryKey())
-                        {
-                            entry.IdentifierId = property.TemporaryProperty.CurrentValue?.ToString();
-                            await AuditEntries.Where(t => t.Id == insertingEntries[i].Id).ExecuteUpdateAsync(t => t.SetProperty(p => p.IdentifierId, entry.IdentifierId));
-                        }
-                    }
-                }
-
-                properties.AddRange(entry.AuditEntryProperties);
-            }
-
-            await this.BulkInsertAsync(properties);
+            PrepareAuditIdentifierIds(audit);
+            await this.BulkInsertAsync([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
         }
     }
 }
