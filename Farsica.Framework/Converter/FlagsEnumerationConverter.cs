@@ -16,6 +16,11 @@
 
         public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return (TEnum?)(object?)null;
+            }
+
             if (reader.TokenType is not JsonTokenType.StartArray)
             {
                 reader.Skip();
