@@ -16,6 +16,11 @@
 
         public override TCollection? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return (TCollection?)(object?)null;
+            }
+
             if (reader.TokenType != JsonTokenType.StartArray)
             {
                 reader.Skip();

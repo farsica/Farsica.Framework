@@ -32,6 +32,11 @@
 
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return (T?)(object?)null;
+            }
+
             if (converter is not null)
             {
                 return converter.Read(ref reader, underlyingType, options);
