@@ -19,6 +19,11 @@
 
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return (T?)(object?)null;
+            }
+
             IFormatProvider provider = formatProvider == FormatProvider.CurrentCulture ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
 
             if (typeToConvert == typeof(DateTime) || typeToConvert == typeof(DateTime?))
