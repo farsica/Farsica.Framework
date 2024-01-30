@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
@@ -44,28 +42,6 @@
             EFCore.BulkExtensions.DbContextBulkExtensions.BulkUpdate(context, entities, bulkConfig, progress, type);
         }
 
-#pragma warning disable CA1002 // Do not expose generic lists
-        public static async Task<int> BatchUpdateAsync<T>(this IQueryable<T> query, object updateValues, List<string>? updateColumns = null, CancellationToken cancellationToken = default)
-#pragma warning restore CA1002 // Do not expose generic lists
-            where T : class
-        {
-            return await EFCore.BulkExtensions.IQueryableBatchExtensions.BatchUpdateAsync(query, updateValues, updateColumns, cancellationToken);
-        }
-
-        public static async Task<int> BatchUpdateAsync<T>(this IQueryable<T> query, Expression<Func<T, T>> updateExpression, Type? type = null)
-            where T : class
-        {
-            return await EFCore.BulkExtensions.IQueryableBatchExtensions.BatchUpdateAsync(query, updateExpression, type);
-        }
-
-#pragma warning disable CA1002 // Do not expose generic lists
-        public static int BatchUpdate<T>(this IQueryable<T> query, object updateValues, List<string>? updateColumns = null)
-#pragma warning restore CA1002 // Do not expose generic lists
-            where T : class
-        {
-            return EFCore.BulkExtensions.IQueryableBatchExtensions.BatchUpdate(query, updateValues, updateColumns);
-        }
-
         #endregion
 
         #region Delete
@@ -82,16 +58,6 @@
             where TEntity : class
         {
             EFCore.BulkExtensions.DbContextBulkExtensions.BulkDelete(context, entities, bulkConfig, progress, type);
-        }
-
-        public static async Task<int> BatchDeleteAsync(this IQueryable query, CancellationToken cancellationToken = default)
-        {
-            return await EFCore.BulkExtensions.IQueryableBatchExtensions.BatchDeleteAsync(query, cancellationToken);
-        }
-
-        public static int BatchDelete(this IQueryable query)
-        {
-            return EFCore.BulkExtensions.IQueryableBatchExtensions.BatchDelete(query);
         }
 
         #endregion

@@ -7,13 +7,14 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
-    using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.ValueConversion;
+    using Farsica.Framework.DataAccess.ValueGeneration;
     using Farsica.Framework.DataAnnotation;
+    using Farsica.Framework.DataAnnotation.Schema;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -105,17 +106,51 @@
                 builder.HasDefaultSchema(DefaultSchema);
             }
 
-            ConfigureShadowProperties(builder);
+            ConfigureShadowProperties();
 
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
 
             // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
-            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
-
-            _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
 
-            _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+            void ConfigureShadowProperties()
+            {
+                var entities = builder.Model.GetEntityTypes();
+                foreach (var entity in entities)
+                {
+                    PropertyInfo[] properties = entity.ClrType.GetProperties();
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        PropertyInfo? property = properties[i];
+                        var entityTypeBuilder = builder.Entity(entity.ClrType);
+                        if (property.PropertyType == typeof(Guid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
+                        {
+                            entityTypeBuilder.Property(property.Name).HasDefaultValueSql("NEWSEQUENTIALID()");
+                        }
+                        else if (property.PropertyType == typeof(Ulid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
+                        {
+                            entityTypeBuilder.Property(property.Name).ValueGeneratedOnAdd().HasValueGenerator<UlidGenerator>();
+                        }
+                        else
+                        {
+                            if (property.Name == nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
+                            {
+                                entityTypeBuilder.HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
+                                        .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
+                            }
+                            else if (property.Name == nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
+                            {
+                                entityTypeBuilder.HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
+                                    .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
+                            }
+                            else if (property.Name == nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId))
+                            {
+                                entityTypeBuilder.Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
@@ -141,24 +176,6 @@
                 EntityState.Added => AuditType.Added,
                 _ => throw new ArgumentOutOfRangeException(nameof(entityState)),
             };
-        }
-
-        private void ConfigureShadowProperties(ModelBuilder builder)
-        {
-            var types = EntityAssembly.GetTypes();
-            foreach (var type in types)
-            {
-                if (type.GetInterfaces().Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
-                {
-                    builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
-                            .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
-
-                    builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
-                        .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
-
-                    builder.Entity(type).Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
-                }
-            }
         }
 
         private void PrepareShadowProperties()
