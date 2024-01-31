@@ -7,6 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
+    using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
@@ -103,49 +104,56 @@
         {
             if (!string.IsNullOrEmpty(DefaultSchema))
             {
-                builder.HasDefaultSchema(DefaultSchema);
+                _ = builder.HasDefaultSchema(DefaultSchema);
             }
 
-            ConfigureShadowProperties();
+            ConfigureProperties(EntityAssembly.GetTypes());
+            ConfigureProperties(typeof(DataAccess).Assembly.GetTypes());
 
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
 
             // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
             _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
+            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+            _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+            _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
 
-            void ConfigureShadowProperties()
+            void ConfigureProperties(Type[] types)
             {
-                var entities = builder.Model.GetEntityTypes();
-                foreach (var entity in entities)
+                for (int i = 0; i < types.Length; i++)
                 {
-                    PropertyInfo[] properties = entity.ClrType.GetProperties();
-                    for (int i = 0; i < properties.Length; i++)
+                    Type? type = types[i];
+                    Type[] interfaces = type.GetInterfaces();
+                    if (interfaces.Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEntity<,>)))
                     {
-                        PropertyInfo? property = properties[i];
-                        var entityTypeBuilder = builder.Entity(entity.ClrType);
-                        if (property.PropertyType == typeof(Guid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
+                        if (interfaces.Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
                         {
-                            entityTypeBuilder.Property(property.Name).HasDefaultValueSql("NEWSEQUENTIALID()");
+                            builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
+                                    .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
+
+                            builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
+                                .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
+
+                            builder.Entity(type).Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
                         }
-                        else if (property.PropertyType == typeof(Ulid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
+
+                        if (type.IsGenericType)
                         {
-                            entityTypeBuilder.Property(property.Name).ValueGeneratedOnAdd().HasValueGenerator<UlidGenerator>();
+                            continue;
                         }
-                        else
+
+                        PropertyInfo[] properties = type.GetProperties();
+                        for (int j = 0; j < properties.Length; j++)
                         {
-                            if (property.Name == nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
+                            PropertyInfo? property = properties[j];
+
+                            if (property.PropertyType == typeof(Guid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
                             {
-                                entityTypeBuilder.HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
-                                        .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
+                                builder.Entity(type).Property(property.PropertyType, property.Name).HasDefaultValueSql("NEWSEQUENTIALID()");
                             }
-                            else if (property.Name == nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
+                            else if (property.PropertyType == typeof(Ulid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
                             {
-                                entityTypeBuilder.HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
-                                    .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
-                            }
-                            else if (property.Name == nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId))
-                            {
-                                entityTypeBuilder.Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
+                                builder.Entity(type).Property(property.Name).ValueGeneratedOnAdd().HasValueGenerator<UlidGenerator>();
                             }
                         }
                     }
