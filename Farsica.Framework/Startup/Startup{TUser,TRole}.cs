@@ -274,6 +274,7 @@
                 options.JsonSerializerOptions.Converters.Add(new EnumerationConverterFactory());
                 options.JsonSerializerOptions.Converters.Add(new FlagsEnumerationConverterFactory());
                 options.JsonSerializerOptions.Converters.Add(new BitArrayConverter());
+                options.JsonSerializerOptions.Converters.Add(new UlidJsonConverter());
 
                 // options.JsonSerializerOptions.Converters.Add(new DateTimeConverterFactory());
             });
@@ -445,6 +446,7 @@
                 options.ModelBinderProviders.Insert(0, new EnumerationQueryStringModelBinderProvider());
                 options.ModelBinderProviders.Insert(0, new FlagsEnumerationQueryStringModelBinderProvider());
                 options.ModelBinderProviders.Insert(0, new DateTimeOffsetQueryStringModelBinderProvider());
+                options.ModelBinderProviders.Insert(0, new UlidQueryStringModelBinderProvider());
             }
         }
 

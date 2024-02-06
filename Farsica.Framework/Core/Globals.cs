@@ -28,6 +28,7 @@
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
+    using NUlid;
 
     public static partial class Globals
     {
@@ -366,6 +367,11 @@
                         return value;
 
                     case TypeCode.Object:
+                        if (type.Name == nameof(Ulid))
+                        {
+                            return Ulid.TryParse(value, out Ulid ulid) ? ulid : defaultValue;
+                        }
+
                         if (type.Name == nameof(DateTimeOffset))
                         {
                             return DateTimeOffset.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTimeOffset dateTimeOffsetTmp) ? dateTimeOffsetTmp : defaultValue;

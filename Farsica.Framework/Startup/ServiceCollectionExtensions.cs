@@ -36,7 +36,10 @@
             Action<SwaggerGenOptions> baseSetupAction = options =>
             {
                 options.SchemaFilter<EnumerationToEnumSchemaFilter>();
+                options.SchemaFilter<UlidToStringSchemaFilter>();
+
                 options.DocumentFilter<DisplayNameDocumentFilter>();
+
                 options.OperationFilter<DisplayNameOperationFilter>();
             };
 
