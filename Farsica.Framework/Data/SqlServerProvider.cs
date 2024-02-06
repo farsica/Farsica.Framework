@@ -24,6 +24,7 @@
             { DataType.DateTimeOffset, "datetimeoffset" },
             { DataType.Guid, "uniqueidentifier" },
             { DataType.File, "varbinary(max)" },
+            { DataType.Ulid, "char(26)" },
         };
 
         protected override string GetObjectNameInternal(string name, string? prefix = null)

@@ -26,6 +26,7 @@
             { DataType.DateTimeOffset, "datetimeoffset" },
             { DataType.Guid, "GUID" },
             { DataType.File, "BLOB" },
+            { DataType.Ulid, "CHAR" },
         };
 
         protected override string GetObjectNameInternal(string name, string? prefix = null)
