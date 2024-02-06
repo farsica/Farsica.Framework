@@ -17,7 +17,6 @@
     {
         [System.ComponentModel.DataAnnotations.Key]
         [Column(nameof(Id), DataType.Ulid)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Ulid Id { get; set; }
 
         [Column(nameof(UserId))]
