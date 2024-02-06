@@ -165,7 +165,7 @@
         {
             base.ConfigureConventions(configurationBuilder);
 
-            configurationBuilder.Properties<Ulid>().HaveConversion<UlidConverter>();
+            configurationBuilder.Properties<Ulid>().HaveConversion<UlidValueConverter>();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
