@@ -115,6 +115,10 @@
             // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
             _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
 
+            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
+            _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
+            _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
+
             void ConfigureProperties(Type[] types)
             {
                 for (int i = 0; i < types.Length; i++)
