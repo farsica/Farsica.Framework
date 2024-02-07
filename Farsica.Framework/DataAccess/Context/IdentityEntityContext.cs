@@ -297,8 +297,17 @@
                     EntityType = auditAttribute.EntityType,
                     AuditEntryProperties = new List<AuditEntryProperty<TUser, TKey>>(),
                     AuditType = Convert(entry.State),
-                    IdentifierId = entry.State == EntityState.Added ? null : string.Join(" , ", entry.Properties.Where(t => t.Metadata.IsPrimaryKey()).Select(t => t.CurrentValue?.ToString())),
                 };
+
+                if (entry.State == EntityState.Added)
+                {
+                    var ids = entry.Properties.Where(t => t.Metadata.IsPrimaryKey() && !t.IsTemporary).Select(t => t.CurrentValue?.ToString());
+                    auditEntry.IdentifierId = ids?.Any() == true ? string.Join(" , ", ids) : null;
+                }
+                else
+                {
+                    auditEntry.IdentifierId = entry.State == EntityState.Added ? null : string.Join(" , ", entry.Properties.Where(t => t.Metadata.IsPrimaryKey()).Select(t => t.CurrentValue?.ToString()));
+                }
 
                 if (entry.State is not EntityState.Deleted)
                 {
@@ -341,13 +350,19 @@
         private void SaveAudit(Audit<TUser, TKey>? audit)
         {
             PrepareAuditIdentifierIds(audit);
-            this.BulkInsert([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
+            if (audit is not null)
+            {
+                this.BulkInsert([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
+            }
         }
 
         private async Task SaveAuditAsync(Audit<TUser, TKey>? audit)
         {
             PrepareAuditIdentifierIds(audit);
-            await this.BulkInsertAsync([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
+            if (audit is not null)
+            {
+                await this.BulkInsertAsync([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
+            }
         }
     }
 }
