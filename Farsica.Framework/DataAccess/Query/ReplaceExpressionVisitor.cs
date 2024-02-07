@@ -7,7 +7,7 @@
         private readonly Expression oldValue = oldValue;
         private readonly Expression newValue = newValue;
 
-        public override Expression Visit(Expression node)
+        public override Expression? Visit(Expression? node)
         {
             if (node == oldValue)
             {

@@ -48,7 +48,7 @@
             internal set => base.ErrorMessage = value;
         }
 
-        public override string? FormatErrorMessage(string name)
+        public override string FormatErrorMessage(string name)
         {
             return FormatErrorMessage(name, null);
         }
@@ -160,7 +160,7 @@
             return result;
         }
 
-        private string? FormatErrorMessage(string? modelDisplayName, string? otherDisplayName)
+        private string FormatErrorMessage(string? modelDisplayName, string? otherDisplayName)
         {
             return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, modelDisplayName, otherDisplayName ?? OtherPropertyDisplayName ?? OtherProperty, EnumHelper.LocalizeEnum(OperandType));
         }

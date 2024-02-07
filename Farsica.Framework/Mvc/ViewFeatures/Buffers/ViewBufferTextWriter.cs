@@ -9,30 +9,16 @@
 
     internal class ViewBufferTextWriter : TextWriter
     {
-        private readonly TextWriter inner;
-        private readonly HtmlEncoder htmlEncoder;
+        private readonly TextWriter? inner;
+        private readonly HtmlEncoder? htmlEncoder;
 
-        /// <summary>
-        /// Creates a new instance of <see cref="ViewBufferTextWriter"/>.
-        /// </summary>
-        /// <param name="buffer">The <see cref="ViewBuffer"/> for buffered output.</param>
-        /// <param name="encoding">The <see cref="System.Text.Encoding"/>.</param>
-        public ViewBufferTextWriter(ViewBuffer buffer, Encoding encoding)
+        public ViewBufferTextWriter(ViewBuffer? buffer, Encoding? encoding)
         {
             Buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
             Encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
         }
 
-        /// <summary>
-        /// Creates a new instance of <see cref="ViewBufferTextWriter"/>.
-        /// </summary>
-        /// <param name="buffer">The <see cref="ViewBuffer"/> for buffered output.</param>
-        /// <param name="encoding">The <see cref="System.Text.Encoding"/>.</param>
-        /// <param name="htmlEncoder">The HTML encoder.</param>
-        /// <param name="inner">
-        /// The inner <see cref="TextWriter"/> to write output to when this instance is no longer buffering.
-        /// </param>
-        public ViewBufferTextWriter(ViewBuffer buffer, Encoding encoding, HtmlEncoder htmlEncoder, TextWriter inner)
+        public ViewBufferTextWriter(ViewBuffer? buffer, Encoding? encoding, HtmlEncoder? htmlEncoder, TextWriter? inner)
         {
             Buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
             Encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
@@ -43,14 +29,8 @@
         /// <inheritdoc />
         public override Encoding Encoding { get; }
 
-        /// <summary>
-        /// Gets the <see cref="ViewBuffer"/>.
-        /// </summary>
         public ViewBuffer Buffer { get; }
 
-        /// <summary>
-        /// Gets a value that indiciates if <see cref="Flush"/> or <see cref="FlushAsync" /> was invoked.
-        /// </summary>
         public bool Flushed { get; private set; }
 
         /// <inheritdoc />
@@ -81,7 +61,7 @@
         }
 
         /// <inheritdoc />
-        public override void Write(string value)
+        public override void Write(string? value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -92,7 +72,7 @@
         }
 
         /// <inheritdoc />
-        public override void Write(object value)
+        public override void Write(object? value)
         {
             if (value is null)
             {
@@ -142,7 +122,7 @@
         }
 
         /// <inheritdoc />
-        public override void WriteLine(object value)
+        public override void WriteLine(object? value)
         {
             if (value is null)
             {
@@ -196,9 +176,9 @@
         }
 
         /// <inheritdoc />
-        public override Task WriteAsync(string value)
+        public override Task WriteAsync(string? value)
         {
-            Buffer.AppendHtml(value);
+            Buffer.AppendHtml(value ?? string.Empty);
             return Task.CompletedTask;
         }
 
@@ -209,9 +189,9 @@
         }
 
         /// <inheritdoc />
-        public override void WriteLine(string value)
+        public override void WriteLine(string? value)
         {
-            Buffer.AppendHtml(value);
+            Buffer.AppendHtml(value ?? string.Empty);
             Buffer.AppendHtml(NewLine);
         }
 
@@ -232,9 +212,9 @@
         }
 
         /// <inheritdoc />
-        public override Task WriteLineAsync(string value)
+        public override Task WriteLineAsync(string? value)
         {
-            Buffer.AppendHtml(value);
+            Buffer.AppendHtml(value ?? string.Empty);
             Buffer.AppendHtml(NewLine);
             return Task.CompletedTask;
         }
@@ -258,7 +238,7 @@
 
             Flushed = true;
 
-            Buffer.WriteTo(inner, htmlEncoder);
+            Buffer.WriteTo(inner, htmlEncoder!);
             Buffer.Clear();
 
             inner.Flush();
@@ -277,7 +257,7 @@
 
             Flushed = true;
 
-            await Buffer.WriteToAsync(inner, htmlEncoder);
+            await Buffer.WriteToAsync(inner, htmlEncoder!);
             Buffer.Clear();
 
             await inner.FlushAsync();

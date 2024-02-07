@@ -2,21 +2,25 @@
 {
     using System;
 
-#pragma warning disable CA1032 // Implement standard exception constructors
     public class EntityNotFoundException : Exception
-#pragma warning restore CA1032 // Implement standard exception constructors
     {
-        public EntityNotFoundException(string entityName, int entityKey)
+        public EntityNotFoundException()
         {
-            EntityName = entityName;
-            EntityKey = entityKey;
-            Message = $"Entity of type '{entityName}' and key {EntityKey} not found in the current context.";
         }
 
-        public string? EntityName { get; set; }
+        public EntityNotFoundException(string message)
+            : base(message)
+        {
+        }
 
-        public int EntityKey { get; set; }
+        public EntityNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
 
-        public override string? Message { get; }
+        public EntityNotFoundException(string entityName, int entityKey)
+            : base($"Entity of type '{entityName}' and key {entityKey} not found in the current context.")
+        {
+        }
     }
 }
