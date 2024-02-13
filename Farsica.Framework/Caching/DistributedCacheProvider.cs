@@ -21,6 +21,7 @@
             this.cache = cache;
             jsonSerializerOptions = new JsonSerializerOptions();
             jsonSerializerOptions.Converters.Add(new BitArrayConverter());
+            jsonSerializerOptions.Converters.Add(new UlidJsonConverter());
         }
 
         public async Task<TItem?> GetAsync<TItem, TEnum, TKey>(TEnum key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
