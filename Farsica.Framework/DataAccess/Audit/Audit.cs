@@ -29,12 +29,10 @@
 
         [StringLength(1000)]
         [Column(nameof(UserAgent), DataType.UnicodeString)]
-        [Required]
         public string? UserAgent { get; set; }
 
         [StringLength(50)]
         [Column(nameof(IpAddress), DataType.String)]
-        [Required]
         public string? IpAddress { get; set; }
 
         public IList<AuditEntry<TUser, TKey>>? AuditEntries { get; set; }

@@ -116,6 +116,7 @@
             _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
 
             _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
+            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.UserId).IsRequired(false);
             _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
             _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
 
