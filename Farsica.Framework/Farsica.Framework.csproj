@@ -14,7 +14,7 @@
     <Authors>Fariborz khosravi</Authors>
     <Company>Farsica</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.0.32</Version>
+    <Version>3.0.33</Version>
     <Description>Asp.net Core Application Framework</Description>
     <RepositoryUrl>
     </RepositoryUrl>
@@ -110,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Audit\" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <ItemGroup>

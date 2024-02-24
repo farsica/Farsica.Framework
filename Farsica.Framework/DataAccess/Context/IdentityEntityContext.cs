@@ -104,6 +104,7 @@
             ConfigureProperties(typeof(DataAccess).Assembly.GetTypes());
 
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(DataAccess).Assembly);
 
             void ConfigureProperties(Type[] types)
             {
@@ -111,37 +112,39 @@
                 {
                     Type? type = types[i];
                     Type[] interfaces = type.GetInterfaces();
-                    if (interfaces.Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEntity<,>)))
+                    if (!interfaces.Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEntity<,>)))
                     {
-                        if (interfaces.Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
+                        continue;
+                    }
+
+                    if (interfaces.Exists(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IVersionableEntity<,,>)))
+                    {
+                        builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
+                                .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
+
+                        builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
+                            .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
+
+                        builder.Entity(type).Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
+                    }
+
+                    if (type.IsGenericType)
+                    {
+                        continue;
+                    }
+
+                    PropertyInfo[] properties = type.GetProperties();
+                    for (int j = 0; j < properties.Length; j++)
+                    {
+                        PropertyInfo? property = properties[j];
+
+                        if (property.PropertyType == typeof(Guid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
                         {
-                            builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUser))
-                                    .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.CreationUserId)).OnDelete(DeleteBehavior.NoAction);
-
-                            builder.Entity(type).HasOne(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUser))
-                                .WithMany().HasForeignKey(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).OnDelete(DeleteBehavior.NoAction);
-
-                            builder.Entity(type).Property(nameof(IVersionableEntity<TUser, TKey, TKey>.LastModifyUserId)).IsRequired(false);
+                            builder.Entity(type).Property(property.PropertyType, property.Name).HasDefaultValueSql("NEWSEQUENTIALID()");
                         }
-
-                        if (type.IsGenericType)
+                        else if (property.PropertyType == typeof(Ulid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
                         {
-                            continue;
-                        }
-
-                        PropertyInfo[] properties = type.GetProperties();
-                        for (int j = 0; j < properties.Length; j++)
-                        {
-                            PropertyInfo? property = properties[j];
-
-                            if (property.PropertyType == typeof(Guid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
-                            {
-                                builder.Entity(type).Property(property.PropertyType, property.Name).HasDefaultValueSql("NEWSEQUENTIALID()");
-                            }
-                            else if (property.PropertyType == typeof(Ulid) && property.GetCustomAttribute<DatabaseGeneratedAttribute>()?.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
-                            {
-                                builder.Entity(type).Property(property.Name).ValueGeneratedOnAdd().HasValueGenerator<UlidGenerator>();
-                            }
+                            builder.Entity(type).Property(property.Name).ValueGeneratedOnAdd().HasValueGenerator<UlidGenerator>();
                         }
                     }
                 }

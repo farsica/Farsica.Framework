@@ -6,7 +6,6 @@
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.DataAnnotation.Schema;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using NUlid;
 
