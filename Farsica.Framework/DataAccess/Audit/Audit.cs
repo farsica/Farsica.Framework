@@ -10,19 +10,20 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using NUlid;
 
-    [Table(nameof(Audit<TUser, TKey>))]
-    public class Audit<TUser, TKey> : IEntity<Audit<TUser, TKey>, Ulid>
-        where TUser : IdentityUser<TKey>
-        where TKey : IEquatable<TKey>
+    [Table(nameof(Audit))]
+    public class Audit : IEntity<Audit, Ulid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         [Column(nameof(Id), DataType.Ulid)]
         public Ulid Id { get; set; }
 
-        [Column(nameof(UserId))]
-        public TKey? UserId { get; set; }
+        [Column(nameof(UserId), DataType.String)]
+        [StringLength(50)]
+        public string? UserId { get; set; }
 
-        public TUser? User { get; set; }
+        [Column(nameof(UserName), DataType.UnicodeString)]
+        [StringLength(50)]
+        public string? UserName { get; set; }
 
         [Column(nameof(Date), DataType.DateTimeOffset)]
         public DateTimeOffset Date { get; set; }
@@ -35,9 +36,9 @@
         [Column(nameof(IpAddress), DataType.String)]
         public string? IpAddress { get; set; }
 
-        public IList<AuditEntry<TUser, TKey>>? AuditEntries { get; set; }
+        public IList<AuditEntry>? AuditEntries { get; set; }
 
-        public void Configure(EntityTypeBuilder<Audit<TUser, TKey>> builder)
+        public void Configure(EntityTypeBuilder<Audit> builder)
         {
             // not working, go to IdentityEntityContext
         }

@@ -8,7 +8,6 @@
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections;
-    using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Audit;
     using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
@@ -55,12 +54,6 @@
             LoggerFactory = ServiceProvider.GetRequiredService<ILoggerFactory>();
             httpContextAccessor = ServiceProvider.GetRequiredService<IHttpContextAccessor>();
         }
-
-        public DbSet<Audit<TUser, TKey>> Audits { get; set; }
-
-        public DbSet<AuditEntry<TUser, TKey>> AuditEntries { get; set; }
-
-        public DbSet<AuditEntryProperty<TUser, TKey>> AuditEntryProperties { get; set; }
 
         protected string? ConnectionName { get; }
 
@@ -111,14 +104,6 @@
             ConfigureProperties(typeof(DataAccess).Assembly.GetTypes());
 
             builder.ApplyConfigurationsFromAssembly(EntityAssembly);
-
-            // ApplyConfigurationsFromAssembly not work for generic types, therefore must register manually
-            _ = builder.Entity<AuditEntry<TUser, TKey>>().OwnEnumeration<AuditEntry<TUser, TKey>, AuditType, byte>(t => t.AuditType);
-
-            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
-            _ = builder.Entity<Audit<TUser, TKey>>().Property(t => t.UserId).IsRequired(false);
-            _ = builder.Entity<AuditEntry<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
-            _ = builder.Entity<AuditEntryProperty<TUser, TKey>>().Property(t => t.Id).HasValueGenerator<UlidGenerator>();
 
             void ConfigureProperties(Type[] types)
             {
@@ -188,7 +173,7 @@
             };
         }
 
-        private static void PrepareAuditIdentifierIds(Audit<TUser, TKey>? audit)
+        private static void PrepareAuditIdentifierIds(Audit? audit)
         {
             if (audit?.AuditEntries is null)
             {
@@ -197,7 +182,7 @@
 
             for (int i = 0; i < audit.AuditEntries.Count; i++)
             {
-                AuditEntry<TUser, TKey>? entry = audit.AuditEntries[i];
+                AuditEntry? entry = audit.AuditEntries[i];
                 if (entry.AuditEntryProperties is null)
                 {
                     continue;
@@ -261,26 +246,27 @@
             }
         }
 
-        private Audit<TUser, TKey>? GenerateAudit()
+        private Audit? GenerateAudit()
         {
             if (EnableAudit is false)
             {
                 return null;
             }
 
-            var audit = new Audit<TUser, TKey>
+            var audit = new Audit
             {
                 Id = Ulid.NewUlid(),
                 Date = DateTimeOffset.Now,
                 IpAddress = httpContextAccessor.HttpContext.GetClientIpAddress(),
                 UserAgent = httpContextAccessor.HttpContext.UserAgent(),
-                UserId = httpContextAccessor.HttpContext.UserId<TKey>(),
-                AuditEntries = new List<AuditEntry<TUser, TKey>>(),
+                UserId = httpContextAccessor.HttpContext.UserId<TKey>()?.ToString(),
+                UserName = httpContextAccessor.HttpContext?.User?.Identity?.Name,
+                AuditEntries = new List<AuditEntry>(),
             };
             var entries = ChangeTracker.Entries();
             foreach (var entry in entries)
             {
-                if (entry.Entity is Audit<TUser, TKey> || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                if (entry.Entity is Audit || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
                 {
                     continue;
                 }
@@ -291,12 +277,12 @@
                     continue;
                 }
 
-                var auditEntry = new AuditEntry<TUser, TKey>
+                var auditEntry = new AuditEntry
                 {
                     Id = Ulid.NewUlid(),
                     AuditId = audit.Id,
                     EntityType = auditAttribute.EntityType,
-                    AuditEntryProperties = new List<AuditEntryProperty<TUser, TKey>>(),
+                    AuditEntryProperties = new List<AuditEntryProperty>(),
                     AuditType = Convert(entry.State),
                 };
 
@@ -326,7 +312,7 @@
 
                         if (entry.State == EntityState.Added || property.OriginalValue?.ToString() != property.CurrentValue?.ToString())
                         {
-                            auditEntry.AuditEntryProperties.Add(new AuditEntryProperty<TUser, TKey>
+                            auditEntry.AuditEntryProperties.Add(new AuditEntryProperty
                             {
                                 OldValue = entry.State == EntityState.Added ? null : property.OriginalValue?.ToString(),
                                 NewValue = property.CurrentValue?.ToString(),
@@ -348,7 +334,7 @@
             return audit.AuditEntries.Any(t => t.AuditType?.Equals(AuditType.Deleted) == true || t.AuditEntryProperties?.Count > 0) ? audit : null;
         }
 
-        private void SaveAudit(Audit<TUser, TKey>? audit)
+        private void SaveAudit(Audit? audit)
         {
             PrepareAuditIdentifierIds(audit);
             if (audit is not null)
@@ -357,7 +343,7 @@
             }
         }
 
-        private async Task SaveAuditAsync(Audit<TUser, TKey>? audit)
+        private async Task SaveAuditAsync(Audit? audit)
         {
             PrepareAuditIdentifierIds(audit);
             if (audit is not null)

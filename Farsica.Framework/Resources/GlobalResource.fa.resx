@@ -441,4 +441,7 @@
   <data name="UserType_Real_Name" xml:space="preserve">
     <value>حقیقی</value>
   </data>
+  <data name="Validation_NotFound" xml:space="preserve">
+    <value>آیتم مورد نظر یافت نشد.</value>
+  </data>
 </root>

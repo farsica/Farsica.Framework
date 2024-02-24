@@ -1,19 +1,15 @@
 ﻿namespace Farsica.Framework.DataAccess.Audit
 {
-    using System;
     using Farsica.Framework.Data;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.DataAnnotation.Schema;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using NUlid;
 
-    [Table(nameof(AuditEntryProperty<TUser, TKey>))]
-    public class AuditEntryProperty<TUser, TKey> : IEntity<AuditEntryProperty<TUser, TKey>, Ulid>
-        where TUser : IdentityUser<TKey>
-        where TKey : IEquatable<TKey>
+    [Table(nameof(AuditEntryProperty))]
+    public class AuditEntryProperty : IEntity<AuditEntryProperty, Ulid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         [Column(nameof(Id), DataType.Ulid)]
@@ -22,7 +18,7 @@
         [Column(nameof(AuditEntryId), DataType.Ulid)]
         public Ulid AuditEntryId { get; set; }
 
-        public AuditEntry<TUser, TKey>? AuditEntry { get; set; }
+        public AuditEntry? AuditEntry { get; set; }
 
         [StringLength(50)]
         [Required]
@@ -38,7 +34,7 @@
         [NotMapped]
         public PropertyEntry? TemporaryProperty { get; set; }
 
-        public void Configure(EntityTypeBuilder<AuditEntryProperty<TUser, TKey>> builder)
+        public void Configure(EntityTypeBuilder<AuditEntryProperty> builder)
         {
             // not working, go to IdentityEntityContext
         }

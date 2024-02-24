@@ -943,6 +943,15 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The requested item could not be found..
+        /// </summary>
+        public static string Validation_NotFound {
+            get {
+                return ResourceManager.GetString("Validation_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Valid Entry For The {0} Must Be Between {1} and {2}.
         /// </summary>
         public static string Validation_Range {
