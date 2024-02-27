@@ -444,4 +444,7 @@
   <data name="Validation_NotFound" xml:space="preserve">
     <value>آیتم مورد نظر یافت نشد.</value>
   </data>
+  <data name="Validation_EmptyAnother" xml:space="preserve">
+    <value>مقدار {0} بایستی خالی باشد.</value>
+  </data>
 </root>

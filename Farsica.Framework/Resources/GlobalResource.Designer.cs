@@ -853,6 +853,15 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value &apos;{0}&apos; must be empty..
+        /// </summary>
+        public static string Validation_EmptyAnother {
+            get {
+                return ResourceManager.GetString("Validation_EmptyAnother", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input Value for The {0} is Invalid.
         /// </summary>
         public static string Validation_Expression {

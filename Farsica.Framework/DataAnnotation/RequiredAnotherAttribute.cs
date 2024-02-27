@@ -3,69 +3,61 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Farsica.Framework.Core;
 
     public sealed class RequiredAnotherAttribute : ValidationAttribute
     {
-        public RequiredAnotherAttribute(string otherProperty)
+        public RequiredAnotherAttribute([NotNull] string otherProperty, short? minCountOtherProperty = null, short? maxCountOtherProperty = null)
             : base(() => "ValidationError")
-        {
-            SetFields(otherProperty, null, null);
-            ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_RequiredAnother);
-        }
-
-        public RequiredAnotherAttribute(string otherProperty, short minCountOtherProperty, short maxCountOtherProperty)
-            : base(() => "ValidationError")
-        {
-            SetFields(otherProperty, minCountOtherProperty, maxCountOtherProperty);
-            ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_RequiredAnotherList);
-        }
-
-        public string? OtherProperty { get; private set; }
-
-        public short? MinCountOtherProperty { get; private set; }
-
-        public short? MaxCountOtherProperty { get; private set; }
-
-        public new string? ErrorMessageResourceName { get; } = nameof(Resources.GlobalResource.Validation_RequiredAnother);
-
-        public new Type ErrorMessageResourceType { get; } = typeof(Resources.GlobalResource);
-
-        public string? FormatErrorMessage(string name, string? otherName)
-        {
-            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, otherName, MinCountOtherProperty, MaxCountOtherProperty);
-        }
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
-            var otherValue = otherPropertyInfo?.GetValue(validationContext.ObjectInstance, null);
-
-            ValidationResult result = null;
-            if (value is IComparable firstComparable)
-            {
-                var ov = otherValue as IEnumerable<object>;
-                if (otherValue is null
-                    || (MaxCountOtherProperty.HasValue && (ov.Count() < MinCountOtherProperty || MaxCountOtherProperty < ov.Count())))
-                {
-                    var displayName = Globals.GetLocalizedDisplayName(validationContext.ObjectType.GetProperty(validationContext.MemberName));
-                    var otherDisplayName = Globals.GetLocalizedDisplayName(otherPropertyInfo);
-                    result = new ValidationResult(FormatErrorMessage(displayName, otherDisplayName));
-                }
-            }
-
-            return result;
-        }
-
-        private void SetFields(string otherProperty, short? minCountOtherProperty, short? maxCountOtherProperty)
         {
             ArgumentNullException.ThrowIfNull(otherProperty, nameof(otherProperty));
 
             OtherProperty = otherProperty;
             MinCountOtherProperty = minCountOtherProperty ?? 0;
-            MaxCountOtherProperty = maxCountOtherProperty;
+            MaxCountOtherProperty = maxCountOtherProperty ?? short.MaxValue;
+
+            ErrorMessageResourceName = minCountOtherProperty.HasValue || maxCountOtherProperty.HasValue ?
+                nameof(Resources.GlobalResource.Validation_RequiredAnotherList)
+                : nameof(Resources.GlobalResource.Validation_RequiredAnother);
+        }
+
+        public string OtherProperty { get; }
+
+        public short? MinCountOtherProperty { get; }
+
+        public short? MaxCountOtherProperty { get; }
+
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value is null)
+            {
+                return null;
+            }
+
+            var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
+            var otherValue = otherPropertyInfo?.GetValue(validationContext.ObjectInstance, null);
+            if (otherValue is null)
+            {
+                var otherDisplayName = Globals.GetLocalizedDisplayName(otherPropertyInfo);
+                return new ValidationResult(string.Format(Resources.GlobalResource.Validation_RequiredAnother, otherDisplayName));
+            }
+
+            if (!MaxCountOtherProperty.HasValue && !MinCountOtherProperty.HasValue)
+            {
+                return null;
+            }
+
+            if (otherValue is not IEnumerable<object> listValue || listValue.Count() < MinCountOtherProperty || listValue.Count() > MaxCountOtherProperty)
+            {
+                var displayName = Globals.GetLocalizedDisplayName(validationContext.ObjectType.GetProperty(validationContext.MemberName!));
+                var otherDisplayName = Globals.GetLocalizedDisplayName(otherPropertyInfo);
+
+                return new ValidationResult(string.Format(Resources.GlobalResource.Validation_RequiredAnotherList, displayName, otherDisplayName));
+            }
+
+            return null;
         }
     }
 }
