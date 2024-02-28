@@ -9,18 +9,26 @@
 
     public sealed class RequiredAnotherAttribute : ValidationAttribute
     {
-        public RequiredAnotherAttribute([NotNull] string otherProperty, short? minCountOtherProperty = null, short? maxCountOtherProperty = null)
+        public RequiredAnotherAttribute([NotNull] string otherProperty)
             : base(() => "ValidationError")
         {
             ArgumentNullException.ThrowIfNull(otherProperty, nameof(otherProperty));
 
             OtherProperty = otherProperty;
-            MinCountOtherProperty = minCountOtherProperty ?? 0;
-            MaxCountOtherProperty = maxCountOtherProperty ?? short.MaxValue;
 
-            ErrorMessageResourceName = minCountOtherProperty.HasValue || maxCountOtherProperty.HasValue ?
-                nameof(Resources.GlobalResource.Validation_RequiredAnotherList)
-                : nameof(Resources.GlobalResource.Validation_RequiredAnother);
+            ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_RequiredAnother);
+        }
+
+        public RequiredAnotherAttribute([NotNull] string otherProperty, short minCountOtherProperty, short maxCountOtherProperty)
+            : base(() => "ValidationError")
+        {
+            ArgumentNullException.ThrowIfNull(otherProperty, nameof(otherProperty));
+
+            OtherProperty = otherProperty;
+            MinCountOtherProperty = minCountOtherProperty;
+            MaxCountOtherProperty = maxCountOtherProperty;
+
+            ErrorMessageResourceName = nameof(Resources.GlobalResource.Validation_RequiredAnotherList);
         }
 
         public string OtherProperty { get; }
