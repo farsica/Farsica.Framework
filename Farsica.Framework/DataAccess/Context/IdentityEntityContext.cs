@@ -67,8 +67,6 @@
 
         protected abstract Assembly EntityAssembly { get; }
 
-        protected abstract bool EnableAudit { get; }
-
         private IServiceProvider ServiceProvider { get; }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -251,7 +249,7 @@
 
         private Audit? GenerateAudit()
         {
-            if (EnableAudit is false)
+            if (!ServiceProvider.GetRequiredService<IConfiguration>().GetValue<bool>("EnableAudit"))
             {
                 return null;
             }
