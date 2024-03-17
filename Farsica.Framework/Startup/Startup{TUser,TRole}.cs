@@ -56,7 +56,7 @@
         private readonly Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler;
 
         protected Startup(IConfiguration configuration, string? defaultNamespace = null, bool localization = true, bool authentication = true,
-            bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true, Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler = null)
+            bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true, Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler = null, string? errorCodePrefix = null)
         {
             Configuration = configuration;
             this.localization = localization;
@@ -68,6 +68,7 @@
             this.identity = identity;
             this.defaultNamespace = defaultNamespace ?? "Farsica";
             this.httpClientMessageHandler = httpClientMessageHandler;
+            Constants.ErrorCodePrefix = errorCodePrefix;
         }
 
         public IConfiguration Configuration { get; }

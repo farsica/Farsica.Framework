@@ -55,6 +55,12 @@
         public const string TimeZoneIdClaim = "TimeZoneId";
         public static readonly TimeSpan IranBaseUtcOffset = new(3, 30, 0);
 
+#pragma warning disable CA2211 // Non-constant fields should not be visible
+#pragma warning disable SA1401 // Fields should be private
+        public static string? ErrorCodePrefix = null;
+#pragma warning restore SA1401 // Fields should be private
+#pragma warning restore CA2211 // Non-constant fields should not be visible
+
         internal const string HttpClientIgnoreSslAndAutoRedirect = "HttpClientIgnoreSslAndAutoRedirect";
         internal const string HttpClientIgnoreSslAndAutoRedirectTls13 = "HttpClientIgnoreSslAndAutoRedirectTls13";
 

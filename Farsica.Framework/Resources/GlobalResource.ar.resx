@@ -117,51 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Validation_Required" xml:space="preserve">
-    <value>فیلد {0} الزامی می باشد</value>
-  </data>
-  <data name="Validation_MinValue" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="Validation_EmailAddress" xml:space="preserve">
-    <value>مقدار وارد شده برای فیلد {0} یک آدرس پست الکترونیک معتبر نمی باشد</value>
-  </data>
-  <data name="Validation_Culture" xml:space="preserve">
-    <value>مقدار وارد شده برای فیلد {0} یک کد زبان معتبر نمی باشد</value>
-  </data>
-  <data name="Validation_Compare" xml:space="preserve">
-    <value>مقدار وارد شده برای فیلد {0} بایستی {2} فیلد {1} باشد</value>
-  </data>
-  <data name="Validation_Compare_UnknownProperty" xml:space="preserve">
-    <value>فیلد با شناسه {0} یافت نشد.</value>
-  </data>
-  <data name="Validation_DaysDistance" xml:space="preserve">
-    <value>حداکثر بازه زمانی اختلاف فیلدهای {0} و {1} بایستی {2} روز باشد</value>
-  </data>
-  <data name="Validation_FileExtensions" xml:space="preserve">
-    <value>پسوندهای مجاز برای فیلد {0} عبارتند از: {1}</value>
-  </data>
-  <data name="Validation_Range" xml:space="preserve">
-    <value>مقدار وارده برای فیلد {0} بایستی در بازه {1} تا {2} باشد</value>
-  </data>
-  <data name="Validation_StringLength" xml:space="preserve">
-    <value>طول مقدار وارده برای فیلد {0} بایستی در بازه {1} تا {2} باشد</value>
-  </data>
-  <data name="Validation_Captcha" xml:space="preserve">
-    <value>مقدار وارد شده برای تصویر امنیتی معتبر نمی باشد</value>
-  </data>
-  <data name="Validation_DataType" xml:space="preserve">
-    <value>مقدار وارد شده برای فیلد {0}  معتبر نمی باشد</value>
-  </data>
-  <data name="Validation_Expression" xml:space="preserve">
-    <value>مقدار وارد شده برای فیلد {0} معتبر نمی باشد</value>
-  </data>
-  <data name="Validation_RequiredAnother" xml:space="preserve">
-    <value>ابتدا مقدار {0} را وارد نمایید.</value>
-  </data>
-  <data name="Validation_RequiredAnotherList" xml:space="preserve">
-    <value>با وارد کردن مقدار فیلد{0} باید مقدار فیلد {1} را وارد نمایید. (حداقل {2} و حداکثر {3} انتخاب)</value>
-  </data>
   <data name="OperandType_Equals" xml:space="preserve">
     <value>برابر با</value>
   </data>
@@ -191,9 +146,6 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>خیر</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>بلی</value>
   </data>
   <data name="ConcurrencyFailure" xml:space="preserve">
     <value>خطای تداخل، مقدار آبجکت تغییر کرده است.</value>
@@ -273,39 +225,6 @@
   <data name="Status_Succeed" xml:space="preserve">
     <value>موفق</value>
   </data>
-  <data name="Validation_MissingBindRequiredValueAccessor" xml:space="preserve">
-    <value>مقدار فیلد '{0}' الزامی می باشد.</value>
-  </data>
-  <data name="Validation_MissingKeyOrValueAccessor" xml:space="preserve">
-    <value>مقدار الزامی می باشد.</value>
-  </data>
-  <data name="Validation_MissingRequestBodyRequiredValueAccessor" xml:space="preserve">
-    <value>مقدار بادی درخواست خالی می باشد.</value>
-  </data>
-  <data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
-    <value>مقدار '{0}' معتبر نمی باشد.</value>
-  </data>
-  <data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
-    <value>مقدار '{0}' برای {1} معتبر نمی باشد.</value>
-  </data>
-  <data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
-    <value>مقدار '{0}' معتبر نمی باشد.</value>
-  </data>
-  <data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
-    <value>مقدار وارد شده برای {0} معتبر نمی باشد.</value>
-  </data>
-  <data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
-    <value>مقدار وارد شده معتبر نمی باشد.</value>
-  </data>
-  <data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
-    <value>مقدار '{0}' معتبر نمی باشد.</value>
-  </data>
-  <data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
-    <value>فیلد {0} بایستی یک عدد باشد.</value>
-  </data>
-  <data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
-    <value>فیلد بایستی یک عدد باشد.</value>
-  </data>
   <data name="AuditType_Added" xml:space="preserve">
     <value>جدید</value>
   </data>
@@ -314,9 +233,6 @@
   </data>
   <data name="AuditType_Modified" xml:space="preserve">
     <value>ویرایش</value>
-  </data>
-  <data name="Validation_FileSize" xml:space="preserve">
-    <value>اندازه فیلد {0} بایستی حداکثر {1} باشد</value>
   </data>
   <data name="BankType_Ayandeh_Name" xml:space="preserve">
     <value>آینده</value>
@@ -441,10 +357,94 @@
   <data name="UserType_Real_Name" xml:space="preserve">
     <value>حقیقی</value>
   </data>
-  <data name="Validation_NotFound" xml:space="preserve">
-    <value>آیتم مورد نظر یافت نشد.</value>
+  <data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
+    <value>**103**مقدار '{0}' برای {1} معتبر نمی باشد.</value>
+  </data>
+  <data name="Validation_Captcha" xml:space="preserve">
+    <value>**103**مقدار وارد شده برای تصویر امنیتی معتبر نمی باشد</value>
+  </data>
+  <data name="Validation_Compare" xml:space="preserve">
+    <value>**103**مقدار وارد شده برای فیلد {0} بایستی {2} فیلد {1} باشد</value>
+  </data>
+  <data name="Validation_Compare_UnknownProperty" xml:space="preserve">
+    <value>**101**فیلد با شناسه {0} یافت نشد.</value>
+  </data>
+  <data name="Validation_Culture" xml:space="preserve">
+    <value>**103**مقدار وارد شده برای فیلد {0} یک کد زبان معتبر نمی باشد</value>
+  </data>
+  <data name="Validation_DataType" xml:space="preserve">
+    <value>**106**مقدار وارد شده برای فیلد {0}  معتبر نمی باشد</value>
+  </data>
+  <data name="Validation_DaysDistance" xml:space="preserve">
+    <value>**103**حداکثر بازه زمانی اختلاف فیلدهای {0} و {1} بایستی {2} روز باشد</value>
+  </data>
+  <data name="Validation_EmailAddress" xml:space="preserve">
+    <value>**103**مقدار وارد شده برای فیلد {0} یک آدرس پست الکترونیک معتبر نمی باشد</value>
   </data>
   <data name="Validation_EmptyAnother" xml:space="preserve">
-    <value>مقدار {0} بایستی خالی باشد.</value>
+    <value>**103**مقدار {0} بایستی خالی باشد.</value>
+  </data>
+  <data name="Validation_Expression" xml:space="preserve">
+    <value>**103**مقدار وارد شده برای فیلد {0} معتبر نمی باشد</value>
+  </data>
+  <data name="Validation_FileExtensions" xml:space="preserve">
+    <value>**104**پسوندهای مجاز برای فیلد {0} عبارتند از: {1}</value>
+  </data>
+  <data name="Validation_FileSize" xml:space="preserve">
+    <value>**105**اندازه فیلد {0} بایستی حداکثر {1} باشد</value>
+  </data>
+  <data name="Validation_MinValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Validation_MissingBindRequiredValueAccessor" xml:space="preserve">
+    <value>**102**مقدار فیلد '{0}' الزامی می باشد.</value>
+  </data>
+  <data name="Validation_MissingKeyOrValueAccessor" xml:space="preserve">
+    <value>**102**مقدار الزامی می باشد.</value>
+  </data>
+  <data name="Validation_MissingRequestBodyRequiredValueAccessor" xml:space="preserve">
+    <value>**102**مقدار بادی درخواست خالی می باشد.</value>
+  </data>
+  <data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
+    <value>**103**مقدار '{0}' معتبر نمی باشد.</value>
+  </data>
+  <data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
+    <value>**103**مقدار وارد شده معتبر نمی باشد.</value>
+  </data>
+  <data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
+    <value>**106**فیلد بایستی یک عدد باشد.</value>
+  </data>
+  <data name="Validation_NotFound" xml:space="preserve">
+    <value>**101**آیتم مورد نظر یافت نشد.</value>
+  </data>
+  <data name="Validation_Range" xml:space="preserve">
+    <value>**103**مقدار وارده برای فیلد {0} بایستی در بازه {1} تا {2} باشد</value>
+  </data>
+  <data name="Validation_Required" xml:space="preserve">
+    <value>**102**فیلد {0} الزامی می باشد</value>
+  </data>
+  <data name="Validation_RequiredAnother" xml:space="preserve">
+    <value>**102**ابتدا مقدار {0} را وارد نمایید.</value>
+  </data>
+  <data name="Validation_RequiredAnotherList" xml:space="preserve">
+    <value>**102**با وارد کردن مقدار فیلد{0} باید مقدار فیلد {1} را وارد نمایید. (حداقل {2} و حداکثر {3} انتخاب)</value>
+  </data>
+  <data name="Validation_StringLength" xml:space="preserve">
+    <value>**103**طول مقدار وارده برای فیلد {0} بایستی در بازه {1} تا {2} باشد</value>
+  </data>
+  <data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
+    <value>**103**مقدار وارد شده برای {0} معتبر نمی باشد.</value>
+  </data>
+  <data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
+    <value>**103**مقدار '{0}' معتبر نمی باشد.</value>
+  </data>
+  <data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
+    <value>**106**فیلد {0} بایستی یک عدد باشد.</value>
+  </data>
+  <data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
+    <value>**102**مقدار '{0}' نمی تواند تهی باشد.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>بلی</value>
   </data>
 </root>

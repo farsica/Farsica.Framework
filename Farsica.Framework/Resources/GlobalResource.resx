@@ -118,49 +118,49 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Validation_Required" xml:space="preserve">
-    <value>{0} Is Required</value>
+    <value>**102**{0} Is Required</value>
   </data>
   <data name="Validation_MinValue" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="Validation_EmailAddress" xml:space="preserve">
-    <value>Input Value For {0} Is Not A Valid Email Address</value>
+    <value>**103**Input Value For {0} Is Not A Valid Email Address</value>
   </data>
   <data name="Validation_Culture" xml:space="preserve">
-    <value>Input Value For {0} Is Not A Valid Culture Code</value>
+    <value>**103**Input Value For {0} Is Not A Valid Culture Code</value>
   </data>
   <data name="Validation_Compare" xml:space="preserve">
-    <value>Input Value For {0} Must be {2} {1}</value>
+    <value>**103**Input Value For {0} Must be {2} {1}</value>
   </data>
   <data name="Validation_Compare_UnknownProperty" xml:space="preserve">
-    <value>Could not find a property named {0}.</value>
+    <value>**101**Could not find a property named {0}.</value>
   </data>
   <data name="Validation_DaysDistance" xml:space="preserve">
-    <value>Maximum Distance of Input Value For {0} and {1} Must be {2} Days</value>
+    <value>**103**Maximum Distance of Input Value For {0} and {1} Must be {2} Days</value>
   </data>
   <data name="Validation_FileExtensions" xml:space="preserve">
-    <value>Valid Extensions for The {0} Are: {1}</value>
+    <value>**104**Valid Extensions for The {0} Are: {1}</value>
   </data>
   <data name="Validation_Range" xml:space="preserve">
-    <value>Valid Entry For The {0} Must Be Between {1} and {2}</value>
+    <value>**103**Valid Entry For The {0} Must Be Between {1} and {2}</value>
   </data>
   <data name="Validation_StringLength" xml:space="preserve">
-    <value>Valid Entry For The {0} Must Has Between {1} and {2}</value>
+    <value>**103**Valid Entry For The {0} Must Has Between {1} and {2}</value>
   </data>
   <data name="Validation_Captcha" xml:space="preserve">
-    <value>Input Value For Security Image Is Not a Valid Value</value>
+    <value>**103**Input Value For Security Image Is Not a Valid Value</value>
   </data>
   <data name="Validation_DataType" xml:space="preserve">
-    <value>Input Value for The {0} is Invalid</value>
+    <value>**106**Input Value for The {0} is Invalid</value>
   </data>
   <data name="Validation_Expression" xml:space="preserve">
-    <value>Input Value for The {0} is Invalid</value>
+    <value>**103**Input Value for The {0} is Invalid</value>
   </data>
   <data name="Validation_RequiredAnother" xml:space="preserve">
-    <value>You must Entry for the {0} </value>
+    <value>**102**You must Entry for the {0} </value>
   </data>
   <data name="Validation_RequiredAnotherList" xml:space="preserve">
-    <value>Entering field value {0} requires entering field value {1}. (Minimum {2} and maximum {3} select)</value>
+    <value>**102**Entering field value {0} requires entering field value {1}. (Minimum {2} and maximum {3} select)</value>
   </data>
   <data name="OperandType_Equals" xml:space="preserve">
     <value>Equals With</value>
@@ -274,37 +274,37 @@
     <value>Succeed</value>
   </data>
   <data name="Validation_MissingBindRequiredValueAccessor" xml:space="preserve">
-    <value>A value for the '{0}' parameter or property was not provided.</value>
+    <value>**102**A value for the '{0}' parameter or property was not provided.</value>
   </data>
   <data name="Validation_MissingKeyOrValueAccessor" xml:space="preserve">
-    <value>A value is required.</value>
+    <value>**102**A value is required.</value>
   </data>
   <data name="Validation_MissingRequestBodyRequiredValueAccessor" xml:space="preserve">
-    <value>A non-empty request body is required.</value>
+    <value>**102**A non-empty request body is required.</value>
   </data>
   <data name="Validation_ValueMustNotBeNullAccessor" xml:space="preserve">
-    <value>The value '{0}' is invalid.</value>
+    <value>**102**The value '{0}' can not be null.</value>
   </data>
   <data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
-    <value>The value '{0}' is not valid for {1}.</value>
+    <value>**103**The value '{0}' is not valid for {1}.</value>
   </data>
   <data name="Validation_NonPropertyAttemptedValueIsInvalidAccessor" xml:space="preserve">
-    <value>The value '{0}' is not valid.</value>
+    <value>**103**The value '{0}' is not valid.</value>
   </data>
   <data name="Validation_UnknownValueIsInvalidAccessor" xml:space="preserve">
-    <value>The supplied value is invalid for {0}.</value>
+    <value>**103**The supplied value is invalid for {0}.</value>
   </data>
   <data name="Validation_NonPropertyUnknownValueIsInvalidAccessor" xml:space="preserve">
-    <value>The supplied value is invalid.</value>
+    <value>**103**The supplied value is invalid.</value>
   </data>
   <data name="Validation_ValueIsInvalidAccessor" xml:space="preserve">
-    <value>The value '{0}' is invalid.</value>
+    <value>**103**The value '{0}' is invalid.</value>
   </data>
   <data name="Validation_ValueMustBeANumberAccessor" xml:space="preserve">
-    <value>The field {0} must be a number.</value>
+    <value>**106**The field {0} must be a number.</value>
   </data>
   <data name="Validation_NonPropertyValueMustBeANumberAccessor" xml:space="preserve">
-    <value>The field must be a number.</value>
+    <value>**106**The field must be a number.</value>
   </data>
   <data name="AuditType_Added" xml:space="preserve">
     <value>Added</value>
@@ -316,7 +316,7 @@
     <value>Modified</value>
   </data>
   <data name="Validation_FileSize" xml:space="preserve">
-    <value>Maximum Length of Field {0} Must Be {1}</value>
+    <value>**105**Maximum Length of Field {0} Must Be {1}</value>
   </data>
   <data name="BankType_Ayandeh_Name" xml:space="preserve">
     <value>Ayandeh</value>
@@ -442,9 +442,9 @@
     <value>Real</value>
   </data>
   <data name="Validation_NotFound" xml:space="preserve">
-    <value>The requested item could not be found.</value>
+    <value>**101**The requested item could not be found.</value>
   </data>
   <data name="Validation_EmptyAnother" xml:space="preserve">
-    <value>The value '{0}' must be empty.</value>
+    <value>**103**The value '{0}' must be empty.</value>
   </data>
 </root>
