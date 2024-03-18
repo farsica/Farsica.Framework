@@ -358,24 +358,6 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Optimistic concurrency failure, object has been modified..
-        /// </summary>
-        public static string ConcurrencyFailure {
-            get {
-                return ResourceManager.GetString("ConcurrencyFailure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An unknown failure has occurred..
-        /// </summary>
-        public static string DefaultIdentityError {
-            get {
-                return ResourceManager.GetString("DefaultIdentityError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Associate.
         /// </summary>
         public static string DegreeType_Associate_Name {
@@ -439,33 +421,6 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email &apos;{0}&apos; is already taken..
-        /// </summary>
-        public static string DuplicateEmail {
-            get {
-                return ResourceManager.GetString("DuplicateEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Role name &apos;{0}&apos; is already taken..
-        /// </summary>
-        public static string DuplicateRoleName {
-            get {
-                return ResourceManager.GetString("DuplicateRoleName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User name &apos;{0}&apos; is already taken..
-        /// </summary>
-        public static string DuplicateUserName {
-            get {
-                return ResourceManager.GetString("DuplicateUserName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Female.
         /// </summary>
         public static string GenderType_Female_Name {
@@ -484,38 +439,200 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optimistic concurrency failure, object has been modified..
+        /// </summary>
+        public static string IdentityError_ConcurrencyFailure {
+            get {
+                return ResourceManager.GetString("IdentityError_ConcurrencyFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unknown failure has occurred..
+        /// </summary>
+        public static string IdentityError_DefaultIdentityError {
+            get {
+                return ResourceManager.GetString("IdentityError_DefaultIdentityError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email &apos;{0}&apos; is already taken..
+        /// </summary>
+        public static string IdentityError_DuplicateEmail {
+            get {
+                return ResourceManager.GetString("IdentityError_DuplicateEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role name &apos;{0}&apos; is already taken..
+        /// </summary>
+        public static string IdentityError_DuplicateRoleName {
+            get {
+                return ResourceManager.GetString("IdentityError_DuplicateRoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name &apos;{0}&apos; is already taken..
+        /// </summary>
+        public static string IdentityError_DuplicateUserName {
+            get {
+                return ResourceManager.GetString("IdentityError_DuplicateUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email &apos;{0}&apos; is invalid..
         /// </summary>
-        public static string InvalidEmail {
+        public static string IdentityError_InvalidEmail {
             get {
-                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+                return ResourceManager.GetString("IdentityError_InvalidEmail", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Role name &apos;{0}&apos; is invalid..
         /// </summary>
-        public static string InvalidRoleName {
+        public static string IdentityError_InvalidRoleName {
             get {
-                return ResourceManager.GetString("InvalidRoleName", resourceCulture);
+                return ResourceManager.GetString("IdentityError_InvalidRoleName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid token..
         /// </summary>
-        public static string InvalidToken {
+        public static string IdentityError_InvalidToken {
             get {
-                return ResourceManager.GetString("InvalidToken", resourceCulture);
+                return ResourceManager.GetString("IdentityError_InvalidToken", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to User name &apos;{0}&apos; is invalid, can only contain english letters or digits..
         /// </summary>
-        public static string InvalidUserName {
+        public static string IdentityError_InvalidUserName {
             get {
-                return ResourceManager.GetString("InvalidUserName", resourceCulture);
+                return ResourceManager.GetString("IdentityError_InvalidUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A user with this login already exists..
+        /// </summary>
+        public static string IdentityError_LoginAlreadyAssociated {
+            get {
+                return ResourceManager.GetString("IdentityError_LoginAlreadyAssociated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect password..
+        /// </summary>
+        public static string IdentityError_PasswordMismatch {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one digit (&apos;0&apos;-&apos;9&apos;)..
+        /// </summary>
+        public static string IdentityError_PasswordRequiresDigit {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordRequiresDigit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one lowercase (&apos;a&apos;-&apos;z&apos;)..
+        /// </summary>
+        public static string IdentityError_PasswordRequiresLower {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordRequiresLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one non alphanumeric character..
+        /// </summary>
+        public static string IdentityError_PasswordRequiresNonAlphanumeric {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordRequiresNonAlphanumeric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must use at least {0} different characters..
+        /// </summary>
+        public static string IdentityError_PasswordRequiresUniqueChars {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordRequiresUniqueChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one uppercase (&apos;A&apos;-&apos;Z&apos;)..
+        /// </summary>
+        public static string IdentityError_PasswordRequiresUpper {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordRequiresUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must be at least {0} characters..
+        /// </summary>
+        public static string IdentityError_PasswordTooShort {
+            get {
+                return ResourceManager.GetString("IdentityError_PasswordTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery code redemption failed..
+        /// </summary>
+        public static string IdentityError_RecoveryCodeRedemptionFailed {
+            get {
+                return ResourceManager.GetString("IdentityError_RecoveryCodeRedemptionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User already has a password set..
+        /// </summary>
+        public static string IdentityError_UserAlreadyHasPassword {
+            get {
+                return ResourceManager.GetString("IdentityError_UserAlreadyHasPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User already in role &apos;{0}&apos;..
+        /// </summary>
+        public static string IdentityError_UserAlreadyInRole {
+            get {
+                return ResourceManager.GetString("IdentityError_UserAlreadyInRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lockout is not enabled for this user..
+        /// </summary>
+        public static string IdentityError_UserLockoutNotEnabled {
+            get {
+                return ResourceManager.GetString("IdentityError_UserLockoutNotEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is not in role &apos;{0}&apos;..
+        /// </summary>
+        public static string IdentityError_UserNotInRole {
+            get {
+                return ResourceManager.GetString("IdentityError_UserNotInRole", resourceCulture);
             }
         }
         
@@ -525,15 +642,6 @@ namespace Farsica.Framework.Resources {
         public static string InvariantCulture {
             get {
                 return ResourceManager.GetString("InvariantCulture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A user with this login already exists..
-        /// </summary>
-        public static string LoginAlreadyAssociated {
-            get {
-                return ResourceManager.GetString("LoginAlreadyAssociated", resourceCulture);
             }
         }
         
@@ -628,78 +736,6 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incorrect password..
-        /// </summary>
-        public static string PasswordMismatch {
-            get {
-                return ResourceManager.GetString("PasswordMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords must have at least one digit (&apos;0&apos;-&apos;9&apos;)..
-        /// </summary>
-        public static string PasswordRequiresDigit {
-            get {
-                return ResourceManager.GetString("PasswordRequiresDigit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords must have at least one lowercase (&apos;a&apos;-&apos;z&apos;)..
-        /// </summary>
-        public static string PasswordRequiresLower {
-            get {
-                return ResourceManager.GetString("PasswordRequiresLower", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords must have at least one non alphanumeric character..
-        /// </summary>
-        public static string PasswordRequiresNonAlphanumeric {
-            get {
-                return ResourceManager.GetString("PasswordRequiresNonAlphanumeric", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords must use at least {0} different characters..
-        /// </summary>
-        public static string PasswordRequiresUniqueChars {
-            get {
-                return ResourceManager.GetString("PasswordRequiresUniqueChars", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords must have at least one uppercase (&apos;A&apos;-&apos;Z&apos;)..
-        /// </summary>
-        public static string PasswordRequiresUpper {
-            get {
-                return ResourceManager.GetString("PasswordRequiresUpper", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passwords must be at least {0} characters..
-        /// </summary>
-        public static string PasswordTooShort {
-            get {
-                return ResourceManager.GetString("PasswordTooShort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Recovery code redemption failed..
-        /// </summary>
-        public static string RecoveryCodeRedemptionFailed {
-            get {
-                return ResourceManager.GetString("RecoveryCodeRedemptionFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string Select {
@@ -723,42 +759,6 @@ namespace Farsica.Framework.Resources {
         public static string Status_Succeed {
             get {
                 return ResourceManager.GetString("Status_Succeed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User already has a password set..
-        /// </summary>
-        public static string UserAlreadyHasPassword {
-            get {
-                return ResourceManager.GetString("UserAlreadyHasPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User already in role &apos;{0}&apos;..
-        /// </summary>
-        public static string UserAlreadyInRole {
-            get {
-                return ResourceManager.GetString("UserAlreadyInRole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lockout is not enabled for this user..
-        /// </summary>
-        public static string UserLockoutNotEnabled {
-            get {
-                return ResourceManager.GetString("UserLockoutNotEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User is not in role &apos;{0}&apos;..
-        /// </summary>
-        public static string UserNotInRole {
-            get {
-                return ResourceManager.GetString("UserNotInRole", resourceCulture);
             }
         }
         
@@ -885,6 +885,15 @@ namespace Farsica.Framework.Resources {
         public static string Validation_FileSize {
             get {
                 return ResourceManager.GetString("Validation_FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to **100**GeneralError.
+        /// </summary>
+        public static string Validation_GeneralError {
+            get {
+                return ResourceManager.GetString("Validation_GeneralError", resourceCulture);
             }
         }
         

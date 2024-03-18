@@ -10,7 +10,7 @@
             return new IdentityError
             {
                 Code = nameof(DuplicateEmail),
-                Description = string.Format(GlobalResource.DuplicateEmail, email),
+                Description = string.Format(GlobalResource.IdentityError_DuplicateEmail, email),
             };
         }
 
@@ -19,7 +19,7 @@
             return new IdentityError
             {
                 Code = nameof(DuplicateUserName),
-                Description = string.Format(GlobalResource.DuplicateUserName, userName),
+                Description = string.Format(GlobalResource.IdentityError_DuplicateUserName, userName),
             };
         }
 
@@ -28,7 +28,7 @@
             return new IdentityError
             {
                 Code = nameof(InvalidEmail),
-                Description = string.Format(GlobalResource.InvalidEmail, email),
+                Description = string.Format(GlobalResource.IdentityError_InvalidEmail, email),
             };
         }
 
@@ -37,7 +37,7 @@
             return new IdentityError
             {
                 Code = nameof(DuplicateRoleName),
-                Description = string.Format(GlobalResource.DuplicateRoleName, role),
+                Description = string.Format(GlobalResource.IdentityError_DuplicateRoleName, role),
             };
         }
 
@@ -46,7 +46,7 @@
             return new IdentityError
             {
                 Code = nameof(InvalidRoleName),
-                Description = string.Format(GlobalResource.InvalidRoleName, role),
+                Description = string.Format(GlobalResource.IdentityError_InvalidRoleName, role),
             };
         }
 
@@ -55,7 +55,7 @@
             return new IdentityError
             {
                 Code = nameof(InvalidToken),
-                Description = GlobalResource.InvalidToken,
+                Description = GlobalResource.IdentityError_InvalidToken,
             };
         }
 
@@ -64,7 +64,7 @@
             return new IdentityError
             {
                 Code = nameof(InvalidUserName),
-                Description = string.Format(GlobalResource.InvalidUserName, userName),
+                Description = string.Format(GlobalResource.IdentityError_InvalidUserName, userName),
             };
         }
 
@@ -73,7 +73,7 @@
             return new IdentityError
             {
                 Code = nameof(LoginAlreadyAssociated),
-                Description = GlobalResource.LoginAlreadyAssociated,
+                Description = GlobalResource.IdentityError_LoginAlreadyAssociated,
             };
         }
 
@@ -82,7 +82,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordMismatch),
-                Description = GlobalResource.PasswordMismatch,
+                Description = GlobalResource.IdentityError_PasswordMismatch,
             };
         }
 
@@ -91,7 +91,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresDigit),
-                Description = GlobalResource.PasswordRequiresDigit,
+                Description = GlobalResource.IdentityError_PasswordRequiresDigit,
             };
         }
 
@@ -100,7 +100,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresLower),
-                Description = GlobalResource.PasswordRequiresLower,
+                Description = GlobalResource.IdentityError_PasswordRequiresLower,
             };
         }
 
@@ -109,7 +109,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresNonAlphanumeric),
-                Description = GlobalResource.PasswordRequiresNonAlphanumeric,
+                Description = GlobalResource.IdentityError_PasswordRequiresNonAlphanumeric,
             };
         }
 
@@ -118,7 +118,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUniqueChars),
-                Description = string.Format(GlobalResource.PasswordRequiresUniqueChars, uniqueChars),
+                Description = string.Format(GlobalResource.IdentityError_PasswordRequiresUniqueChars, uniqueChars),
             };
         }
 
@@ -127,7 +127,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUpper),
-                Description = GlobalResource.PasswordRequiresUpper,
+                Description = GlobalResource.IdentityError_PasswordRequiresUpper,
             };
         }
 
@@ -136,7 +136,7 @@
             return new IdentityError
             {
                 Code = nameof(PasswordTooShort),
-                Description = string.Format(GlobalResource.PasswordTooShort, length),
+                Description = string.Format(GlobalResource.IdentityError_PasswordTooShort, length),
             };
         }
 
@@ -145,7 +145,7 @@
             return new IdentityError
             {
                 Code = nameof(UserAlreadyHasPassword),
-                Description = GlobalResource.UserAlreadyHasPassword,
+                Description = GlobalResource.IdentityError_UserAlreadyHasPassword,
             };
         }
 
@@ -154,7 +154,7 @@
             return new IdentityError
             {
                 Code = nameof(UserAlreadyInRole),
-                Description = string.Format(GlobalResource.UserAlreadyInRole, role),
+                Description = string.Format(GlobalResource.IdentityError_UserAlreadyInRole, role),
             };
         }
 
@@ -163,7 +163,7 @@
             return new IdentityError
             {
                 Code = nameof(UserNotInRole),
-                Description = string.Format(GlobalResource.UserNotInRole, role),
+                Description = string.Format(GlobalResource.IdentityError_UserNotInRole, role),
             };
         }
 
@@ -172,7 +172,7 @@
             return new IdentityError
             {
                 Code = nameof(UserLockoutNotEnabled),
-                Description = GlobalResource.UserLockoutNotEnabled,
+                Description = GlobalResource.IdentityError_UserLockoutNotEnabled,
             };
         }
 
@@ -181,7 +181,7 @@
             return new IdentityError
             {
                 Code = nameof(RecoveryCodeRedemptionFailed),
-                Description = GlobalResource.RecoveryCodeRedemptionFailed,
+                Description = GlobalResource.IdentityError_RecoveryCodeRedemptionFailed,
             };
         }
 
@@ -190,7 +190,7 @@
             return new IdentityError
             {
                 Code = nameof(ConcurrencyFailure),
-                Description = GlobalResource.ConcurrencyFailure,
+                Description = GlobalResource.IdentityError_ConcurrencyFailure,
             };
         }
 
@@ -199,7 +199,7 @@
             return new IdentityError
             {
                 Code = nameof(DefaultError),
-                Description = GlobalResource.DefaultIdentityError,
+                Description = GlobalResource.IdentityError_DefaultIdentityError,
             };
         }
     }
