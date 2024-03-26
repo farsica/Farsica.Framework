@@ -16,6 +16,7 @@
     using Farsica.Framework.DataAccess.Context;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Identity;
+    using Farsica.Framework.Identity.DataProtection;
     using Farsica.Framework.Localization;
     using Farsica.Framework.Logging;
     using Farsica.Framework.Mapping;
@@ -34,6 +35,7 @@
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -321,16 +323,10 @@
                 });
             }
 
-            var keysPath = Configuration.GetValue<string>("IdentityOptions:DataProtection:Path");
-            if (!Path.IsPathFullyQualified(keysPath))
-            {
-                keysPath = Path.Combine(dir, keysPath);
-            }
-
             var lifetime = Configuration.GetValue<TimeSpan>("IdentityOptions:DataProtection:Lifetime");
             services.AddDataProtection()
                 .SetApplicationName(startupOption.DefaultNamespace)
-                .PersistKeysToFileSystem(new DirectoryInfo(keysPath))
+                .PersistKeysToDbContext()
                 .SetDefaultKeyLifetime(lifetime);
 
             var embeddedFileProvider = new EmbeddedFileProvider(Assembly.GetCallingAssembly(), "Farsica.Framework");
