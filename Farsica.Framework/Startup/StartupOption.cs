@@ -10,7 +10,7 @@
         public required IConfiguration Configuration { get; set; }
 #pragma warning restore SA1206 // Declaration keywords should follow order
 
-        public string? DefaultNamespace { get; set; } = "Farsica";
+        public string DefaultNamespace { get; set; } = "Farsica";
 
         public bool Localization { get; set; }
 
