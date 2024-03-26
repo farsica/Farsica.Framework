@@ -45,33 +45,15 @@
         where TUser : class
         where TRole : class
     {
-        private readonly bool localization;
-        private readonly bool authentication;
-        private readonly bool razorPages;
-        private readonly bool antiforgery;
-        private readonly bool https;
-        private readonly bool views;
-        private readonly bool identity;
-        private readonly string defaultNamespace;
-        private readonly Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler;
+        private readonly StartupOption startupOption;
 
-        protected Startup(IConfiguration configuration, string? defaultNamespace = null, bool localization = true, bool authentication = true,
-            bool razorPages = true, bool antiforgery = true, bool https = true, bool views = true, bool identity = true, Func<IServiceProvider, DelegatingHandler>? httpClientMessageHandler = null, string? errorCodePrefix = null)
+        protected Startup([NotNull] StartupOption startupOption)
         {
-            Configuration = configuration;
-            this.localization = localization;
-            this.authentication = authentication;
-            this.razorPages = razorPages;
-            this.antiforgery = antiforgery;
-            this.https = https;
-            this.views = views;
-            this.identity = identity;
-            this.defaultNamespace = defaultNamespace ?? "Farsica";
-            this.httpClientMessageHandler = httpClientMessageHandler;
-            Constants.ErrorCodePrefix = errorCodePrefix;
+            Constants.ErrorCodePrefix = startupOption.ErrorCodePrefix;
+            this.startupOption = startupOption;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration => startupOption.Configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -82,7 +64,7 @@
                 return;
             }
 
-            var files = Directory.GetFiles(dir, $"{defaultNamespace}.*.dll").Where(t => !t.Contains(frameworkAssembly.ManifestModule.Name));
+            var files = Directory.GetFiles(dir, $"{startupOption.DefaultNamespace}.*.dll").Where(t => !t.Contains(frameworkAssembly.ManifestModule.Name));
 
             var mvcBuilder = ConfigureServicesInternal(services, dir);
 
@@ -92,7 +74,7 @@
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (localization)
+            if (startupOption.Localization)
             {
                 // app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value);
                 app.UseRequestLocalization(LocalizationExtensions.RequestLocalizationOptions);
@@ -102,7 +84,7 @@
 
             if (!env.IsDevelopment())
             {
-                if (https)
+                if (startupOption.Https)
                 {
                     app.UseHsts();
                     app.UseHttpsRedirection();
@@ -111,18 +93,18 @@
 
             app.UseRouting();
 
-            if (authentication)
+            if (startupOption.Authentication)
             {
                 app.UseAuthentication().UseAuthorization();
             }
 
-            if (antiforgery)
+            if (startupOption.Antiforgery)
             {
                 app.UseAntiforgery();
             }
 
             // env.WebRootFileProvider = new CompositeFileProvider(env.WebRootFileProvider, new ManifestEmbeddedFileProvider(Assembly.GetCallingAssembly(), "wwwroot"));
-            if (views || razorPages)
+            if (startupOption.RazorViews || startupOption.RazorPages)
             {
                 app.UseStaticFiles();
             }
@@ -133,13 +115,13 @@
             {
                 endpoints.MapControllerRoute(
                     name: "areaRoute",
-                    pattern: $"{(localization ? "{culture=fa}/" : string.Empty)}{{area:slugify:exists}}/{{controller:slugify=Home}}/{{action:slugify=Index}}/{{id?}}");
+                    pattern: $"{(startupOption.Localization ? "{culture=fa}/" : string.Empty)}{{area:slugify:exists}}/{{controller:slugify=Home}}/{{action:slugify=Index}}/{{id?}}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: $"{(localization ? "{culture=fa}/" : string.Empty)}{{controller:slugify=Home}}/{{action:slugify=Index}}/{{id?}}");
+                    pattern: $"{(startupOption.Localization ? "{culture=fa}/" : string.Empty)}{{controller:slugify=Home}}/{{action:slugify=Index}}/{{id?}}");
 
-                if (razorPages)
+                if (startupOption.RazorPages)
                 {
                     endpoints.MapRazorPages();
                 }
@@ -246,11 +228,11 @@
 
             services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            if (localization)
+            if (startupOption.Localization)
             {
                 services.TryAddSingleton<Microsoft.Extensions.Localization.IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
 
-                if (views || razorPages)
+                if (startupOption.RazorViews || startupOption.RazorPages)
                 {
                     services.TryAddSingleton<IHtmlGenerator, HtmlGenerator>();
                 }
@@ -266,7 +248,7 @@
                 options.LowercaseQueryStrings = true;
             });
 
-            var mvcBuilder = views ? services.AddControllersWithViews(ConfigureMvc) : services.AddControllers(ConfigureMvc);
+            var mvcBuilder = startupOption.RazorViews ? services.AddControllersWithViews(ConfigureMvc) : services.AddControllers(ConfigureMvc);
 
             _ = mvcBuilder.AddJsonOptions(options =>
             {
@@ -280,9 +262,9 @@
                 // options.JsonSerializerOptions.Converters.Add(new DateTimeConverterFactory());
             });
 
-            if (localization)
+            if (startupOption.Localization)
             {
-                if (razorPages || views)
+                if (startupOption.RazorPages || startupOption.RazorViews)
                 {
                     mvcBuilder.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
                 }
@@ -322,7 +304,7 @@
                 };
             });
 
-            if (razorPages)
+            if (startupOption.RazorPages)
             {
                 services.AddRazorPages(options =>
                 {
@@ -331,7 +313,7 @@
                 });
             }
 
-            if (antiforgery)
+            if (startupOption.Antiforgery)
             {
                 services.AddAntiforgery(options =>
                 {
@@ -339,11 +321,17 @@
                 });
             }
 
-            var keysFolder = Path.Combine(dir, "frb-keys");
+            var keysPath = Configuration.GetValue<string>("IdentityOptions:DataProtection:Path");
+            if (!Path.IsPathFullyQualified(keysPath))
+            {
+                keysPath = Path.Combine(dir, keysPath);
+            }
+
+            var lifetime = Configuration.GetValue<TimeSpan>("IdentityOptions:DataProtection:Lifetime");
             services.AddDataProtection()
-                .SetApplicationName(defaultNamespace)
-                .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(365));
+                .SetApplicationName(startupOption.DefaultNamespace)
+                .PersistKeysToFileSystem(new DirectoryInfo(keysPath))
+                .SetDefaultKeyLifetime(lifetime);
 
             var embeddedFileProvider = new EmbeddedFileProvider(Assembly.GetCallingAssembly(), "Farsica.Framework");
             services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
@@ -361,9 +349,9 @@
                 AllowAutoRedirect = false,
                 UseProxy = false,
             });
-            if (httpClientMessageHandler is not null)
+            if (startupOption.HttpClientMessageHandler is not null)
             {
-                httpClientBuilder.AddHttpMessageHandler(httpClientMessageHandler);
+                httpClientBuilder.AddHttpMessageHandler(startupOption.HttpClientMessageHandler);
             }
 
             var httpClientBuilder13 = services.AddHttpClient(Constants.HttpClientIgnoreSslAndAutoRedirectTls13).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -377,9 +365,9 @@
                 UseProxy = false,
                 SslProtocols = System.Security.Authentication.SslProtocols.Tls13,
             });
-            if (httpClientMessageHandler is not null)
+            if (startupOption.HttpClientMessageHandler is not null)
             {
-                httpClientBuilder13.AddHttpMessageHandler(httpClientMessageHandler);
+                httpClientBuilder13.AddHttpMessageHandler(startupOption.HttpClientMessageHandler);
             }
 
             services.AddHttpContextAccessor();
@@ -389,7 +377,7 @@
             });
             services.ConfigureOptions<ConfigureJsonOptions>();
 
-            if (authentication)
+            if (startupOption.Authentication)
             {
                 _ = services.AddAuthorization(options => options.AddPolicy(PermissionConstants.PermissionPolicy, policy => policy.RequireAssertion(context =>
                 {
@@ -462,7 +450,7 @@
                 .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
                 .Union(new[] { frameworkAssembly });
             var allTypes = assemblies.SelectMany(t => t.DefinedTypes);
-            var injectableTypes = allTypes.Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null && (razorPages || views || t.Namespace.StartsWith("Farsica.Framework.UI") is false));
+            var injectableTypes = allTypes.Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null && (startupOption.RazorPages || startupOption.RazorViews || t.Namespace.StartsWith("Farsica.Framework.UI") is false));
             foreach (var serviceType in injectableTypes)
             {
                 var implementationTypes = serviceType.GetAllTypesImplementingType(allTypes);
@@ -510,14 +498,14 @@
                     if (serviceType == typeof(IEntityContext))
                     {
                         var arguments = implementationType?.BaseType?.GetGenericArguments();
-                        if (arguments is not null && identity)
+                        if (arguments is not null && startupOption.Identity)
                         {
                             AddStores(services, arguments[1], arguments[2], arguments[0]);
                         }
                     }
                 }
 
-                if (identity)
+                if (startupOption.Identity)
                 {
                     if (serviceType == typeof(IEntityContext))
                     {
