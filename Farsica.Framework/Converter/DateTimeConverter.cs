@@ -6,6 +6,7 @@
     using System.Security.Claims;
     using System.Text.Json;
     using System.Text.Json.Serialization;
+    using Farsica.Framework.Core;
     using Farsica.Framework.TimeZone;
     using Microsoft.Extensions.DependencyInjection;
     using static Farsica.Framework.Core.Constants;
@@ -33,6 +34,12 @@
                     return (T?)(object?)dt;
                 }
 
+                var dateTime = reader.GetString().ValueOf<DateTime?>();
+                if (dateTime.HasValue)
+                {
+                    return (T?)(object?)dateTime.Value;
+                }
+
                 return (T?)(object?)null;
             }
             else if (typeToConvert == typeof(DateTimeOffset) || typeToConvert == typeof(DateTimeOffset?))
@@ -40,6 +47,12 @@
                 if (reader.TryGetDateTime(out var dt))
                 {
                     return (T?)(object?)new DateTimeOffset(new DateTime(dt.Ticks, DateTimeKind.Unspecified), GetTimeSpan(options));
+                }
+
+                var dateTime = reader.GetString().ValueOf<DateTime?>();
+                if (dateTime.HasValue)
+                {
+                    return (T?)(object?)new DateTimeOffset(new DateTime(dateTime.Value.Ticks, DateTimeKind.Unspecified), GetTimeSpan(options));
                 }
 
                 return (T?)(object?)null;
@@ -51,6 +64,19 @@
                     return (T?)(object?)DateOnly.FromDateTime(dt);
                 }
 
+                var dateString = reader.GetString();
+                var date = dateString.ValueOf<DateOnly?>();
+                if (date.HasValue)
+                {
+                    return (T?)(object?)date;
+                }
+
+                var dateTime = dateString.ValueOf<DateTime?>();
+                if (dateTime.HasValue)
+                {
+                    return (T?)(object?)DateOnly.FromDateTime(dateTime.Value);
+                }
+
                 return (T?)(object?)null;
             }
             else if (typeToConvert == typeof(TimeOnly) || typeToConvert == typeof(TimeOnly?))
@@ -60,9 +86,21 @@
                     return (T?)(object?)TimeOnly.FromDateTime(dt);
                 }
 
-                var val = reader.GetString();
+                var timeString = reader.GetString();
+                var time = timeString.ValueOf<TimeOnly?>();
+                if (time.HasValue)
+                {
+                    return (T?)(object?)time;
+                }
+
+                var dateTime = timeString.ValueOf<DateTime?>();
+                if (dateTime.HasValue)
+                {
+                    return (T?)(object?)TimeOnly.FromDateTime(dateTime.Value);
+                }
+
                 var timeFormat = string.IsNullOrEmpty(format) ? "HH:mm:ss" : format;
-                if (!string.IsNullOrEmpty(val) && TimeOnly.TryParseExact(val, timeFormat, provider, DateTimeStyles.None, out TimeOnly result))
+                if (!string.IsNullOrEmpty(timeString) && TimeOnly.TryParseExact(timeString, timeFormat, provider, DateTimeStyles.None, out TimeOnly result))
                 {
                     return (T?)(object?)result;
                 }

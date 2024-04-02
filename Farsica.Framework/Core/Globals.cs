@@ -359,8 +359,9 @@
                         return decimal.TryParse(value, out decimalTmp) ? decimalTmp : defaultValue;
 
                     case TypeCode.DateTime:
-                        DateTime dateTimeTmp;
-                        return DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTimeTmp) ? dateTimeTmp : defaultValue;
+                        {
+                            return DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTimeTmp) ? dateTimeTmp : defaultValue;
+                        }
 
                     case TypeCode.String:
                     case TypeCode.Char:
@@ -389,12 +390,22 @@
 
                         if (type.Name == nameof(TimeOnly))
                         {
-                            return TimeOnly.TryParse(value, CultureInfo.InvariantCulture, out TimeOnly timeOnlyTmp) ? timeOnlyTmp : defaultValue;
+                            if (TimeOnly.TryParse(value, CultureInfo.InvariantCulture, out TimeOnly timeOnlyTmp))
+                            {
+                                return timeOnlyTmp;
+                            }
+
+                            return DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTimeTmp) ? TimeOnly.FromDateTime(dateTimeTmp) : defaultValue;
                         }
 
                         if (type.Name == nameof(DateOnly))
                         {
-                            return DateOnly.TryParse(value, CultureInfo.InvariantCulture, out DateOnly dateOnlyTmp) ? dateOnlyTmp : defaultValue;
+                            if (DateOnly.TryParse(value, CultureInfo.InvariantCulture, out DateOnly dateOnlyTmp))
+                            {
+                                return dateOnlyTmp;
+                            }
+
+                            return DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTimeTmp) ? DateOnly.FromDateTime(dateTimeTmp) : defaultValue;
                         }
 
                         throw new ArgumentException(typeCode.ToString());

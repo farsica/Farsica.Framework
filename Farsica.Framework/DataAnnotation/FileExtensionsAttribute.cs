@@ -55,19 +55,7 @@
             {
                 foreach (var item in lst)
                 {
-                    if (!Extensions!.Exists(t => t.Equals(Path.GetExtension(item.FileName).TrimStart('.'), StringComparison.OrdinalIgnoreCase)))
-                    {
-                        return false;
-                    }
-
-                    _ = inspector.Value.ContentTypeProvider.TryGetContentType(item.FileName, out var contentType);
-                    if (item.ContentType != contentType)
-                    {
-                        return false;
-                    }
-
-                    var results = inspector.Value.ContentInspector.Inspect(item.OpenReadStream());
-                    if (!results.ByFileExtension().Exists(t => Extensions!.Contains(t.Extension)))
+                    if (!Validate(item))
                     {
                         return false;
                     }
@@ -77,6 +65,13 @@
             }
 
             if (value is IFormFile file)
+            {
+                return Validate(file);
+            }
+
+            return false;
+
+            bool Validate(IFormFile file)
             {
                 if (!Extensions!.Exists(t => t.Equals(Path.GetExtension(file.FileName).TrimStart('.'), StringComparison.OrdinalIgnoreCase)))
                 {
@@ -90,15 +85,13 @@
                 }
 
                 var results = inspector.Value.ContentInspector.Inspect(file.OpenReadStream());
-                if (!results.ByFileExtension().Exists(t => Extensions!.Contains(t.Extension)))
+                if (results.Length > 0 && !results.ByFileExtension().Exists(t => Extensions!.Contains(t.Extension)))
                 {
                     return false;
                 }
 
                 return true;
             }
-
-            return false;
         }
 
         public void AddValidation(ClientModelValidationContext context)
