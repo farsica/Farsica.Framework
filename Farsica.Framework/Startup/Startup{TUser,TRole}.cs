@@ -326,7 +326,7 @@
             var lifetime = Configuration.GetValue<TimeSpan>("IdentityOptions:DataProtection:Lifetime");
             services.AddDataProtection()
                 .SetApplicationName(startupOption.DefaultNamespace)
-                .PersistKeysToDbContext()
+                .PersistKeysToDbContext(lifetime)
                 .SetDefaultKeyLifetime(lifetime);
 
             var embeddedFileProvider = new EmbeddedFileProvider(Assembly.GetCallingAssembly(), "Farsica.Framework");
