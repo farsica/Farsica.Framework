@@ -32,6 +32,12 @@
             return GetKeyValues<TEnum>(bindingFlag).Where(t => enumFlag.HasFlags(t.Value)).Select(t => t.Key);
         }
 
+        public static IEnumerable<TEnum> GetValues<TEnum>(this FlagsEnumeration<TEnum> enumFlag, BindingFlags bindingFlag = BindingFlags.Public | BindingFlags.Static)
+            where TEnum : FlagsEnumeration<TEnum>, new()
+        {
+            return GetKeyValues<TEnum>(bindingFlag).Where(t => enumFlag.HasFlags(t.Value)).Select(t => t.Value);
+        }
+
         public static Dictionary<string, TEnum> GetKeyValues<TEnum>(BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Static)
             where TEnum : FlagsEnumeration<TEnum>, new()
         {
