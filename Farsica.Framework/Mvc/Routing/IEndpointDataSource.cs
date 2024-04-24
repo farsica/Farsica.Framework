@@ -6,6 +6,6 @@
     [Injectable]
     public interface IEndpointDataSource
     {
-        IEnumerable<Endpoint>? GetEndpoints();
+        IEnumerable<Endpoint>? GetEndpoints(IEnumerable<string>? claims = null, IEnumerable<string>? roles = null);
     }
 }
