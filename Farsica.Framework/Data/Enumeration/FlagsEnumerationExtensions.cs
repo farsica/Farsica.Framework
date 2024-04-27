@@ -128,7 +128,7 @@
             TEnum? enumeration = null;
             foreach (var name in names)
             {
-                var item = name.FromName<TEnum>();
+                var item = name.FromName<TEnum>() ?? name.FromUniqueId<TEnum>();
                 if (item is null)
                 {
                     continue;

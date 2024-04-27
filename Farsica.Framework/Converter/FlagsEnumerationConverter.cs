@@ -24,7 +24,7 @@
             if (reader.TokenType is not JsonTokenType.StartArray)
             {
                 reader.Skip();
-                return reader.GetString()?.FromName<TEnum>();
+                return reader.GetString()?.FromName<TEnum>() ?? reader.GetString()?.FromUniqueId<TEnum>();
             }
 
             var list = new List<string>();
