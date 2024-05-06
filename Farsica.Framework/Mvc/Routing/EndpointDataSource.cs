@@ -11,7 +11,7 @@
     {
         private readonly Lazy<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>> endpointSources = endpointSources;
 
-        public IEnumerable<Endpoint>? GetEndpoints(IEnumerable<string>? claims = null, IEnumerable<string>? roles = null)
+        public IEnumerable<Endpoint>? GetEndpoints(IEnumerable<string?>? claims = null, IEnumerable<string?>? roles = null)
         {
             var lst = endpointSources.Value.SelectMany(t => t.Endpoints);
             if (claims is not null || roles is not null)
