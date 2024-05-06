@@ -7,12 +7,13 @@
     using System.Net.Http;
     using System.Net.Http.Json;
     using System.Threading.Tasks;
-    using System.Web;
     using Farsica.Framework.Core;
 
     public sealed class HttpProvider(Lazy<IHttpClientFactory> httpClientFactory) : IHttpProvider
     {
         private readonly Lazy<IHttpClientFactory> httpClientFactory = httpClientFactory;
+
+        public IEnumerable<(string Key, string? Value)>? DefaultHeaders { get; set; }
 
         public async Task<TResponse?> DeleteAsync<TRequest, TResponse, TBody>(HttpProviderRequest<TBody, TRequest> request, Func<HttpResponseMessage, Task>? postCallHandler = null, Func<HttpResponseMessage, Task<TResponse?>>? decodeHandler = null, Func<TRequest?, TResponse?, Task<TResponse?>>? failHandler = null)
             where TRequest : IHttpRequest
@@ -27,6 +28,14 @@
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
                 client.BaseAddress = new Uri(request.BaseAddress);
+            }
+
+            if (DefaultHeaders is not null)
+            {
+                foreach (var header in DefaultHeaders)
+                {
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
             }
 
             if (request.HeaderParameters?.Count > 0)
@@ -91,6 +100,14 @@
                 request.Uri = $"{request.BaseAddress.TrimEnd('/')}/{request.Uri}";
             }
 
+            if (DefaultHeaders is not null)
+            {
+                foreach (var header in DefaultHeaders)
+                {
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
+            }
+
             if (request.HeaderParameters?.Count > 0)
             {
                 for (int i = 0; i < request.HeaderParameters.Count; i++)
@@ -137,6 +154,14 @@
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
                 client.BaseAddress = new Uri(request.BaseAddress);
+            }
+
+            if (DefaultHeaders is not null)
+            {
+                foreach (var header in DefaultHeaders)
+                {
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
             }
 
             if (request.HeaderParameters?.Count > 0)
@@ -193,6 +218,14 @@
             if (string.IsNullOrEmpty(request.BaseAddress) is false)
             {
                 client.BaseAddress = new Uri(request.BaseAddress);
+            }
+
+            if (DefaultHeaders is not null)
+            {
+                foreach (var header in DefaultHeaders)
+                {
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
             }
 
             if (request.HeaderParameters?.Count > 0)
