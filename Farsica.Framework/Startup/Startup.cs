@@ -1,10 +1,6 @@
 ﻿namespace Farsica.Framework.Startup
 {
-    public abstract class Startup : Startup<Startup, Startup>
+    public abstract class Startup(StartupOption startupOption) : Startup<Startup, Startup>(startupOption)
     {
-        protected Startup(StartupOption startupOption)
-            : base(startupOption)
-        {
-        }
     }
 }

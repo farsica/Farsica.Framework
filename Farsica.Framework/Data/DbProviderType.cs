@@ -5,5 +5,7 @@
         SqlServer,
 
         DevartOracle,
+
+        MySql,
     }
 }

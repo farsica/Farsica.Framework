@@ -4,7 +4,7 @@
 
     public class DbProviderFactories
     {
-        private static DbProviderFactory factory;
+        private static DbProviderFactory? factory;
 
         public static DbProviderFactory GetFactory
         {
@@ -15,18 +15,13 @@
                     return factory;
                 }
 
-                switch (Globals.ProviderType)
+                factory = Globals.ProviderType switch
                 {
-                    case DbProviderType.SqlServer:
-                        factory = new SqlServerProvider();
-                        break;
-                    case DbProviderType.DevartOracle:
-                        factory = new DevartOracleProvider();
-                        break;
-                    default:
-                        throw new System.NotSupportedException(Globals.ProviderType.ToString());
-                }
-
+                    DbProviderType.SqlServer => new SqlServerProvider(),
+                    DbProviderType.DevartOracle => new DevartOracleProvider(),
+                    DbProviderType.MySql => new MySqlProvider(),
+                    _ => throw new System.NotSupportedException(Globals.ProviderType.ToString()),
+                };
                 return factory;
             }
         }

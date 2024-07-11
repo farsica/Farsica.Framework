@@ -136,9 +136,6 @@
                 // .Build();
                 // endpoints.Map(pattern+"/{**path}", pipeline);
             });
-
-            // var routes = app.ApplicationServices.GetRequiredService<RouteCollection>();
-            // app.Map(new PathString("/powershell"), t => t.UseMiddleware<PowershellMiddleware>(routes));
         }
 
         protected abstract void ConfigureServicesCore(IServiceCollection services, IMvcBuilder mvcBuilder);
@@ -323,11 +320,14 @@
                 });
             }
 
-            var lifetime = Configuration.GetValue<TimeSpan>("IdentityOptions:DataProtection:Lifetime");
-            services.AddDataProtection()
-                .SetApplicationName(startupOption.DefaultNamespace)
-                .PersistKeysToDbContext(lifetime)
-                .SetDefaultKeyLifetime(lifetime);
+            if (startupOption.Authentication)
+            {
+                var lifetime = Configuration.GetValue<TimeSpan>("IdentityOptions:DataProtection:Lifetime");
+                services.AddDataProtection()
+                    .SetApplicationName(startupOption.DefaultNamespace)
+                    .PersistKeysToDbContext(lifetime)
+                    .SetDefaultKeyLifetime(lifetime);
+            }
 
             var embeddedFileProvider = new EmbeddedFileProvider(Assembly.GetCallingAssembly(), "Farsica.Framework");
             services.Configure<MvcRazorRuntimeCompilationOptions>(options =>

@@ -314,11 +314,7 @@
             }
             else if (currentPage is not null)
             {
-                multiplePages = new List<ViewBufferPage>(2)
-                {
-                    currentPage,
-                    page,
-                };
+                multiplePages = [currentPage, page,];
             }
 
             currentPage = page;

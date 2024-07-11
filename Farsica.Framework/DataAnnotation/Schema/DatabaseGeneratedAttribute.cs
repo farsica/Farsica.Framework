@@ -10,17 +10,13 @@
 
         private static System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption Convert(DatabaseGeneratedOption databaseGeneratedOption)
         {
-            switch (databaseGeneratedOption)
+            return databaseGeneratedOption switch
             {
-                case DatabaseGeneratedOption.None:
-                    return System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None;
-                case DatabaseGeneratedOption.Identity:
-                    return System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity;
-                case DatabaseGeneratedOption.Computed:
-                    return System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed;
-                default:
-                    throw new ArgumentException(databaseGeneratedOption.ToString());
-            }
+                DatabaseGeneratedOption.None => System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None,
+                DatabaseGeneratedOption.Identity => System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity,
+                DatabaseGeneratedOption.Computed => System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed,
+                _ => throw new ArgumentException(databaseGeneratedOption.ToString()),
+            };
         }
     }
 }

@@ -4,7 +4,7 @@
 
     public sealed class DataTypeAttribute : System.ComponentModel.DataAnnotations.DataTypeAttribute
     {
-        private DisplayFormatAttribute displayFormat;
+        private DisplayFormatAttribute? displayFormat;
 
         public DataTypeAttribute(ElementDataType elementDataType)
             : base(elementDataType.ToString())
