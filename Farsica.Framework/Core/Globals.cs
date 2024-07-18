@@ -799,19 +799,17 @@
             }
 
             var names = assembly.GetManifestResourceNames();
+            string[] validPrefixes =
+            [
+                $"{defaultNamespace}.Resource.UI.Web.Api.",
+                $"{defaultNamespace}.Resource.Data.ViewModel.",
+                $"{defaultNamespace}.Resource.Data.Enumeration.",
+            ];
             dynamic expando = new ExpandoObject();
-
             Dictionary<string, object?> dataList = [];
             for (int i = 0; i < names.Length; i++)
             {
                 string? item = names[i];
-                string[] validPrefixes =
-                [
-                    $"{defaultNamespace}.Resource.UI.Web.Api.",
-                    $"{defaultNamespace}.Resource.Data.ViewModel.",
-                    $"{defaultNamespace}.Resource.Data.Enumeration.",
-                ];
-
                 if (validPrefixes.Exists(item.StartsWith) is false)
                 {
                     continue;
