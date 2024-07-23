@@ -1,1 +1,1 @@
-nuget push -Source "Farsica" -ApiKey az C:\Users\Farsica\source\repos\Farsica.Framework\Farsica.Framework\bin\Release\net8.0\..\Farsica.Framework.3.0.52.nupkg 
+nuget push -Source "Farsica" -ApiKey az C:\Users\fariborz.khosravi\source\repos\Farsica.Framework\Farsica.Framework\bin\Debug\net8.0\..\Farsica.Framework.3.0.53.nupkg 
