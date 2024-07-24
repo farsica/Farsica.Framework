@@ -6,6 +6,7 @@
     using System.Text.Json;
     using System.Threading.Tasks;
     using Farsica.Framework.Converter;
+    using Farsica.Framework.Core.Extensions;
     using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAnnotation;
     using Microsoft.Extensions.Caching.Distributed;
@@ -174,7 +175,7 @@
 
         private static string GenerateKey([NotNull] string key, string? tenant = null)
         {
-            return $"{tenant ?? string.Empty}_{key}";
+            return tenant.IsNullOrEmpty() ? key : tenant + "_" + key;
         }
     }
 }
