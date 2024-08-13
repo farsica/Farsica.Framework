@@ -61,10 +61,10 @@
             }
             else
             {
-                bytes = B;
+                bytes = B!;
             }
 
-            return new BitArray(bytes!)
+            return new BitArray(bytes)
             {
                 Length = L,
             };

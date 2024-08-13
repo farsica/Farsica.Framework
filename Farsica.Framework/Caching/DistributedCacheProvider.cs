@@ -35,10 +35,10 @@
         public async Task<TItem?> GetAsync<TItem, TEnum>(TEnum key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TEnum : struct
         {
-            return await GetAsync(key.ToString(), factory, options, tenant);
+            return await GetAsync(key.ToString()!, factory, options, tenant);
         }
 
-        public async Task<TItem?> GetAsync<TItem>(string? key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
+        public async Task<TItem?> GetAsync<TItem>([NotNull] string key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
         {
             var cacheKey = GenerateKey(key, tenant);
             var tmp = await cache.GetAsync(cacheKey);
@@ -71,10 +71,10 @@
         public TItem? Get<TItem, TKey>(TKey key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
-            return Get(key.ToString(), factory, options, tenant);
+            return Get(key.ToString()!, factory, options, tenant);
         }
 
-        public TItem? Get<TItem>(string? key, Func<TItem?>? factory, DistributedCacheEntryOptions? options = null, string? tenant = null)
+        public TItem? Get<TItem>([NotNull] string key, Func<TItem?>? factory, DistributedCacheEntryOptions? options = null, string? tenant = null)
         {
             var cacheKey = GenerateKey(key, tenant);
             var tmp = cache.Get(cacheKey);
@@ -107,7 +107,7 @@
         public async Task RemoveAsync<TKey>(TKey key, string? tenant = null)
             where TKey : struct
         {
-            await RemoveAsync(key.ToString(), tenant);
+            await RemoveAsync(key.ToString()!, tenant);
         }
 
         public async Task RemoveAsync([NotNull] string key, string? tenant = null)
@@ -125,7 +125,7 @@
         public void Remove<TKey>(TKey key, string? tenant = null)
             where TKey : struct
         {
-            Remove(key.ToString(), tenant);
+            Remove(key.ToString()!, tenant);
         }
 
         public void Remove([NotNull] string key, string? tenant = null)
@@ -163,7 +163,7 @@
         public void Set<TItem, TKey>(TKey key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
             where TKey : struct
         {
-            Set(key.ToString(), value, options, tenant);
+            Set(key.ToString()!, value, options, tenant);
         }
 
         public void Set<TItem>([NotNull] string key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
