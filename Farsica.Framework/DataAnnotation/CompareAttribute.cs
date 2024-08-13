@@ -80,7 +80,8 @@
                     break;
             }
 
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-{key}", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)), Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(OtherProperty)))));
+            var msg = FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)), Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(OtherProperty)));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-{key}", Data.Error.FormatMessage(msg)));
         }
 
         public string? GetJsonMetaData(PropertyInfo? property)

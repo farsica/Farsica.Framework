@@ -4,9 +4,10 @@
     using System.Text.RegularExpressions;
     using Farsica.Framework.Core;
 
-    public partial struct Error(Exception exception)
+    public partial struct Error(Exception? exception)
     {
-        private static readonly Regex CodeRegex = CodeRegexPartial();
+        public static readonly Regex CodeRegex = CodeRegexPartial();
+
         private string? message = exception?.Message;
 
         public string? Message
@@ -44,6 +45,22 @@
         public string? Info { get; set; }
 
         public object? Value { get; set; }
+
+        public static string FormatMessage(string? msg)
+        {
+            if (msg is null)
+            {
+                return string.Empty;
+            }
+
+            var match = CodeRegex.Match(msg);
+            if (match.Success)
+            {
+                return msg.Replace(match.Value, string.Empty);
+            }
+
+            return msg;
+        }
 
         [GeneratedRegex("\\*\\*\\d{3}\\*\\*")]
         private static partial Regex CodeRegexPartial();

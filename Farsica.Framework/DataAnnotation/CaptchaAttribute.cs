@@ -23,7 +23,9 @@
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>($"data-val-captcha", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+
+            var msg = FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType?.GetProperty(context.ModelMetadata.Name)));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-captcha", Data.Error.FormatMessage(msg)));
         }
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)

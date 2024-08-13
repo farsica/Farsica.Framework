@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -26,7 +27,9 @@
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-url", FormatErrorMessage(Core.Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+
+            var msg = FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType?.GetProperty(context.ModelMetadata.Name)));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-url", Data.Error.FormatMessage(msg)));
         }
     }
 }

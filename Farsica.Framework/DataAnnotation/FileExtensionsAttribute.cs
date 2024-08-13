@@ -97,8 +97,10 @@
         public void AddValidation(ClientModelValidationContext context)
         {
             _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-extensions", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
             _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-extensions-extension", string.Join(",", Extensions)));
+
+            var msg = FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType?.GetProperty(context.ModelMetadata.Name)));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-extensions", Data.Error.FormatMessage(msg)));
         }
 
         public override string FormatErrorMessage(string name)

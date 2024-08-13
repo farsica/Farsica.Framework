@@ -26,7 +26,9 @@
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-iban", FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
+
+            var msg = FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType?.GetProperty(context.ModelMetadata.Name)));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-iban", Data.Error.FormatMessage(msg)));
         }
     }
 }

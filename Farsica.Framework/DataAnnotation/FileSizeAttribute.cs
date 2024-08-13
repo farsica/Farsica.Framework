@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -47,8 +48,10 @@
         public void AddValidation(ClientModelValidationContext context)
         {
             _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val", "true"));
-            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-filesize", FormatErrorMessage(Core.Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType.GetProperty(context.ModelMetadata.Name)))));
             _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-filesize-maxsize", MaximumLength.ToString()));
+
+            var msg = FormatErrorMessage(Globals.GetLocalizedDisplayName(context.ModelMetadata.ContainerType?.GetProperty(context.ModelMetadata.Name)));
+            _ = context.Attributes.AddIfNotContains(new KeyValuePair<string, string>("data-val-filesize", Data.Error.FormatMessage(msg)));
 
             if (MaximumTotalLength.HasValue)
             {

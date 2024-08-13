@@ -184,12 +184,12 @@
             if (displayAttribute is not null)
             {
                 name = GetLocalizedValueInternal(displayAttribute, member.Name, Constants.ResourceKey.Name, member: member);
-                return !name.IsNullOrEmpty() ? name : member.Name;
+                return name.IsNullOrEmpty() ? member.Name : name;
             }
 
             var customAttribute = member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(false);
             name = customAttribute?.GetName();
-            return !string.IsNullOrEmpty(name) ? name : member.Name;
+            return string.IsNullOrEmpty(name) ? member.Name : name;
         }
 
         public static string? DisplayNameFor<T>(this Expression<Func<T, object>> expression)
@@ -247,7 +247,7 @@
             return customAttribute?.GetDescription();
         }
 
-        public static string? GetLocalizedPromt(MemberInfo member)
+        public static string? GetLocalizedPromt(MemberInfo? member)
         {
             if (member is null)
             {
@@ -264,7 +264,7 @@
             return customAttribute?.GetPrompt();
         }
 
-        public static string? GetLocalizedGroupName(MemberInfo member)
+        public static string? GetLocalizedGroupName(MemberInfo? member)
         {
             if (member is null)
             {
@@ -422,7 +422,7 @@
 
         public static string? UserAgent(this HttpContext? httpContext)
         {
-            return httpContext?.Request.Headers["User-Agent"].ToString();
+            return httpContext?.Request.Headers.UserAgent.ToString();
         }
 
         public static long UserId(this HttpContext? httpContext)
@@ -802,9 +802,9 @@
             string[] validPrefixes =
             [
                 $"{defaultNamespace}.Resource.UI.Web.Api.",
-                $"{defaultNamespace}.Resource.Data.ViewModel.",
-                $"{defaultNamespace}.Resource.Data.Enumeration.",
-            ];
+                    $"{defaultNamespace}.Resource.Data.ViewModel.",
+                    $"{defaultNamespace}.Resource.Data.Enumeration.",
+                ];
             dynamic expando = new ExpandoObject();
             Dictionary<string, object?> dataList = [];
             for (int i = 0; i < names.Length; i++)
