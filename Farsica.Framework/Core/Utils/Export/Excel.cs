@@ -26,16 +26,16 @@
     {
         public override ExportType ProviderType => ExportType.Excel;
 
-        protected override string? Extension => ".xlsx";
+        protected override string Extension => ".xlsx";
 
-        protected override string? ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        protected override string ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        protected override byte[] GenerateFile(DataSet dataSet, bool hasSearchItem)
+        protected override byte[] GenerateFile(DataSet dataSet)
         {
             using var stream = new MemoryStream();
             using (var document = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook, true))
             {
-                WriteExcelFile(dataSet, document, hasSearchItem);
+                WriteExcelFile(dataSet, document, Search is not null);
             }
 
             stream.Flush();
@@ -87,11 +87,10 @@
             });
 
             uint rowIndex = 0;
-            var isFirstTable = true;
 
-            foreach (DataTable dt in dataSet.Tables)
+            for (int i = 0; i < dataSet.Tables.Count; i++)
             {
-                WriteDataTableToExcelWorksheet(dt, newWorksheetPart, hasSearchItem, isFirstTable, ref rowIndex);
+                WriteDataTableToExcelWorksheet(dataSet.Tables[i], newWorksheetPart, hasSearchItem, i == 0, ref rowIndex);
                 newWorksheetPart.Worksheet.Save();
 
                 string? drawingID = "IdDrawingsPart";
@@ -103,7 +102,6 @@
                     newWorksheetPart.Worksheet.Append(drawing1);
                 }
 
-                isFirstTable = false;
                 worksheetNumber++;
             }
 

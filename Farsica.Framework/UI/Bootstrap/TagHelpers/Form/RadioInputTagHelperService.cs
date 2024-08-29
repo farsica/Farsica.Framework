@@ -104,7 +104,7 @@
 
             if (selectItems is null)
             {
-                return new List<SelectListItem>();
+                return [];
             }
 
             return selectItems;

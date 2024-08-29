@@ -1,7 +1,6 @@
 ﻿namespace Farsica.Framework.DataAccess.Context
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -262,7 +261,7 @@
                 UserAgent = httpContextAccessor.HttpContext.UserAgent(),
                 UserId = httpContextAccessor.HttpContext.UserId<TKey>()?.ToString(),
                 UserName = httpContextAccessor.HttpContext?.User?.Identity?.Name,
-                AuditEntries = new List<AuditEntry>(),
+                AuditEntries = [],
             };
             var entries = ChangeTracker.Entries();
             foreach (var entry in entries)
@@ -283,7 +282,7 @@
                     Id = Ulid.NewUlid(),
                     AuditId = audit.Id,
                     EntityType = auditAttribute.EntityType,
-                    AuditEntryProperties = new List<AuditEntryProperty>(),
+                    AuditEntryProperties = [],
                     AuditType = Convert(entry.State),
                 };
 

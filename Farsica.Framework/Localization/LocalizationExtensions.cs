@@ -1,6 +1,5 @@
 ﻿namespace Farsica.Framework.Localization
 {
-    using System.Collections.Generic;
     using System.Linq;
 
     using Farsica.Framework.Core;
@@ -21,7 +20,7 @@
                     DefaultRequestCulture = new RequestCulture(Constants.DefaultLanguageCode),
                     SupportedCultures = supportedCultures,
                     SupportedUICultures = supportedCultures,
-                    RequestCultureProviders = new List<IRequestCultureProvider> { new RouteValueRequestCultureProvider(supportedCultures) },
+                    RequestCultureProviders = [new RouteValueRequestCultureProvider(supportedCultures)],
                 };
             }
         }

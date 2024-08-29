@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Data;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Text.Json.Serialization;
@@ -25,20 +26,19 @@
 
         public abstract ExportType ProviderType { get; }
 
-        protected abstract string? Extension { get; }
+        protected abstract string Extension { get; }
 
-        protected abstract string? ContentType { get; }
+        protected abstract string ContentType { get; }
 
         protected GridDataSource GridDataSource { get; private set; }
 
-        protected ISearch Search { get; private set; }
+        protected ISearch? Search { get; private set; }
 
-        public FileContentResult Export(GridDataSource gridDataSource, ISearch search, string? actionName = null)
+        public FileContentResult Export([NotNull] GridDataSource gridDataSource, ISearch? search, string? actionName = null)
         {
             GridDataSource = gridDataSource;
             Search = search;
 
-            var hasSearchItem = search is not null;
             DataSet ds = new();
             DataTable dt = new();
             if (gridDataSource.Data?.Count > 0)
@@ -46,8 +46,8 @@
                 var localizedSearchColumnNames = new Dictionary<string, string?>();
                 var localizedGridColumnNames = new Dictionary<string, string?>();
                 bool dataIsDictionaryBase = (gridDataSource.Data[0] as Dictionary<string, string?>) is not null;
-                IEnumerable<PropertyInfo> properties = null;
-                if (hasSearchItem)
+                IEnumerable<PropertyInfo>? properties = null;
+                if (search is not null)
                 {
                     var dtSearch = new DataTable();
                     var searchItemType = search.GetType();
@@ -269,7 +269,7 @@
             ds.Tables.Add(dt);
 
             var fileDownloadName = "Report-" + actionName + "-" + DateTime.Now + Extension;
-            return new FileContentResult(GenerateFile(ds, hasSearchItem), ContentType) { FileDownloadName = fileDownloadName };
+            return new FileContentResult(GenerateFile(ds), ContentType) { FileDownloadName = fileDownloadName };
         }
 
         protected static Type GetNullableTypeValue(Type t)
@@ -301,6 +301,6 @@
                             type.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
-        protected abstract byte[] GenerateFile(DataSet dataSet, bool hasSearchItem);
+        protected abstract byte[] GenerateFile(DataSet dataSet);
     }
 }

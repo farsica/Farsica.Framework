@@ -1,6 +1,5 @@
 ﻿namespace Farsica.Framework.Swagger
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using Farsica.Framework.DataAnnotation;
@@ -12,7 +11,7 @@
     {
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            swaggerDoc.Tags ??= new List<OpenApiTag>();
+            swaggerDoc.Tags ??= [];
 
             foreach (var item in context.ApiDescriptions)
             {
