@@ -36,7 +36,7 @@
                 throw new ArgumentException("ModelType must be an Enum or implements System.Collections.IEnumerable");
             }
 
-            var isEnum = For.Metadata.IsEnum || For.Metadata.ElementMetadata.IsEnum;
+            var isEnum = For.Metadata.IsEnum || For.Metadata.ElementMetadata?.IsEnum == true;
             var isPrimitive = isEnum is false && For.Metadata.ElementType.IsSimpleType();
             var placeholder = For.Metadata.Placeholder ?? Resources.GlobalResource.Select;
             var isFlagsEnum = isEnum && (For.Metadata.IsFlagsEnum || For.Metadata.ElementMetadata?.IsFlagsEnum == true);
