@@ -8,7 +8,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Farsica.Framework.Core;
-    using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.Exceptions;
     using Farsica.Framework.DataAccess.Repositories;
@@ -55,94 +54,6 @@
 
             return await Context.SaveChangesAsync(cancellationToken);
         }
-
-        #region Bulk Operation
-
-        public async Task BulkInsertAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class
-        {
-            CheckDisposed();
-            NormalizePersian(entities);
-            await Context.BulkInsertAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
-        public async Task BulkInsertOrUpdateAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class
-        {
-            CheckDisposed();
-            NormalizePersian(entities);
-            await Context.BulkInsertOrUpdateAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
-        public async Task BulkInsertOrUpdateOrDeleteAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class
-        {
-            CheckDisposed();
-            NormalizePersian(entities);
-            await Context.BulkInsertOrUpdateOrDeleteAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
-        public void BulkInsert<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class
-        {
-            CheckDisposed();
-            NormalizePersian(entities);
-            Context.BulkInsert(entities, bulkConfig, progress, type);
-        }
-
-        public void BulkInsertOrUpdate<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class
-        {
-            CheckDisposed();
-            NormalizePersian(entities);
-            Context.BulkInsertOrUpdate(entities, bulkConfig, progress, type);
-        }
-
-        public void BulkInsertOrUpdateOrDelete<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class
-        {
-            CheckDisposed();
-            NormalizePersian(entities);
-            Context.BulkInsertOrUpdateOrDelete(entities, bulkConfig, progress, type);
-        }
-
-        public async Task BulkUpdateAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class
-        {
-            await Context.BulkUpdateAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
-        public void BulkUpdate<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class
-        {
-            Context.BulkUpdate(entities, bulkConfig, progress, type);
-        }
-
-        public async Task BulkDeleteAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class
-        {
-            await Context.BulkDeleteAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
-        public void BulkDelete<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class
-        {
-            Context.BulkDelete(entities, bulkConfig, progress, type);
-        }
-
-        public void BulkRead<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class
-        {
-            Context.BulkRead(entities, bulkConfig, progress, type);
-        }
-
-        public async void BulkReadAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class
-        {
-            await Context.BulkReadAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
-        #endregion
 
         public IRepository<TEntity, long> GetRepository<TEntity>()
             where TEntity : class, IEntity<TEntity, long>

@@ -1,8 +1,7 @@
-﻿namespace Farsica.Framework.Core.Utils
+﻿/*namespace Farsica.Framework.Core.Utils
 {
     using System;
     using System.Data;
-    using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
 
@@ -119,8 +118,6 @@
                 worksheetPart.Worksheet.InsertAfter(sheetProt, worksheetPart.Worksheet.Descendants<SheetData>().LastOrDefault());
                 worksheetPart.Worksheet.Save();
             }
-
-            // workbookPart.Workbook.Save();
         }
 
         private static string? HashPassword(string password)
@@ -232,7 +229,7 @@
             }
             else if (dataType == CellValues.String)
             {
-                if (cellStringValue.StartsWith("data:image/") /*|| cellStringValue.Equals("logo-admin.png")*/)
+                if (cellStringValue.StartsWith("data:image/"))
                 {
                     isImage = true;
 
@@ -509,3 +506,4 @@
         }
     }
 }
+*/

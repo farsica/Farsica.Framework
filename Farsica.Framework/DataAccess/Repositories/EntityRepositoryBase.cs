@@ -5,9 +5,7 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Linq.Expressions;
-    using System.Threading;
     using System.Threading.Tasks;
-    using EFCore.BulkExtensions;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.Query;
     using Farsica.Framework.DataAccess.Specification;
@@ -138,21 +136,11 @@
             Context.Set<TEntity>().Add(entity);
         }
 
-        public async Task BulkInsertAsync(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-        {
-            await Context.BulkInsertAsync(entities, bulkConfig, progress, type, cancellationToken);
-        }
-
         public TEntity? Update(TEntity entity)
         {
             ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
             return Context.Set<TEntity>().Update(entity).Entity;
-        }
-
-        public async Task BulkUpdateAsync(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-        {
-            await Context.BulkUpdateAsync(entities, bulkConfig, progress, type, cancellationToken);
         }
 
         public void Remove(TKey id)
@@ -168,11 +156,6 @@
             Context.Set<TEntity>().Attach(entity);
             Context.Entry(entity).State = EntityState.Deleted;
             Context.Set<TEntity>().Remove(entity);
-        }
-
-        public async Task BulkDeleteAsync(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-        {
-            await Context.BulkDeleteAsync(entities, bulkConfig, progress, type, cancellationToken);
         }
 
         public bool Any(Expression<Func<TEntity, bool>>? predicate = null)

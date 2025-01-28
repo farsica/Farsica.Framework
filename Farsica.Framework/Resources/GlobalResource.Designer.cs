@@ -790,15 +790,6 @@ namespace Farsica.Framework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to **103**Input Value For Security Image Is Not a Valid Value.
-        /// </summary>
-        public static string Validation_Captcha {
-            get {
-                return ResourceManager.GetString("Validation_Captcha", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to **103**Input Value For {0} Must be {2} {1}.
         /// </summary>
         public static string Validation_Compare {

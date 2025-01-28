@@ -360,9 +360,6 @@
   <data name="Validation_AttemptedValueIsInvalidAccessor" xml:space="preserve">
     <value>**103**مقدار '{0}' برای {1} معتبر نمی باشد.</value>
   </data>
-  <data name="Validation_Captcha" xml:space="preserve">
-    <value>**103**مقدار وارد شده برای تصویر امنیتی معتبر نمی باشد</value>
-  </data>
   <data name="Validation_Compare" xml:space="preserve">
     <value>**103**مقدار وارد شده برای فیلد {0} بایستی {2} فیلد {1} باشد</value>
   </data>

@@ -147,9 +147,6 @@
   <data name="Validation_StringLength" xml:space="preserve">
     <value>**103**Valid Entry For The {0} Must Has Between {1} and {2}</value>
   </data>
-  <data name="Validation_Captcha" xml:space="preserve">
-    <value>**103**Input Value For Security Image Is Not a Valid Value</value>
-  </data>
   <data name="Validation_DataType" xml:space="preserve">
     <value>**106**Input Value for The {0} is Invalid</value>
   </data>

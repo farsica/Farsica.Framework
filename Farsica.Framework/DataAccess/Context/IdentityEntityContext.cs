@@ -8,7 +8,6 @@
     using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.DataAccess.Audit;
-    using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.ValueConversion;
     using Farsica.Framework.DataAccess.ValueGeneration;
@@ -339,7 +338,8 @@
             PrepareAuditIdentifierIds(audit);
             if (audit is not null)
             {
-                this.BulkInsert([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
+                Set<Audit>().Add(audit);
+                SaveChanges();
             }
         }
 
@@ -348,7 +348,8 @@
             PrepareAuditIdentifierIds(audit);
             if (audit is not null)
             {
-                await this.BulkInsertAsync([audit!], new BulkConfig { SetOutputIdentity = true, IncludeGraph = true });
+                await Set<Audit>().AddAsync(audit);
+                await SaveChangesAsync();
             }
         }
     }

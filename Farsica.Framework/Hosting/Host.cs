@@ -49,7 +49,6 @@
                 .Destructure.UsingAttributes()
                 .Enrich.FromLogContext()
                 .Enrich.WithCorrelationId()
-                .Enrich.WithCorrelationIdHeader()
                 .CreateLogger();
 
             return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)

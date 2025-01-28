@@ -35,7 +35,6 @@
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;

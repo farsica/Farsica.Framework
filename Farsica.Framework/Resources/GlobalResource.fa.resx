@@ -147,9 +147,6 @@
   <data name="Validation_StringLength" xml:space="preserve">
     <value>**103**طول مقدار وارده برای فیلد {0} بایستی در بازه {1} تا {2} باشد</value>
   </data>
-  <data name="Validation_Captcha" xml:space="preserve">
-    <value>**103**مقدار وارد شده برای تصویر امنیتی معتبر نمی باشد</value>
-  </data>
   <data name="Validation_DataType" xml:space="preserve">
     <value>**106**مقدار وارد شده برای فیلد {0}  معتبر نمی باشد</value>
   </data>

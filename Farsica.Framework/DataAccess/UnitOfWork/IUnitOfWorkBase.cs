@@ -5,7 +5,6 @@
     using System.Data;
     using System.Threading;
     using System.Threading.Tasks;
-    using Farsica.Framework.DataAccess.Bulk;
     using Farsica.Framework.DataAccess.Entities;
     using Farsica.Framework.DataAccess.Repositories;
 
@@ -31,39 +30,5 @@
         Task<int> GetSequenceValueAsync(string sequence);
 
         int GetSequenceValue(string sequence);
-
-        #region Bulk Operation
-
-        Task BulkInsertAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class;
-
-        Task BulkInsertOrUpdateAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class;
-
-        Task BulkInsertOrUpdateOrDeleteAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class;
-
-        void BulkInsert<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class;
-
-        void BulkInsertOrUpdate<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class;
-
-        void BulkInsertOrUpdateOrDelete<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class;
-
-        Task BulkUpdateAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class;
-
-        void BulkUpdate<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class;
-
-        Task BulkDeleteAsync<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null, CancellationToken cancellationToken = default)
-            where TEntity : class;
-
-        void BulkDelete<TEntity>(IList<TEntity> entities, BulkConfig? bulkConfig = null, Action<decimal>? progress = null, Type? type = null)
-            where TEntity : class;
-
-        #endregion
     }
 }

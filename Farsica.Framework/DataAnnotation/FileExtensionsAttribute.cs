@@ -16,7 +16,7 @@
 
     public sealed class FileExtensionsAttribute : ValidationAttribute, IClientModelValidator
     {
-        private readonly Lazy<(ContentInspector ContentInspector, FileExtensionContentTypeProvider ContentTypeProvider)> inspector;
+        private readonly Lazy<(IContentInspector ContentInspector, FileExtensionContentTypeProvider ContentTypeProvider)> inspector;
 
 #pragma warning disable CA1019 // Define accessors for attribute arguments
         public FileExtensionsAttribute(string extensions)
