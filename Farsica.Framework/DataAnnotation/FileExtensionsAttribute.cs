@@ -5,7 +5,6 @@
     using System.Collections.Immutable;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections.Generic;
     using Microsoft.AspNetCore.Http;
@@ -79,13 +78,13 @@
                 }
 
                 _ = inspector.Value.ContentTypeProvider.TryGetContentType(file.FileName, out var contentType);
-                if (file.ContentType != contentType)
+                if (!file.ContentType.Equals(contentType, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }
 
                 var results = inspector.Value.ContentInspector.Inspect(file.OpenReadStream());
-                if (results.Length > 0 && !results.ByFileExtension().Exists(t => Extensions!.Contains(t.Extension)))
+                if (results.Length > 0 && !results.ByFileExtension().Exists(t => Extensions!.Exists(e => t.Extension.Equals(e, StringComparison.OrdinalIgnoreCase))))
                 {
                     return false;
                 }
