@@ -35,6 +35,7 @@
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -67,9 +68,14 @@
 
             var files = Directory.GetFiles(dir, $"{startupOption.DefaultNamespace}.*.dll").Where(t => !t.Contains(frameworkAssembly.ManifestModule.Name));
 
-            var mvcBuilder = ConfigureServicesInternal(services, dir);
+            var assemblies = files.Select(Assembly.LoadFrom)
+                .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
+                .Union(new[] { frameworkAssembly });
+            var allTypes = assemblies.SelectMany(t => t.DefinedTypes);
 
-            AddScopedDynamic(services, frameworkAssembly, files);
+            var mvcBuilder = ConfigureServicesInternal(services, allTypes);
+
+            AddScopedDynamic(services, assemblies, allTypes);
             ConfigureServicesCore(services, mvcBuilder);
         }
 
@@ -220,7 +226,7 @@
             return null;
         }
 
-        private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, string dir)
+        private IMvcBuilder ConfigureServicesInternal(IServiceCollection services, IEnumerable<TypeInfo> allTypes)
         {
             services.AddTransient(typeof(Lazy<>));
 
@@ -244,6 +250,15 @@
                 options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
+
+                var customConstraintMaps = typeof(IRouteConstraint).GetAllTypesImplementingType(allTypes);
+                if (customConstraintMaps is not null)
+                {
+                    foreach (var item in customConstraintMaps)
+                    {
+                        options.ConstraintMap.Add(item.Name, item);
+                    }
+                }
             });
 
             var mvcBuilder = startupOption.RazorViews ? services.AddControllersWithViews(ConfigureMvc) : services.AddControllers(ConfigureMvc);
@@ -434,18 +449,9 @@
             }
         }
 
-        private void AddScopedDynamic(IServiceCollection services, Assembly frameworkAssembly, IEnumerable<string>? assemblyFiles)
+        private void AddScopedDynamic(IServiceCollection services, [NotNull] IEnumerable<Assembly> assemblies, IEnumerable<TypeInfo> allTypes)
         {
-            if (assemblyFiles is null)
-            {
-                return;
-            }
-
-            var assemblies = assemblyFiles.Select(Assembly.LoadFrom)
-                .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
-                .Union(new[] { frameworkAssembly });
-            var allTypes = assemblies.SelectMany(t => t.DefinedTypes);
-            var injectableTypes = allTypes.Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null && (startupOption.RazorPages || startupOption.RazorViews || t.Namespace.StartsWith("Farsica.Framework.UI") is false));
+            var injectableTypes = allTypes.Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null);
             foreach (var serviceType in injectableTypes)
             {
                 var implementationTypes = serviceType.GetAllTypesImplementingType(allTypes);

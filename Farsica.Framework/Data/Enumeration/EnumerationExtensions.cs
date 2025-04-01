@@ -11,7 +11,7 @@
 
     public static class EnumerationExtensions
     {
-        public static IEnumerable<TEnum>? GetAll<TEnum, TKey>()
+        public static IEnumerable<TEnum?>? GetAll<TEnum, TKey>()
             where TEnum : Enumeration<TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
@@ -31,6 +31,20 @@
                 BindingFlags.DeclaredOnly);
 
             return fields.Select(t => t.GetValue(null));
+        }
+
+        public static IEnumerable<string?>? GetNames<TEnum, TKey>()
+            where TEnum : Enumeration<TKey>
+            where TKey : IEquatable<TKey>, IComparable<TKey> => GetNames(typeof(TEnum));
+
+        public static IEnumerable<string?>? GetNames([NotNull] Type type)
+        {
+            var fields = type.GetFields(
+                BindingFlags.Public |
+                BindingFlags.Static |
+                BindingFlags.DeclaredOnly);
+
+            return fields.Select(t => t.GetValue(null)?.ToString());
         }
 
         public static bool TryGetFromNameOrValue<TEnum, TKey>(this string? nameOrValue, out TEnum? enumeration)
