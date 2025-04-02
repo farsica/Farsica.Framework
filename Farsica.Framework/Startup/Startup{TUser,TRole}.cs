@@ -13,6 +13,7 @@
     using Farsica.Framework.Core;
     using Farsica.Framework.Core.Extensions.Collections;
     using Farsica.Framework.Data;
+    using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAccess.Context;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Identity;
@@ -35,7 +36,6 @@
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -251,7 +251,7 @@
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
 
-                var customConstraintMaps = typeof(IRouteConstraint).GetAllTypesImplementingType(allTypes);
+                var customConstraintMaps = typeof(Enumeration<,>).GetAllTypesImplementingType(allTypes);
                 if (customConstraintMaps is not null)
                 {
                     foreach (var item in customConstraintMaps)

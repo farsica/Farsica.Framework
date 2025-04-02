@@ -5,7 +5,7 @@
     [DataAnnotation.Injectable]
     public interface IGenericFactory<TProvider, TProviderType>
         where TProvider : IProvider<TProviderType>
-        where TProviderType : Enumeration<byte>
+        where TProviderType : Enumeration<TProviderType, byte>
     {
         TProvider? GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = false);
     }

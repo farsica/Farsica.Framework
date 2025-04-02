@@ -4,38 +4,27 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+
     using Farsica.Framework.Cookie;
     using Farsica.Framework.Core;
+    using Farsica.Framework.Data.Enumeration;
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Swagger;
+
     using Microsoft.AspNetCore.Mvc.Routing;
-    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.DependencyInjection;
+
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection ConfigureApplicationCookie(this IServiceCollection services, string? loginAction, string? loginController, string? loginArea = null)
-        {
-            return services.AddTransient((IServiceProvider serviceProvider) =>
-            {
-                return new CookieAuthenticationEvents(serviceProvider.GetRequiredService<IUrlHelperFactory>(), loginAction, loginController, loginArea);
-            }).ConfigureApplicationCookie(options =>
-            {
-                options.EventsType = typeof(CookieAuthenticationEvents);
-            });
-        }
+            => services.AddTransient((serviceProvider) => new CookieAuthenticationEvents(serviceProvider.GetRequiredService<IUrlHelperFactory>(), loginAction, loginController, loginArea))
+            .ConfigureApplicationCookie(options => options.EventsType = typeof(CookieAuthenticationEvents));
 
-        public static IServiceCollection ConfigureApplicationCookie(this IServiceCollection services, string? loginPageName, string? loginArea = null)
-        {
-            return services.AddTransient((IServiceProvider serviceProvider) =>
-            {
-                return new CookieAuthenticationEvents(serviceProvider.GetRequiredService<IUrlHelperFactory>(), page: loginPageName, area: loginArea);
-            }).ConfigureApplicationCookie(options =>
-            {
-                options.EventsType = typeof(CookieAuthenticationEvents);
-            });
-        }
+        public static IServiceCollection ConfigureApplicationCookie(this IServiceCollection services, string? loginPageName, string? loginArea = null) => services.AddTransient((serviceProvider)
+            => new CookieAuthenticationEvents(serviceProvider.GetRequiredService<IUrlHelperFactory>(), page: loginPageName, area: loginArea))
+            .ConfigureApplicationCookie(options => options.EventsType = typeof(CookieAuthenticationEvents));
 
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services, string? defaultNamespace, Action<SwaggerGenOptions>? setupAction = null)
         {
@@ -46,7 +35,7 @@
 
                 options.DocumentFilter<DisplayNameDocumentFilter>();
 
-                options.OperationFilter<DisplayNameOperationFilter>();
+                options.OperationFilter<CustomOperationFilter>();
 
                 var frameworkAssembly = Assembly.GetExecutingAssembly();
                 var dir = Path.GetDirectoryName(frameworkAssembly.Location);
@@ -60,7 +49,7 @@
                     .Where(t => t.GetCustomAttribute<InjectableAttribute>() is not null)
                     .Union(new[] { frameworkAssembly });
                 var allTypes = assemblies.SelectMany(t => t.DefinedTypes);
-                var customConstraintMaps = typeof(IRouteConstraint).GetAllTypesImplementingType(allTypes);
+                var customConstraintMaps = typeof(Enumeration<,>).GetAllTypesImplementingType(allTypes);
                 if (customConstraintMaps is not null)
                 {
                     foreach (var item in customConstraintMaps)

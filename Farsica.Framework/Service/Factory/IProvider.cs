@@ -3,7 +3,7 @@
     using Farsica.Framework.Data.Enumeration;
 
     public interface IProvider<T>
-        where T : Enumeration<byte>
+        where T : Enumeration<T, byte>
     {
         T ProviderType { get; }
     }

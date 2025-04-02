@@ -26,7 +26,7 @@
                 return null;
             }
 
-            var typeOfEnumeration = typeof(Enumeration<>);
+            var typeOfEnumeration = typeof(Enumeration<,>);
             if (typeof(System.Collections.IEnumerable).IsAssignableFrom(enumType) && enumType.IsGenericType)
             {
                 typeOfEnumeration = enumType.GenericTypeArguments[0];

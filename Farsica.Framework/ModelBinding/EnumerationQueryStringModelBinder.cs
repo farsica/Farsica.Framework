@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public class EnumerationQueryStringModelBinder<TEnum, TKey> : IModelBinder
-        where TEnum : Enumeration<TKey>
+        where TEnum : Enumeration<TEnum, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
     {
         /// <inheritdoc />

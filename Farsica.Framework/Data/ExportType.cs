@@ -3,7 +3,7 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Resources;
 
-    public class ExportType : Enumeration.Enumeration<byte>
+    public class ExportType : Enumeration.Enumeration<ExportType, byte>
     {
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(ExportType))]
         public static readonly ExportType Excel = new(nameof(Excel), 0);

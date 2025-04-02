@@ -26,7 +26,7 @@
         }
 
         public async Task<TItem?> GetAsync<TItem, TEnum, TKey>(TEnum key, Func<Task<TItem?>>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
-            where TEnum : Enumeration<TKey>
+            where TEnum : Enumeration<TEnum, TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             return await GetAsync(key.Name, factory, options, tenant);
@@ -62,7 +62,7 @@
         }
 
         public TItem? Get<TItem, TEnum, TKey>(TEnum key, Func<TItem?>? factory = null, DistributedCacheEntryOptions? options = null, string? tenant = null)
-            where TEnum : Enumeration<TKey>
+            where TEnum : Enumeration<TEnum, TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             return Get(key.Name, factory, options, tenant);
@@ -98,7 +98,7 @@
         }
 
         public async Task RemoveAsync<TEnum, TKey>(TEnum key, string? tenant = null)
-            where TEnum : Enumeration<TKey>
+            where TEnum : Enumeration<TEnum, TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             await RemoveAsync(key.Name, tenant);
@@ -116,7 +116,7 @@
         }
 
         public void Remove<TEnum, TKey>(TEnum key, string? tenant = null)
-            where TEnum : Enumeration<TKey>
+            where TEnum : Enumeration<TEnum, TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             Remove(key.Name, tenant);
@@ -134,7 +134,7 @@
         }
 
         public async Task SetAsync<TItem, TEnum, TKey>(TEnum key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
-            where TEnum : Enumeration<TKey>
+            where TEnum : Enumeration<TEnum, TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             await SetAsync(key.Name, value, options, tenant);
@@ -154,7 +154,7 @@
         }
 
         public void Set<TItem, TEnum, TKey>(TEnum key, TItem? value, DistributedCacheEntryOptions? options = null, string? tenant = null)
-            where TEnum : Enumeration<TKey>
+            where TEnum : Enumeration<TEnum, TKey>
             where TKey : IEquatable<TKey>, IComparable<TKey>
         {
             Set(key.Name, value, options, tenant);

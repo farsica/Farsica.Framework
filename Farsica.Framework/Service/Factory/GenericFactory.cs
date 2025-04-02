@@ -7,7 +7,7 @@
 
     public class GenericFactory<TProvider, TProviderType>(IEnumerable<TProvider> providers) : IGenericFactory<TProvider, TProviderType>
         where TProvider : IProvider<TProviderType>
-        where TProviderType : Enumeration<byte>
+        where TProviderType : Enumeration<TProviderType, byte>
     {
         public TProvider? GetProvider(TProviderType providerType, bool returnFirstItemIfNotMatch = false)
         {

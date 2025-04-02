@@ -8,8 +8,6 @@
         where TClass : class, IIdentifiable<TClass, TKey>
         where TKey : IEquatable<TKey>
     {
-        private readonly TKey id = id;
-
         public override Expression<Func<TClass, bool>> Expression() => t => t.Id.Equals(id);
     }
 }

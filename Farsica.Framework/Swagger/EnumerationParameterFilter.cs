@@ -23,6 +23,8 @@
                 {
                     parameter.Schema.Enum = [.. lst.Select(t => new OpenApiString(t))];
                     parameter.Schema.Type = type.Name;
+                    parameter.Schema.Properties = null;
+                    parameter.Schema.AllOf = null;
                 }
             }
         }

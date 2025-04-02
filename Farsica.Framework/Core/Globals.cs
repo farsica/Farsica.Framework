@@ -665,6 +665,22 @@
             return types;
         }
 
+        public static bool IsSubclassOf(Type? type, Type? baseType)
+        {
+            while (type != null && type != typeof(object))
+            {
+                var cur = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+                if (baseType == cur)
+                {
+                    return true;
+                }
+
+                type = type.BaseType;
+            }
+
+            return false;
+        }
+
         public static string TrimEnd(this string input, string? suffixToRemove, StringComparison comparisonType = StringComparison.CurrentCulture)
         {
             if (suffixToRemove is not null && input.EndsWith(suffixToRemove, comparisonType))

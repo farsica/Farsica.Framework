@@ -4,7 +4,7 @@
     using Farsica.Framework.DataAnnotation;
     using Farsica.Framework.Resources;
 
-    public sealed class UserType(string name, byte value) : Enumeration<byte>(name, value)
+    public sealed class UserType(string name, byte value) : Enumeration<UserType, byte>(name, value)
     {
         [Display(ResourceType = typeof(GlobalResource), EnumType = typeof(UserType))]
         public static readonly UserType Real = new(nameof(Real), 0);

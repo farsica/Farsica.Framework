@@ -1,21 +1,21 @@
 ﻿namespace Farsica.Framework.Converter
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using System.Text.Json;
     using System.Text.Json.Serialization;
+
+    using Farsica.Framework.Core;
     using Farsica.Framework.Data.Enumeration;
 
     public class EnumerationConverter<TEnum, TKey> : JsonConverter<TEnum>
-        where TEnum : Enumeration<TKey>
+        where TEnum : Enumeration<TEnum, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
     {
         private const string NameProperty = "Name";
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType.IsSubclassOf(typeof(Enumeration<TKey>));
-        }
+        public override bool CanConvert([NotNull] Type typeToConvert) => Globals.IsSubclassOf(typeToConvert, typeof(Enumeration<TEnum, TKey>));
 
         public override TEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
